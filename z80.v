@@ -80,10 +80,39 @@ module z80cpu
 	wire w61, w61_i;
 	wire w62;
 	wire w63, w63_t;
+	wire w65;
+	wire w66, w66_i;
+	wire w67;
 	wire o_busak;
+	wire w68, w68_i;
+	wire w69;
+	wire w71;
+	reg w73;
+	reg w74;
+	wire w75;
+	wire w76;
+	wire w77;
+	reg w78_i;
+	wire w78;
+	wire w79;
+	reg w80;
+	wire w81;
+	wire w82;
+	wire w83;
+	wire w84;
+	wire w85;
+	wire w86;
+	wire w87;
+	wire w88;
+	wire w89;
+	wire w90;
+	wire w91;
+	reg w92;
+	wire w93;
 	wire w94;
 	wire w114;
 	wire w131;
+	wire [7:0] w147;
 	wire w201;
 	
 	wire halt;
@@ -110,6 +139,12 @@ module z80cpu
 	wire l20;
 	wire l21;
 	wire l22;
+	wire l23;
+	wire l24;
+	wire l25;
+	wire l26;
+	wire l27;
+	wire l43;
 	
 	// pla
 	
@@ -650,7 +685,7 @@ module z80cpu
 		.outp(l22)
 		);
 	
-	assign o_busak = ~w65 & w66 & ~w67;
+	assign o_busak = ~w65 & ~w66_i & ~w67;
 	
 	assign BUSAK = ~o_busak;
 	
@@ -673,8 +708,172 @@ module z80cpu
 	
 	assign w63 = ~(w63_t | ~(clk | ~l23));
 	
+	z80_dlatch dl24
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w63 & ~w133),
+		.outp(l24)
+		);
+	
+	assign w65 = ~(~l24 | clk | ~w59);
+	
+	z80_rs_trig_nor rs66
+		(
+		.MCLK(MCLK),
+		.rst(w63 | w67),
+		.set(w65),
+		.q(w66),
+		.nq(w66_i)
+		);
+	
+	assign w67 = ~clk & ~w59;
+	
+	z80_dlatch dl25
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w109),
+		.outp(l25)
+		);
+	
+	assign w68 = ~w68_i;
+	
+	wire w68_v = ~(l25 & w112);
+	
+	z80_rs_trig_nand rs68
+		(
+		.MCLK(MCLK),
+		.nset(clk | w68_v),
+		.nrst(clk | ~w68_v),
+		.q()
+		.nq(w68_i);
+		);
+	
+	assign w69 = ~(w55 | (w41 & ~w131));
+	
+	z80_dlatch dl26
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(w131 & pla[1] & w110),
+		.outp(l26)
+		);
+	
+	assign w71 = ~clk & ~l26;
+	
+	always @(posedge MCLK)
+	begin
+		if (w19 | w18 | w55)
+			w73 <= 0;
+		else if (clk)
+			w73 <= w73;
+		else if (w71)
+			w73 <= w147[3];
+		else if (w75)
+			w73 <= w74;
+	begin
+	
+	always @(posedge MCLK)
+	begin
+		if (w18 | w55)
+			w74 <= 0;
+		else if (clk)
+			w74 <= w74;
+		else if (w71)
+			w74 <= w147[3];
+	end
+	
+	z80_dlatch dl27
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w76),
+		.outp(l27)
+		);
+	
+	assign w75 = ~clk & ~l27 & ~w19;
+	
+	assign w76 = ~(pla[52] & w131 & w114);
+	
+	assign w77 = w89 & w19;
+	
+	always @(posedge MCLK)
+	begin
+		if (w55)
+			w78_i <= 0;
+		else if (clk)
+			w78_i <= w78_i;
+		else if (w79)
+			w78_i <= w147[3];
+	end
+	
+	assign w78 = ~w78_i;
+	
+	z80_dlatch dl28
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(pla[2] & w131 & w110)),
+		.outp(l28)
+		);
 	
 	
+	assign w79 = ~clk & ~l28;
+	
+	always @(posedge MCLK)
+	begin
+		if (w55)
+			w80 <= 0;
+		else if (clk)
+			w80 <= w80;
+		else if (w79)
+			w80 <= w147[4];
+	end
+	
+	assign w81 = w80 & (w89 & w78 & w18);
+	
+	assign w82 = ~(pla[33] | pla[34]);
+	
+	assign w83 = ~(w77 | ~w86);
+	
+	assign w84 = ~(~w80 | w85);
+	
+	assign w85 = ~(w78 & w18);
+	
+	assign w86 = (w89 & (w84 | w19)) | (~w89 & pla[42]);
+	
+	assign w87 = ~(w78 | ~w80);
+	
+	assign w88 = ~(w87 & w89 & w18);
+	
+	assign w89 = ~(w103 | ~w30);
+	
+	assign w90 = ~(~w91 | w30);
+	
+	assign w91 = ~(w92 | ~w95);
+	
+	z80_dlatch dl43
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~pla[47]),
+		.outp(l43)
+		);
+	
+	always @(posedge MCLK)
+	begin
+		if (w55)
+			w92 <= 0;
+		else if (clk)
+			w92 <= w92;
+		else if (w103)
+			w92 <= ~l43;
+	end
+	
+	assign w93 = ~(w131 | w106);
+	
+	assign w94 = (w41 & ~w131) | w55 | w109;
 
 endmodule
 
