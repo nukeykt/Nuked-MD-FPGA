@@ -48,8 +48,40 @@ module z80cpu
 	wire w28;
 	reg w30;
 	wire w31, w31_i;
+	wire w32;
+	wire w33, w33_i;
+	wire w34, w34_i;
+	wire w35;
+	wire w36;
+	wire w37, w37_i; //
+	wire w38;
+	wire w39, w39_i;
+	reg w40, w40_i;
 	wire w41;
-	wire w55
+	wire w42;
+	wire w43;
+	wire w44, w44_n, w44_i;
+	wire w45;
+	wire w46;
+	wire w47;
+	wire w48, w48_i;
+	wire w49;
+	wire w50, w50_i;
+	wire w51, w51_i;
+	wire w52;
+	wire w53;
+	wire w54;
+	wire w55;
+	wire w56;
+	wire w57;
+	wire w58, w58_i;
+	wire w59;
+	wire w60;
+	wire w61, w61_i;
+	wire w62;
+	wire w63, w63_t;
+	wire o_busak;
+	wire w94;
 	wire w114;
 	wire w131;
 	wire w201;
@@ -64,6 +96,20 @@ module z80cpu
 	wire l6;
 	wire l7;
 	wire l8;
+	wire l9;
+	wire l10;
+	wire l11;
+	wire l12;
+	wire l13;
+	wire l14;
+	wire l15;
+	wire l16;
+	wire l17;
+	wire l18;
+	wire l19;
+	wire l20;
+	wire l21;
+	wire l22;
 	
 	// pla
 	
@@ -109,8 +155,8 @@ module z80cpu
 	z80_rs_trig_nand rs4
 		(
 		.MCLK(MCLK),
-		.nset(clk & ~INT),
-		.nrst(clk & INT),
+		.nset(clk | ~INT),
+		.nrst(clk | INT),
 		.q(w4),
 		.nq(w4_i)
 		);
@@ -157,8 +203,8 @@ module z80cpu
 	z80_rs_trig_nand rs8
 		(
 		.MCLK(MCLK),
-		.nset(clk & w6),
-		.nrst(clk & w6_i),
+		.nset(clk | w6),
+		.nrst(clk | w6_i),
 		.q(w8),
 		.nq(w8_i)
 		);
@@ -318,6 +364,317 @@ module z80cpu
 		);
 	
 	assign RD = ~w31_i ? 1'h0 : ((~w31 & ~w62) ? 1'h1 : 1'hz);
+	
+		
+	z80_dlatch dl9
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w94),
+		.outp(l9)
+		);
+	
+	
+	assign w32 = ~clk & l9;
+	
+	z80_rs_trig_nor rs33
+		(
+		.MCLK(MCLK),
+		.rst(~clk & l10),
+		.set(~l11 | (clk & w106 & w114 & w201)),
+		.q(w33),
+		.nq(w33_i)
+		);
+	
+	assign WR = ~w33_i ? 1'h0 : ((~w33 & ~w62) ? 1'h1 : 1'hz);
+		
+	z80_dlatch dl10
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w41 & ~w55),
+		.outp(l10)
+		);
+		
+	z80_dlatch dl11
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(w114 & w201)),
+		.outp(l11)
+		);
+	
+	wire w34_v = ~(l12 & w112);
+	
+	z80_rs_trig_nand rs34
+		(
+		.MCLK(MCLK),
+		.nset(clk | ~w34_v),
+		.nrst(clk | w34_v),
+		.q(w34),
+		.nq(w34_i)
+		);
+		
+	z80_dlatch dl12
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w41 & ~(~w114 & ~w34_i)),
+		.outp(l12)
+		);
+	
+	assign w35 = ~(~w37 & ~w131 & w18);
+	
+	assign w36 = w114 & w106;
+	
+	z80_rs_trig_nand rs37
+		(
+		.MCLK(MCLK),
+		.nset(clk | ~w531),
+		.nrst(clk | w531),
+		.q(w37),
+		.nq(w37_i)
+		);
+	
+	z80_dlatch dl_w38
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(((w18 & w131) | w106) & (~w37 | w114))),
+		.outp(w38)
+		)
+	
+	z80_rs_trig_nor rs39
+		(
+		.MCLK(MCLK),
+		.rst(clk & ~(w38 & WAIT)),
+		.set(clk & (w38 & WAIT)),
+		.q(w39),
+		.nq(w39_i)
+		);
+	
+	always @(posedge MCLK)
+	begin
+		w40 <= ~(w202 | (w40_i & (clk | w39)));
+		w40_i <= ~(w40 & (clk | w39_i)));
+	end
+	
+	assign w41 = ~w40 & ~w34;
+	
+	assign w42 = ~clk & ~w43;
+	
+	assign w43 = ~(~pla[35] & l13);
+	
+	z80_dlatch dl13
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w110 & w201),
+		.outp(l13)
+		)
+	
+	z80_rs_trig_nor rs44
+		(
+		.MCLK(MCLK),
+		.rst(w45),
+		.set(l14 | (clk & w110)),
+		.q(w44_n),
+		.nq(w44_i)
+		);
+	
+	z80_dlatch dl14
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w113),
+		.outp(l14)
+		)
+		
+	assign w44 = ~w44_i;
+	
+	z80_dlatch dl15
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(w201 & w110)),
+		.outp(l15)
+		)
+	
+	assign w45 = ~clk & ~l15;
+	
+	assign w46 = ~(w131 | (w127 & pla[35]) | (w127 & w107));
+	
+	assign w47 = ~clk & ~l16;
+	
+	z80_dlatch dl16
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(w107 & w127 & w41)),
+		.outp(l16)
+		)
+	
+	z80_dlatch dl17
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(w114 & w131)),
+		.outp(l17)
+		)
+	
+	z80_dlatch dl18
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(w41 | w55)),
+		.outp(l18)
+		)
+	
+	z80_rs_trig_nand rs48
+		(
+		.MCLK(MCLK),
+		.nset(clk | l17),
+		.nrst(clk | l18),
+		.q(w48),
+		.nq(w48_i)
+		);
+	
+	assign w49 = ~(w48 | w47);
+	
+	z80_rs_trig_nand rs50
+		(
+		.MCLK(MCLK),
+		.nset(clk | RESET),
+		.nrst(clk | ~RESET),
+		.q(w50),
+		.nq(w50_i)
+		);
+	
+	z80_rs_trig_nor rs51
+		(
+		.MCLK(MCLK),
+		.rst(clk & w50_i),
+		.set(clk & w50),
+		.q(w51),
+		.nq(w51_i)
+		);
+		
+	assign w52 = ~clk & l19;
+	
+	z80_dlatch dl19
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(w131 & w114)),
+		.outp(l19)
+		)
+		
+	assign w53 = ~clk & ~l20 & ~w55;
+	
+	z80_dlatch dl20
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(w131 & w114)),
+		.outp(l20)
+		);
+	
+	z80_rs_trig_nor rs54
+		(
+		.MCLK(MCLK),
+		.rst(w52 & w51)
+		.set(w52 & w51_i),
+		.q(w54),
+		.nq()
+		);
+	
+	assign w55 = ~w54;
+	
+	z80_rs_trig_nor rs56
+		(
+		.MCLK(MCLK),
+		.rst(w53 & w51)
+		.set((w53 & w104 & ~w51) | w55),
+		.q(w56),
+		.nq()
+		);
+	
+	assign w57 = w56 | ~w104;
+	
+	z80_rs_trig_nand rs58
+		(
+		.MCLK(MCLK),
+		.nset(clk | BUSRQ),
+		.nrst(clk | ~BUSRQ),
+		.q(w58),
+		.nq(w58_i)
+		);
+	
+	z80_rs_trig_nor rs59
+		(
+		.MCLK(MCLK),
+		.rst(clk & w58_i),
+		.set(clk & w58),
+		.q(w59),
+		.nq()
+		);
+	
+	z80_dlatch dl21
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w68),
+		.outp(l21)
+		);
+	
+	assign w60 = l21 & w112;
+	
+	z80_rs_trig_nand rs61
+		(
+		.MCLK(MCLK),
+		.nset(clk | ~w60),
+		.nrst(clk | w60),
+		.q(),
+		.nq(w61_i)
+		);
+	
+	assign w61 = ~w61_i;
+	
+	assign w62 = l22 | o_busak;
+	
+	z80_dlatch dl22
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(o_busak),
+		.outp(l22)
+		);
+	
+	assign o_busak = ~w65 & w66 & ~w67;
+	
+	assign BUSAK = ~o_busak;
+	
+	z80_dlatch dl23
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w55),
+		.outp(l23)
+		);
+	
+	z80_rs_trig_nand rs63
+		(
+		.MCLK(MCLK),
+		.nset(clk | ~l23),
+		.nrst(clk | l23),
+		.q(),
+		.nq(w63_t)
+		);
+	
+	assign w63 = ~(w63_t | ~(clk | ~l23));
+	
+	
+	
 
 endmodule
 
@@ -349,14 +706,16 @@ module z80_rs_trig_nor
 	
 	always @(posedge MCLK)
 	begin
-		if (rst)
-			q <= 1'h0;
-		else if (set)
-			q <= 1'h1;
-		if (set)
-			nq <= 1'h0;
-		else if (rst)
-			nq <= 1'h1;
+//		if (rst)
+//			q <= 1'h0;
+//		else if (set)
+//			q <= 1'h1;
+//		if (set)
+//			nq <= 1'h0;
+//		else if (rst)
+//			nq <= 1'h1;
+		q <= ~(rst | nq);
+		nq <= ~(set | q);
 	end
 endmodule
 
@@ -371,13 +730,15 @@ module z80_rs_trig_nand
 	
 	always @(posedge MCLK)
 	begin
-		if (~nset)
-			q <= 1'h1;
-		else if (~nrst)
-			q <= 1'h0;
-		if (~nrst)
-			nq <= 1'h0;
-		else if (~nset)
-			nq <= 1'h1;
+//		if (~nset)
+//			q <= 1'h1;
+//		else if (~nrst)
+//			q <= 1'h0;
+//		if (~nrst)
+//			nq <= 1'h0;
+//		else if (~nset)
+//			nq <= 1'h1;
+		q <= ~(nq & nset);
+		nq <= ~(q & nrst);
 	end
 endmodule
