@@ -504,6 +504,9 @@ module z80cpu
 	wire w490;
 	wire w491;
 	wire w492;
+	wire w493;
+	wire w494;
+	wire w495;
 	
 	wire [3:0] w503;
 	wire [3:0] w504;
@@ -3415,6 +3418,15 @@ module z80cpu
 	assign w491 = ~clk & ~w479;
 	
 	assign w492 = ~clk & ~w379;
+	
+	assign w493 = ~w404;
+	
+	assign w494 = ~((w484[6] & w409)
+		| (w484[2] & w408)
+		| (w484[7] & w407)
+		| (w484[0] & w405));
+	
+	assign w495 = w409 & ~w147[3] & w470;
 	
 endmodule
 
