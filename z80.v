@@ -284,6 +284,229 @@ module z80cpu
 	wire w265;
 	wire w266;
 	wire w267;
+	wire w268;
+	wire w269;
+	wire w270;
+	wire w271;
+	wire w272;
+	wire w273;
+	wire w274;
+	wire w275;
+	wire w276;
+	wire w277;
+	wire w278;
+	wire w279;
+	wire w280;
+	wire w281;
+	wire w282;
+	wire w283;
+	wire w284;
+	wire w285;
+	wire w286;
+	wire w287;
+	wire w288;
+	wire w289;
+	wire w290;
+	wire w291;
+	wire w292;
+	wire w293;
+	wire w294;
+	wire w295;
+	wire w296;
+	wire w297;
+	wire w298;
+	wire w299;
+	wire w300;
+	wire w301;
+	wire w302;
+	wire w303;
+	wire w304;
+	wire w305;
+	wire w306;
+	wire w307;
+	wire w308;
+	wire w309;
+	wire w310;
+	wire w311;
+	wire w312;
+	wire w313;
+	wire w314;
+	wire w315;
+	wire w316;
+	wire w317;
+	wire w318;
+	wire w319;
+	reg w320;
+	wire w321;
+	wire w322;
+	wire w323;
+	wire w324;
+	wire w325;
+	wire w326;
+	wire w327_n, w327_i;
+	reg w327;
+	wire w328;
+	wire w329;
+	wire w330_n, w330_i;
+	wire w331;
+	wire w332_n, w332_i;
+	wire w333;
+	wire w334;
+	wire w335;
+	wire w336;
+	wire w337;
+	wire w338;
+	wire w339;
+	wire w340;
+	wire w341;
+	wire w342;
+	wire w343;
+	wire w344;
+	wire w345;
+	wire w346;
+	wire w347;
+	wire w348;
+	wire w349;
+	wire w350;
+	wire w351;
+	wire w352;
+	wire w353;
+	wire w354;
+	wire w355;
+	wire w356;
+	wire w357;
+	wire w358;
+	wire w359;
+	wire w360;
+	wire w361_n, w361_i;
+	wire w362;
+	wire w363;
+	wire w364;
+	wire w365;
+	wire w366;
+	wire w367;
+	wire w368;
+	wire w369;
+	wire w370;
+	wire w371;
+	wire w372;
+	wire w373;
+	wire w374;
+	wire w375;
+	wire w376;
+	wire w377;
+	wire w378_1, w378_2, w378;
+	wire w379_1, w379_2, w379;
+	wire w380, w380_i;
+	wire w381;
+	wire w382;
+	wire w383;
+	wire w384;
+	wire w385;
+	wire w386;
+	wire w387;
+	wire w388;
+	wire w389;
+	wire w390;
+	wire w391;
+	wire w392;
+	wire w393;
+	wire w394;
+	wire w395;
+	wire w396;
+	wire w397;
+	wire w398;
+	wire w399;
+	wire w400, w400_v;
+	wire w401;
+	wire w402;
+	wire w403;
+	wire w404;
+	wire w405;
+	wire w406;
+	wire w407;
+	wire w408;
+	wire w409;
+	wire w410;
+	wire w411;
+	wire w412;
+	wire w413;
+	wire w414;
+	wire w415;
+	wire w416;
+	wire w417;
+	wire w418;
+	wire w419;
+	reg w420;
+	wire w421;
+	wire w422;
+	wire w423;
+	wire w424;
+	reg w425;
+	wire w426;
+	wire w427;
+	wire w428;
+	wire w429;
+	wire w430;
+	wire w431;
+	wire w432;
+	wire w433;
+	wire w434;
+	wire w435;
+	wire w436;
+	wire w437;
+	wire w438;
+	wire w439;
+	wire w440;
+	reg w441;
+	reg w442;
+	wire w443;
+	wire w444;
+	reg w445;
+	wire w446;
+	wire w448;
+	wire w449;
+	reg w450;
+	wire w452;
+	wire w453;
+	wire w454;
+	wire w455;
+	wire w456;
+	wire w457;
+	wire w458;
+	wire w459;
+	wire w460;
+	wire w461;
+	wire w462;
+	wire w463;
+	reg w464;
+	wire w465;
+	wire w466;
+	wire w467;
+	wire w468;
+	wire w469;
+	wire w470;
+	wire w471;
+	wire w472;
+	reg w473;
+	wire w474;
+	wire w475;
+	reg w476;
+	wire w477;
+	wire w479;
+	wire w480;
+	wire w481;
+	wire w483;
+	reg [7:0] w484; // bus 2
+	wire w485;
+	wire w486;
+	wire w487;
+	wire w490;
+	wire w491;
+	wire w492;
+	
+	wire [3:0] w503;
+	wire [3:0] w504;
 
 	wire w530;
 	wire w532;
@@ -331,8 +554,44 @@ module z80cpu
 	wire l39;
 	wire l40;
 	wire l41;
-	
+	wire l42;
 	wire l43;
+	wire l44;
+	wire l45;
+	wire l46, l46_i;
+	wire l47, l47_i;
+	wire l48, l48_i;
+	wire l49, l49_i;
+	wire l50;
+	wire l51;
+	wire l52;
+	wire l53;
+	wire l54;
+	wire l55;
+	wire l56;
+	wire l57;
+	wire l58;
+	wire l59;
+	wire l60;
+	wire l61;
+	wire l62;
+	wire l63;
+	wire l64;
+	wire l65;
+	wire l66;
+	wire l67;
+	wire l68;
+	wire l70;
+	wire l71;
+	wire l72;
+	wire l73;
+	wire l75;
+	wire l76;
+	
+	wire l81;
+	
+	wire l83;
+	wire l84;
 	
 	// pla
 	
@@ -1933,6 +2192,1229 @@ module z80cpu
 		| (w41 & ((w123 & w86)
 			| (w127 & pla[38])))
 		);
+	
+	assign w268 = ~(~w150 &
+		((w41 & w123)
+			| (w109 & w131))
+		);
+	
+	assign w269 = ~(
+		(w110 & ((w123 & (w256 | w234)) | (w121 & w234)))
+		| (w68 & w131 & w86)
+		| (w41 & (w131 | w120))
+		);
+	
+	assign w270 = ~(
+		(w41 & w123 & (w256 | w271))
+		| (w109 & w131)
+		);
+	
+	assign w271 = pla[27] | pla[28];
+	
+	assign w272 = ~((w41 & w120 & w255));
+	
+	assign w273 = ~(w110 & w131 & (w247 | ~w152));
+	
+	assign w274 = ~(
+		(w114 & w123 & (w256 | w271))
+		| (w41 & w131)
+		);
+	
+	assign w275 = ~(
+		(w114 & w131 & (~w172 & w247))
+		| (w110 & (w120 | w121) & w255)\
+		| (w41 & w121 & w234)
+		| (w68 & w127)
+		);
+	
+	assign w276 = ~(w41 & w120 & w255);
+
+	assign w277 = ~(w114 & w131 & ~w156);
+	
+	assign w278 = ~(w114 & w131 & ~w171);
+	
+	assign w279 = ~(
+		(w120 & pla[8])
+		| (w127 & (pla[6] | pla[5]))
+		);
+	
+	assign w280 = ~(
+		(w114 & ((w127 & pla[5]) | (w131 & w179)))
+		| (w110 & w120 & ~w178)
+		| (w41 & w123 & w234)
+		);
+	
+	assign w281 = ~(
+		(w110 & w123) | (w114 & w120)
+		| (w109 & w131)
+		);
+	
+	assign w282 = ~(
+		(w110 & ((w127 & (pla[5] | w255)) | (w131 & w177)))
+		| (w68 & w131)
+		| (w114 & w121 & w234)
+		);
+	
+	assign w283 = ~(
+		~w274 |
+		(w68 & w131 & ~w88)
+		| (w41 & (w127 | w123) & w255)
+		| (w109 & ((w131 & (w255 | w234))
+			| (w123 & w234)))
+		| (w114 & w120 & (w255 | w256))
+		);
+	
+	assign w284 = ~(w68 & w131 & w81);
+	
+	assign w285 = ~(
+		(w110 & w120 & pla[0])
+		| (w114 & w127 & ~w88)
+		| (w41 & w121 & w86)
+		);
+	
+	assign w286 = ~(
+		(w41 & w131 & w287)
+		| (w110 & w123 & (w287 & w256))
+		);
+	
+	assign w287 = ~w95 | (w103 & w98);
+	
+	assign w288 = ~((w109 | w68) & (pla[21] & w77));
+	
+	assign w289 = ~((w288 & w68 & w131) | w192);
+	
+	assign w290 = ~(w216 | ~w219 | ~w226
+		| (~w133 & (~w217 | w118)));
+	
+	assign w291 = ~(~w226 | w216);
+	
+	z80_dlatch dw292
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w291),
+		.outp(w292)
+		);
+	
+	z80_dlatch dw293
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w290),
+		.outp(w293)
+		);
+	
+	assign w294 = ~(w221 & w222);
+	
+	assign w295 = ~(w133 |
+		(w223 & (~w118 | w296));
+	
+	assign w296 = ~(w299 | w153);
+	
+	assign w297 = ~(~w226 | w295 | w294);
+	
+	z80_dlatch dw298
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w297),
+		.outp(w298)
+		);
+	
+	assign w299 = (~w220 & w438) | w383 | (w265 & w448);
+	
+	assign w300 = ~(~w226 | w295);
+	
+	z80_dlatch dw301
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w300),
+		.outp(w301)
+		);
+	
+	assign w302 = ~(w303 & pla[97]);
+	
+	z80_dlatch dl42
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w227),
+		.outp(l42)
+		);
+	
+	assign w303 = ~l42;
+	
+	assign w304 = ~clk & w303 & pla[95];
+	
+	z80_dlatch dw305
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w228 & w227),
+		.outp(w305)
+		);
+	
+	assign w306 = ~(w228 & w227 & w229);
+	
+	z80_dlatch dw307
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w306 | w55),
+		.outp(w307)
+		);
+	
+	assign w308 = ~(~w294 & w313 & w344);
+	
+	assign w309 = ~(w231 & w230);
+	
+	assign w310 = ~(w233 & w232);
+	
+	assign w311 = ~(w238 & (w343 | ~w312));
+	
+	assign w312 = ~(w100 | ~w169);
+	
+	assign w313 = ~(~w246 | ~w243 | ~w242 | ~w274 | ~w241 | ~w239 | ~w238 | w309);
+	
+	z80_dlatch dl44
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w308),
+		.outp(l44)
+		);
+	
+	assign w314 = w307 | l44;
+	
+	assign w315 = (~w147[2] & w183) | (~w183 & ~w147[5]);
+	
+	assign w316 = ~(w315 | w317);
+	
+	assign w317 = (~w147[1] & w183) | (~w183 & ~w147[4]);
+	
+	assign w318 = (~w147[0] & w183) | (~w183 & ~w147[3]);
+	
+	z80_dlatch dw319
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~((w316 & w310) | w309)),
+		.outp(w319)
+		);
+	
+	z80_dlatch dl45
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w315),
+		.outp(l45)
+		);
+	
+	always @(posedge MCLK)
+	begin
+		if (w304)
+			w320 <= l45;
+		else if (clk)
+			w320 <= w320;
+	end
+	
+	
+	z80_rs_trig_nand rs321
+		(
+		.MCLK(MCLK),
+		.nset(clk | w305),
+		.nrst(clk | ~w305 | w293),
+		.q(w321),
+		.nq()
+		);
+	
+	
+	z80_rs_trig_nor rs322
+		(
+		.MCLK(MCLK),
+		.rst(clk & w113),
+		.set(clk & ~w113),
+		.q(w322),
+		.nq()
+		);
+	
+	assign w323 = ~((clk & ~w113) | w322);
+	
+	assign w324 = ~clk & ~w325;
+	
+	assign w325 = ~(w302 & w326);
+	
+	assign w326 = ~(w303 & pla[96]);
+	
+	z80_dlatch dl46
+		(
+		.MCLK(MCLK),
+		.en(w324),
+		.inp(w327_n),
+		.outp(l46)
+		);
+	
+	z80_dlatch dl46_i
+		(
+		.MCLK(MCLK),
+		.en(w324),
+		.inp(w327_i),
+		.outp(l46_i)
+		);
+	
+	
+	z80_rs_trig_nand rs327
+		(
+		.MCLK(MCLK),
+		.nset(l46 & w328),
+		.nrst(l46_i & w328),
+		.q(w327_n),
+		.nq(w327_i)
+		);
+	
+	assign w328 = ~clk & ~w302;
+	
+	assign w328 = ~clk & ~w326 & ~w327;
+	
+	z80_dlatch dl47
+		(
+		.MCLK(MCLK),
+		.en(w324),
+		.inp(w330_n),
+		.outp(l47)
+		);
+	
+	z80_dlatch dl47_i
+		(
+		.MCLK(MCLK),
+		.en(w324),
+		.inp(w330_i),
+		.outp(l47_i)
+		);
+	
+	
+	z80_rs_trig_nand rs330
+		(
+		.MCLK(MCLK),
+		.nset(l47 & w329),
+		.nrst(l47_i & w329),
+		.q(w330_n),
+		.nq(w330_i)
+		);
+	
+	assign w331 = ~clk & ~w326 & w327;
+	
+	always @(posedge MCLK)
+	begin
+		if (w327_i)
+			w327 <= 1'h0;
+		else if (w327_n)
+			w327 <= 1'h1;
+	end
+	
+	z80_dlatch dl48
+		(
+		.MCLK(MCLK),
+		.en(w324),
+		.inp(w332_n),
+		.outp(l48)
+		);
+	
+	z80_dlatch dl48_i
+		(
+		.MCLK(MCLK),
+		.en(w324),
+		.inp(w332_i),
+		.outp(l48_i)
+		);
+	
+	z80_rs_trig_nand rs332
+		(
+		.MCLK(MCLK),
+		.nset(l48 & w331),
+		.nrst(l48_i & w331),
+		.q(w332_n),
+		.nq(w332_i)
+		);
+	
+	
+	assign w333 = ~((w327 & w332_n) | (~w327 & w330_n));
+	
+	assign w334 = ~clk & ~w293;
+	
+	assign w335 = ~clk & ~w292;
+	
+	assign w336 = ~clk & ~w298;
+	
+	assign w337 = ~clk & w307;
+	
+	assign w338 = w305 & ~w301;
+	
+	assign w339 = clk;
+	
+	assign w340 = ~(~w341 & ~w320);
+	
+	z80_dlatch dw341
+		(
+		.MCLK(MCLK),
+		.en(w324),
+		.inp(~w311),
+		.outp(w341)
+		);
+	
+	assign w342 = ~(~w341 & w320);
+	
+	assign w343 = ~(~w241 | ~w239 | (~w315 & w317 & (w310 | ~w344)));
+	
+	assign w344 = ~(w310 | ~w244 | ~w250 | ~w248);
+	
+	z80_dlatch dw345
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w343 | w312),
+		.outp(w345)
+		);
+	
+	z80_dlatch dw346
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w242 & (~w315 | w317 | w344)),
+		.outp(w346)
+		);
+	
+	z80_dlatch dw347
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp((w344 | ~w315 | ~w317) & w243),
+		.outp(w347)
+		);
+	
+	assign w348 = ~(~w327 & w349);
+	
+	assign w349 = ~(w333 ? w346 : w345);
+	
+	assign w350 = ~(w327 & w349);
+	
+	assign w351 = ~(w333 ? w345 : w346);
+	
+	assign w352 = ~(~w327 & w351);
+	
+	assign w353 = ~(w327 & w351);
+	
+	assign w354 = ~(~w327 & ~w347);
+	
+	assign w355 = ~(w327 & ~w347);
+	
+	assign w356 = ~(w315 | w317);
+	
+	assign w357 = ~((w248 & w250) | w318);
+	
+	z80_dlatch dl81
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~(~w274 | ~w246 | (w356 & (w357 | ~w244)))),
+		.outp(l81)
+		);
+	
+	
+	assign w358 = ~l81;
+	
+	z80_dlatch dw359
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w259),
+		.outp(w359)
+		);
+	
+	assign w360 = ~clk & ~w359;
+	
+	z80_dlatch dl49
+		(
+		.MCLK(MCLK),
+		.en(w360),
+		.inp(w361_n),
+		.outp(l49)
+		);
+	
+	z80_dlatch dl49_i
+		(
+		.MCLK(MCLK),
+		.en(w360),
+		.inp(w361_i),
+		.outp(l49_i)
+		);
+	
+	z80_rs_trig_nand rs361
+		(
+		.MCLK(MCLK),
+		.nset(l49 & w362),
+		.nrst(l49_i & w362),
+		.q(w361_n),
+		.nq(w361_i)
+		);
+	
+	assign w362 = ~clk & w359;
+	
+	assign w363 = ~(w361_n & w358);
+	
+	assign w364 = ~(w361_i & w358);
+	
+	assign w365 = ~(w248 & (w249 | w317));
+	
+	assign w366 = ~(w250 & (w249 | ~w317));
+	
+	assign w367 = ~(w318 | w368);
+	
+	assign w368 = ~(w315 | w317);
+	
+	z80_dlatch dw369
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w289),
+		.outp(w369)
+		);
+	
+	z80_dlatch dw370
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w288),
+		.outp(w370)
+		);
+	
+	assign w371 = ~(~w286 | ~w284 | (w271 & ~w268));
+	
+	z80_dlatch dw372
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w286),
+		.outp(w372)
+		);
+	
+	z80_dlatch dw373
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w285 | ~w284),
+		.outp(w373)
+		);
+	
+	assign w374 = ~(~w285 | ~w284 | ~w266 | ~w267 | w375);
+	
+	assign w375 = ~(w376 & w275);
+	
+	assign w376 = ~(
+		(w41 & w123 & w234)
+		| (w114 & w127 & w255)
+		);
+	
+	z80_dlatch dw377
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w375),
+		.outp(w377)
+		);
+	
+	z80_dlatch dw378_1
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w267),
+		.outp(w378_1)
+		);
+	
+	z80_dlatch dw378_2
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w266),
+		.outp(w378_2)
+		);
+	
+	assign w378 = w378_1 | w378_2;
+	
+	z80_dlatch dw379_1
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w268),
+		.outp(w379_1)
+		);
+	
+	z80_dlatch dw379_2
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w269),
+		.outp(w379_2)
+		);
+	
+	assign w379 = ~(w379_1 | w379_2);
+	
+	z80_dlatch dl50
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w273),
+		.outp(l50)
+		);
+	
+	z80_dlatch dl51
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w274),
+		.outp(l51)
+		);
+	
+	z80_rs_trig_nand rs380
+		(
+		.MCLK(MCLK),
+		.nset(clk & l51),
+		.nrst(clk & l50),
+		.q(),
+		.nq(w380_i)
+		);
+	
+	assign w380 = ~w380_i;
+	
+	z80_dlatch dw381
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w380 & ~w274),
+		.outp(w381)
+		);
+	
+	z80_dlatch dl52
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w274),
+		.outp(l52)
+		);
+	
+	assign w382 = ~clk & l52 & ~w381;
+	
+	assign w383 = ~(w279 | ~w486);
+	
+	assign w384 = ~((w114 & w123 & w234)
+		| (w109 & (w123 | w127) & w255));
+	
+	assign w385 = ~(w114 | w109);
+	
+	assign w386 = ~((w109 & w123 & w234)
+		| (w41 & w127);
+	
+	assign w387 = ~(w109 & w127 & w388);
+	
+	assign w388 = ~(pla[7] | w177);
+	
+	assign w389 = ~(w390 & ~w162);
+	
+	z80_dlatch dw390
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w270),
+		.outp(w390)
+		);
+	
+	z80_dlatch dw391
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w280),
+		.outp(w391)
+		);
+	
+	assign w392 = ~(w391 & ~w162);
+	
+	assign w393 = ~(~w277
+		| (w114 & w127 & w255)
+		| (w41 & w123 & w234)
+		);
+	
+	assign w394 = ~((w390 & ~w166)
+		| (w109 & w123 & w234)
+		| (w41 & w127 & w255)
+		);
+	
+	assign w395 = ~(~w165 & w390);
+	
+	z80_dlatch dl53
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w276),
+		.outp(l53)
+		);
+	
+	assign w396 = ~(w395 & w394 & (w390 | l53));
+	
+	assign w397 = ~((w41 | w109 | w68) & w127);
+	
+	assign w398 = ~(w114 & w123 & w83);
+	
+	assign w399 = ~((w390 & ~pla[36] & w255) | w400);
+	
+	assign w400_v = (
+		(w41 & w127 & w255)
+		| (w114 & w123 & pla[38])
+		);
+	
+	z80_dlatch dw400
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w400_v),
+		.outp(w400)
+		);
+	
+	assign w401 = ~(
+		((~w147[3] & w109) | w114) &
+		w127 & pla[38]
+		);
+	
+	z80_dlatch dl54
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w371),
+		.outp(l54)
+		);
+	
+	z80_dlatch dl55
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w374),
+		.outp(l55)
+		);
+	
+	assign w402 = ~l54 | l55;
+	
+	assign w403 = ~(~w283 | ~w269 | ~w268);
+	
+	z80_dlatch dw404
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w403 | ~w371),
+		.outp(w404)
+		);
+	
+	assign w405 = ~(~w147[4] | ~w406);
+	
+	assign w406 = pla[50] | ~w147[5];
+	
+	assign w407 = ~(~w147[4] | w406);
+	
+	assign w408 = ~(w147[4] | w406);
+	
+	assign w409 = ~(w147[4] | ~w406);
+	
+	assign w410 = ~(~w257 | ~w258 | (w366 & (w318 | w368)));
+	
+	assign w411 = ~(~w251 | (w366 & w367) | (~w274 & ~w380));
+	
+	assign w412 = ~(w260 & w262);
+	
+	assign w413 = ~(w318 | w368);
+	
+	assign w414 = ~(~w264 | ~w263 | ~w274
+		| (w365 & (w318 | w368)));
+	
+	assign w415 = ~(w412 | (w413 & w365) | (~w274 & w380));
+	
+	z80_dlatch dw416
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w410),
+		.outp(w416)
+		);
+	
+	z80_dlatch dw417
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w415),
+		.outp(w417)
+		);
+	
+	z80_dlatch dw418
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w414),
+		.outp(w418)
+		);
+	
+	z80_dlatch dw419
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w274),
+		.outp(w419)
+		);
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w420 <= w420;
+		else if (w421)
+			w420 <= w494;
+	end
+	
+	assign w421 = ~clk & ~w419;
+	
+	assign w422 = ~(w408 | (w405 & w423));
+	
+	z80_dlatch dl73
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w473),
+		.outp(l73)
+		);
+	
+	assign w423 = l73;
+	
+	assign w424 = ~clk & w472;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w425 <= 1'h1;
+		else if (w407)
+			w425 <= 1'h1;
+		else if (w424 & w405)
+			w425 <= w423;
+		else if (w424 & w408)
+			w425 <= w484[7];
+		else if (w424 & w409)
+			w425 <= w484[0];
+	end
+	
+	assign w426 = ~(w390 & ~w154);
+	
+	assign w427 = ~clk & ~w426;
+	
+	z80_dlatch dl56
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w283),
+		.outp(l56)
+		);
+	
+	assign w428 = l56 & w426 & ~clk;
+	
+	z80_dlatch dl61
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w442),
+		.outp(l61)
+		);
+	
+	assign w429 = ~(~l61 & (w430 | w431));
+	
+	z80_dlatch dw430
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w384),
+		.outp(w430)
+		);
+	
+	z80_dlatch dw431
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w282),
+		.outp(w431)
+		);
+	
+	z80_dlatch dl57
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w385),
+		.outp(l57)
+		);
+		
+	assign w432 = ~clk & l57;
+	
+	assign w433 = ~w429 & ~clk;
+	
+	assign w434 = ~clk & ~w435;
+	
+	z80_dlatch dl58
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w386),
+		.outp(l58)
+		);
+	
+	z80_dlatch dl59
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w281),
+		.outp(l59)
+		);
+	
+	assign w435 = l58 & l59;
+	
+	assign w436 = ~clk & ~w389;
+	
+	z80_dlatch dl60
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w387),
+		.outp(l60)
+		);
+	
+	assign w437 = ~clk & ~l60;
+	
+	assign w438 = ~w524;
+	
+	assign w439 = ~clk & ~w162 & ~w429;
+	
+	assign w440 = ~clk & w392;
+	
+	z80_dlatch dl62
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w505),
+		.outp(l62)
+		);
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w441 <= w441;
+		else if (w382)
+			w441 <= ~w484[2];
+		else if (w437)
+			w441 <= ~w438;
+		else if (w436)
+			w441 <= ~1'h0;
+		else if (w439)
+			w441 <= ~w449;
+		else if (w440)
+		begin
+			if (w452)
+				w441 <= (w508 ^ w507) & ~w453;
+			else
+				w441 <= w506 ^ l62;
+		end
+	end
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w442 <= w442;
+		else if (w434)
+			w442 <= 1'h0;
+		else if (w433)
+			w442 <= 1'h1;
+	end
+	
+	z80_dlatch dl83
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w484[0]),
+		.outp(l83)
+		);
+	
+	assign w443 = ~(pla[21] & l83 & w501);
+	
+	z80_dlatch dl84
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w484[4]),
+		.outp(l84)
+		);
+	
+	assign w444 = ~(pla[21] & l84 & w502);
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w445 <= w445;
+		else if (w436)
+			w445 <= 1'h0;
+		else if (w382)
+			w445 <= w484[6];
+		else if (w440)
+			w445 <= (w487 | w503[3:0] != 4'h0 | w504[3:0] != 4'h0);
+	end
+	
+	assign w446 = ~w442 & ~w433;
+	
+	assign w448 = ~(w420 ^ w318);
+	
+	z80_dlatch dw449
+		(
+		.MCLK(MCLK),
+		.en(clk & w446),
+		.inp(~w505),
+		.outp(w449)
+		);
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w450 <= w450;
+		else if (w382)
+			w450 <= ~w484[7];
+		else if (w440)
+			w450 <= w504[3];
+	end
+	
+	z80_dlatch dw452
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w158),
+		.outp(w452)
+		);
+	
+	z80_dlatch dw453
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(pla[15]),
+		.outp(w453)
+		);
+	
+	z80_dlatch dl63
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w180),
+		.outp(l63)
+		);
+	
+	assign w454 = ~l63 & ~w115;
+	
+	z80_dlatch dl64
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w181),
+		.outp(l64)
+		);
+	
+	assign w455 = ~l64 & ~w115;
+	
+	z80_dlatch dl65
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w168),
+		.outp(l65)
+		);
+	
+	assign w456 = ~l65 & ~w115;
+	
+	assign w457 = (pla[30] & ~w147[3]) | ~w160;
+	
+	z80_dlatch dl66
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w393),
+		.outp(l66)
+		);
+	
+	assign w458 = ~clk & ~l66;
+	
+	assign w459 = ~clk & ~w395;
+	
+	z80_dlatch dl67
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w396),
+		.outp(l67)
+		);
+	
+	assign w460 = ~clk & ~l67;
+	
+	z80_dlatch dl68
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w394),
+		.outp(l68)
+		);
+	
+	assign w461 = ~clk & ~l68;
+	
+	assign w462 = ~clk & ~w429;
+	
+	z80_dlatch dl70
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w278),
+		.outp(l70)
+		);
+	
+	assign w463 = ~clk & ~l70;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w464 <= w464;
+		else if (w382)
+			w464 <= ~w484[1];
+		else if (w465)
+			w464 <= ~w484[7];
+		else if (w466)
+			w464 <= w457;
+	end
+	
+	z80_dlatch dl71
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w272),
+		.outp(l71)
+		);
+	
+	assign w465 = ~clk & ~l71;
+	
+	assign w466 = ~clk & w390 & ~pla[21];
+	
+	assign w467 = ~(w464 & ~w115);
+	
+	z80_dlatch dl72
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w397),
+		.outp(l72)
+		);
+	
+	assign w468 = ~(w464 ~ ~(w115 & l72));
+	
+	assign w469 = ~clk & w470;
+	
+	z80_dlatch dw470
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(~w268 & w271),
+		.outp(w470)
+		);
+	
+	assign w471 = w470 & ~w147[3];
+	
+	assign w472 = w470 & w147[3];
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w473 <= w473;
+		else if (w469)
+		begin
+			if (w472)
+				w473 <= ~w484[0];
+			if (w471)
+				w473 <= ~w484[8];
+		end
+		else if (w382)
+			w473 <= ~w484[0];
+		else if (w474)
+			w473 <= ~1'h0;
+		else if (w458)
+			w473 <= w477;
+		else if (w363)
+			w473 <= ~w476;
+	end
+	
+	assign w474 = ~clk & ~w475;
+	
+	assign w475 = ~(w443 & w370);
+	
+	z80_dlatch dl75
+		(
+		.MCLK(MCLK),
+		.en(clk & w446),
+		.inp(w477),
+		.outp(l75)
+		);
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w476 <= w476;
+		else if (w461)
+			w476 <= ~w423;
+		else if (w460)
+			w476 <= ~1'h1;
+		else if (w459)
+			w476 <= ~1'h0;
+		else if (w462)
+			w476 <= l75;
+	end
+	
+	assign w477 = ~(w467 ^ w507);
+	
+	z80_dlatch dl76
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w398),
+		.outp(l76)
+		);
+	
+	assign w479 = l76 & w399;
+	
+	z80_dlatch dl77
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w401),
+		.outp(l77)
+		);
+	
+	assign w480 = ~clk & ~l77;
+	
+	assign w481 = ~w468;
+	
+	assign w483 = ~w1 & w2;
+	
+	assign w485 = ~w441;
+	
+	assign w486 = ~w445;
+	
+	assign w487 = ~w486;
+	
+	assign w490 = ~clk & ~w399;
+	
+	assign w491 = ~clk & ~w479;
+	
+	assign w492 = ~clk & ~w379;
 	
 endmodule
 
