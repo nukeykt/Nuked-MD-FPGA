@@ -1,3 +1,30 @@
+/*
+ * Copyright (C) 2022-2023 nukeykt
+ *
+ * This file is part of Nuked-MD.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ *  Z80 emulator
+ *  Thanks:
+ *      Antoine Bercovici:
+ *          Z80 decap & die shot.
+ *      Visual6502 team:
+ *          VisualZ80 simulator.
+ *      org, andkorzh, HardWareMan (emu-russia):
+ *          help & support.
+ */
+ 
+ // Z80(NMOS)
+
 module z80cpu
 	(
 	input MCLK,
@@ -507,9 +534,23 @@ module z80cpu
 	wire w493;
 	wire w494;
 	wire w495;
-	
-	wire [3:0] w503;
+	reg [7:0] w496;
+	wire [7:0] w497;
+	reg [7:0] w498;
+	reg [3:0] w499;
+	wire [3:0] w500;
+	wire w501;
+	wire w502;
+	reg [3:0] w503;
 	wire [3:0] w504;
+	wire w505;
+	wire w506;
+	wire w507;
+	wire w508;
+	reg [7:0] w510;
+	reg [7:0] w511;
+	wire [3:0] w512;
+	reg [7:0] w513; // bus 3
 
 	wire w530;
 	wire w532;
@@ -3427,6 +3468,116 @@ module z80cpu
 		| (w484[0] & w405));
 	
 	assign w495 = w409 & ~w147[3] & w470;
+	
+	always @(posedge MCLK)
+	begin
+		if (w377)
+			w496 <= { w504, w503 };
+		else if (w493)
+			w496 <= w513;
+		else if (w471)
+		begin
+			w496[7:1] <= w513[6:0];
+			if (~w495)
+				w496[0] <= ~w422;
+		end
+		else if (w472)
+		begin
+			w496[6:0] <= w513[7:1];
+			w496[7] <= w425;
+		end
+		else if (w372)
+			w496 <= w497;
+		else if (w373)
+			w496 <= w498;
+		else if (w495)
+			w496[0] <= w484[7];
+	end
+	
+	assign w497 = ~(8'h1 << (~w146[5:3]));
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w498 <= w498;
+		else if (w428)
+			w498 <= ~w496;
+		else if (w427)
+			w498 <= 8'h0;
+		else if (w480)
+			w498[3:0] <= ~w499;
+	end
+	
+	always @(posedge MCLK)
+	begin
+		if (w432)
+			w499 <= ~w496[7:4];
+	end
+	
+	assign w500 = w446 ? w498[3:0] : w498[7:4];
+	
+	assign w501 = ~(w498[7] & (w498[6] | w496[5] | (w498[4] & ~w502)));
+	
+	assign w502 = ~(w498[3] & (w498[2] | w498[1]));
+	
+	always @(posedge MCLK)
+	begin
+		if (w466)
+			w503 <= w504;
+		else
+			w503 <= w503;
+	end
+	
+	wire [3:0] c_in;
+	wire [3:0] o1 = w512;
+	wire [3:0] o2 = w500;
+	wire [3:0] t = ~((c_in & (o1 | o2)) | (o1 & o2) | {4{w455}});
+	assign w504 = ((o1 | o2 | c_in) & (t | {4{w454}})) | (o1 & o2 & c_in);
+	wire [3:0] c_out = ~t & ~{4{w456}};
+	
+	assign c_in[0] = ~(w467 ^ w476);
+	assign c_in[1] = c_out[0];
+	assign c_in[2] = c_out[1];
+	assign c_in[3] = c_out[2];
+	
+	assign w505 = ~(((w485 ^ w504[0]) ^ w504[1]) ^ w504[2]);
+	
+	assign w506 = w504[3] ^ w503[3];
+	
+	assign w508 = c_out[2];
+	assign w507 = c_out[2];
+	
+	always @(posedge MCLK)
+	begin
+		if (w432)
+			w510 <= ~{ w496[3:0], w500 };
+	end
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w511 <= w511;
+		else if (w480)
+			w511 <= ~w510;
+		else if (w492)
+			w511 <= ~w496;
+		else
+		begin
+			if (w491)
+			begin
+				w511[2:0] <= 3'h0;
+				w511[6] <= 1'h0;
+			end
+			if (w491 & w490)
+				w511[5:3] <= 3'h0;
+			if (w491 | w490)
+				w511[7] <= 1'h0;
+		end
+	end
+	
+	wire [3:0] w511_xor = w481 ? ~w511 : w511;
+	
+	assign w512 = w446 ? w511_xor[3:0] : w511[7:4];
 	
 endmodule
 
