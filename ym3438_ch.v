@@ -15,7 +15,8 @@ module ym3438_ch
 	input [1:0] pan,
 	output [8:0] ch_dbg,
 	output [8:0] ch_out,
-	output [1:0] ch_pan
+	output [1:0] ch_pan,
+	output [1:0] ch_pan_2612
 	);
 	
 	wire dac_test = reg_2c[5];
@@ -114,5 +115,9 @@ module ym3438_ch
 	wire dac_out_enable = dac_test | ~fsm_dac_load;
 	
 	assign ch_pan = dac_out_enable ? pan : 2'h0;
+	
+	wire dac_out_enable_2612 = dac_test | fsm_dac_load;
+	
+	assign ch_pan_2612 = dac_out_enable_2612 ? pan : 2'h0;
 
 endmodule

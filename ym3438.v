@@ -37,7 +37,8 @@ module ym3438(
 	output IRQ,
 	output [8:0] MOL, MOR,
 	output d_c1,
-	output d_c2
+	output d_c2,
+	output [9:0] MOL_2612, MOR_2612
 	);
 	
 	wire c1, c2;
@@ -376,6 +377,7 @@ module ym3438(
 
 	wire [8:0] ch_out;
 	wire [1:0] ch_pan;
+	wire [1:0] ch_pan_2612;
 	
 	ym3438_ch ch
 		(
@@ -394,7 +396,8 @@ module ym3438(
 		.pan(pan),
 		.ch_dbg(ch_dbg),
 		.ch_out(ch_out),
-		.ch_pan(ch_pan)
+		.ch_pan(ch_pan),
+		.ch_pan_2612(ch_pan_2612)
 		);
 	
 	assign MOR = ch_pan[0] ? ch_out : 9'h100;
@@ -402,5 +405,12 @@ module ym3438(
 	
 	assign d_c1 = c1;
 	assign d_c2 = c2;
+	
+	wire DAC_2612_sign = ~ch_out[8];
+	wire [9:0] DAC_2612_matrix_out = DAC_2612_sign ? { 2'h3, ch_out[7:0] } : ({ 2'h0, ch_out[7:0] } + 10'h1);
+	wire [9:0] DAC_2612_silent = DAC_2612_sign ? 10'h3ff : 10'h1;
+	
+	assign MOR_2612 = ch_pan_2612[0] ? DAC_2612_matrix_out : DAC_2612_silent;
+	assign MOL_2612 = ch_pan_2612[1] ? DAC_2612_matrix_out : DAC_2612_silent;
 	
 endmodule
