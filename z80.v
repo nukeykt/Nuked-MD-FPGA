@@ -551,8 +551,38 @@ module z80cpu
 	reg [7:0] w511;
 	wire [3:0] w512;
 	reg [7:0] w513; // bus 3
+	
+	wire [15:0] pull1[2];
+	wire [15:0] pull2[2];
+	wire [15:0] pull1_comb[2];
+	wire [15:0] pull2_comb[2];
+	wire [15:0] pullup1[2];
+	wire [15:0] pullup2[2];
+	wire [15:0] pullup1_comb[2];
+	wire [15:0] pullup2_comb[2];
+	reg [15:0] regs[12][2];
+	reg [15:0] regs2[2][2];
+	
+	reg [15:0] w514;
+	reg [15:0] w515;
+	
+	wire w516;
+	wire w517;
+	wire w518;
+	wire w519;
+	
+	reg [15:0] w520;
+	reg [15:0] w521;
+	reg [15:0] w522;
+	wire [15:0] w523;
+	reg w524;
+	wire [14:0] w525;
+	reg [15:0] w526;
+	reg [15:0] w527;
+	wire [15:0] w528;
 
 	wire w530;
+	wire w531;
 	wire w532;
 	
 	wire halt;
@@ -631,9 +661,10 @@ module z80cpu
 	wire l73;
 	wire l75;
 	wire l76;
-	
+	wire l77;
+	wire l79;
 	wire l81;
-	
+	wire l82;
 	wire l83;
 	wire l84;
 	
@@ -952,6 +983,16 @@ module z80cpu
 	assign w35 = ~(~w37 & ~w131 & w18);
 	
 	assign w36 = w114 & w106;
+		
+	z80_dlatch dl82
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w114),
+		.outp(l82)
+		);
+	
+	assign w531 = ~(w131 & w18 & l82);
 	
 	z80_rs_trig_nand rs37
 		(
@@ -3578,6 +3619,162 @@ module z80cpu
 	wire [3:0] w511_xor = w481 ? ~w511 : w511;
 	
 	assign w512 = w446 ? w511_xor[3:0] : w511[7:4];
+	
+	assign pull1[0] =
+		( {16{~w364}} & regs[0][1] ) |
+		( {16{~w363}} & regs[1][1] ) |
+		( {16{~w355}} & regs[2][1] ) |
+		( {16{~w354}} & regs[3][1] ) |
+		( {16{~w353}} & regs[4][1] ) |
+		( {16{~w352}} & regs[5][1] ) |
+		( {16{~w350}} & regs[6][1] ) |
+		( {16{~w348}} & regs[7][1] ) |
+		( {16{~w342}} & regs[8][1] ) |
+		( {16{~w340}} & regs[9][1] ) |
+		( {16{~w319}} & regs[10][1] ) |
+		( {16{~w314}} & regs[11][1] ) |
+		{({8{w517}} & w513), ({8{w516}} & w484)};
+	
+	assign pull1[1] =
+		( {16{~w364}} & regs[0][0] ) |
+		( {16{~w363}} & regs[1][0] ) |
+		( {16{~w355}} & regs[2][0] ) |
+		( {16{~w354}} & regs[3][0] ) |
+		( {16{~w353}} & regs[4][0] ) |
+		( {16{~w352}} & regs[5][0] ) |
+		( {16{~w350}} & regs[6][0] ) |
+		( {16{~w348}} & regs[7][0] ) |
+		( {16{~w342}} & regs[8][0] ) |
+		( {16{~w340}} & regs[9][0] ) |
+		( {16{~w319}} & regs[10][0] ) |
+		( {16{~w314}} & regs[11][0] ) |
+		{({8{w517}} & ~w513), ({8{w516}} & ~w484)};
+	
+	assign pull2[0] =
+		( {16{w336}} & regs2[0][1] ) |
+		( {16{w337}} & regs2[1][1] ) |
+		( {16{w335}} & ~w528 );
+	
+	assign pull2[1] =
+		( {16{w336}} & regs2[0][0] ) |
+		( {16{w337}} & regs2[1][0] ) |
+		( {16{w335}} & w528 );
+		
+	assign pull1_comb[0] = pull1[0] | ({16{w338}} & pull2[0]);
+	assign pull1_comb[1] = pull1[1] | ({16{w338}} & pull2[1]);
+	assign pull2_comb[0] = pull2[0] | ({16{w338}} & pull1[0]);
+	assign pull2_comb[1] = pull2[1] | ({16{w338}} & pull1[1]);
+	
+	assign pullup1[0] = (clk & w339) ? 16'ffff :
+		{({8{w517}} & ~w513), ({8{w516}} & ~w484)};
+	
+	assign pullup1[1] = (clk & w339) ? 16'ffff :
+		{({8{w517}} & w513), ({8{w516}} & w484)};
+	
+	assign pullup2[0] =
+		( {16{w335}} & w528 );
+	
+	assign pullup2[1] =
+		( {16{w335}} & ~w528 );
+		
+	assign pullup1_comb[0] = pullup1[0] | ({16{w338}} & pullup2[0]);
+	assign pullup1_comb[1] = pullup1[1] | ({16{w338}} & pullup2[1]);
+	assign pullup2_comb[0] = pullup2[0] | ({16{w338}} & pullup1[0]);
+	assign pullup2_comb[1] = pullup2[1] | ({16{w338}} & pullup1[1]);
+	
+	always @(posedge MCLK)
+	begin
+		if (w338)
+		begin
+			w513 <= ((w513 & w520) | pullup1_comb[0]) & ~pull1_comb[0];
+			w514 <= ((w514 & w521) | pullup1_comb[1]) & ~pull1_comb[1];
+			w520 <= ((w513 & w520) | pullup2_comb[0]) & ~pull2_comb[0];
+			w521 <= ((w514 & w521) | pullup2_comb[1]) & ~pull2_comb[1];
+		end
+		else
+		begin
+			w513 <= (w513 | pullup1_comb[0]) & ~pull1_comb[0];
+			w514 <= (w514 | pullup1_comb[1]) & ~pull1_comb[1];
+			w520 <= (w520 | pullup2_comb[0]) & ~pull2_comb[0];
+			w521 <= (w521 | pullup2_comb[1]) & ~pull2_comb[1];
+		end
+	end
+	
+	z80_dlatch dl79
+		(
+		.MCLK(MCLK),
+		.en(clk),
+		.inp(w411),
+		.outp(l79)
+		);
+	
+	assign w516 = ~clk & ~l79;
+	
+	assign w517 = ~clk & ~w416;
+	
+	assign w518 = ~w417;
+	assign w519 = ~w418;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk)
+			w522 <= w522;
+		else if (w334)
+			w522 <= w520;
+	end
+	
+	assign w525 = w210 ? w522[14:0] : ~w522[14:0];
+	
+	wire cla[15:0];
+	
+	assign cla[0] = ~w193;
+	assign cla[1] = ~w193 & ~w525[0];
+	assign cla[2] = ~w193 & ~w525[0] & ~w525[1];
+	assign cla[3] = ~w525[2] & cla[2];
+	assign cla[4] = ~w525[3] & ~w525[2] & cla[2];
+	assign cla[5] = ~w525[4] & cla[4];
+	assign cla[6] = ~w525[5] & ~w525[4] & cla[4];
+	assign cla[7] = ~w525[6] & ~w525[5] & ~w525[4] & ~w525[3] & ~w525[2]
+		& ~w525[1] & ~w525[0] & ~w193 & ~w321;
+	assign cla[8] = ~w525[7] & cla[7];
+	assign cla[9] = ~w525[8] & ~w525[7] & cla[7];
+	assign cla[10] = ~w525[9] & cla[9];
+	assign cla[11] = ~w525[10] & ~w525[9] & cla[9];
+	assign cla[12] = ~w525[11] & ~w525[10] & ~w525[9] & ~w525[8] & ~w525[7] & cla[7];
+	assign cla[13] = ~w525[12] & cla[12];
+	assign cla[14] = ~w525[13] & ~w525[12] & cla[12];
+	assign cla[15] = ~w525[14] & ~w525[13] & ~w525[12] & cla[12];
+	
+	assign w523 = ~(cla ^ w522);
+	
+	always @(posedge MCLK)
+	begin
+		if (clk & w210)
+			w524 <= w522 != 16'h1;
+	end
+	
+	always @(posedge MCLK)
+	begin
+		if (w194)
+		begin
+			if (clk)
+				w526 <= ~w522;
+		end
+		else
+			w526 <= w526;
+	end
+	
+	assign ADDRESS = w323 ? 'bz : ~w526;
+	
+	always @(posedge MCLK)
+	begin
+		if (w339)
+			w527 <= w523;
+	end
+	
+	assign w528 = w215 ? 16'h0 : ~w527;
+
+	
 	
 endmodule
 
