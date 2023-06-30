@@ -189,7 +189,6 @@ module z80cpu
 	wire w144;
 	reg [7:0] w145;
 	reg [7:0] w146; // bus 1
-	wire bu1; // bus 1 pull
 	reg [7:0] w147;
 	wire w148;
 	wire w149;
@@ -1757,16 +1756,6 @@ module z80cpu
 			w145 <= w146;
 		else
 			w145 <= w145;
-	end
-	
-	assign bu1 = w1 | w483;
-	
-	always @(posedge MCLK)
-	begin
-		if (w1)
-			w146 <= w145;
-		else if (w483)
-			w146 <= 8'hff;
 	end
 	
 	always @(posedge MCLK)
@@ -3774,7 +3763,135 @@ module z80cpu
 	
 	assign w528 = w215 ? 16'h0 : ~w527;
 
+	always @(posedge MCLK)
+	begin
+		if (~w364)
+		begin
+			regs[0][0] = ~(pull1_comb[0] | regs[0][1]);
+			regs[0][1] = ~(pull1_comb[1] | regs[0][0]);
+		end
+		if (~w363)
+		begin
+			regs[1][0] = ~(pull1_comb[0] | regs[1][1]);
+			regs[1][1] = ~(pull1_comb[1] | regs[1][0]);
+		end
+		if (~w355)
+		begin
+			regs[2][0] = ~(pull1_comb[0] | regs[2][1]);
+			regs[2][1] = ~(pull1_comb[1] | regs[2][0]);
+		end
+		if (~w354)
+		begin
+			regs[3][0] = ~(pull1_comb[0] | regs[3][1]);
+			regs[3][1] = ~(pull1_comb[1] | regs[3][0]);
+		end
+		if (~w353)
+		begin
+			regs[4][0] = ~(pull1_comb[0] | regs[4][1]);
+			regs[4][1] = ~(pull1_comb[1] | regs[4][0]);
+		end
+		if (~w352)
+		begin
+			regs[5][0] = ~(pull1_comb[0] | regs[5][1]);
+			regs[5][1] = ~(pull1_comb[1] | regs[5][0]);
+		end
+		if (~w350)
+		begin
+			regs[6][0] = ~(pull1_comb[0] | regs[6][1]);
+			regs[6][1] = ~(pull1_comb[1] | regs[6][0]);
+		end
+		if (~w348)
+		begin
+			regs[7][0] = ~(pull1_comb[0] | regs[7][1]);
+			regs[7][1] = ~(pull1_comb[1] | regs[7][0]);
+		end
+		if (~w342)
+		begin
+			regs[8][0] = ~(pull1_comb[0] | regs[8][1]);
+			regs[8][1] = ~(pull1_comb[1] | regs[8][0]);
+		end
+		if (~w340)
+		begin
+			regs[9][0] = ~(pull1_comb[0] | regs[9][1]);
+			regs[9][1] = ~(pull1_comb[1] | regs[9][0]);
+		end
+		if (~w319)
+		begin
+			regs[10][0] = ~(pull1_comb[0] | regs[10][1]);
+			regs[10][1] = ~(pull1_comb[1] | regs[10][0]);
+		end
+		if (~w314)
+		begin
+			regs[11][0] = ~(pull1_comb[0] | regs[11][1]);
+			regs[11][1] = ~(pull1_comb[1] | regs[11][0]);
+		end
+	end
+
+	always @(posedge MCLK)
+	begin
+		if (w336)
+		begin
+			regs2[0][0] = ~(pull2_comb[0] | regs2[0][1]);
+			regs2[0][1] = ~(pull2_comb[1] | regs2[0][0]);
+		end
+		if (w337)
+		begin
+			regs2[1][0] = ~(pull2_comb[0] | regs2[1][1]);
+			regs2[1][1] = ~(pull2_comb[1] | regs2[1][0]);
+		end
+	end
 	
+	assign DATA = w44 ? 'bz : ~w145;
+	
+	// bus logic
+	
+	wire [7:0] bus1_pulld = {8{w1}} & ~w145;
+	wire [7:0] bus1_pullu = ({8{w1}} & w145) | {8{w483}};
+	
+	wire [7:0] bcd_val = { 1b1, ~w443, ~w443, 2b11, ~w444, ~w444, 1b1 }; 
+	wire [7:0] status_val = { ~w450, ~w486, 1b0, ~w476, 1b0, ~w441, ~w481, ~w473 };
+	
+	wire [7:0] status_mask = { w381, w381, 1b0, w381, 1b0, w381, w381, w381 };
+	
+	wire [7:0] bus2_pulld = ({8{w370}} & ~bcd_val) | (status_mask & ~status_val) | ({8{~w518}} & ~w515[7:0]);
+	wire [7:0] bus2_pullu = ({8{w370}} & bcd_val) | (status_mask & status_val) | ({8{~w518}} & w515[7:0]);
+	
+	wire [7:0] bus3_pulld = ({8{~w519}} & ~w515[15:8]) | ({8{~w402}} & w496);
+	wire [7:0] bus3_pullu = ({8{~w519}} & w515[15:8]) | ({8{~w402}} & ~w496);
+	
+	wire [7:0] bus_pulld_comb_123 = bus1_pulld | bus2_pulld | bus3_pulld;
+	wire [7:0] bus_pullu_comb_123 = bus1_pullu | bus2_pullu | bus3_pullu;
+	
+	wire [7:0] bus_pulld_comb_12 = bus1_pulld | bus2_pulld;
+	wire [7:0] bus_pullu_comb_12 = bus1_pullu | bus2_pullu;
+	
+	wire [7:0] bus_pulld_comb_23 = bus2_pulld | bus3_pulld;
+	wire [7:0] bus_pullu_comb_23 = bus2_pullu | bus3_pullu;
+	
+	wire [7:0] bus_comb_123 = ((w146 & w484 & w513) | bus_pullu_comb_123) & ~bus_pulld_comb_123;
+	wire [7:0] bus_comb_12 = ((w146 & w484) | bus_pullu_comb_12) & ~bus_pulld_comb_12;
+	wire [7:0] bus_comb_23 = ((w484 & w513) | bus_pullu_comb_23) & ~bus_pulld_comb_23;
+
+	
+	always @(posedge MCLK)
+	begin
+		if (w369 & w419)
+		begin
+			w146 <= bus_comb_123;
+			w484 <= bus_comb_123;
+			w513 <= bus_comb_123;
+		end
+		else if (w369)
+		begin
+			w146 <= bus_comb_12;
+			w484 <= bus_comb_12;
+		end
+		else if (w419)
+		begin
+			w484 <= bus_comb_23;
+			w513 <= bus_comb_23;
+		end
+	end
 	
 endmodule
 
