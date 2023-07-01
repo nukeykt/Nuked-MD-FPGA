@@ -588,7 +588,7 @@ module z80cpu
 	wire w531;
 	wire w532;
 	
-	wire halt;
+	wire halt, halt_i;
 	
 	wire l1;
 	wire l2;
@@ -778,7 +778,7 @@ module z80cpu
 		.nq(w9_i)
 		);
 	
-	always @(w9_n or w9_i)
+	always @(posedge MCLK)
 	begin
 		if (w9_i)
 			w9 <= 1'h0;
@@ -2552,7 +2552,7 @@ module z80cpu
 	
 	assign w328 = ~clk & ~w302;
 	
-	assign w328 = ~clk & ~w326 & ~w327;
+	assign w329 = ~clk & ~w326 & ~w327;
 	
 	z80_dlatch dl47
 		(
@@ -3417,7 +3417,7 @@ module z80cpu
 			if (w472)
 				w473 <= ~w484[0];
 			if (w471)
-				w473 <= ~w484[8];
+				w473 <= ~w484[7];
 		end
 		else if (w382)
 			w473 <= ~w484[0];
@@ -3425,7 +3425,7 @@ module z80cpu
 			w473 <= ~1'h0;
 		else if (w458)
 			w473 <= w477;
-		else if (w363)
+		else if (w463)
 			w473 <= ~w476;
 	end
 	
@@ -3523,6 +3523,8 @@ module z80cpu
 			w496 <= w497;
 		else if (w373)
 			w496 <= w498;
+		else if (w378)
+			w496 <= w511;
 		else if (w495)
 			w496[0] <= w484[7];
 	end
@@ -3608,7 +3610,7 @@ module z80cpu
 		end
 	end
 	
-	wire [3:0] w511_xor = w481 ? ~w511 : w511;
+	wire [7:0] w511_xor = w481 ? ~w511 : w511;
 	
 	assign w512 = w446 ? w511_xor[3:0] : w511[7:4];
 	
@@ -3678,15 +3680,15 @@ module z80cpu
 	begin
 		if (w338)
 		begin
-			w513 <= ((w513 & w520) | rpullup1_comb[0]) & ~rpull1_comb[0];
-			w514 <= ((w514 & w521) | rpullup1_comb[1]) & ~rpull1_comb[1];
-			w520 <= ((w513 & w520) | rpullup2_comb[0]) & ~rpull2_comb[0];
-			w521 <= ((w514 & w521) | rpullup2_comb[1]) & ~rpull2_comb[1];
+			w514 <= ((w514 & w520) | rpullup1_comb[0]) & ~rpull1_comb[0];
+			w515 <= ((w515 & w521) | rpullup1_comb[1]) & ~rpull1_comb[1];
+			w520 <= ((w514 & w520) | rpullup2_comb[0]) & ~rpull2_comb[0];
+			w521 <= ((w515 & w521) | rpullup2_comb[1]) & ~rpull2_comb[1];
 		end
 		else
 		begin
-			w513 <= (w513 | rpullup1_comb[0]) & ~rpull1_comb[0];
-			w514 <= (w514 | rpullup1_comb[1]) & ~rpull1_comb[1];
+			w514 <= (w514 | rpullup1_comb[0]) & ~rpull1_comb[0];
+			w515 <= (w515 | rpullup1_comb[1]) & ~rpull1_comb[1];
 			w520 <= (w520 | rpullup2_comb[0]) & ~rpull2_comb[0];
 			w521 <= (w521 | rpullup2_comb[1]) & ~rpull2_comb[1];
 		end
@@ -3845,6 +3847,19 @@ module z80cpu
 	end
 	
 	assign DATA = w44 ? 'bz : ~w145;
+	
+	z80_rs_trig_nor
+		(
+		.MCLK(MCLK),
+		.rst(w11 & w16),
+		.set(w19 | w18 | w55 | ~w57),
+		.q(halt_i),
+		.nq()
+		);
+	
+	assign halt = ~halt_i;
+	
+	assign HALT = ~halt;
 	
 	// bus logic
 	
