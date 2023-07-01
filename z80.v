@@ -489,7 +489,7 @@ module z80cpu
 	wire w439;
 	wire w440;
 	reg w441 = 1'h0;
-	reg w442 = 1'h0;
+	wire w442, w442_i;
 	wire w443;
 	wire w444;
 	reg w445 = 1'h0;
@@ -2301,7 +2301,7 @@ module z80cpu
 		);
 	
 	assign w275 = ~(
-		(w114 & w131 & (~w172 & w247))
+		(w114 & w131 & (~w172 | w247))
 		| (w110 & (w120 | w121) & w255)
 		| (w41 & w121 & w234)
 		| (w68 & w127)
@@ -2544,11 +2544,11 @@ module z80cpu
 		);
 	
 	
-	z80_rs_trig_nand rs327
+	z80_rs_trig_nor rs327
 		(
 		.MCLK(MCLK),
-		.nset(l46 & w328),
-		.nrst(l46_i & w328),
+		.rst(l46 & w328),
+		.set(l46_i & w328),
 		.q(w327_n),
 		.nq(w327_i)
 		);
@@ -2638,7 +2638,7 @@ module z80cpu
 	z80_dlatch dw341
 		(
 		.MCLK(MCLK),
-		.en(w324),
+		.en(clk),
 		.inp(~w311),
 		.outp(w341)
 		);
@@ -2730,11 +2730,11 @@ module z80cpu
 		.outp(l49_i)
 		);
 	
-	z80_rs_trig_nand rs361
+	z80_rs_trig_nor rs361
 		(
 		.MCLK(MCLK),
-		.nset(l49 & w362),
-		.nrst(l49_i & w362),
+		.rst(l49 & w362),
+		.set(l49_i & w362),
 		.q(w361_n),
 		.nq(w361_i)
 		);
@@ -2859,8 +2859,8 @@ module z80cpu
 	z80_rs_trig_nand rs380
 		(
 		.MCLK(MCLK),
-		.nset(clk & l51),
-		.nrst(clk & l50),
+		.nset(clk | l51),
+		.nrst(clk | l50),
 		.q(),
 		.nq(w380_i)
 		);
@@ -3104,7 +3104,7 @@ module z80cpu
 		(
 		.MCLK(MCLK),
 		.en(clk),
-		.inp(~w442),
+		.inp(~w442_i),
 		.outp(l61)
 		);
 	
@@ -3205,15 +3205,14 @@ module z80cpu
 		end
 	end
 	
-	always @(posedge MCLK)
-	begin
-		if (clk)
-			w442 <= w442;
-		else if (w434)
-			w442 <= 1'h0;
-		else if (w433)
-			w442 <= 1'h1;
-	end
+	z80_rs_trig_nor rs442
+		(
+		.MCLK(MCLK),
+		.rst(w434),
+		.set(w433),
+		.q(w442),
+		.nq(w442_i)
+		);
 	
 	z80_dlatch dl83
 		(
@@ -3560,7 +3559,7 @@ module z80cpu
 	
 	always @(posedge MCLK)
 	begin
-		if (w466)
+		if (w446)
 			w503 <= w504;
 		else
 			w503 <= w503;
@@ -3583,7 +3582,7 @@ module z80cpu
 	assign w506 = w504[3] ^ w503[3];
 	
 	assign w508 = c_out[2];
-	assign w507 = c_out[2];
+	assign w507 = c_out[3];
 	
 	always @(posedge MCLK)
 	begin
@@ -3615,7 +3614,7 @@ module z80cpu
 	
 	wire [7:0] w511_xor = w481 ? ~w511 : w511;
 	
-	assign w512 = w446 ? w511_xor[3:0] : w511[7:4];
+	assign w512 = w446 ? w511_xor[3:0] : w511_xor[7:4];
 	
 	assign rpull1[0] =
 		( {16{~w364}} & regs[0][1] ) |
@@ -3962,6 +3961,20 @@ module z80cpu
 			w146 <= bus_comb_1;
 			w484 <= bus_comb_2;
 			w513 <= bus_comb_3;
+		end
+	end
+	
+	integer i;
+	initial begin
+		for (i = 0; i < 12; i = i + 1)
+		begin
+			regs[i][0] = 16'h0000;
+			regs[i][1] = 16'hffff;
+		end
+		for (i = 0; i < 2; i = i + 1)
+		begin
+			regs2[i][0] = 16'h0000;
+			regs2[i][1] = 16'hffff;
 		end
 	end
 	
