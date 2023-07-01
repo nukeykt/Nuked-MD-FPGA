@@ -555,16 +555,16 @@ module z80cpu
 	wire [3:0] w512;
 	reg [7:0] w513; // bus 3
 	
-	wire [15:0] rpull1[2];
-	wire [15:0] rpull2[2];
-	wire [15:0] rpull1_comb[2];
-	wire [15:0] rpull2_comb[2];
-	wire [15:0] rpullup1[2];
-	wire [15:0] rpullup2[2];
-	wire [15:0] rpullup1_comb[2];
-	wire [15:0] rpullup2_comb[2];
-	reg [15:0] regs[12][2];
-	reg [15:0] regs2[2][2];
+	wire [15:0] rpull1[1:0];
+	wire [15:0] rpull2[1:0];
+	wire [15:0] rpull1_comb[1:0];
+	wire [15:0] rpull2_comb[1:0];
+	wire [15:0] rpullup1[1:0];
+	wire [15:0] rpullup2[1:0];
+	wire [15:0] rpullup1_comb[1:0];
+	wire [15:0] rpullup2_comb[1:0];
+	reg [15:0] regs[11:0][1:0];
+	reg [15:0] regs2[1:0][1:0];
 	
 	reg [15:0] w514;
 	reg [15:0] w515;
@@ -589,6 +589,8 @@ module z80cpu
 	wire w532;
 	
 	wire halt, halt_i;
+	
+	wire m1;
 	
 	wire l1;
 	wire l2;
@@ -1998,7 +2000,7 @@ module z80cpu
 	assign w202 = ((w121 | w123) & ~w197)
 		| (w127 & w198);
 	
-	assign w203 = ~(w110 & (w41 & w131));
+	assign w203 = ~(w110 | (w41 & w131));
 	
 	assign w204 = ~((w109 & pla[93])
 		| (pla[88] & w121 & w41));
@@ -3848,7 +3850,7 @@ module z80cpu
 	
 	assign DATA = w44 ? 'bz : ~w145;
 	
-	z80_rs_trig_nor
+	z80_rs_trig_nor haltrs
 		(
 		.MCLK(MCLK),
 		.rst(w11 & w16),
@@ -3860,6 +3862,17 @@ module z80cpu
 	assign halt = ~halt_i;
 	
 	assign HALT = ~halt;
+	
+	z80_rs_trig_nor m1rs
+		(
+		.MCLK(MCLK),
+		.rst(clk & (w41 | w113)),
+		.set(clk & w131 & w110),
+		.q(m1),
+		.nq()
+		);
+	
+	assign M1 = ~m1;
 	
 	// bus logic
 	
@@ -3889,6 +3902,10 @@ module z80cpu
 	wire [7:0] bus_comb_123 = ((w146 & w484 & w513) | bus_pullu_comb_123) & ~bus_pulld_comb_123;
 	wire [7:0] bus_comb_12 = ((w146 & w484) | bus_pullu_comb_12) & ~bus_pulld_comb_12;
 	wire [7:0] bus_comb_23 = ((w484 & w513) | bus_pullu_comb_23) & ~bus_pulld_comb_23;
+	
+	wire [7:0] bus_comb_1 = (w146 | bus1_pullu) & ~bus1_pulld;
+	wire [7:0] bus_comb_2 = (w484 | bus2_pullu) & ~bus2_pulld;
+	wire [7:0] bus_comb_3 = (w513 | bus3_pullu) & ~bus3_pulld;
 
 	
 	always @(posedge MCLK)
@@ -3903,11 +3920,19 @@ module z80cpu
 		begin
 			w146 <= bus_comb_12;
 			w484 <= bus_comb_12;
+			w513 <= bus_comb_3;
 		end
 		else if (w419)
 		begin
+			w146 <= bus_comb_1;
 			w484 <= bus_comb_23;
 			w513 <= bus_comb_23;
+		end
+		else
+		begin
+			w146 <= bus_comb_1;
+			w484 <= bus_comb_2;
+			w513 <= bus_comb_3;
 		end
 	end
 	
