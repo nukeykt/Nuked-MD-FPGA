@@ -57,7 +57,7 @@ module z80cpu
 	wire w7;
 	wire w8, w8_i;
 	wire w9_n, w9_i;
-	reg w9;
+	reg w9 = 1'h0;
 	wire w10;
 	wire w11;
 	wire w12;
@@ -75,7 +75,7 @@ module z80cpu
 	wire w26;
 	wire w27;
 	wire w28;
-	reg w30;
+	reg w30 = 1'h0;
 	wire w31, w31_i;
 	wire w32;
 	wire w33, w33_i;
@@ -85,7 +85,7 @@ module z80cpu
 	wire w37, w37_i; //
 	wire w38;
 	wire w39, w39_i;
-	reg w40, w40_i;
+	reg w40 = 1'h0, w40_i = 1'h1;
 	wire w41;
 	wire w42;
 	wire w43;
@@ -116,15 +116,15 @@ module z80cpu
 	wire w68, w68_i;
 	wire w69;
 	wire w71;
-	reg w73;
-	reg w74;
+	reg w73 = 1'h0;
+	reg w74 = 1'h0;
 	wire w75;
 	wire w76;
 	wire w77;
-	reg w78_i;
+	reg w78_i = 1'h0;
 	wire w78;
 	wire w79;
-	reg w80;
+	reg w80 = 1'h0;
 	wire w81;
 	wire w82;
 	wire w83;
@@ -191,9 +191,9 @@ module z80cpu
 	wire w142;
 	wire w143;
 	wire w144;
-	reg [7:0] w145;
-	reg [7:0] w146; // bus 1
-	reg [7:0] w147;
+	reg [7:0] w145 = 8'h0;
+	reg [7:0] w146 = 8'h0; // bus 1
+	reg [7:0] w147 = 8'h0;
 	wire w148;
 	wire w149;
 	wire w150;
@@ -366,7 +366,7 @@ module z80cpu
 	wire w317;
 	wire w318;
 	wire w319;
-	reg w320;
+	reg w320 = 1'h0;
 	wire w321;
 	wire w322;
 	wire w323;
@@ -374,7 +374,7 @@ module z80cpu
 	wire w325;
 	wire w326;
 	wire w327_n, w327_i;
-	reg w327;
+	reg w327 = 1'h0;
 	wire w328;
 	wire w329;
 	wire w330_n, w330_i;
@@ -467,12 +467,12 @@ module z80cpu
 	wire w417;
 	wire w418;
 	wire w419;
-	reg w420;
+	reg w420 = 1'h0;
 	wire w421;
 	wire w422;
 	wire w423;
 	wire w424;
-	reg w425;
+	reg w425 = 1'h0;
 	wire w426;
 	wire w427;
 	wire w428;
@@ -488,15 +488,15 @@ module z80cpu
 	wire w438;
 	wire w439;
 	wire w440;
-	reg w441;
-	reg w442;
+	reg w441 = 1'h0;
+	reg w442 = 1'h0;
 	wire w443;
 	wire w444;
-	reg w445;
+	reg w445 = 1'h0;
 	wire w446;
 	wire w448;
 	wire w449;
-	reg w450;
+	reg w450 = 1'h0;
 	wire w452;
 	wire w453;
 	wire w454;
@@ -509,7 +509,7 @@ module z80cpu
 	wire w461;
 	wire w462;
 	wire w463;
-	reg w464;
+	reg w464 = 1'h0;
 	wire w465;
 	wire w466;
 	wire w467;
@@ -518,16 +518,16 @@ module z80cpu
 	wire w470;
 	wire w471;
 	wire w472;
-	reg w473;
+	reg w473 = 1'h0;
 	wire w474;
 	wire w475;
-	reg w476;
+	reg w476 = 1'h0;
 	wire w477;
 	wire w479;
 	wire w480;
 	wire w481;
 	wire w483;
-	reg [7:0] w484; // bus 2
+	reg [7:0] w484 = 8'h0; // bus 2
 	wire w485;
 	wire w486;
 	wire w487;
@@ -537,23 +537,23 @@ module z80cpu
 	wire w493;
 	wire w494;
 	wire w495;
-	reg [7:0] w496;
+	reg [7:0] w496 = 8'h0;
 	wire [7:0] w497;
-	reg [7:0] w498;
-	reg [3:0] w499;
+	reg [7:0] w498 = 8'h0;
+	reg [3:0] w499 = 4'h0;
 	wire [3:0] w500;
 	wire w501;
 	wire w502;
-	reg [3:0] w503;
+	reg [3:0] w503 = 4'h0;
 	wire [3:0] w504;
 	wire w505;
 	wire w506;
 	wire w507;
 	wire w508;
-	reg [7:0] w510;
-	reg [7:0] w511;
+	reg [7:0] w510 = 8'h0;
+	reg [7:0] w511 = 8'h0;
 	wire [3:0] w512;
-	reg [7:0] w513; // bus 3
+	reg [7:0] w513 = 8'h0; // bus 3
 	
 	wire [15:0] rpull1[1:0];
 	wire [15:0] rpull2[1:0];
@@ -566,22 +566,22 @@ module z80cpu
 	reg [15:0] regs[11:0][1:0];
 	reg [15:0] regs2[1:0][1:0];
 	
-	reg [15:0] w514;
-	reg [15:0] w515;
+	reg [15:0] w514 = 16'h0;
+	reg [15:0] w515 = 16'h0;
 	
 	wire w516;
 	wire w517;
 	wire w518;
 	wire w519;
 	
-	reg [15:0] w520;
-	reg [15:0] w521;
-	reg [15:0] w522;
+	reg [15:0] w520 = 16'h0;
+	reg [15:0] w521 = 16'h0;
+	reg [15:0] w522 = 16'h0;
 	wire [15:0] w523;
-	reg w524;
+	reg w524 = 1'h0;
 	wire [14:0] w525;
-	reg [15:0] w526;
-	reg [15:0] w527;
+	reg [15:0] w526 = 16'h0;
+	reg [15:0] w527 = 16'h0;
 	wire [15:0] w528;
 
 	wire w530;
@@ -905,7 +905,7 @@ module z80cpu
 		else if (clk)
 			w30 <= w30;
 		else if (w103)
-			w30 <= w28;
+			w30 <= ~w28;
 	end
 		
 	z80_dlatch dl8
@@ -1727,7 +1727,8 @@ module z80cpu
 	
 	assign w142 = w186 & ~w255 & ~w234;
 	
-	assign w143 = w120 | (w142 & w123) | (w121 & ~pla[88]);
+	assign w143 = w120 | (w142 & w123) | (w121 & ~pla[88])
+		| (w127 & (~w151 | (w140 & w299)));
 	
 	z80_dlatch dl37
 		(
@@ -2255,7 +2256,7 @@ module z80cpu
 		| (w41 & w127 & w255)
 		);
 	
-	assign w265 = ~(
+	assign w265 = (
 		(w127 & ~w184)
 		| (w131 & pla[53])
 		| (w120 & pla[50])
