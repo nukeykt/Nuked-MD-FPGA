@@ -61,6 +61,8 @@ module z80cpu
 	wire w10;
 	wire w11;
 	wire w12;
+	wire w13;
+	wire w14;
 	wire w15;
 	wire w16;
 	wire w18, w18_i;
@@ -156,11 +158,13 @@ module z80cpu
 	wire w110;
 	wire w111;
 	wire w112;
+	wire w113;
 	wire w114, w114_i;
 	wire w115, w115_i;
 	wire w116;
 	wire w117;
 	wire w118;
+	wire w119;
 	wire w120, w120_i;
 	wire w121, w121_i;
 	wire w122;
@@ -551,14 +555,14 @@ module z80cpu
 	wire [3:0] w512;
 	reg [7:0] w513; // bus 3
 	
-	wire [15:0] pull1[2];
-	wire [15:0] pull2[2];
-	wire [15:0] pull1_comb[2];
-	wire [15:0] pull2_comb[2];
-	wire [15:0] pullup1[2];
-	wire [15:0] pullup2[2];
-	wire [15:0] pullup1_comb[2];
-	wire [15:0] pullup2_comb[2];
+	wire [15:0] rpull1[2];
+	wire [15:0] rpull2[2];
+	wire [15:0] rpull1_comb[2];
+	wire [15:0] rpull2_comb[2];
+	wire [15:0] rpullup1[2];
+	wire [15:0] rpullup2[2];
+	wire [15:0] rpullup1_comb[2];
+	wire [15:0] rpullup2_comb[2];
 	reg [15:0] regs[12][2];
 	reg [15:0] regs2[2][2];
 	
@@ -765,7 +769,7 @@ module z80cpu
 		.nq(w8_i)
 		);
 	
-	z80_rs_trig_nor rs6
+	z80_rs_trig_nor rs9
 		(
 		.MCLK(MCLK),
 		.rst(clk & w8_i),
@@ -1008,7 +1012,7 @@ module z80cpu
 		.en(clk),
 		.inp(~(((w18 & w131) | w106) & (~w37 | w114))),
 		.outp(w38)
-		)
+		);
 	
 	z80_rs_trig_nor rs39
 		(
@@ -1022,7 +1026,7 @@ module z80cpu
 	always @(posedge MCLK)
 	begin
 		w40 <= ~(w202 | (w40_i & (clk | w39)));
-		w40_i <= ~(w40 & (clk | w39_i)));
+		w40_i <= ~(w40 & (clk | w39_i));
 	end
 	
 	assign w41 = ~w40 & ~w34;
@@ -1037,7 +1041,7 @@ module z80cpu
 		.en(clk),
 		.inp(w110 & w201),
 		.outp(l13)
-		)
+		);
 	
 	z80_rs_trig_nor rs44
 		(
@@ -1054,7 +1058,7 @@ module z80cpu
 		.en(clk),
 		.inp(w113),
 		.outp(l14)
-		)
+		);
 		
 	assign w44 = ~w44_i;
 	
@@ -1064,7 +1068,7 @@ module z80cpu
 		.en(clk),
 		.inp(~(w201 & w110)),
 		.outp(l15)
-		)
+		);
 	
 	assign w45 = ~clk & ~l15;
 	
@@ -1078,7 +1082,7 @@ module z80cpu
 		.en(clk),
 		.inp(~(w107 & w127 & w41)),
 		.outp(l16)
-		)
+		);
 	
 	z80_dlatch dl17
 		(
@@ -1086,7 +1090,7 @@ module z80cpu
 		.en(clk),
 		.inp(~(w114 & w131)),
 		.outp(l17)
-		)
+		);
 	
 	z80_dlatch dl18
 		(
@@ -1094,7 +1098,7 @@ module z80cpu
 		.en(clk),
 		.inp(~(w41 | w55)),
 		.outp(l18)
-		)
+		);
 	
 	z80_rs_trig_nand rs48
 		(
@@ -1133,7 +1137,7 @@ module z80cpu
 		.en(clk),
 		.inp(~(w131 & w114)),
 		.outp(l19)
-		)
+		);
 		
 	assign w53 = ~clk & ~l20 & ~w55;
 	
@@ -1148,7 +1152,7 @@ module z80cpu
 	z80_rs_trig_nor rs54
 		(
 		.MCLK(MCLK),
-		.rst(w52 & w51)
+		.rst(w52 & w51),
 		.set(w52 & w51_i),
 		.q(w54),
 		.nq()
@@ -1159,7 +1163,7 @@ module z80cpu
 	z80_rs_trig_nor rs56
 		(
 		.MCLK(MCLK),
-		.rst(w53 & w51)
+		.rst(w53 & w51),
 		.set((w53 & w104 & ~w51) | w55),
 		.q(w56),
 		.nq()
@@ -1277,8 +1281,8 @@ module z80cpu
 		.MCLK(MCLK),
 		.nset(clk | w68_v),
 		.nrst(clk | ~w68_v),
-		.q()
-		.nq(w68_i);
+		.q(),
+		.nq(w68_i)
 		);
 	
 	assign w69 = ~(w55 | (w41 & ~w131));
@@ -1287,7 +1291,7 @@ module z80cpu
 		(
 		.MCLK(MCLK),
 		.en(clk),
-		.inp(~(w131 & pla[1] & w110),
+		.inp(~(w131 & pla[1] & w110)),
 		.outp(l26)
 		);
 	
@@ -1303,7 +1307,7 @@ module z80cpu
 			w73 <= w147[3];
 		else if (w75)
 			w73 <= w74;
-	begin
+	end
 	
 	always @(posedge MCLK)
 	begin
@@ -1500,7 +1504,7 @@ module z80cpu
 		.nset(clk | w530),
 		.nrst(clk | ~w530),
 		.q(),
-		.nq(w109_i);
+		.nq(w109_i)
 		);
 	
 	assign w110 = ~(w113 | w111);
@@ -1511,7 +1515,7 @@ module z80cpu
 		.nset(clk | ~w112),
 		.nrst(clk | w112),
 		.q(w111),
-		.nq();
+		.nq()
 		);
 	
 	z80_dlatch dw112
@@ -1540,7 +1544,7 @@ module z80cpu
 		.nset(clk | w532),
 		.nrst(clk | ~w532),
 		.q(),
-		.nq(w114_i);
+		.nq(w114_i)
 		);
 	
 	assign w114 = ~w114_i;
@@ -1551,7 +1555,7 @@ module z80cpu
 		.rst(clk & (w131 | w123)),
 		.set(clk & w116),
 		.q(),
-		.nq(w115_i);
+		.nq(w115_i)
 		);
 	
 	assign w115 = ~w115_i;
@@ -1579,7 +1583,7 @@ module z80cpu
 		.rst(w132 & ~w119),
 		.set(w132 & w119),
 		.q(),
-		.nq(w120_i);
+		.nq(w120_i)
 		);
 	
 	assign w120 = ~w120_i;
@@ -1590,7 +1594,7 @@ module z80cpu
 		.rst(w132 & ~w122),
 		.set(w132 & w122),
 		.q(),
-		.nq(w121_i);
+		.nq(w121_i)
 		);
 	
 	assign w121 = ~w121_i;
@@ -1611,7 +1615,7 @@ module z80cpu
 		.rst(w132 & ~w124),
 		.set(w132 & w124),
 		.q(),
-		.nq(w123_i);
+		.nq(w123_i)
 		);
 	
 	assign w123 = ~w123_i;
@@ -1636,7 +1640,7 @@ module z80cpu
 		.rst(w132 & ~w128),
 		.set(w132 & w128),
 		.q(),
-		.nq(w127_i);
+		.nq(w127_i)
 		);
 	
 	assign w127 = ~w127_i;
@@ -1659,7 +1663,7 @@ module z80cpu
 		.rst(clk & ~w129),
 		.set(clk & w129),
 		.q(rfsh_rs),
-		.nq();
+		.nq()
 		);
 	
 	assign rfsh = ~rfsh_rs;
@@ -1680,7 +1684,7 @@ module z80cpu
 		.rst(w132 & ~w130),
 		.set(w132 & w130),
 		.q(),
-		.nq(w131_i);
+		.nq(w131_i)
 		);
 	
 	assign w131 = ~w131_i;
@@ -1745,7 +1749,7 @@ module z80cpu
 		.nset(clk | l37),
 		.nrst(clk | l38),
 		.q(w144),
-		.nq();
+		.nq()
 		);
 	
 	always @(posedge MCLK)
@@ -2013,7 +2017,7 @@ module z80cpu
 		.nset(clk | l39),
 		.nrst(clk | ~l39),
 		.q(w205),
-		.nq();
+		.nq()
 		);
 	
 	assign w206 = ~((w131 & w109 & w207)
@@ -2043,7 +2047,7 @@ module z80cpu
 		.nset(clk | ~l40),
 		.nrst(clk | l40),
 		.q(),
-		.nq(w210_i);
+		.nq(w210_i)
 		);
 	
 	assign w210 = ~w210_i;
@@ -2234,7 +2238,6 @@ module z80cpu
 	assign w261 = w235 | w234;
 	
 	assign w262 = ~(
-		(
 		(w110 & ((w120 & ~w88) | (w123 & w261)))
 		| (w114 & w120)
 		);
@@ -2296,7 +2299,7 @@ module z80cpu
 	
 	assign w275 = ~(
 		(w114 & w131 & (~w172 & w247))
-		| (w110 & (w120 | w121) & w255)\
+		| (w110 & (w120 | w121) & w255)
 		| (w41 & w121 & w234)
 		| (w68 & w127)
 		);
@@ -2381,7 +2384,7 @@ module z80cpu
 	assign w294 = ~(w221 & w222);
 	
 	assign w295 = ~(w133 |
-		(w223 & (~w118 | w296));
+		(w223 & (~w118 | w296)));
 	
 	assign w296 = ~(w299 | w153);
 	
@@ -2887,7 +2890,7 @@ module z80cpu
 	assign w385 = ~(w114 | w109);
 	
 	assign w386 = ~((w109 & w123 & w234)
-		| (w41 & w127);
+		| (w41 & w127));
 	
 	assign w387 = ~(w109 & w127 & w388);
 	
@@ -3389,7 +3392,7 @@ module z80cpu
 		.outp(l72)
 		);
 	
-	assign w468 = ~(w464 ~ ~(w115 & l72));
+	assign w468 = ~(w464 & ~(w115 & l72));
 	
 	assign w469 = ~clk & w470;
 	
@@ -3609,7 +3612,7 @@ module z80cpu
 	
 	assign w512 = w446 ? w511_xor[3:0] : w511[7:4];
 	
-	assign pull1[0] =
+	assign rpull1[0] =
 		( {16{~w364}} & regs[0][1] ) |
 		( {16{~w363}} & regs[1][1] ) |
 		( {16{~w355}} & regs[2][1] ) |
@@ -3624,7 +3627,7 @@ module z80cpu
 		( {16{~w314}} & regs[11][1] ) |
 		{({8{w517}} & w513), ({8{w516}} & w484)};
 	
-	assign pull1[1] =
+	assign rpull1[1] =
 		( {16{~w364}} & regs[0][0] ) |
 		( {16{~w363}} & regs[1][0] ) |
 		( {16{~w355}} & regs[2][0] ) |
@@ -3639,53 +3642,53 @@ module z80cpu
 		( {16{~w314}} & regs[11][0] ) |
 		{({8{w517}} & ~w513), ({8{w516}} & ~w484)};
 	
-	assign pull2[0] =
+	assign rpull2[0] =
 		( {16{w336}} & regs2[0][1] ) |
 		( {16{w337}} & regs2[1][1] ) |
 		( {16{w335}} & ~w528 );
 	
-	assign pull2[1] =
+	assign rpull2[1] =
 		( {16{w336}} & regs2[0][0] ) |
 		( {16{w337}} & regs2[1][0] ) |
 		( {16{w335}} & w528 );
 		
-	assign pull1_comb[0] = pull1[0] | ({16{w338}} & pull2[0]);
-	assign pull1_comb[1] = pull1[1] | ({16{w338}} & pull2[1]);
-	assign pull2_comb[0] = pull2[0] | ({16{w338}} & pull1[0]);
-	assign pull2_comb[1] = pull2[1] | ({16{w338}} & pull1[1]);
+	assign rpull1_comb[0] = rpull1[0] | ({16{w338}} & rpull2[0]);
+	assign rpull1_comb[1] = rpull1[1] | ({16{w338}} & rpull2[1]);
+	assign rpull2_comb[0] = rpull2[0] | ({16{w338}} & rpull1[0]);
+	assign rpull2_comb[1] = rpull2[1] | ({16{w338}} & rpull1[1]);
 	
-	assign pullup1[0] = (clk & w339) ? 16'ffff :
+	assign rpullup1[0] = (clk & w339) ? 16'hffff :
 		{({8{w517}} & ~w513), ({8{w516}} & ~w484)};
 	
-	assign pullup1[1] = (clk & w339) ? 16'ffff :
+	assign rpullup1[1] = (clk & w339) ? 16'hffff :
 		{({8{w517}} & w513), ({8{w516}} & w484)};
 	
-	assign pullup2[0] =
+	assign rpullup2[0] =
 		( {16{w335}} & w528 );
 	
-	assign pullup2[1] =
+	assign rpullup2[1] =
 		( {16{w335}} & ~w528 );
 		
-	assign pullup1_comb[0] = pullup1[0] | ({16{w338}} & pullup2[0]);
-	assign pullup1_comb[1] = pullup1[1] | ({16{w338}} & pullup2[1]);
-	assign pullup2_comb[0] = pullup2[0] | ({16{w338}} & pullup1[0]);
-	assign pullup2_comb[1] = pullup2[1] | ({16{w338}} & pullup1[1]);
+	assign rpullup1_comb[0] = rpullup1[0] | ({16{w338}} & rpullup2[0]);
+	assign rpullup1_comb[1] = rpullup1[1] | ({16{w338}} & rpullup2[1]);
+	assign rpullup2_comb[0] = rpullup2[0] | ({16{w338}} & rpullup1[0]);
+	assign rpullup2_comb[1] = rpullup2[1] | ({16{w338}} & rpullup1[1]);
 	
 	always @(posedge MCLK)
 	begin
 		if (w338)
 		begin
-			w513 <= ((w513 & w520) | pullup1_comb[0]) & ~pull1_comb[0];
-			w514 <= ((w514 & w521) | pullup1_comb[1]) & ~pull1_comb[1];
-			w520 <= ((w513 & w520) | pullup2_comb[0]) & ~pull2_comb[0];
-			w521 <= ((w514 & w521) | pullup2_comb[1]) & ~pull2_comb[1];
+			w513 <= ((w513 & w520) | rpullup1_comb[0]) & ~rpull1_comb[0];
+			w514 <= ((w514 & w521) | rpullup1_comb[1]) & ~rpull1_comb[1];
+			w520 <= ((w513 & w520) | rpullup2_comb[0]) & ~rpull2_comb[0];
+			w521 <= ((w514 & w521) | rpullup2_comb[1]) & ~rpull2_comb[1];
 		end
 		else
 		begin
-			w513 <= (w513 | pullup1_comb[0]) & ~pull1_comb[0];
-			w514 <= (w514 | pullup1_comb[1]) & ~pull1_comb[1];
-			w520 <= (w520 | pullup2_comb[0]) & ~pull2_comb[0];
-			w521 <= (w521 | pullup2_comb[1]) & ~pull2_comb[1];
+			w513 <= (w513 | rpullup1_comb[0]) & ~rpull1_comb[0];
+			w514 <= (w514 | rpullup1_comb[1]) & ~rpull1_comb[1];
+			w520 <= (w520 | rpullup2_comb[0]) & ~rpull2_comb[0];
+			w521 <= (w521 | rpullup2_comb[1]) & ~rpull2_comb[1];
 		end
 	end
 	
@@ -3714,7 +3717,7 @@ module z80cpu
 	
 	assign w525 = w210 ? w522[14:0] : ~w522[14:0];
 	
-	wire cla[15:0];
+	wire [15:0] cla;
 	
 	assign cla[0] = ~w193;
 	assign cla[1] = ~w193 & ~w525[0];
@@ -3767,63 +3770,63 @@ module z80cpu
 	begin
 		if (~w364)
 		begin
-			regs[0][0] = ~(pull1_comb[0] | regs[0][1]);
-			regs[0][1] = ~(pull1_comb[1] | regs[0][0]);
+			regs[0][0] = ~(rpull1_comb[0] | regs[0][1]);
+			regs[0][1] = ~(rpull1_comb[1] | regs[0][0]);
 		end
 		if (~w363)
 		begin
-			regs[1][0] = ~(pull1_comb[0] | regs[1][1]);
-			regs[1][1] = ~(pull1_comb[1] | regs[1][0]);
+			regs[1][0] = ~(rpull1_comb[0] | regs[1][1]);
+			regs[1][1] = ~(rpull1_comb[1] | regs[1][0]);
 		end
 		if (~w355)
 		begin
-			regs[2][0] = ~(pull1_comb[0] | regs[2][1]);
-			regs[2][1] = ~(pull1_comb[1] | regs[2][0]);
+			regs[2][0] = ~(rpull1_comb[0] | regs[2][1]);
+			regs[2][1] = ~(rpull1_comb[1] | regs[2][0]);
 		end
 		if (~w354)
 		begin
-			regs[3][0] = ~(pull1_comb[0] | regs[3][1]);
-			regs[3][1] = ~(pull1_comb[1] | regs[3][0]);
+			regs[3][0] = ~(rpull1_comb[0] | regs[3][1]);
+			regs[3][1] = ~(rpull1_comb[1] | regs[3][0]);
 		end
 		if (~w353)
 		begin
-			regs[4][0] = ~(pull1_comb[0] | regs[4][1]);
-			regs[4][1] = ~(pull1_comb[1] | regs[4][0]);
+			regs[4][0] = ~(rpull1_comb[0] | regs[4][1]);
+			regs[4][1] = ~(rpull1_comb[1] | regs[4][0]);
 		end
 		if (~w352)
 		begin
-			regs[5][0] = ~(pull1_comb[0] | regs[5][1]);
-			regs[5][1] = ~(pull1_comb[1] | regs[5][0]);
+			regs[5][0] = ~(rpull1_comb[0] | regs[5][1]);
+			regs[5][1] = ~(rpull1_comb[1] | regs[5][0]);
 		end
 		if (~w350)
 		begin
-			regs[6][0] = ~(pull1_comb[0] | regs[6][1]);
-			regs[6][1] = ~(pull1_comb[1] | regs[6][0]);
+			regs[6][0] = ~(rpull1_comb[0] | regs[6][1]);
+			regs[6][1] = ~(rpull1_comb[1] | regs[6][0]);
 		end
 		if (~w348)
 		begin
-			regs[7][0] = ~(pull1_comb[0] | regs[7][1]);
-			regs[7][1] = ~(pull1_comb[1] | regs[7][0]);
+			regs[7][0] = ~(rpull1_comb[0] | regs[7][1]);
+			regs[7][1] = ~(rpull1_comb[1] | regs[7][0]);
 		end
 		if (~w342)
 		begin
-			regs[8][0] = ~(pull1_comb[0] | regs[8][1]);
-			regs[8][1] = ~(pull1_comb[1] | regs[8][0]);
+			regs[8][0] = ~(rpull1_comb[0] | regs[8][1]);
+			regs[8][1] = ~(rpull1_comb[1] | regs[8][0]);
 		end
 		if (~w340)
 		begin
-			regs[9][0] = ~(pull1_comb[0] | regs[9][1]);
-			regs[9][1] = ~(pull1_comb[1] | regs[9][0]);
+			regs[9][0] = ~(rpull1_comb[0] | regs[9][1]);
+			regs[9][1] = ~(rpull1_comb[1] | regs[9][0]);
 		end
 		if (~w319)
 		begin
-			regs[10][0] = ~(pull1_comb[0] | regs[10][1]);
-			regs[10][1] = ~(pull1_comb[1] | regs[10][0]);
+			regs[10][0] = ~(rpull1_comb[0] | regs[10][1]);
+			regs[10][1] = ~(rpull1_comb[1] | regs[10][0]);
 		end
 		if (~w314)
 		begin
-			regs[11][0] = ~(pull1_comb[0] | regs[11][1]);
-			regs[11][1] = ~(pull1_comb[1] | regs[11][0]);
+			regs[11][0] = ~(rpull1_comb[0] | regs[11][1]);
+			regs[11][1] = ~(rpull1_comb[1] | regs[11][0]);
 		end
 	end
 
@@ -3831,13 +3834,13 @@ module z80cpu
 	begin
 		if (w336)
 		begin
-			regs2[0][0] = ~(pull2_comb[0] | regs2[0][1]);
-			regs2[0][1] = ~(pull2_comb[1] | regs2[0][0]);
+			regs2[0][0] = ~(rpull2_comb[0] | regs2[0][1]);
+			regs2[0][1] = ~(rpull2_comb[1] | regs2[0][0]);
 		end
 		if (w337)
 		begin
-			regs2[1][0] = ~(pull2_comb[0] | regs2[1][1]);
-			regs2[1][1] = ~(pull2_comb[1] | regs2[1][0]);
+			regs2[1][0] = ~(rpull2_comb[0] | regs2[1][1]);
+			regs2[1][1] = ~(rpull2_comb[1] | regs2[1][0]);
 		end
 	end
 	
@@ -3848,10 +3851,10 @@ module z80cpu
 	wire [7:0] bus1_pulld = {8{w1}} & ~w145;
 	wire [7:0] bus1_pullu = ({8{w1}} & w145) | {8{w483}};
 	
-	wire [7:0] bcd_val = { 1b1, ~w443, ~w443, 2b11, ~w444, ~w444, 1b1 }; 
-	wire [7:0] status_val = { ~w450, ~w486, 1b0, ~w476, 1b0, ~w441, ~w481, ~w473 };
+	wire [7:0] bcd_val = { 1'b1, ~w443, ~w443, 2'b11, ~w444, ~w444, 1'b1 }; 
+	wire [7:0] status_val = { ~w450, ~w486, 1'b0, ~w476, 1'b0, ~w441, ~w481, ~w473 };
 	
-	wire [7:0] status_mask = { w381, w381, 1b0, w381, 1b0, w381, w381, w381 };
+	wire [7:0] status_mask = { w381, w381, 1'b0, w381, 1'b0, w381, w381, w381 };
 	
 	wire [7:0] bus2_pulld = ({8{w370}} & ~bcd_val) | (status_mask & ~status_val) | ({8{~w518}} & ~w515[7:0]);
 	wire [7:0] bus2_pullu = ({8{w370}} & bcd_val) | (status_mask & status_val) | ({8{~w518}} & w515[7:0]);
