@@ -3174,7 +3174,7 @@ module z80cpu
 	
 	assign w439 = ~clk & ~w162 & ~w429;
 	
-	assign w440 = ~clk & w392;
+	assign w440 = ~clk & ~w392;
 	
 	z80_dlatch dl62
 		(
