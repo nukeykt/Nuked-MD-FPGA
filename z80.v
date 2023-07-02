@@ -4044,8 +4044,8 @@ module z80_rs_trig_nor
 //			nq <= 1'h0;
 //		else if (rst)
 //			nq <= 1'h1;
-		q <= ~(rst | nq);
-		nq <= ~(set | q);
+		q = ~(rst | nq);
+		nq = ~(set | q);
 	end
 endmodule
 
@@ -4068,7 +4068,7 @@ module z80_rs_trig_nand
 //			nq <= 1'h0;
 //		else if (~nset)
 //			nq <= 1'h1;
-		q <= ~(nq & nset);
-		nq <= ~(q & nrst);
+		q = ~(nq & nset);
+		nq = ~(q & nrst);
 	end
 endmodule
