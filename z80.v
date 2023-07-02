@@ -2318,7 +2318,7 @@ module z80cpu
 	
 	assign w279 = ~(
 		(w120 & pla[8])
-		| (w127 & (pla[6] | pla[5]))
+		| (w127 & (pla[7] | pla[5]))
 		);
 	
 	assign w280 = ~(
