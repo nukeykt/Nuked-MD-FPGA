@@ -942,7 +942,7 @@ module z80cpu
 	z80_rs_trig_nor rs33
 		(
 		.MCLK(MCLK),
-		.rst(~clk & l10),
+		.rst(~clk & ~l10),
 		.set(~l11 | (clk & w106 & w114 & w201)),
 		.q(w33),
 		.nq(w33_i)
