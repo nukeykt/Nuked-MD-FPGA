@@ -2574,11 +2574,11 @@ module z80cpu
 		);
 	
 	
-	z80_rs_trig_nand rs330
+	z80_rs_trig_nor rs330
 		(
 		.MCLK(MCLK),
-		.nset(l47 & w329),
-		.nrst(l47_i & w329),
+		.rst(l47 & w329),
+		.set(l47_i & w329),
 		.q(w330_n),
 		.nq(w330_i)
 		);
@@ -2609,11 +2609,11 @@ module z80cpu
 		.outp(l48_i)
 		);
 	
-	z80_rs_trig_nand rs332
+	z80_rs_trig_nor rs332
 		(
 		.MCLK(MCLK),
-		.nset(l48 & w331),
-		.nrst(l48_i & w331),
+		.rst(l48 & w331),
+		.set(l48_i & w331),
 		.q(w332_n),
 		.nq(w332_i)
 		);
