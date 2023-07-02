@@ -348,9 +348,10 @@ module z80cpu
 	wire w299;
 	wire w300;
 	wire w301;
-	wire w302;
+	reg w302 = 1'h0;
 	wire w303;
 	wire w304;
+	reg w304_r = 1'h0;
 	wire w305;
 	wire w306;
 	wire w307;
@@ -377,8 +378,10 @@ module z80cpu
 	reg w327 = 1'h0;
 	wire w328;
 	wire w329;
+	reg w329_r = 1'h0;
 	wire w330_n, w330_i;
 	wire w331;
+	reg w331_r = 1'h0;
 	wire w332_n, w332_i;
 	wire w333;
 	wire w334;
@@ -439,7 +442,7 @@ module z80cpu
 	wire w389;
 	wire w390;
 	wire w391;
-	wire w392;
+	reg w392 = 1'h0;
 	wire w393;
 	wire w394;
 	wire w395;
@@ -2413,7 +2416,12 @@ module z80cpu
 		.outp(w301)
 		);
 	
-	assign w302 = ~(w303 & pla[97]);
+	//assign w302 = ~(w303 & pla[97]);
+	
+	always @(posedge MCLK)
+	begin
+		w302 <= ~(w303 & pla[97]);
+	end
 	
 	z80_dlatch dl42
 		(
@@ -2425,7 +2433,12 @@ module z80cpu
 	
 	assign w303 = ~l42;
 	
-	assign w304 = ~clk & w303 & pla[95];
+	always @(posedge MCLK)
+	begin
+		w304_r <= w303 & pla[95];
+	end
+	
+	assign w304 = ~clk & w304_r;
 	
 	z80_dlatch dw305
 		(
@@ -2555,7 +2568,12 @@ module z80cpu
 	
 	assign w328 = ~clk & ~w302;
 	
-	assign w329 = ~clk & ~w326 & ~w327;
+	always @(posedge MCLK)
+	begin
+		w329_r <= ~w326 & ~w327;
+	end
+	
+	assign w329 = ~clk & w329_r;
 	
 	z80_dlatch dl47
 		(
@@ -2583,7 +2601,12 @@ module z80cpu
 		.nq(w330_i)
 		);
 	
-	assign w331 = ~clk & ~w326 & w327;
+	always @(posedge MCLK)
+	begin
+		w331_r <= ~w326 & w327;
+	end
+	
+	assign w331 = ~clk & w331_r;
 	
 	always @(posedge MCLK)
 	begin
@@ -2917,7 +2940,12 @@ module z80cpu
 		.outp(w391)
 		);
 	
-	assign w392 = ~(w391 & ~w162);
+	//assign w392 = ~(w391 & ~w162);
+	
+	always @(posedge MCLK)
+	begin
+		w392 <= ~(w391 & ~w162);
+	end
 	
 	assign w393 = ~(~w277
 		| (w114 & w127 & w255)
