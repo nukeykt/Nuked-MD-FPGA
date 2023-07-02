@@ -3515,6 +3515,8 @@ module z80cpu
 			w496[7:1] <= w513[6:0];
 			if (~w495)
 				w496[0] <= ~w422;
+			else
+				w496[0] <= w484[7];
 		end
 		else if (w472)
 		begin
@@ -3527,8 +3529,6 @@ module z80cpu
 			w496 <= w498;
 		else if (w378)
 			w496 <= w511;
-		else if (w495)
-			w496[0] <= w484[7];
 	end
 	
 	assign w497 = ~(8'h1 << (~w146[5:3]));
