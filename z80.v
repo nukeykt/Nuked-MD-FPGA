@@ -3245,7 +3245,7 @@ module z80cpu
 	z80_dlatch dl83
 		(
 		.MCLK(MCLK),
-		.en(clk),
+		.en(w432),
 		.inp(w484[0]),
 		.outp(l83)
 		);
@@ -3255,7 +3255,7 @@ module z80cpu
 	z80_dlatch dl84
 		(
 		.MCLK(MCLK),
-		.en(clk),
+		.en(w432),
 		.inp(w484[4]),
 		.outp(l84)
 		);
