@@ -2362,7 +2362,7 @@ module z80cpu
 	
 	assign w287 = ~w95 | (w103 & w98);
 	
-	assign w288 = ~((w109 | w68) & (pla[21] & w77));
+	assign w288 = ~((w109 | w68) & (pla[21] | w77));
 	
 	assign w289 = ~((w288 & w68 & w131) | w192);
 	
