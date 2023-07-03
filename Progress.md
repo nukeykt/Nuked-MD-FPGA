@@ -6,7 +6,7 @@
 * IO Chip (Integrated YM6046) - TBD
 * TMSS - TBD
 * 68000 (NMOS) - TBD
-* Z80 (NMOS) - In progress
+* Z80 (NMOS) - Done
 * FC1004 - TBD
 
 # Extra chips
