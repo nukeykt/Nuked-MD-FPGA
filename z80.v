@@ -193,7 +193,8 @@ module z80cpu
 	wire w144;
 	reg [7:0] w145 = 8'h0;
 	reg [7:0] w146 = 8'h0; // bus 1
-	reg [7:0] w147 = 8'h0;
+	reg [7:0] w147_prev = 8'h0;
+	wire [7:0] w147;
 	wire w148;
 	wire w149;
 	wire w150;
@@ -1770,11 +1771,10 @@ module z80cpu
 	
 	always @(posedge MCLK)
 	begin
-		if (w49)
-			w147 <= w147;
-		else
-			w147 <= ~w146;
+		w147_prev <= w147;
 	end
+	
+	assign w147 = w49 ? w147_prev : ~w146;
 	
 	// pla
 	assign pla[0] = (w147 & 8'hf7) == 8'hd3 & w90; // out(n), a; in(n), a
