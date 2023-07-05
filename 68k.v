@@ -1,3 +1,28 @@
+/*
+ * Copyright (C) 2022-2023 nukeykt
+ *
+ * This file is part of Nuked-MD.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ *  68000 emulator.
+ *  Thanks:
+ *      John McMaster (siliconpr0n.org):
+ *          68000 decap and die shot.
+ *      Olivier Galibert:
+ *          68000 schematics.
+ *      org, andkorzh, HardWareMan (emu-russia):
+ *          help & support.
+ *
+ */
 module m68kcpu
 	(
 	input MCLK,
@@ -128,12 +153,36 @@ module m68kcpu
 	wire w104;
 	reg w105;
 	wire w106;
+	reg [15:0] w107;
+	wire [7:0] w108;
+	reg [15:0] w109;
+	reg [15:0] w110;
+	wire [15:0] w114;
+	wire addr_carry;
+	wire w123;
+	wire w124;
+	wire w125;
+	wire w126;
+	reg w127;
+	reg w128;
+	wire [15:0] w132;
+	wire [15:0] w145;
+	reg [15:0] w147;
+	reg l11;
+	wire w148;
 	
 	reg [67:0] w529;
+	
+	reg [15:0] b1[0:3];
+	reg [15:0] b2[0:3];
+	reg [15:0] b3[0:3];
 	
 	wire c1;
 	wire c2;
 	wire c3;
+	wire c4;
+	wire c5;
+	wire c6;
 	
 	
 	always @(posedge MCLK)
@@ -359,5 +408,71 @@ module m68kcpu
 	
 	assign w104 = w103 ? c6 : 1'h0;
 	assign w106 = w105 ? c6 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (w95)
+			w109 = ~w114;
+	end
+	
+	always @(posedge MCLK)
+	begin
+		if (w80)
+			w107 <= ~b1[3];
+		else if (w82)
+			w107 <= ~b1[1];
+		else if (w84)
+			w107 <= w109;
+	end
+	
+	assign w108 = ~w107[7:0];
+	
+	always @(posedge MCLK)
+	begin
+		if (w97)
+			w110 <= w98 ? 16'hffff : 16'h0;
+		else if (w96)
+			w110 <= b1[3];
+	end
+	
+	// replace carry look-ahead circuit with simple add
+	assign w114 = ~w110 + ~b1[1] + addr_carry;
+	
+	assign w123 = c1 ? 1'h0 : ~(w100 | b2[2][15]);
+	assign w124 = c1 ? 1'h0 : ~(w99 | b2[1][15]);
+	assign w125 = c1 ? 1'h0 : ~(w99 | b2[0][15]);
+	assign w126 = c1 ? 1'h0 : ~(w100 | b2[3][15]);
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+		begin
+			w127 <= w529[53];
+			w128 <= w529[52];
+		end
+	end
+
+	assign w132 = w643 ? b2[3] : { w639 ? 14'h3fff : 14'h0, w642, w640 };
+	
+	// replace carry look-ahead circuit with simple add
+	assign { addr_carry, w145 } = { 1'h0, ~w132 } + { 1'h0, ~b2[1] } + { 16'h0, w638 & w646 };
+	
+	always @(posedge MCLK)
+	begin
+		if (w148)
+			w147 = ~w145;
+	end
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			l11 <= ~w529[48];
+	end
+	
+	assign w148 = c1? 1'h0 : (l11 ? c3 : 1'h0);
+	
+	assign w149 = ~(~w529[46] | w529[47]);
+	assign w150 = ~(w529[46] | ~w529[47]);
+	assign w151 = ~(~w529[46] | ~w529[47]);
 
 endmodule
