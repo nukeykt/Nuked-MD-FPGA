@@ -5,7 +5,7 @@
 * Arbiter (Integrated YM6045C) - TBD
 * IO Chip (Integrated YM6046) - TBD
 * TMSS - TBD
-* 68000 (NMOS) - TBD
+* 68000 (NMOS) - In progress
 * Z80 (NMOS) - Done
 * FC1004 - TBD
 
