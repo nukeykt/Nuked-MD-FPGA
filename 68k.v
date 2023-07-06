@@ -170,8 +170,114 @@ module m68kcpu
 	reg [15:0] w147;
 	reg l11;
 	wire w148;
+	wire w149;
+	wire w150;
+	wire w151;
+	wire w152;
+	wire w153;
+	wire w154;
+	wire w155;
+	wire w156;
+	wire w157;
+	reg [15:0] w158;
+	wire [15:0] w159;
+	wire w160;
+	wire w161;
+	wire w162;
+	wire w163;
+	wire w164;
+	wire w165;
+	wire w166;
+	wire w167;
+	wire w168;
+	reg [15:0] w169;
+	wire w170;
+	reg [15:0] w171;
+	wire [15:0] w172;
+	wire w173;
+	wire w174;
+	wire w175;
+	wire w176;
+	wire w177;
+	wire w178;
+	wire w179;
+	wire w180;
+	wire w181;
+	wire w183;
+	wire w184;
+	wire w185;
+	wire w186;
+	wire w187;
+	wire w188;
+	wire w189;
+	wire w190;
+	wire w191;
+	wire w192;
+	wire w193;
+	wire w184;
+	wire w195;
+	wire w196;
+	wire w197;
+	wire w198;
+	wire w199;
+	wire w200;
+	wire w201;
+	wire w202;
+	wire w203;
+	wire w204;
+	wire w205;
+	wire w206;
+	wire w207;
+	wire w208;
+	wire w209;
+	wire w210;
+	wire w211;
+	wire w212;
+	wire w213;
+	wire w214;
+	wire w215;
+	wire w216;
+	wire w217;
+	wire w218;
+	wire w219;
+	wire w220;
+	wire w221;
+	wire w222;
+	wire w223;
+	wire w224;
+	wire w225;
+	wire w226;
+	wire w227;
+	wire w228;
+	reg w229;
+	wire w230;
+	reg w231;
+	reg w232;
+	wire w235;
+	reg w238;
+	wire w239;
+	wire w240;
+	wire w241;
+	wire w242;
+	wire w243;
+	wire w244;
+	wire w245;
+	wire w246;
+	wire w247;
+	wire w248;
+	wire w249;
+	wire w250;
+	wire w251;
+	wire w252;
+	wire w253;
+	wire w254;
+	wire w255;
+	wire w256;
+	wire w257;
 	
 	reg [67:0] w529;
+	
+	wire [17:0] w597;
 	
 	reg [15:0] b1[0:3];
 	reg [15:0] b2[0:3];
@@ -474,5 +580,205 @@ module m68kcpu
 	assign w149 = ~(~w529[46] | w529[47]);
 	assign w150 = ~(w529[46] | ~w529[47]);
 	assign w151 = ~(~w529[46] | ~w529[47]);
+	assign w152 = w149 ? c2 : 1'h0;
+	assign w153 = w150 ? c2 : 1'h0;
+	assign w154 = w151 ? c2 : 1'h0;
+	assign w155 = w675 ? 1'h0 : w847;
+	assign w156 = w668 ? 1'h0 : w853;
+	
+	assign w157 = w147[5:0] == 6'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (w160)
+			w158 <= w147;
+		else if (w161)
+			w158 <= ~b2[1];
+		else if (w162)
+			w158 <= ~b2[3];
+	end
+	
+	assign w159 = ~w158;
+	
+	assign w160 = w164 ? c2 : 1'h0;
+	assign w161 = w165 ? c2 : 1'h0;
+	assign w162 = w166 ? c2 : 1'h0;
+	assign w163 = w637 ? 1'h0 : c2;
+	
+	assign w164 = ~(~w529[63] | ~w529[64]);
+	assign w165 = ~(~w529[63] | w529[64]);
+	assign w166 = ~(w529[63] | ~w529[64]);
+	
+	assign w167 = w597[0] ? c3 : 1'h0;
+	assign w168 = w597[4] ? c2 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (w168)
+			w169 <= b2[2];
+		else if (w167)
+			w169 <= w169 & ~w173;
+	end
+	
+	assign w170 = w169 == 16'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (c2)
+			w171 <= ~w169;
+	end
+	
+	// replaced with simpler logic
+	assign w172[0] = ~(w171[0] == 1'h1);
+	assign w172[1] = ~(w171[1:0] == 2'h3);
+	assign w172[2] = ~(w171[2:0] == 3'h7);
+	assign w172[3] = ~(w171[3:0] == 4'hf);
+	assign w172[4] = ~(w171[4:0] == 5'h1f);
+	assign w172[5] = ~(w171[5:0] == 6'h3f);
+	assign w172[6] = ~(w171[6:0] == 7'h7f);
+	assign w172[7] = ~(w171[7:0] == 8'hff);
+	assign w172[8] = ~(w171[8:0] == 9'h1ff);
+	assign w172[9] = ~(w171[9:0] == 10'h3ff);
+	assign w172[10] = ~(w171[10:0] == 11'h7ff);
+	assign w172[11] = ~(w171[11:0] == 12'hfff);
+	assign w172[12] = ~(w171[12:0] == 13'h1fff);
+	assign w172[13] = ~(w171[13:0] == 14'h3fff);
+	assign w172[14] = ~(w171[14:0] == 15'h7fff);
+	assign w172[15] = ~(w171[15:0] == 16'hffff);
+	
+	assign w173 = ~({w172[14:0], 1'h0} | w171);
+	
+	assign w174 = (w173 & 16'h5555) == 16'h0000;
+	assign w175 = (w173 & 16'h3333) == 16'h0000;
+	assign w176 = (w173 & 16'h0f0f) == 16'h0000;
+	assign w177 = (w173 & 16'h00ff) == 16'h0000;
+	
+	assign w178 = w597[5] ? (w597[4] ? c3 : c2) : 1'h0;
+	assign w179 = w597[6] ? (w597[4] ? c3 : c2) : 1'h0;
+	
+	assign w180 = w597[7];
+	assign w181 = w597[8] ? c3 : 1'h0;
+	
+	assign w183 = w201 & ~w199 & ~w200;
+	assign w184 = w201 & ~w199 & w200;
+	
+	assign w185 = w204 & ~w207 & ~w208;
+	assign w186 = w204 & ~w207 & w208;
+	
+	assign w187 = w201 & w199 & ~w200;
+	assign w188 = w201 & w199 & w200;
+	
+	assign w189 = w202 & ~w199 & ~w200;
+	assign w190 = w202 & ~w199 & w200;
+	
+	assign w191 = w202 & w199 & ~w200;
+	assign w192 = w202 & w199 & w200;
+	
+	assign w193 = w204 & w207 & ~w208;
+	assign w194 = w204 & w207 & w208;
+	
+	assign w195 = w203 & ~w207 & ~w208;
+	assign w196 = w203 & ~w207 & w208;
+	
+	assign w197 = w203 & w207 & ~w208;
+	assign w198 = w203 & w207 & w208;
+	
+	assign w199 = w660;
+	assign w200 = w659;
+	assign w201 = w670;
+	assign w202 = w671;
+	assign w203 = w680;
+	assign w204 = w679;
+	assign w205 = w678;
+	assign w206 = w677;
+	assign w207 = w658;
+	assign w208 = w657;
+	assign w209 = w672;
+	assign w210 = w673;
+	
+	assign w211 = w209 & ~w199 & ~w200;
+	assign w212 = w209 & ~w199 & w200;
+	
+	assign w213 = w209 & w199 & ~w200;
+	assign w214 = w209 & w199 & w200;
+	
+	assign w215 = w210 & ~w199 & ~w200;
+	assign w216 = w210 & ~w199 & w200;
+	
+	assign w217 = w206 & ~w207 & ~w208;
+	assign w218 = w206 & ~w207 & w208;
+	
+	assign w219 = w206 & w207 & ~w208;
+	assign w220 = w206 & w207 & w208;
+	
+	assign w221 = w205 & ~w207 & ~w208;
+	assign w222 = w205 & ~w207 & w208;
+	
+	assign w223 = w210 & w199 & ~w200;
+	assign w224 = w210 & w199 & w200 & w634;
+	assign w225 = w210 & w199 & w200 & ~w634;
+	
+	assign w226 = w205 & w207 & ~w208;
+	assign w227 = w205 & w207 & w208 & w634;
+	assign w228 = w205 & w207 & w208 & ~w634;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w229 <= w576;
+	end
+	
+	assign w230 = ~((w199 & w210 & w200) | w229);
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+		begin
+			w231 <= w529[38];
+			w232 <= ~w529[37];
+			w238 <= ~w529[36];
+		end
+	end
+	
+	assign w235 = w232 ? 1'h0 : (w231 ? c2 : c3);
+	
+	assign w239 = w238 ? 1'h0 : (w231 ? c2 : c3);
+	
+	assign w240 = w228 ? w847 : 1'h0;
+
+	assign w241 = w225 ? w853 : 1'h0;
+
+	assign w242 = w224 ? w853 : 1'h0;
+
+	assign w243 = w227 ? w847 : 1'h0;
+
+	assign w244 = w226 ? w847 : 1'h0;
+
+	assign w245 = w223 ? w853 : 1'h0;
+
+	assign w246 = w216 ? w853 : 1'h0;
+
+	assign w247 = w222 ? w847 : 1'h0;
+
+	assign w248 = w221 ? w847 : 1'h0;
+
+	assign w249 = w215 ? w853 : 1'h0;
+
+	assign w250 = w214 ? w853 : 1'h0;
+
+	assign w251 = w220 ? w847 : 1'h0;
+
+	assign w252 = w219 ? w847 : 1'h0;
+
+	assign w253 = w213 ? w853 : 1'h0;
+
+	assign w254 = w212 ? w853 : 1'h0;
+
+	assign w255 = w218 ? w847 : 1'h0;
+
+	assign w256 = w217 ? w847 : 1'h0;
+
+	assign w257 = w211 ? w853 : 1'h0;
+
 
 endmodule
