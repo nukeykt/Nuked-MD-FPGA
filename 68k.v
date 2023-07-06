@@ -274,6 +274,71 @@ module m68kcpu
 	wire w255;
 	wire w256;
 	wire w257;
+	reg w258;
+	reg [3:0] w259[0:1];
+	reg w260;
+	reg w261_0;
+	reg w261_1;
+	reg w262;
+	reg w263;
+	reg w264;
+	wire w265;
+	wire w266;
+	reg w267;
+	reg w268[0:2];
+	reg w269[0:2];
+	reg [2:0] w270[0:1];
+	reg w273;
+	reg w274;
+	reg w275[0:2];
+	reg w276[0:2];
+	reg w277[0:5];
+	reg w278;
+	reg _w279_0, _w379_2;
+	wire _w279_1, _w379_3;
+	reg w280_mem;
+	wire w280;
+	reg _w281_0, _w281_2;
+	wire _w281_1, _w281_3;
+	reg w282_mem, w282_n_mem;
+	wire w282, w282_n;
+	reg _w284_0, _w284_1;
+	wire _w284_1, _w284_3;
+	wire w285;
+	reg w285_mem;
+	wire w286;
+	reg w287;
+	wire w288;
+	reg w289;
+	reg w290;
+	wire w291;
+	reg w292;
+	wire w293;
+	reg w294[0:1];
+	wire w295;
+	reg w296[0:3];
+	reg w297[0:3];
+	reg w298[0:3];
+	reg w299;
+	wire w300;
+	reg w301;
+	wire w302;
+	reg w303
+	wire w304;
+	wire w305;
+	wire w306;
+	wire w307;
+	reg w308;
+	wire w309;
+	wire w310;
+	wire w311;
+	reg w312;
+	wire w313;
+	reg w314;
+	wire w316;
+	reg w315[0:1];
+	reg w317;
+	wire w318;
 	
 	reg [67:0] w529;
 	
@@ -289,6 +354,15 @@ module m68kcpu
 	wire c4;
 	wire c5;
 	wire c6;
+	
+	reg o_e;
+	reg o_bg;
+	
+	assign E = o_e;
+	assign BG = o_bg;
+	
+	wire clk1 = ~CLK;
+	wire clk2 = CLK;
 	
 	
 	always @(posedge MCLK)
@@ -779,6 +853,238 @@ module m68kcpu
 	assign w256 = w217 ? w847 : 1'h0;
 
 	assign w257 = w211 ? w853 : 1'h0;
-
+	
+	assign w266 = VPA_TEST;
+	
+	wire [12:0] br_fsm_cases;
+	
+	assign br_fsm_cases[0] = (w270[1] == 3'h7) & ~w395 & w268_2 & ~w269_2;
+	assign br_fsm_cases[1] = (w270[1] == 3'h1) & w268_2;
+	assign br_fsm_cases[2] = (w270[1] == 3'h4);
+	assign br_fsm_cases[3] = (w270[1] == 3'h2) & w268_2;
+	assign br_fsm_cases[4] = (w270[1] == 3'h6);
+	assign br_fsm_cases[5] = (w270[1] == 3'h0) & w268_2 & ~w269_2;
+	assign br_fsm_cases[6] = (w270[1] == 3'h7) & ~w395 & w269_2;
+	assign br_fsm_cases[7] = (w270[1] == 3'h5) & w269_2;
+	assign br_fsm_cases[8] = (w270[1] == 3'h1) & ~w268_2 & w269_2;
+	assign br_fsm_cases[9] = (w270[1] == 3'h2) & ~w268_2 & w269_2;
+	assign br_fsm_cases[10] = (w270[1] == 3'h2) & w268_2 & ~w269_2;
+	assign br_fsm_cases[11] = (w270[1] == 3'h0) & w269_2;
+	assign br_fsm_cases[12] = (w270[1] == 3'h5) & w268_2;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk1)
+		begin
+			o_e <= w258;
+			w259[0] <= w260 ? 4'hf :  { w259[1][2:0], w262 };
+			
+			w261[1] <= w261[0];
+			
+			w268[1] <= w268[0];
+			
+			w269[1] <= w269[0];
+			
+			w270[0][0] <= ~(br_fsm_cases[0] | br_fsm_cases[1] | br_fsm_cases[2] | br_fsm_cases[3] | br_fsm_cases[4] | br_fsm_cases[5]);
+			w270[0][1] <= ~(br_fsm_cases[1] | br_fsm_cases[4] | br_fsm_cases[5] | br_fsm_cases[6] | br_fsm_cases[7] | br_fsm_cases[8]
+				| br_fsm_cases[9] | br_fsm_cases[10] | br_fsm_cases[11] | br_fsm_cases[12]);
+			w270[0][2] <= ~(br_fsm_cases[2] | br_fsm_cases[3] | br_fsm_cases[4] | br_fsm_cases[5] | br_fsm_cases[6] | br_fsm_cases[7]
+				| br_fsm_cases[8] | br_fsm_cases[12]);
+			
+			w275[1] <= w275[0];
+			
+			w276[1] <= w276[0];
+			
+			w277[0] <= w336;
+			w277[2] <= w277[1];
+			w277[4] <= w277[3];
+			
+			w278 <= (w275[2] & w276[2]) | (w265[2] & w395 & w277[5]);
+			
+			_w279_0 <= _w279_1;
+			_w279_2 <= _w279_1;
+			
+			_w281_0 <= w285;
+			_w281_2 <= _w279_3;
+			
+			_w284_0 <= _w284_1;
+			_w284_2 <= _w284_1;
+			
+			w290 <= w291;
+			
+			w294[0] <= w435[2];
+			
+			w296[1] <= w296[0];
+			w296[1] <= w296[2];
+			w297[1] <= w297[0];
+			w297[1] <= w297[2];
+			w298[1] <= w298[0];
+			w298[1] <= w298[2];
+			w299 <= ~w296[3];
+			w301 <= ~w297[3];
+			w303 <= ~w298[3];
+			
+			w315[0] <= ~w314;
+		end
+		if (clk2)
+		begin
+			if (w259[0] == 4'h6)
+				w258 <= 1'h0;
+			else if (w259[0] == 4'h8)
+				w258 <= 1'h1;
+			w259[1] <= w259[0];
+			
+			w260 <= w261[1] | (w259[0] == 4'h6) | (w259[0] == 4'h0);
+			w261[0] <= w266;
+			
+			w262 <= ((w259[0] & 4'hc) == 4'h8) | ((w259[0] & 4'hc) == 4'h4);
+			
+			if (w259[0] == 4'h8)
+				w263 <= 1'h1;
+			else if (w259[0] == 4'h9 & w343[2] & w400)
+				w263 <= 1'h0;
+			
+			if (w259[0] == 4'h8)
+				w264 <= 1'h1;
+			else iof (w259[0] == 4'hc & ~w263)
+				w264 <= 1'h0;
+			
+			w267 <= w266;
+			
+			w268[0] <= ~BR;
+			w268[2] <= w268_1;
+			
+			w269[0] <= ~BGACK;
+			w269[2] <= w269_1;
+			
+			w273 <= w268_2;
+			w274 <= w269_2;
+			
+			w270[1] <= w270_0;
+			
+			o_bg <= w270_0[0];
+			
+			w275[0] <= ~RESET;
+			w275[2] <= w275[1];
+			
+			w276[0] <= ~HALT;
+			w276[2] <= w276[1];
+			
+			w277[1] <= w277[0];
+			w277[3] <= w277[2];
+			w277[5] <= w277[4];
+			
+			_w279_0 <= w282;
+			_w279_2 <= _w279_3;
+			
+			_w281_0 <= _w281_1;
+			_w281_2 <= _w281_1;
+			
+			_w284_0 <= 1'h0;
+			_w284_2 <= _w284_3;
+			
+			w287 <= w285;
+			w289 <= w288;
+			
+			w294[1] <= w294[0];
+			
+			w296[0] <= ~IPL[0];
+			w296[2] <= w296[1];
+			
+			w297[0] <= ~IPL[1];
+			w297[2] <= w297[1];
+			
+			w298[0] <= ~IPL[2];
+			w298[2] <= w298[1];
+			
+			w308 <= ~w307;
+			
+			w312 <= ~w305;
+			
+			w314 <= ~w306;
+			w315[1] <= w315[0];
+			
+			w317 <= w305;
+		end
+	end
+	
+	assign _w279_1 = _w279_0 & ~w278;
+	assign _w279_3 = _w279_2 & ~w278;
+	
+	assign _w281_1 = _w281_0 & ~w278;
+	assign _w281_3 = _w281_2 & ~w278;
+	
+	assign w280 = ~_w279_2 ? 1'h0 : (_w279_3 ? 1'h1 : w280_mem);
+	
+	assign w282_n = _w281_3 ? 1'h0 : (~_w281_2 ? 1'h1 : w282_n_mem);
+	
+	assign w282 = ~_w281_2 ? 1'h0 : (_w281_3 ? 1'h1 : w282_mem);
+	
+	assign w285 = ~(_w284_2 | w286) ? 1'h0 : (_w284_3 ? 1'h1 : w285_mem);
+	
+	always @(posedge MCLK)
+	begin
+		w280_mem <= w280;
+		w282_mem <= w282;
+		w282_n_mem <= w282_n;
+		w285_mem <= w285;
+	end
+	
+	assign w265 = ~w264 | (~w343[2] & (w435[2] | w292));
+	
+	assign RESET = w336 ? 'bz : 1'h0;
+	assign HALT = w339 ? 'bz : 1'h0;
+	
+	assign w286 = ~(w292 | w287 | w289 | clk2 | w430 | w435[2]);
+	
+	assign w288 = ~(w290 | w280 | w285);
+	
+	assign w291 = ~(w293 | w278 | w292);
+	
+	always @(posedge MCLK)
+	begin
+		if (w341)
+			w292 <= 1'h1;
+		else if (c5 && w340)
+			w292 <= 1'h0;
+	end
+	
+	assign w293 = w988 & w294[1] & w325 & w351;
+	
+	assign w295 = IPL[0];
+	
+	assign IPL[0] = (w297[2] & w298[2] & w266) ? 1'h0 : 'bz;
+	assign IPL[1] = (IPL[0] & w266) ? 1'h0 : 'bz;
+	assign IPL[2] = (IPL[0] & w266) ? 1'h0 : 'bz;
+	assign BERR = (IPL[0] & w266) ? 1'h0 : 'bz;
+	
+	assign w300 = ~((w296[2] & w296[3]) | (~w296[2] & ~w296[3]));
+	assign w302 = ~((w297[2] & w297[3]) | (~w297[2] & ~w297[3]));
+	assign w304 = ~((w298[2] & w298[3]) | (~w298[2] & ~w298[3]));
+	
+	// interrupt priority comparator
+	
+	wire [2:0] ipc_t2 = { w303, w301, w299 };
+	wire [2:0] ipc_t3 = { w609, w610, w611 };
+	
+	assign w305 = ~(
+		((ipc_t2 & 3'h5) == 3'h0 & (ipc_t3 & 3'h3) == 3'h0) |
+		((ipc_t2 & 3'h7) == 3'h0 & (ipc_t3 & 3'h1) == 3'h0) |
+		((ipc_t2 & 3'h4) == 3'h0 & (ipc_t3 & 3'h4) == 3'h0) |
+		((ipc_t2 & 3'h2) == 3'h0 & (ipc_t3 & 3'h6) == 3'h0) |
+		((ipc_t2 & 3'h3) == 3'h0 & (ipc_t3 & 3'h5) == 3'h0) |
+		((ipc_t2 & 3'h1) == 3'h0 & (ipc_t3 & 3'h7) == 3'h0) |
+		((ipc_t2 & 3'h6) == 3'h0 & (ipc_t3 & 3'h2) == 3'h0)	
+		);
+	
+	assign w306 = ipc_t2 == 3'h0;
+	assign w307 = ~(w302 | w304 | w300);
+	
+	assign w309 = ~(w310 | w311 | w318 | w308);
+	assign w310 = ~(w313 | w309 | w316);
+	assign w311 = ~(w308 | clk2 | w312 | w306);
+	assign w313 = ~(w314 | clk2 | w315[1] | w308);
+	assign w316 = ~(w308 | clk2 | w317);
+	assign w318 = ~(w321 | clk2 | w319 | w325 | w320);
 
 endmodule
