@@ -610,6 +610,13 @@ module m68kcpu
 	wire w564;
 	wire w565;
 	wire w566;
+	wire w567;
+	wire w568;
+	wire [49:0] ird_pla1;
+	wire [31:0] ird_pla2;
+	wire [29:0] ird_pla3;
+	wire [21:0] ird_pla4;
+	wire [14:0] w569;
 	
 	wire [17:0] w597;
 	
@@ -3506,5 +3513,193 @@ module m68kcpu
 	assign w565 = ~(w320 | ~w267 | ~w321);
 	assign w566 = ~(~w320 | ~w267 | w321);
 	
+	assign w567 = ~(w529[63] | w529[64]);
+	
+	assign w568 = w529[11] | w529[14];
+	
+	assign ird_pla1[0] = (chip->irdbus & 32'h55000580) == 32'h0;
+	assign ird_pla1[1] = (chip->irdbus & 32'h9a000000) == 32'h0 & ~ird_pla1[2] & ~ird_pla1[3] & ~ird_pla1[4];
+	assign ird_pla1[2] = (chip->irdbus & 32'h9a010000) == 32'h0;
+	assign ird_pla1[3] = (chip->irdbus & 32'h9a02a000) == 32'h0;
+	assign ird_pla1[4] = (chip->irdbus & 32'h9a000580) == 32'h0;
+	assign ird_pla1[5] = (chip->irdbus & 32'ha9010000) == 32'h0;
+	assign ird_pla1[6] = (chip->irdbus & 32'ha9020000) == 32'h0;
+	assign ird_pla1[7] = (chip->irdbus & 32'ha924a000) == 32'h0;
+	assign ird_pla1[8] = (chip->irdbus & 32'ha9000240) == 32'h0 & ~ird_pla1[15];
+	assign ird_pla1[9] = (chip->irdbus & 32'ha914a000) == 32'h0;
+	assign ird_pla1[10] = (chip->irdbus & 32'ha9000140) == 32'h0 & ~ird_pla1[15];
+	assign ird_pla1[11] = (chip->irdbus & 32'ha928a000) == 32'h0;
+	assign ird_pla1[12] = (chip->irdbus & 32'ha9000280) == 32'h0 & ~ird_pla1[15];
+	assign ird_pla1[13] = (chip->irdbus & 32'ha918a000) == 32'h0;
+	assign ird_pla1[14] = (chip->irdbus & 32'ha9000180) == 32'h0 & ~ird_pla1[15];
+	assign ird_pla1[15] = (chip->irdbus & 32'ha900a000) == 32'h0;
+	assign ird_pla1[16] = (chip->irdbus & 32'h65000000) == 32'h0;
+	assign ird_pla1[17] = (chip->irdbus & 32'h65029000) == 32'h0;
+	assign ird_pla1[18] = (chip->irdbus & 32'h45590000) == 32'h0;
+	assign ird_pla1[19] = (chip->irdbus & 32'h45954000) == 32'h0;
+	assign ird_pla1[20] = (chip->irdbus & 32'h45650000) == 32'h0;
+	assign ird_pla1[21] = (chip->irdbus & 32'h45690000) == 32'h0;
+	assign ird_pla1[22] = (chip->irdbus & 32'h45550000) == 32'h0;
+	assign ird_pla1[23] = (chip->irdbus & 32'h45990000) == 32'h0;
+	assign ird_pla1[24] = (chip->irdbus & 32'h45958000) == 32'h0;
+	assign ird_pla1[25] = (chip->irdbus & 32'h55a50000) == 32'h0;
+	assign ird_pla1[26] = (chip->irdbus & 32'h55024000) == 32'h0;
+	assign ird_pla1[27] = (chip->irdbus & 32'h55028000) == 32'h0;
+	assign ird_pla1[28] = (chip->irdbus & 32'h55000000) == 32'h0;
+	assign ird_pla1[29] = (chip->irdbus & 32'h46010000) == 32'h0 & ~ird_pla1[31];
+	assign ird_pla1[30] = (chip->irdbus & 32'h46020000) == 32'h0 & ~ird_pla1[31];
+	assign ird_pla1[31] = (chip->irdbus & 32'h4600a000) == 32'h0;
+	assign ird_pla1[32] = (chip->irdbus & 32'h48000000) == 32'h0;
+	assign ird_pla1[33] = (chip->irdbus & 32'h95000000) == 32'h0;
+	assign ird_pla1[34] = (chip->irdbus & 32'h85000000) == 32'h0 & ~ird_pla1[35] & ~ird_pla1[36];
+	assign ird_pla1[35] = (chip->irdbus & 32'h85025500) == 32'h0;
+	assign ird_pla1[36] = (chip->irdbus & 32'h8500a000) == 32'h0;
+	assign ird_pla1[37] = (chip->irdbus & 32'ha5000000) == 32'h0;
+	assign ird_pla1[38] = (chip->irdbus & 32'h96000000) == 32'h0;
+	assign ird_pla1[39] = (chip->irdbus & 32'h86000000) == 32'h0 & ~ird_pla1[40] & ~ird_pla1[41];
+	assign ird_pla1[40] = (chip->irdbus & 32'h86021500) == 32'h0;
+	assign ird_pla1[41] = (chip->irdbus & 32'h86024500) == 32'h0;
+	assign ird_pla1[42] = (chip->irdbus & 32'ha6000000) == 32'h0;
+	assign ird_pla1[43] = (chip->irdbus & 32'h6599a000) == 32'h0;
+	assign ird_pla1[44] = (chip->irdbus & 32'h8600a000) == 32'h0;
+	assign ird_pla1[45] = (chip->irdbus & 32'h58016000) == 32'h0;
+	assign ird_pla1[46] = (chip->irdbus & 32'h64000580) == 32'h0;
+	assign ird_pla1[47] = (chip->irdbus & 32'ha9005000) == 32'h0;
+	assign ird_pla1[48] = (chip->irdbus & 32'ha9002000) == 32'h0;
+	assign ird_pla1[49] = (chip->irdbus & 32'ha9009000) == 32'h0;
+
+	assign ird_pla2[0] = (chip->irdbus & 32'h68008000) == 32'h0 & ~w586 & ~w587;
+	assign ird_pla2[1] = (chip->irdbus & 32'h00000500) == 32'h0;
+	assign ird_pla2[2] = (chip->irdbus & 32'h8500a000) == 32'h0 & ~w586 & ~w587;
+	assign ird_pla2[3] = (chip->irdbus & 32'h6599a000) == 32'h0 & ~w586 & ~w587;
+	assign ird_pla2[4] = (chip->irdbus & 32'ha9000000) == 32'h0 & ~w586;
+	assign ird_pla2[5] = (chip->irdbus & 32'h66004000) == 32'h0 & ~w586;
+	assign ird_pla2[6] = (chip->irdbus & 32'h66001000) == 32'h0 & ~w586;
+	assign ird_pla2[7] = (chip->irdbus & 32'h6a010000) == 32'h0;
+	assign ird_pla2[8] = (chip->irdbus & 32'h69000000) == 32'h0;
+	assign ird_pla2[9] = (chip->irdbus & 32'h55020000) == 32'h0 & ~ird_pla2[1];
+	assign ird_pla2[10] = (chip->irdbus & 32'h6519a000) == 32'h0;
+	assign ird_pla2[11] = (chip->irdbus & 32'h55950000) == 32'h0 & ~ird_pla2[1];
+	assign ird_pla2[12] = (chip->irdbus & 32'h55024580) == 32'h0;
+	assign ird_pla2[13] = (chip->irdbus & 32'h6600a580) == 32'h0;
+	assign ird_pla2[14] = (chip->irdbus & 32'h6600a000) == 32'h0 & ~ird_pla2[13];
+	assign ird_pla2[15] = (chip->irdbus & 32'h55015000) == 32'h0 & ~ird_pla2[16];
+	assign ird_pla2[16] = (chip->irdbus & 32'h00940500) == 32'h0;
+	assign ird_pla2[17] = (chip->irdbus & 32'h80005000) == 32'h0;
+	assign ird_pla2[18] = (chip->irdbus & 32'h20005000) == 32'h0;
+	assign ird_pla2[19] = (chip->irdbus & 32'h56000000) == 32'h0;
+	assign ird_pla2[20] = (chip->irdbus & 32'ha9000a80) == 32'h0;
+	assign ird_pla2[21] = (chip->irdbus & 32'h00000a98) == 32'h0 & ~ird_pla2[20] & ~w529[24];
+	assign ird_pla2[22] = (chip->irdbus & 32'h00000a84) == 32'h0 & ~ird_pla2[20] & ~w529[24];
+	assign ird_pla2[23] = (chip->irdbus & 32'h66000000) == 32'h0;
+	assign ird_pla2[24] = (chip->irdbus & 32'h55010000) == 32'h0;
+	assign ird_pla2[25] = (chip->irdbus & 32'ha9001000) == 32'h0;
+	assign ird_pla2[26] = (chip->irdbus & 32'ha9004000) == 32'h0;
+	assign ird_pla2[27] = (chip->irdbus & 32'h00000540) == 32'h0;
+	assign ird_pla2[28] = (chip->irdbus & 32'h6600a580) == 32'h0;
+	assign ird_pla2[29] = (chip->irdbus & 32'h65a96a6a) == 32'h0;
+	assign ird_pla2[30] = (chip->irdbus & 32'h6565a000) == 32'h0;
+	assign ird_pla2[31] = (chip->irdbus & 32'h55015000) == 32'h0;
+	
+	wire [3:0] ird_pla3_i == { w549, w550, w551, w552 };
+
+	assign ird_pla3[0] = (ird_pla3_i & 4'd7) == 4'd0;
+	assign ird_pla3[1] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00008000) == 32'h0;
+	assign ird_pla3[2] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00002000) == 32'h0;
+	assign ird_pla3[3] = (ird_pla3_i & 4'd15) == 4'd3;
+	assign ird_pla3[4] = (ird_pla3_i & 4'd15) == 4'd6 & ~~w611;
+	assign ird_pla3[5] = (ird_pla3_i & 4'd15) == 4'd6 & ~~w610;
+	assign ird_pla3[6] = (ird_pla3_i & 4'd15) == 4'd6 & ~~w609;
+	assign ird_pla3[7] = (ird_pla3_i & 4'd15) == 4'd0 & (irdbus & 32'h65a96a69) == 32'h0;
+	assign ird_pla3[8] = (ird_pla3_i & 4'd15) == 4'd12;
+	assign ird_pla3[9] = (ird_pla3_i & 4'd15) == 4'd11;
+	assign ird_pla3[10] = (ird_pla3_i & 4'd15) == 4'd4;
+	assign ird_pla3[11] = (ird_pla3_i & 4'd15) == 4'd0 & (irdbus & 32'h65a96500) == 32'h0;
+	assign ird_pla3[12] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00000800) == 32'h0;
+	assign ird_pla3[13] = (ird_pla3_i & 4'd15) == 4'd14;
+	assign ird_pla3[14] = (ird_pla3_i & 4'd15) == 4'd6;
+	assign ird_pla3[15] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00000200) == 32'h0;
+	assign ird_pla3[16] = (ird_pla3_i & 4'd15) == 4'd5;
+	assign ird_pla3[17] = (ird_pla3_i & 4'd15) == 4'd0 & (irdbus & 32'h65a96580) == 32'h0;
+	assign ird_pla3[18] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00000080) == 32'h0;
+	assign ird_pla3[19] = (ird_pla3_i & 4'd15) == 4'd0 & (irdbus & 32'h65029000) == 32'h0;
+	assign ird_pla3[20] = (ird_pla3_i & 4'd15) == 4'd0 & (irdbus & 32'h9500a000) == 32'h0;
+	assign ird_pla3[21] = (ird_pla3_i & 4'd15) == 4'd0 & (irdbus & 32'h65a96520) == 32'h0;
+	assign ird_pla3[22] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00000020) == 32'h0;
+	assign ird_pla3[23] = (ird_pla3_i & 4'd15) == 4'd13;
+	assign ird_pla3[24] = (ird_pla3_i & 4'd15) == 4'd0 & (irdbus & 32'h65a96502) == 32'h0;
+	assign ird_pla3[25] = (ird_pla3_i & 4'd15) == 4'd0 & (irdbus & 32'h65a96508) == 32'h0;
+	assign ird_pla3[26] = (ird_pla3_i & 4'd15) == 4'd2;
+	assign ird_pla3[27] = (ird_pla3_i & 4'd15) == 4'd1;
+	assign ird_pla3[28] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00000008) == 32'h0;
+	assign ird_pla3[29] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00000002) == 32'h0;
+
+
+	assign ird_pla4[0] = (irdbus & 0x00000a84ul) == 32'h0 & ~ird_pla4[2] & ~w529[24];
+	assign ird_pla4[1] = (irdbus & 0x00000a98ul) == 32'h0 & ~ird_pla4[2] & ~w529[24];
+	assign ird_pla4[2] = (irdbus & 0xa9000a80ul) == 32'h0;
+	assign ird_pla4[3] = (irdbus & 0x65a96900ul) == 32'h0;
+	assign ird_pla4[4] = (irdbus & 0x66000000ul) == 32'h0;
+	assign ird_pla4[5] = (irdbus & 0x55010000ul) == 32'h0;
+	assign ird_pla4[6] = (irdbus & 0x69560000ul) == 32'h0;
+	assign ird_pla4[7] = (irdbus & 0x65a90000ul) == 32'h0;
+	assign ird_pla4[8] = (irdbus & 0x65956000ul) == 32'h0;
+	assign ird_pla4[9] = (irdbus & 0x00080000ul) == 32'h0;
+	assign ird_pla4[10] = (irdbus & 0x00200000ul) == 32'h0;
+	assign ird_pla4[11] = (irdbus & 0x00800000ul) == 32'h0;
+	assign ird_pla4[12] = (irdbus & 0xa5029580ul) == 32'h0;
+	assign ird_pla4[13] = (irdbus & 0x84020580ul) == 32'h0 & ~ird_pla4[12];
+	assign ird_pla4[14] = (irdbus & 0x90020580ul) == 32'h0;
+	assign ird_pla4[15] = (irdbus & 0x8200a000ul) == 32'h0;
+	assign ird_pla4[16] = (irdbus & 0x6502a000ul) == 32'h0;
+	assign ird_pla4[17] = (irdbus & 0x52000000ul) == 32'h0 & ~ird_pla4[19];
+	assign ird_pla4[18] = (irdbus & 0x58000000ul) == 32'h0 & ~ird_pla4[19];
+	assign ird_pla4[19] = (irdbus & 0x00015000ul) == 32'h0;
+	assign ird_pla4[20] = (irdbus & 0x65858000ul) == 32'h0;
+	assign ird_pla4[21] = (irdbus & 0x65958940ul) == 32'h0;
+
+	assign w569 =
+		(ird_pla1[1] ? 15'h1000 : 15'h7fff) &
+		(ird_pla1[2] ? 15'h0020 : 15'h7fff) &
+		(ird_pla1[3] ? 15'h0020 : 15'h7fff) &
+		(ird_pla1[4] ? 15'h0020 : 15'h7fff) &
+		(ird_pla1[5] ? 15'h0292 : 15'h7fff) &
+		(ird_pla1[6] ? 15'h050c : 15'h7fff) &
+		(ird_pla1[7] ? 15'h7ce1 : 15'h7fff) &
+		(ird_pla1[8] ? 15'h7ce1 : 15'h7fff) &
+		(ird_pla1[9] ? 15'h7867 : 15'h7fff) &
+		(ird_pla1[10] ? 15'h7867 : 15'h7fff) &
+		(ird_pla1[11] ? 15'h7b61 : 15'h7fff) &
+		(ird_pla1[12] ? 15'h7b61 : 15'h7fff) &
+		(ird_pla1[13] ? 15'h7879 : 15'h7fff) &
+		(ird_pla1[14] ? 15'h7879 : 15'h7fff) &
+		(ird_pla1[16] ? 15'h47b8 : 15'h7fff) &
+		(ird_pla1[17] ? 15'h3867 : 15'h7fff) &
+		(ird_pla1[18] ? 15'h084d : 15'h7fff) &
+		(ird_pla1[19] ? 15'h1945 : 15'h7fff) &
+		(ird_pla1[20] ? 15'h0855 : 15'h7fff) &
+		(ird_pla1[21] ? 15'h0c47 : 15'h7fff) &
+		(ird_pla1[22] ? 15'h2a45 : 15'h7fff) &
+		(ird_pla1[23] ? 15'h5845 : 15'h7fff) &
+		(ird_pla1[24] ? 15'h28c5 : 15'h7fff) &
+		(ird_pla1[25] ? 15'h4fe5 : 15'h7fff) &
+		(ird_pla1[26] ? 15'h5fc5 : 15'h7fff) &
+		(ird_pla1[27] ? 15'h6fc5 : 15'h7fff) &
+		(ird_pla1[28] ? 15'h303a : 15'h7fff) &
+		(ird_pla1[29] ? 15'h0002 : 15'h7fff) &
+		(ird_pla1[30] ? 15'h0010 : 15'h7fff) &
+		(ird_pla1[31] ? 15'h4000 : 15'h7fff) &
+		(ird_pla1[32] ? 15'h0002 : 15'h7fff) &
+		(ird_pla1[33] ? 15'h2101 : 15'h7fff) &
+		(ird_pla1[34] ? 15'h7eba : 15'h7fff) &
+		(ird_pla1[35] ? 15'h5fb6 : 15'h7fff) &
+		(ird_pla1[36] ? 15'h5ef3 : 15'h7fff) &
+		(ird_pla1[37] ? 15'h004c : 15'h7fff) &
+		(ird_pla1[38] ? 15'h0210 : 15'h7fff) &
+		(ird_pla1[39] ? 15'h75ff : 15'h7fff) &
+		(ird_pla1[40] ? 15'h7fed : 15'h7fff) &
+		(ird_pla1[41] ? 15'h7fed : 15'h7fff) &
+		(ird_pla1[42] ? 15'h0802 : 15'h7fff) &
+		(w267 ? 15'h0000 : 15'h7fff);
 	
 endmodule
