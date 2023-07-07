@@ -566,7 +566,7 @@ module m68kcpu
 	
 	wire [17:0] w597;
 	
-	wire [67:0] ucode[0:117];
+	reg [67:0] ucode[0:117];
 	
 	wire [170:0] a0_pla;
 	reg [164:20] a0_pla_mem;
@@ -590,6 +590,11 @@ module m68kcpu
 	
 	wire clk1 = ~CLK;
 	wire clk2 = CLK;
+	
+	initial
+	begin
+		$readmemb("68k_ucode.txt", ucode);
+	end
 	
 	
 	always @(posedge MCLK)
