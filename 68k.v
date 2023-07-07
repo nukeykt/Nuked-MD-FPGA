@@ -339,6 +339,98 @@ module m68kcpu
 	reg w315[0:1];
 	reg w317;
 	wire w318;
+	reg w319;
+	reg w320;
+	reg w321;
+	reg w322;
+	reg w323;
+	reg w324;
+	wire w325;
+	reg w326;
+	wire w327;
+	wire w328;
+	reg c1_l;
+	reg c2_l;
+	reg c3_l;
+	reg c4_l;
+	reg c5_l;
+	wire w330;
+	wire w331;
+	wire w332;
+	wire w333;
+	wire w334;
+	reg w335;
+	wire w336;
+	wire w337;
+	reg w338;
+	wire w339;
+	wire w340;
+	wire w341;
+	reg w342;
+	reg w343[0:2];
+	reg w344;
+	reg w345;
+	wire w346;
+	wire w347;
+	reg w348;
+	reg w349;
+	reg w350;
+	reg w351;
+	wire w352;
+	wire w353;
+	wire w354;
+	wire w355;
+	reg w356_0;
+	wire w356_1;
+	reg w357_0;
+	wire w357_1;
+	reg w358_0;
+	wire w358_1;
+	reg w359[0:2];
+	wire w359_3;
+	wire w360;
+	wire w361;
+	reg w361_mem;
+	reg w362;
+	reg w363;
+	reg w364[0:1];
+	wire w365;
+	reg w366;
+	reg w367;
+	reg w368;
+	reg w369;
+	reg w370;
+	reg w371;
+	wire w372;
+	reg w373;
+	reg w374;
+	wire w375;
+	wire w376;
+	wire w377;
+	reg w378;
+	reg w379;
+	reg w380;
+	wire w381;
+	wire w382;
+	reg w383;
+	reg w384;
+	wire w385;
+	reg w386;
+	reg w387;
+	reg w388;
+	wire w389[0:8];
+	wire w390;
+	wire w391;
+	wire w392;
+	wire w393;
+	wire w394;
+	wire w395;
+	wire w396;
+	wire w397;
+	reg w398;
+	wire w399;
+	
+	reg [16:0] w522;
 	
 	reg [67:0] w529;
 	
@@ -353,7 +445,7 @@ module m68kcpu
 	wire c3;
 	wire c4;
 	wire c5;
-	wire c6;
+	reg c6;
 	
 	reg o_e;
 	reg o_bg;
@@ -925,6 +1017,38 @@ module m68kcpu
 			w303 <= ~w298[3];
 			
 			w315[0] <= ~w314;
+			
+			w343[1] <= w343[0];
+			
+			w359[1] <= w359[0];
+			
+			w359[2] <= w359[3];
+			
+			w363 <= ~((w395 & w418[1]) | w364[1] | ~w383);
+			
+			w364[0] <= w397 & w389[0];
+			
+			w366 <= ~(w367 | w365);
+			
+			w368 <= ~(w367 | w395);
+			
+			w369 <= w391;
+			
+			w370 <= w391;
+			
+			w371 <= ~(w389[1] | w372 | ~w386);
+			
+			w373 <= ~w365;
+			
+			w374 <= ~(w389[2] | w384);
+			
+			w378 <= ~(~w388 | (w389[7] & w397) | w267);
+			
+			w379 <= ~(w267 | w397 | w381);
+			
+			w380 <= ~(w267 | ~w391 | ~w387);
+			
+			w398 <= ~(~w397 | w381 | w267);
 		end
 		if (clk2)
 		begin
@@ -1005,6 +1129,26 @@ module m68kcpu
 			w315[1] <= w315[0];
 			
 			w317 <= w305;
+			
+			w343[0] <= ~VPA;
+			w343[2] <= w343[1];
+			
+			w359[0] <= ~DTACK;
+			w359[2] <= w359[1];
+			
+			w364[1] <= w364[0];
+			
+			w367 <=  ~w387;
+			
+			w383 <= w382;
+			
+			w384 <= w374 | w373;
+			
+			w386 <= w385;
+			
+			w387 <= w376;
+			
+			w388 <= w377;
 		end
 	end
 	
@@ -1086,5 +1230,236 @@ module m68kcpu
 	assign w313 = ~(w314 | clk2 | w315[1] | w308);
 	assign w316 = ~(w308 | clk2 | w317);
 	assign w318 = ~(w321 | clk2 | w319 | w325 | w320);
+	
+	always @(posedge MCLK)
+	begin
+		if (w278)
+		begin
+			w319 <= 1'h0;
+			w320 <= 1'h0;
+			w321 <= 1'h0;
+		end
+		else if (w328)
+		begin
+			w319 <= w299;
+			w320 <= w301;
+			w321 <= w303;
+		end
+		
+		if (w330)
+		begin
+			w322 <= ~w522[15] & (w631 | w522[16]);
+			w323 <= ~w522[16] & (w522[15] | ~w631);
+			w324 <= ~w607;
+		end
+	end
+	
+	assign w325 <= w322 | w323 | w324;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w326 <= w522[0];
+	end
+	
+	assign w327 = ~(w326 | w267);
+	
+	assign w328 = w327 ? 1'h0 : c2;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk1)
+		begin
+			c2_l <= w285;
+			c3_l <= w280;
+			c5_l <= w288;
+		end
+		if (clk2)
+		begin
+			c1_l <= w282_n;
+			c4_l <= w282;
+		end
+		
+		if (c2)
+			c6 <= 1'h1;
+		else if (c1)
+			c6 <= 1'h0;
+	end
+	
+	assign c1 = clk1 ? c1_l : 1'h0;
+	assign c2 = clk2 ? c2_l : 1'h0;
+	assign c3 = clk2 ? c3_l : 1'h0;
+	assign c4 = clk1 ? c4_l : 1'h0;
+	assign c5 = clk2 ? c5_l : 1'h0;
+	
+	assign w330 = w567 ? 1'h0 : c2;
+	
+	assign FC[0] = w409 ? 'bz : ~w322;
+	assign FC[1] = w409 ? 'bz : ~w323;
+	assign FC[2] = w409 ? 'bz : ~w324;
+	
+	assign w331 = ~w323;
+	assign w332 = ~w322;
+	
+	assign w333 = ~w567;
+	
+	assign w334 = ~(w522[16] | w333 | ~w522[15]);
+	
+	always @(posedge MCLK)
+	begin
+		if (c2)
+			w335 <= ~w334;
+		else if (clk1)
+			w335 <= w336;
+	end
+	
+	assign w336 = w335 | w278;
+	
+	assign w337 = ~(w333 | w522[15] | ~w522[16]);
+	
+	always @(posedge MCLK)
+	begin
+		if (c2)
+			w338 <= ~w337;
+		else if (clk1)
+			w338 <= w339;
+	end
+	
+	assign w339 = w338 | w278;
+	
+	assign w340 = ~w400;
+	assign w341 = ~(~w403 | w340 | clk1 | c2);
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w342 <= w525 | w267 | ~w343[2];
+		if (clk1)
+			w345 <= ~w294[1];
+		if (c1)
+			w344 <= w345 | w267 | w325;
+	end
+	
+	assign w346 = ~(~w435[2] | w340 | ~w325);
+	assign w347 = ~(w340 | w346);
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w349 <= w567;
+		
+		if (clk2)
+		begin
+			if (w278)
+				w348 <= 1'h0;
+			else if (~w349)
+				w348 <= 1'h1;
+		end
+		
+		if (clk1)
+			w350 <= ~w348;
+		
+		if (clk1)
+		begin
+			if (w346 & w347)
+			begin
+			end
+			else if (w346)
+				w351 <= 1'h1;
+			else if (w347)
+				w351 <= 1'h0;
+		end
+	end
+	
+	assign w352 = ~(w403 | w351);
+	
+	assign w353 = ~(w352 | w463);
+	
+	assign w354 = ~w352;
+	
+	assign w355 = ~(c5 | c3);
+	
+	always @(posedge MCLK)
+	begin
+		if (c5)
+		begin
+			w356_0 <= w350;
+			w357_0 <= w354;
+			w358_0 <= w353;
+		end
+		else if (c3)
+		begin
+			w356_0 <= 1'h0;
+			w357_0 <= 1'h0;
+			w358_0 <= 1'h0;
+		end
+		else if (w355)
+		begin
+			w356_0 <= w356_1;
+			w357_0 <= w357_1;
+			w358_0 <= w358_1;
+		end
+	end
+	
+	assign w356_1 = w356_0;
+	assign w357_1 = w356_1 ? 1'h0 : w357_0;
+	assign w358_1 = w356_1 ? 1'h0 : w358_0;
+	
+	assign w359_3 = w359[2] & ~w343[2];
+	assign w360 = w359_3;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk2)
+			w362 <= w382;
+		w361_mem <= w361;
+	end
+	
+	assign w361 = (~w362 & clk1) ? 1'h1 : (w362 ? 1'h0 : w361_mem);
+	
+	assign w365 = ~(w391 | w389[5] | w389[3] | w389[4]);
+	
+	assign w372 = ~(~w395 | w418[1]);
+	
+	assign w375 = ~(w414[2] | w416 | w415 | w420);
+	
+	assign w376 = w369 | w368 | w375;
+	
+	assign w377 = w380 | w379 | w378;
+	
+	assign w381 = ~(w389[4] | w389[5]);
+	
+	assign w382 = w363 | w366;
+	
+	assign w385 = w371 | w370 | w396;
+	
+	assign w389[0] = w383 & w384 & w386 & ~w387 & ~w388;
+	assign w389[1] = ~w383 & w384 & w386 & ~w387 & ~w388;
+	assign w389[2] = w383 & ~w386 & ~w387 & ~w388;
+	assign w389[3] = w383 & ~w384 & w386 & ~w387 & ~w388;
+	assign w389[4] = w383 & ~w384 & w386 & w387 & ~w388;
+	assign w389[5] = ~w383 & w384 & w386 & w387 & ~w388;
+	assign w389[6] = w383 & w384 & w386 & w387 & ~w388;
+	assign w389[7] = w383 & w384 & w386 & w387 & w388;
+	assign w389[8] = ~w383 & w384 & ~w387 & ~w388;
+	
+	assign w390 = ~w389[0] & ~w389[1] & ~w389[2] & ~w389[3]
+		& ~w389[4] & ~w389[5] & ~w389[6] & ~w389[7] & ~w389[8];
+	
+	assign w391 = w390 | w428;
+	
+	assign w392 = w389[0];
+	
+	assign w393 = ~(w389[3] | w389[4] | w389[5]);
+	
+	assign w394 = ~(w389[2] | w389[8]);
+	
+	assign w395 = w389[6];
+	
+	assign w396 = ~(w414[2] | w415 | w416);
+	
+	assign w397 = ~(w267 | w419 | ~(w421[1] & w567) | w426);
+	
+	assign w399 = w398 ? clk2 : 1'h0;
 
 endmodule
