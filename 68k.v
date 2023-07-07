@@ -429,12 +429,138 @@ module m68kcpu
 	wire w397;
 	reg w398;
 	wire w399;
+	reg w400;
+	reg w401;
+	wire w402;
+	wire w403;
+	reg w404;
+	wire w405;
+	reg w406;
+	wire w407;
+	reg w408;
+	wire w409;
+	reg w410;
+	wire w411;
+	wire w412;
+	wire w413;
+	reg w414[0:2];
+	reg w415;
+	wire w416;
+	reg w417;
+	reg w418_mem;
+	wire w418_1;
+	wire w419;
+	reg w420;
+	reg w421_mem
+	wire w421_1;
+	wire w422;
+	wire w423;
+	wire w424;
+	wire w425;
+	wire w426;
+	wire w427;
+	wire w428;
+	reg w429;
+	wire w430;
+	wire w431;
+	wire w432;
+	wire w433;
+	wire w434;
+	reg w435[0:2];
+	reg w436[0:1];
+	wire w437;
+	reg w438;
+	reg w439[0:1];
+	wire w440;
+	wire w441;
+	reg w442[0:1];
+	reg w443[0:1];
+	wire w444;
+	reg w444_mem;
+	reg [9:0] w445;
+	reg w446;
+	reg w447;
+	reg w448;
+	wire w449;
+	wire w450;
+	reg w451;
+	reg w452;
+	reg w453;
+	reg w454;
+	reg w455;
+	reg w456;
+	reg w457;
+	reg w458;
+	reg w459;
+	reg w460;
+	reg w461;
+	wire w462[0:10];
+	wire w463;
+	wire [9:0] w464;
+	wire w465[0:4];
+	reg [9:0] codebus;
+	wire w466;
+	wire w467;
+	wire w468;
+	wire w469;
+	wire w470;
+	wire w471;
+	reg [9:0] codebus2;
+	reg w472;
+	reg w473;
+	wire w474;
+	wire w475;
+	wire w476;
+	wire w477;
+	wire w478;
+	reg w479;
+	reg w480;
+	reg w481;
+	wire w482[0:4];
+	wire w483;
+	wire w484;
+	wire w485;
+	wire w486;
+	wire w487;
+	wire w488;
+	reg w489;
+	reg w490;
+	wire w491;
+	wire w492;
+	wire w493;
+	reg w495;
+	wire w496;
+	wire w497;
+	wire w498;
+	wire w499;
+	reg w500;
+	reg w501;
+	reg w502;
+	reg w503;
+	reg w504;
+	reg w505;
+	reg w506;
+	wire w507;
+	wire w508;
+	wire w509;
+	wire w510;
+	wire w511;
+	wire w512;
+	wire w513;
+	wire w514;
+	wire w515;
+	wire w516;
+	wire w517;
+	wire w518;
 	
 	reg [16:0] w522;
 	
 	reg [67:0] w529;
 	
 	wire [17:0] w597;
+	
+	wire [170:0] a0_pla;
+	reg [164:20] a0_pla_mem;
 	
 	reg [15:0] b1[0:3];
 	reg [15:0] b2[0:3];
@@ -1024,7 +1150,7 @@ module m68kcpu
 			
 			w359[2] <= w359[3];
 			
-			w363 <= ~((w395 & w418[1]) | w364[1] | ~w383);
+			w363 <= ~((w395 & w418_1) | w364[1] | ~w383);
 			
 			w364[0] <= w397 & w389[0];
 			
@@ -1049,6 +1175,20 @@ module m68kcpu
 			w380 <= ~(w267 | ~w391 | ~w387);
 			
 			w398 <= ~(~w397 | w381 | w267);
+			
+			w418[0] <= w394;
+			
+			w414[2] <= w414[1];
+			
+			w415 <= w402;
+			
+			w417 <= w265;
+			
+			w435[1] <= w435[0];
+			
+			w436[0] <= w435[2];
+			
+			w439[0] <= w400;
 		end
 		if (clk2)
 		begin
@@ -1149,6 +1289,21 @@ module m68kcpu
 			w387 <= w376;
 			
 			w388 <= w377;
+			
+			w401 <= w377;
+			
+			w404 <= w403;
+			
+			w410 <= ~w377;
+			
+			w414[1] <= w414[0];
+			
+			w435[0] <= ~BERR;
+			w435[2] <= w435[1];
+			
+			w436[1] <= w436[0];
+			
+			w439[1] <= ~w439[0];
 		end
 	end
 	
@@ -1419,7 +1574,7 @@ module m68kcpu
 	
 	assign w365 = ~(w391 | w389[5] | w389[3] | w389[4]);
 	
-	assign w372 = ~(~w395 | w418[1]);
+	assign w372 = ~(~w395 | w418_1);
 	
 	assign w375 = ~(w414[2] | w416 | w415 | w420);
 	
@@ -1458,8 +1613,331 @@ module m68kcpu
 	
 	assign w396 = ~(w414[2] | w415 | w416);
 	
-	assign w397 = ~(w267 | w419 | ~(w421[1] & w567) | w426);
+	assign w397 = ~(w267 | w419 | ~(w421_1 & w567) | w426);
 	
 	assign w399 = w398 ? clk2 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (~w401 & clk1)
+			w400 <= 1'h1;
+		else if (w399 | (c2 & w267) | w401)
+			w401 <= 1'h0;
+	end
+	
+	assign w402 = ~(w404 | w422);
+	
+	assign w403 = w406 & ~w267 & w405;
+	
+	assign w405 = ~w815;
+	
+	assign w407 = w567 ? 1'h0 : c2;
+	
+	always @(posedge MCLK)
+	begin
+		if (w407)
+			w406 <= ~w408;
+		if (c1)
+			w408 <= ~w563;
+	end
+	
+	assign w409 = ~(w433 | w410);
+	
+	assign w411 = w406 ^ w815;
+	assign w412 = ~w411;
+	assign w413 = ~w405;
+	
+	assign w416 = ~(w359[3] | w417);
+	
+	always @(posedge MCLK)
+	begin
+		w418_mem <= w418_1;
+		w421_mem <= w421_1;
+	end
+	
+	assign w418_1 = (w407 ? w568 : w418_mem) & ~w267;
+	
+	assign w419 = ~(w392 | w432);
+	
+	always @(posedge MCLK)
+	begin
+		if (w407)
+			w420 <= w431;
+	end
+	
+	assign w421_1 = (w407 ? 1'h1 : w421_mem) & ~w425 & ~w428;
+	
+	assign w422 = ~(w428 | w425 | w267 | w424);
+	assign w423 = ~w422;
+	
+	assign w424 = c2 ? w441 : w423;
+	
+	assign w425 = ~(w393 | w426 | clk2);
+	
+	assign w426 = ~(w403 | w427);
+	
+	assign w427 = ~(w435[2] & w276[2] & w438);
+	
+	assign w428 = ~(clk2 | w434);
+	
+	always @(posedge MCLK)
+	begin
+		if (clk2)
+			w429 <= w396;
+	end
+	
+	assign w430 = ~(w423 | w429);
+	
+	assign w431 = ~(w568 | w546);
+	
+	assign w432 = ~(w269[2] | ~w270[0][0] | w268[2] | w276[2]);
+	
+	assign w433 = ~(w278 | ~w270[0][1] | ~w270[0][0]);
+	
+	assign w434 = ~(w278 | (w440 & w437 & w436[1] & w435[2]));
+	
+	assign w437 = ~(w276[2] & w438);
+	
+	always @(posedge MCLK)
+	begin
+		if (c2)
+			w438 <= w546;
+	end
+	
+	assign w440 = ~(w439[1] | w343[2]);
+	
+	assign w441 = ~(w568 | ~w544);
+	
+	assign w444 = w443[1] ? 1'h0 : (w442[1] ? c1 : w444_mem);
+	
+	always @(posedge MCLK)
+	begin
+		if (w450)
+			w442[0] <= 1'h1;
+		else if (c1)
+			w442[0] <= 1'h0;
+		if (w450)
+			w443[0] <= 1'h0;
+		else if (c1)
+			w443[0] <= 1'h0;
+		
+		if (~c1)
+		begin
+			w442[1] <= w442[0];
+			w443[1] <= w443[0];
+		end
+		
+		w444_mem <= w444;
+		
+		if (w444)
+			w445 <= w531;
+		
+		if (c1)
+		begin
+			w446 <= w477;
+			w447 <= w474;
+			w448 <= w475;
+		end
+	end
+	
+	assign w449 = w448 ? c3 : 1'h0;
+	
+	assign w450 = (w446 | w447) ? c3 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (w449)
+		begin
+			w451 <= w403;
+			w452 <= w344;
+			w453 <= w342;
+			w454 <= w351;
+			w455 <= w350;
+		end
+		if (w450)
+		begin
+			w456 <= a0_pla[169];
+			w457 <= a0_pla[170];
+			w458 <= w989;
+			w459 <= w990;
+			w460 <= w548;
+			w461 <= w991;
+		end
+	end
+	
+	assign w462[0] = w455;
+	assign w462[1] = ~w451 & ~w452 & ~w454 & ~w455 & ~w460;
+	assign w462[2] = ~w451 & w452 & ~w453 & ~w454 & ~w455 & ~w460;
+	assign w462[3] = ~w451 & w452 & w453 & ~w454 & ~w455 & w457 & ~w460 & w461;
+	assign w462[4] = ~w451 & w452 & w453 & ~w454 & ~w455 & w456 & ~w457 & ~w460 & w461;
+	assign w462[5] = ~w451 & w452 & w453 & ~w454 & ~w455 & ~w456 & ~w457 & ~w458 & ~w460 & w461;
+	assign w462[6] = ~w451 & w452 & w453 & ~w454 & ~w455 & ~w456 & ~w457 & w458 & w459 & ~w460 & w461;
+	assign w462[7] = ~w451 & w452 & w453 & ~w454 & ~w455 & ~w460 & ~w461;
+	assign w462[8] = ~w451 & ~w454 & ~w455 & w460;
+	assign w462[9] = w451 & ~w455;
+	assign w462[10] = ~w451 & w454 & ~w455;
+	
+	assign w464 = (
+		(w462[3] ? 10'h1c0 : 10'h3ff) &
+		(w462[4] ? 10'h1c0 : 10'h3ff) &
+		(w462[5] ? 10'h1c0 : 10'h3ff) &
+		(w462[6] ? 10'h1c0 : 10'h3ff) &
+		(w462[7] ? 10'h1c4 : 10'h3ff) &
+		(w462[8] ? 10'h1c0 : 10'h3ff));
+	
+	always @(posedge MCLK)
+	begin
+		if (w466)
+			codebus <= w445;
+		else if (w467)
+			codebus <= w464;
+		else if (w482[3])
+			codebus <= w534;
+		else if (w482[2])
+			codebus <= w535;
+		if (w476)
+			codebus2 <= ~codebus;
+		if (w482[0])
+		begin
+			codebus2[6] <= ~w472;
+			codebus2[7] <= ~w473;
+		end
+		if (w482[1])
+		begin
+			codebus2[6] <= w484;
+			codebus2[7] <= w485;
+		end
+		if (w486)
+		begin
+			codebus2[0] <= ~w522[11];
+			codebus2[1] <= ~w522[12];
+			codebus2[2] <= ~w522[7];
+			codebus2[3] <= ~w522[8];
+			codebus2[4] <= ~w522[9];
+			codebus2[5] <= ~w522[10];
+			codebus2[8] <= ~w522[13];
+			codebus2[9] <= ~w522[14];
+		end
+	end
+	
+	assign w465[0] = ~(w462[3] | w462[4] | w462[5] | w462[6] | w462[7] | w462[8]);
+	assign w465[1] = ~(w462[3] | w462[4] | w462[5] | w462[6]);
+	assign w465[2] = ~(w462[1] | w462[2] | w462[4] | w462[5] | w462[6] | w462[7] | w462[8]);
+	assign w465[3] = ~(w462[0] | w462[2] | w462[3] | w462[6] | w462[7] | w462[10]);
+	assign w465[4] = ~(w462[0] | w462[1] | w462[3] | w462[5] | w462[7] | w462[9]);
+	
+	assign w466 = ~(w483 | ~w465[0]);
+	assign w467 = ~(w483 | w465[0]);
+	
+	assign w468 = ~w465[1];
+	assign w469 = ~w465[2];
+	assign w470 = ~w465[3];
+	assign w471 = ~w465[4];
+	
+	always @(posedge MCLK)
+	begin
+		if (w267)
+		begin
+			w472 <= w274;
+			w473 <= w273;
+		end
+		else if (w561)
+		begin
+			w472 <= w557;
+			w473 <= w558;
+		end
+		else if (w562)
+		begin
+			w472 <= w556;
+			w473 <= w558;
+		end
+	end
+	
+	assign w475 = ~(w522[1] | ~w522[4]);
+	assign w474 = ~(~w522[0] | w475);
+	
+	assign w476 = w482[3] | w482[4] | w482[2];
+	
+	assign w478 = ~(w267 & (w360 | w296[2]));
+	assign w477 = ~w478;
+	
+	always @(posedge MCLK)
+	begin
+		if (w478)
+		begin
+			w479 <= w522[2];
+			w480 <= w522[3];
+			w481 <= w522[4];
+		end
+		else if (w477)
+		begin
+			w479 <= w296[2];
+			w480 <= w360;
+			w481 <= 1'h0;
+		end
+	end
+	
+	assign w482[0] = w481;
+	assign w482[1] = ~w479 & ~w480 & ~w481;
+	assign w482[2] = w479 & w480 & ~w481;
+	assign w482[3] = ~w479 & w480 & ~w481;
+	assign w482[4] = w479 & ~w480 & w481;
+	
+	assign w483 = ~w482[4];
+	
+	assign w484 = ~w522[5];
+	assign w485 = ~w522[6];
+	
+	assign w486 = (w482[1] | w482[0]) & ~w477;
+
+	assign w487 = ~(codebus2[6] | w508);
+	assign w488 = ~(codebus2[7] | w508);
+	
+	always @(posedge MCLK)
+	begin
+		if (c4)
+		begin
+			w489 <= w487;
+			w490 <= w488;
+		end
+	end
+	
+	assign w491 = w489 & ~w490;
+	assign w492 = ~w489 & ~w490;
+	assign w493 = w489 & w490;
+	assign w494 = ~w489 &~w490;
+	
+	assign w496 = w494 ? c3 : 1'h0;
+	assign w497 = w493 ? c3 : 1'h0;
+	assign w498 = w492 ? c3 : 1'h0;
+	assign w499 = w491 ? c3 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+		begin
+			w495 <= ~(codebus[3] | w508);
+			w500 <= ~(codebus[2] | w508);
+			w501 <= ~(codebus[5] | w508);
+			w502 <= ~(codebus[4] | w508);
+			w503 <= ~(codebus[8] | w508);
+			w504 <= ~(codebus[9] | w508);
+			w505 <= ~((codebus[1] & w507) | w358[1]);
+			w506 <= ~((codebus[0] & w507) | w356[1]);
+		end
+	end
+	
+	assign w507 = ~(w356[1] | w357[1] | w358[1]);
+	assign w508 = ~w507;
+	assign w509 = ~(~w495 | ~w500);
+	assign w510 = ~(~w495 | w500);
+	assign w511 = ~(w495 | ~w500);
+	assign w512 = ~(w495 | w500);
+	assign w513 = ~(c1 | c2 | ~w501);
+	assign w514 = ~(c1 | c2 | w501);
+	assign w515 = ~(w506 | w505);
+	assign w516 = ~(~w506 | w505);
+	assign w517 = ~(w506 | ~w505);
+	assign w518 = ~(~w506 | ~w505);
 
 endmodule
