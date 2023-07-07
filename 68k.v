@@ -576,6 +576,40 @@ module m68kcpu
 	wire [9:0] w535;
 	wire w536;
 	wire w537;
+	reg [15:0] w538;
+	wire [31:0] irdbus;
+	wire [31:0] irdbus_dbg;
+	wire [31:0] irdbus_normal;
+	wire w539;
+	wire w540;
+	wire w541;
+	wire w542;
+	wire w543;
+	wire w544;
+	reg w545;
+	wire w546;
+	wire w547;
+	wire w548;
+	reg w549;
+	reg w550;
+	reg w551;
+	reg w552;
+	wire w553;
+	wire w554;
+	wire w555, w555_1;
+	wire w556, w556_1;
+	wire w557;
+	wire w558;
+	wire [3:0] w559;
+	wire [3:0] w560;
+	wire [17:0] cond_pla1;
+	wire [22:0] cond_pla2;
+	wire w561;
+	wire w562;
+	wire w563;
+	wire w564;
+	wire w565;
+	wire w566;
 	
 	wire [17:0] w597;
 	
@@ -3284,6 +3318,193 @@ module m68kcpu
 		(a2_pla[147] ? 10'h1d3 : 10'h3ff) &
 		(a2_pla[148] ? 10'h1cf : 10'h3ff) &
 		(a2_pla[149] ? 10'h15a : 10'h3ff);
+	
+	always @(posedge MCLK)
+	begin
+		if (w539)
+			w538 <= w530;
+	end
 
-
+	assign irdbus = (w267 ? irdbus_normal : 16'h0) | irdbus_dbg;
+	
+	assign irdbus_normal = {
+		~w538[15], w538[15],
+		~w538[14], w538[14],
+		~w538[13], w538[13],
+		~w538[12], w538[12],
+		~w538[11], w538[11],
+		~w538[10], w538[10],
+		~w538[9], w538[9],
+		~w538[8], w538[8],
+		~w538[7], w538[7],
+		~w538[6], w538[6],
+		~w538[5], w538[5],
+		~w538[4], w538[4],
+		~w538[3], w538[3],
+		~w538[2], w538[2],
+		~w538[1], w538[1],
+		~w538[0], w538[0]
+		};
+	
+	assign irdbus_dbg =
+		(w564 ?
+		{ w529[25], w529[28], ~w529[31], ~w529[34], ~w529[37], w529[40], w529[43], w529[46],
+			w529[1], w529[49], w529[4], w529[52], ~w529[7], w529[55], w529[10], ~w529[58],
+			w529[13], ~w529[61], w529[16], w529[64], w529[19], w529[67], w529[22], 9'h0 } : 32'h0) |
+		(w565 ?
+		{ w529[24], w529[27], ~w529[30], w529[33], ~w529[36], w529[39], w529[42], w529[45],
+			~w529[0], ~w529[48], w529[3], w529[51], w529[6], w529[54], ~w529[9], w529[57],
+			w529[12], ~w529[60], ~w529[15], w529[63], w529[18], w529[66], w529[21], 9'h0 } : 32'h0) |
+		(w566 ?
+		{ w529[23], w529[26], ~w529[29], ~w529[32], ~w529[35], w529[38], w529[41], w529[44],
+			w522[0], w529[47], w529[2], w529[50], w529[5], w529[53], w529[8], ~w529[56],
+			w529[11], ~w529[59], w529[14], ~w529[62], ~w529[17], w529[65], w529[20], 9'h0 } : 32'h0);
+	
+	assign w539 = w540 ? c2 : 1'h0;
+	
+	assign w540 = ~(w267 | ~w529[0]);
+	assign w541 = ~(w522[0] | w477);
+	assign w542 = ~(w540 | w541);
+	
+	assign w543 = w477 | (w529[1] & ~w267);
+	
+	assign w544 = ~(w529[7] | w529[1]);
+	
+	always @(posedge MCLK)
+	begin
+		if (c4)
+			w545 <= ird_pla1[43];
+	end
+	
+	assign w546 = ~(w545 & w529[25]);
+	
+	assign w547 = ~w267 & w607;
+	
+	assign w548 = ~(w267 | ~w605);
+	
+	always @(posedge MCLK)
+	begin
+		if (w539)
+		begin
+			w549 <= w468;
+			w550 <= w469;
+			w551 <= w470;
+			w552 <= w471;
+		end
+	end
+	
+	assign w553 = ~w984[11];
+	assign w554 = ~w876;
+	
+	assign w559 = w522[5:2];
+	
+	assign w560 = { irdbus[22], irdbus[20], irdbus[18], irdbus[16] };
+	
+	assign cond_pla1[0] = w560 == 4'hf & ~w754 & w752 & w753;
+	assign cond_pla1[1] = w560 == 4'hf & ~w754 & ~w752 & ~w753;
+	assign cond_pla1[2] = w560 == 4'he & w754;
+	assign cond_pla1[3] = w560 == 4'hd & w752 & w753;
+	assign cond_pla1[4] = w560 == 4'hd & ~w752 & ~w753;
+	assign cond_pla1[5] = (w560 & 4'hd) == 4'hc & ~w752 & w753;
+	assign cond_pla1[6] = (w560 & 4'hd) == 4'hc & w752 & ~w753;
+	assign cond_pla1[7] = w560 == 4'hb & ~w753;
+	assign cond_pla1[8] = w560 == 4'ha & w753;
+	assign cond_pla1[9] = w560 == 4'h9 & ~w752;
+	assign cond_pla1[10] = w560 == 4'h8 & w752;
+	assign cond_pla1[11] = w560 == 4'h7 & ~w754;
+	assign cond_pla1[12] = w560 == 4'h5 & ~w751;
+	assign cond_pla1[13] = w560 == 4'h4 & w751;
+	assign cond_pla1[14] = w560 == 4'h3 & ~w754 & ~w751;
+	assign cond_pla1[15] = (w560 & 4'hb) == 4'h2 & w754;
+	assign cond_pla1[16] = w560 == 4'h2 & w751;
+	assign cond_pla1[17] = w560 == 4'h1;
+	
+	assign cond_pla2[0] = w559 == 4'h9;
+	assign cond_pla2[1] = w559 == 4'he & ~w170 & ~irdbus[12];
+	assign cond_pla2[2] = w559 == 4'he & w170;
+	assign cond_pla2[3] = w559 == 4'hd & w752;
+	assign cond_pla2[4] = w559 == 4'hc & ~w554;
+	assign cond_pla2[5] = w559 == 4'hb & ~w753 & ~w752;
+	assign cond_pla2[6] = w559 == 4'ha & ~w800;
+	assign cond_pla2[7] = w559 == 4'h8 & ~w560[0] & w901;
+	assign cond_pla2[8] = w559 == 4'h8 & w560[0] & ~w901 & w899;
+	assign cond_pla2[9] = w559 == 4'h8 & w157;
+	assign cond_pla2[10] = w559 == 4'h8 & w560[0] & w901 & ~w899;
+	assign cond_pla2[11] = w559 == 4'h7 & w560[0] & w899;
+	assign cond_pla2[12] = w559 == 4'h7 & ~w560[0] & w899;
+	assign cond_pla2[13] = w559 == 4'h6 & w754;
+	assign cond_pla2[14] = w559 == 4'h6 & w753;
+	assign cond_pla2[15] = w559 == 4'h5 & ~w753;
+	assign cond_pla2[16] = w559 == 4'h4 & w753 & ~w754;
+	assign cond_pla2[17] = w559 == 4'h4 & ~w753 & ~w754;
+	assign cond_pla2[18] = w559 == 4'h3 & ~w754;
+	assign cond_pla2[19] = w559 == 4'h2;
+	assign cond_pla2[20] = w559 == 4'h2 & w751;
+	assign cond_pla2[21] = w559 == 4'h1 & w157;
+	assign cond_pla2[22] = w559 == 4'h0 & ~w553;
+	
+	assign w555_1 = |cond_pla[17:0];
+	
+	assign w556_1 = |cond_pla[17:0];
+	
+	assign w555 = ~(
+		(cond_pla2[0] & w555_1) |
+		cond_pla2[2] |
+		cond_pla2[3] |
+		cond_pla2[4] |
+		cond_pla2[5] |
+		cond_pla2[6] |
+		cond_pla2[7] |
+		cond_pla2[8] |
+		cond_pla2[9] |
+		cond_pla2[12] |
+		cond_pla2[13] |
+		cond_pla2[14] |
+		cond_pla2[15] |
+		cond_pla2[16] |
+		cond_pla2[18] |
+		cond_pla2[19] |
+		cond_pla2[21] |
+		cond_pla2[22]
+		);
+		
+	assign w556 = ~(
+		(cond_pla2[0] & w556_1) |
+		cond_pla2[1] |
+		cond_pla2[4] |
+		cond_pla2[15] |
+		cond_pla2[20] |
+		cond_pla2[21] |
+		);
+	
+	assign w557 = ~(
+		cond_pla2[1] |
+		cond_pla2[2] |
+		cond_pla2[3] |
+		cond_pla2[5] |
+		cond_pla2[6] |
+		cond_pla2[9] |
+		cond_pla2[10] |
+		cond_pla2[11] |
+		cond_pla2[17] |
+		cond_pla2[18] |
+		cond_pla2[20] |
+		cond_pla2[22]
+		);
+		
+	assign w558 = ~(
+		cond_pla2[2] |
+		cond_pla2[21]
+		);
+	
+	assign w561 = ~(w267 | w522[6]);
+	assign w562 = ~(w561 | w267);
+	
+	assign w563 = ~(w578 | (w529[25] & ird_pla1[0]));
+	
+	assign w564 = ~(~w320 | ~w267 | ~w321);
+	assign w565 = ~(w320 | ~w267 | ~w321);
+	assign w566 = ~(~w320 | ~w267 | w321);
+	
+	
 endmodule
