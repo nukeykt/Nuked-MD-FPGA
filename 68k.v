@@ -570,6 +570,12 @@ module m68kcpu
 	wire [9:0] w531;
 	wire w532;
 	wire w533;
+	wire [149:0] a2_pla;
+	wire a2_pla_g1, a2_pla_g2, a2_pla_g3;
+	wire [9:0] w534;
+	wire [9:0] w535;
+	wire w536;
+	wire w537;
 	
 	wire [17:0] w597;
 	
@@ -2614,30 +2620,30 @@ module m68kcpu
 			w530 <= ~w984;
 	end
 	
-	assign a0_pla[0] = (chip->w530 & 16'hf100) == 16'h0100;
-	assign a0_pla[1] = (chip->w530 & 16'hd000) == 16'h1000;
-	assign a0_pla[2] = (chip->w530 & 16'hf1c0) == 16'h4180;
-	assign a0_pla[3] = (chip->w530 & 16'hf1c0) == 16'h4000;
-	assign a0_pla[4] = (chip->w530 & 16'hf940) == 16'h4040;
-	assign a0_pla[5] = (chip->w530 & 16'hff40) == 16'h4a40;
-	assign a0_pla[6] = (chip->w530 & 16'hb080) == 16'h8000;
-	assign a0_pla[7] = (chip->w530 & 16'hb040) == 16'h8040;
-	assign a0_pla[8] = (chip->w530 & 16'h9080) == 16'h9000;
-	assign a0_pla[9] = (chip->w530 & 16'h9140) == 16'h9040;
-	assign a0_pla[10] = (chip->w530 & 16'hf080) == 16'h5000;
-	assign a0_pla[11] = (chip->w530 & 16'hf040) == 16'h5040;
-	assign a0_pla[12] = (chip->w530 & 16'hf8c0) == 16'he0c0;
+	assign a0_pla[0] = (w530 & 16'hf100) == 16'h0100;
+	assign a0_pla[1] = (w530 & 16'hd000) == 16'h1000;
+	assign a0_pla[2] = (w530 & 16'hf1c0) == 16'h4180;
+	assign a0_pla[3] = (w530 & 16'hf1c0) == 16'h4000;
+	assign a0_pla[4] = (w530 & 16'hf940) == 16'h4040;
+	assign a0_pla[5] = (w530 & 16'hff40) == 16'h4a40;
+	assign a0_pla[6] = (w530 & 16'hb080) == 16'h8000;
+	assign a0_pla[7] = (w530 & 16'hb040) == 16'h8040;
+	assign a0_pla[8] = (w530 & 16'h9080) == 16'h9000;
+	assign a0_pla[9] = (w530 & 16'h9140) == 16'h9040;
+	assign a0_pla[10] = (w530 & 16'hf080) == 16'h5000;
+	assign a0_pla[11] = (w530 & 16'hf040) == 16'h5040;
+	assign a0_pla[12] = (w530 & 16'hf8c0) == 16'he0c0;
 	
 	assign w532 = ~(a0_pla[0] | a0_pla[1] | a0_pla[2] | a0_pla[3] | a0_pla[4] | a0_pla[5]
 		| a0_pla[6] | a0_pla[7] | a0_pla[8] | a0_pla[9] | a0_pla[10] | a0_pla[11] | a0_pla[12]);
 	
-	assign a0_pla[13] = (chip->w530 & 16'hf000) == 16'h2000;
-	assign a0_pla[14] = (chip->w530 & 16'hf9c0) == 16'h4080;
-	assign a0_pla[15] = (chip->w530 & 16'hffc0) == 16'h4a80;
-	assign a0_pla[16] = (chip->w530 & 16'hf0c0) == 16'h5080;
-	assign a0_pla[17] = (chip->w530 & 16'ha0c0) == 16'h8080;
-	assign a0_pla[18] = (chip->w530 & 16'h90c0) == 16'h9080;
-	assign a0_pla[19] = (chip->w530 & 16'h9180) == 16'h9180;
+	assign a0_pla[13] = (w530 & 16'hf000) == 16'h2000;
+	assign a0_pla[14] = (w530 & 16'hf9c0) == 16'h4080;
+	assign a0_pla[15] = (w530 & 16'hffc0) == 16'h4a80;
+	assign a0_pla[16] = (w530 & 16'hf0c0) == 16'h5080;
+	assign a0_pla[17] = (w530 & 16'ha0c0) == 16'h8080;
+	assign a0_pla[18] = (w530 & 16'h90c0) == 16'h9080;
+	assign a0_pla[19] = (w530 & 16'h9180) == 16'h9180;
 	
 	assign w533 = ~(a0_pla[13] | a0_pla[14] | a0_pla[15] | a0_pla[16] | a0_pla[17]
 		| a0_pla[18] | a0_pla[19]);
@@ -2648,308 +2654,636 @@ module m68kcpu
 			a0_pla_mem[i] <= w450 ? 1'h1 : a0_pla[i];
 	end
 	
-	assign a0_pla[20] = a0_pla_mem[20] & (chip->w530 & 16'h003f) == 16'h0039 & ~w533;
-	assign a0_pla[21] = a0_pla_mem[21] & (chip->w530 & 16'h003f) == 16'h0039 & ~w532;
-	assign a0_pla[22] = a0_pla_mem[22] & (chip->w530 & 16'h003f) == 16'h0038 & ~w533;
-	assign a0_pla[23] = a0_pla_mem[23] & (chip->w530 & 16'h003f) == 16'h0038 & ~w532;
-	assign a0_pla[24] = a0_pla_mem[24] & (chip->w530 & 16'h0038) == 16'h0010 & ~w533;
-	assign a0_pla[25] = a0_pla_mem[25] & (chip->w530 & 16'h0038) == 16'h0010 & ~w532;
-	assign a0_pla[26] = a0_pla_mem[26] & (chip->w530 & 16'h0038) == 16'h0028 & ~w533;
-	assign a0_pla[27] = a0_pla_mem[27] & (chip->w530 & 16'h003f) == 16'h003a & ~w533;
-	assign a0_pla[28] = a0_pla_mem[28] & (chip->w530 & 16'h0038) == 16'h0028 & ~w532;
-	assign a0_pla[29] = a0_pla_mem[29] & (chip->w530 & 16'h003f) == 16'h003a & ~w532;
-	assign a0_pla[30] = a0_pla_mem[30] & (chip->w530 & 16'h0038) == 16'h0030 & ~w533;
-	assign a0_pla[31] = a0_pla_mem[31] & (chip->w530 & 16'h003f) == 16'h003b & ~w533;
-	assign a0_pla[32] = a0_pla_mem[32] & (chip->w530 & 16'h0038) == 16'h0030 & ~w532;
-	assign a0_pla[33] = a0_pla_mem[33] & (chip->w530 & 16'h003f) == 16'h003b & ~w532;
-	assign a0_pla[34] = a0_pla_mem[34] & (chip->w530 & 16'hb1f8) == 16'h8108;
-	assign a0_pla[35] = a0_pla_mem[35] & (chip->w530 & 16'hb1f8) == 16'h9188;
-	assign a0_pla[36] = a0_pla_mem[36] & (chip->w530 & 16'hb1b8) == 16'h9108;
-	assign a0_pla[37] = a0_pla_mem[37] & (chip->w530 & 16'hffff) == 16'h4e71;
-	assign a0_pla[38] = a0_pla_mem[38] & (chip->w530 & 16'hfff8) == 16'h4ac0;
-	assign a0_pla[39] = a0_pla_mem[39] & (chip->w530 & 16'hfff0) == 16'h4e40;
-	assign a0_pla[40] = a0_pla_mem[40] & (chip->w530 & 16'hffff) == 16'h4e76;
-	assign a0_pla[41] = a0_pla_mem[41] & (chip->w530 & 16'hf1f8) == 16'h0180;
-	assign a0_pla[42] = a0_pla_mem[42] & (chip->w530 & 16'hf178) == 16'h0140;
-	assign a0_pla[43] = a0_pla_mem[43] & (chip->w530 & 16'hfff8) == 16'h4a80;
-	assign a0_pla[44] = a0_pla_mem[44] & (chip->w530 & 16'hf1f8) == 16'h0100;
-	assign a0_pla[45] = a0_pla_mem[45] & (chip->w530 & 16'hf1f8) == 16'h4180;
-	assign a0_pla[46] = a0_pla_mem[46] & (chip->w530 & 16'hf1b8) == 16'hb108;
-	assign a0_pla[47] = a0_pla_mem[47] & (chip->w530 & 16'hf1f8) == 16'hb188;
-	assign a0_pla[48] = a0_pla_mem[48] & (chip->w530 & 16'hf1f0) == 16'hb080;
-	assign a0_pla[49] = a0_pla_mem[49] & (chip->w530 & 16'hf1f0) == 16'hb1c0;
-	assign a0_pla[50] = a0_pla_mem[50] & (chip->w530 & 16'hf1f0) == 16'hb0c0;
-	assign a0_pla[51] = a0_pla_mem[51] & (chip->w530 & 16'hf1b0) == 16'hb000;
-	assign a0_pla[52] = a0_pla_mem[52] & (chip->w530 & 16'hf0f8) == 16'h50c8;
-	assign a0_pla[53] = a0_pla_mem[53] & (chip->w530 & 16'hf1f8) == 16'h81c0;
-	assign a0_pla[54] = a0_pla_mem[54] & (chip->w530 & 16'hf1f8) == 16'h80c0;
-	assign a0_pla[55] = a0_pla_mem[55] & (chip->w530 & 16'hf1f0) == 16'hc140;
-	assign a0_pla[56] = a0_pla_mem[56] & (chip->w530 & 16'hf1f8) == 16'hc188;
-	assign a0_pla[57] = a0_pla_mem[57] & (chip->w530 & 16'hfff8) == 16'h48c0;
-	assign a0_pla[58] = a0_pla_mem[58] & (chip->w530 & 16'h003f) == 16'h003c & ~w533;
-	assign a0_pla[59] = a0_pla_mem[59] & (chip->w530 & 16'h003f) == 16'h003c & ~w532;
-	assign a0_pla[60] = a0_pla_mem[60] & (chip->w530 & 16'hffff) == 16'h4ef9;
-	assign a0_pla[61] = a0_pla_mem[61] & (chip->w530 & 16'hffff) == 16'h4ef8;
-	assign a0_pla[62] = a0_pla_mem[62] & (chip->w530 & 16'hfff8) == 16'h4ed0;
-	assign a0_pla[63] = a0_pla_mem[63] & (chip->w530 & 16'hfff8) == 16'h4ee8;
-	assign a0_pla[64] = a0_pla_mem[64] & (chip->w530 & 16'hffff) == 16'h4efa;
-	assign a0_pla[65] = a0_pla_mem[65] & (chip->w530 & 16'hfff8) == 16'h4ef0;
-	assign a0_pla[66] = a0_pla_mem[66] & (chip->w530 & 16'hffff) == 16'h4efb;
-	assign a0_pla[67] = a0_pla_mem[67] & (chip->w530 & 16'hffff) == 16'h4eb9;
-	assign a0_pla[68] = a0_pla_mem[68] & (chip->w530 & 16'hffff) == 16'h4eb8;
-	assign a0_pla[69] = a0_pla_mem[69] & (chip->w530 & 16'hfff8) == 16'h4e90;
-	assign a0_pla[70] = a0_pla_mem[70] & (chip->w530 & 16'hfff8) == 16'h4ea8;
-	assign a0_pla[71] = a0_pla_mem[71] & (chip->w530 & 16'hffff) == 16'h4eba;
-	assign a0_pla[72] = a0_pla_mem[72] & (chip->w530 & 16'hfff8) == 16'h4eb0;
-	assign a0_pla[73] = a0_pla_mem[73] & (chip->w530 & 16'hffff) == 16'h4ebb;
-	assign a0_pla[74] = a0_pla_mem[74] & (chip->w530 & 16'hf1ff) == 16'h41f9;
-	assign a0_pla[75] = a0_pla_mem[75] & (chip->w530 & 16'hf1ff) == 16'h41f8;
-	assign a0_pla[76] = a0_pla_mem[76] & (chip->w530 & 16'hffb8) == 16'h4ca8;
-	assign a0_pla[77] = a0_pla_mem[77] & (chip->w530 & 16'hffbf) == 16'h4cba;
-	assign a0_pla[78] = a0_pla_mem[78] & (chip->w530 & 16'hffb8) == 16'h4c90;
-	assign a0_pla[79] = a0_pla_mem[79] & (chip->w530 & 16'hffb8) == 16'h4cb0;
-	assign a0_pla[80] = a0_pla_mem[80] & (chip->w530 & 16'hffbf) == 16'h4cbb;
-	assign a0_pla[81] = a0_pla_mem[81] & (chip->w530 & 16'hf1f8) == 16'h41d0;
-	assign a0_pla[82] = a0_pla_mem[82] & (chip->w530 & 16'hf1f8) == 16'h41e8;
-	assign a0_pla[83] = a0_pla_mem[83] & (chip->w530 & 16'hf1ff) == 16'h41fa;
-	assign a0_pla[84] = a0_pla_mem[84] & (chip->w530 & 16'hf1f8) == 16'h41f0;
-	assign a0_pla[85] = a0_pla_mem[85] & (chip->w530 & 16'hf1ff) == 16'h41fb;
-	assign a0_pla[86] = a0_pla_mem[86] & (chip->w530 & 16'hfff8) == 16'h4e50;
-	assign a0_pla[87] = a0_pla_mem[87] & (chip->w530 & 16'hffbf) == 16'h4cb9;
-	assign a0_pla[88] = a0_pla_mem[88] & (chip->w530 & 16'hffbf) == 16'h4cb8;
-	assign a0_pla[89] = a0_pla_mem[89] & (chip->w530 & 16'hfff8) == 16'h4e60;
-	assign a0_pla[90] = a0_pla_mem[90] & (chip->w530 & 16'hf1f8) == 16'h0148;
-	assign a0_pla[91] = a0_pla_mem[91] & (chip->w530 & 16'hf1f8) == 16'h0108;
-	assign a0_pla[92] = a0_pla_mem[92] & (chip->w530 & 16'hf1f8) == 16'h01c8;
-	assign a0_pla[93] = a0_pla_mem[93] & (chip->w530 & 16'hf1f8) == 16'h0188;
-	assign a0_pla[94] = a0_pla_mem[94] & (chip->w530 & 16'hf0f8) == 16'hc0c0;
-	assign a0_pla[95] = a0_pla_mem[95] & (chip->w530 & 16'hfff8) == 16'h4800;
-	assign a0_pla[96] = a0_pla_mem[96] & (chip->w530 & 16'hf9f8) == 16'h4080;
-	assign a0_pla[97] = a0_pla_mem[97] & (chip->w530 & 16'hf9b8) == 16'h4000;
-	assign a0_pla[98] = a0_pla_mem[98] & (chip->w530 & 16'hfff8) == 16'h4880;
-	assign a0_pla[99] = a0_pla_mem[99] & (chip->w530 & 16'hffb8) == 16'h4a00;
-	assign a0_pla[100] = a0_pla_mem[100] & (chip->w530 & 16'hf180) == 16'h0000;
-	assign a0_pla[101] = a0_pla_mem[101] & (chip->w530 & 16'hfff8) == 16'h4e58;
-	assign a0_pla[102] = a0_pla_mem[102] & (chip->w530 & 16'hffff) == 16'h4879;
-	assign a0_pla[103] = a0_pla_mem[103] & (chip->w530 & 16'hffff) == 16'h4878;
-	assign a0_pla[104] = a0_pla_mem[104] & (chip->w530 & 16'h0038) == 16'h0020 & ~w533;
-	assign a0_pla[105] = a0_pla_mem[105] & (chip->w530 & 16'h0038) == 16'h0020 & ~w532;
-	assign a0_pla[106] = a0_pla_mem[106] & (chip->w530 & 16'hfff8) == 16'h4850;
-	assign a0_pla[107] = a0_pla_mem[107] & (chip->w530 & 16'hfff8) == 16'h4868;
-	assign a0_pla[108] = a0_pla_mem[108] & (chip->w530 & 16'hffff) == 16'h487a;
-	assign a0_pla[109] = a0_pla_mem[109] & (chip->w530 & 16'hfff8) == 16'h4870;
-	assign a0_pla[110] = a0_pla_mem[110] & (chip->w530 & 16'hffff) == 16'h487b;
-	assign a0_pla[111] = a0_pla_mem[111] & (chip->w530 & 16'h0038) == 16'h0018 & ~w533;
-	assign a0_pla[112] = a0_pla_mem[112] & (chip->w530 & 16'h0038) == 16'h0018 & ~w532;
-	assign a0_pla[113] = a0_pla_mem[113] & (chip->w530 & 16'hffb8) == 16'h4c98;
-	assign a0_pla[114] = a0_pla_mem[114] & (chip->w530 & 16'hffb8) == 16'h48a0;
-	assign a0_pla[115] = a0_pla_mem[115] & (chip->w530 & 16'hfff0) == 16'h23c0;
-	assign a0_pla[116] = a0_pla_mem[116] & (chip->w530 & 16'hdff0) == 16'h13c0;
-	assign a0_pla[117] = a0_pla_mem[117] & (chip->w530 & 16'hf0f0) == 16'h5080;
-	assign a0_pla[118] = a0_pla_mem[118] & (chip->w530 & 16'hf0f8) == 16'h5048;
-	assign a0_pla[119] = a0_pla_mem[119] & (chip->w530 & 16'hf0b8) == 16'h5000;
-	assign a0_pla[120] = a0_pla_mem[120] & (chip->w530 & 16'hfff0) == 16'h21c0;
-	assign a0_pla[121] = a0_pla_mem[121] & (chip->w530 & 16'hdff0) == 16'h11c0;
-	assign a0_pla[122] = a0_pla_mem[122] & (chip->w530 & 16'hb1f8) == 16'h8100;
-	assign a0_pla[123] = a0_pla_mem[123] & (chip->w530 & 16'hf100) == 16'h7000;
-	assign a0_pla[124] = a0_pla_mem[124] & (chip->w530 & 16'hf1f0) == 16'h2140;
-	assign a0_pla[125] = a0_pla_mem[125] & (chip->w530 & 16'hd1f0) == 16'h1140;
-	assign a0_pla[126] = a0_pla_mem[126] & (chip->w530 & 16'hf1f0) == 16'h20c0;
-	assign a0_pla[127] = a0_pla_mem[127] & (chip->w530 & 16'hd1f0) == 16'h10c0;
-	assign a0_pla[128] = a0_pla_mem[128] & (chip->w530 & 16'hf1f0) == 16'h2100;
-	assign a0_pla[129] = a0_pla_mem[129] & (chip->w530 & 16'hd1f0) == 16'h1100;
-	assign a0_pla[130] = a0_pla_mem[130] & (chip->w530 & 16'hf1f0) == 16'h2080;
-	assign a0_pla[131] = a0_pla_mem[131] & (chip->w530 & 16'hd1f0) == 16'h1080;
-	assign a0_pla[132] = a0_pla_mem[132] & (chip->w530 & 16'hf1f0) == 16'h2180;
-	assign a0_pla[133] = a0_pla_mem[133] & (chip->w530 & 16'hd1f0) == 16'h1180;
-	assign a0_pla[134] = a0_pla_mem[134] & (chip->w530 & 16'hf1f8) == 16'hb180;
-	assign a0_pla[135] = a0_pla_mem[135] & (chip->w530 & 16'hf1b8) == 16'hb100;
-	assign a0_pla[136] = a0_pla_mem[136] & (chip->w530 & 16'ha1f0) == 16'h8080;
-	assign a0_pla[137] = a0_pla_mem[137] & (chip->w530 & 16'hb1b8) == 16'h9180;
-	assign a0_pla[138] = a0_pla_mem[138] & (chip->w530 & 16'hb1f0) == 16'h91c0;
-	assign a0_pla[139] = a0_pla_mem[139] & (chip->w530 & 16'hb1f0) == 16'h90c0;
-	assign a0_pla[140] = a0_pla_mem[140] & (chip->w530 & 16'ha1b0) == 16'h8000;
-	assign a0_pla[141] = a0_pla_mem[141] & (chip->w530 & 16'hb1b8) == 16'h9100;
-	assign a0_pla[142] = a0_pla_mem[142] & (chip->w530 & 16'hf1b0) == 16'h2000;
-	assign a0_pla[143] = a0_pla_mem[143] & (chip->w530 & 16'hf1f0) == 16'h3040;
-	assign a0_pla[144] = a0_pla_mem[144] & (chip->w530 & 16'hd1f0) == 16'h1000;
-	assign a0_pla[145] = a0_pla_mem[145] & (chip->w530 & 16'hfdf8) == 16'h44c0;
-	assign a0_pla[146] = a0_pla_mem[146] & (chip->w530 & 16'hfffb) == 16'h4e73;
-	assign a0_pla[147] = a0_pla_mem[147] & (chip->w530 & 16'hffff) == 16'h4e75;
-	assign a0_pla[148] = a0_pla_mem[148] & (chip->w530 & 16'hf0f8) == 16'h50c0;
-	assign a0_pla[149] = a0_pla_mem[149] & (chip->w530 & 16'hffbf) == 16'h48b9;
-	assign a0_pla[150] = a0_pla_mem[150] & (chip->w530 & 16'hffbf) == 16'h48b8;
-	assign a0_pla[151] = a0_pla_mem[151] & (chip->w530 & 16'hf0e0) == 16'he080;
-	assign a0_pla[152] = a0_pla_mem[152] & (chip->w530 & 16'hf0a0) == 16'he000;
-	assign a0_pla[153] = a0_pla_mem[153] & (chip->w530 & 16'hf0e0) == 16'he0a0;
-	assign a0_pla[154] = a0_pla_mem[154] & (chip->w530 & 16'hf0a0) == 16'he020;
-	assign a0_pla[155] = a0_pla_mem[155] & (chip->w530 & 16'hffb8) == 16'h48a8;
-	assign a0_pla[156] = a0_pla_mem[156] & (chip->w530 & 16'hffb8) == 16'h4890;
-	assign a0_pla[157] = a0_pla_mem[157] & (chip->w530 & 16'hffb8) == 16'h48b0;
-	assign a0_pla[158] = a0_pla_mem[158] & (chip->w530 & 16'hffff) == 16'h4e72;
-	assign a0_pla[159] = a0_pla_mem[159] & (chip->w530 & 16'hfff8) == 16'h40c0;
-	assign a0_pla[160] = a0_pla_mem[160] & (chip->w530 & 16'hfff8) == 16'h4e68;
-	assign a0_pla[161] = a0_pla_mem[161] & (chip->w530 & 16'hfff8) == 16'h4840;
-	assign a0_pla[162] = a0_pla_mem[162] & (chip->w530 & 16'hffff) == 16'h4e70;
-	assign a0_pla[163] = a0_pla_mem[163] & (chip->w530 & 16'hf1c0) == 16'h0080 & ~a0_pla[168];
-	assign a0_pla[164] = a0_pla_mem[164] & (chip->w530 & 16'hf000) == 16'h6000 & ~a0_pla[165] & ~a0_pla[166] & ~a0_pla[167];
-	assign a0_pla[165] = (chip->w530 & 16'hf0ff) == 16'h6000 & ~a0_pla[167];
-	assign a0_pla[166] = (chip->w530 & 16'hff00) == 16'h6100 & ~a0_pla[167];
-	assign a0_pla[167] = (chip->w530 & 16'hffff) == 16'h6100;
-	assign a0_pla[168] = (chip->w530 & 16'hff80) == 16'h0880;
-	assign a0_pla[169] = (chip->w530 & 16'hf000) == 16'hf000;
-	assign a0_pla[170] = (chip->w530 & 16'hf000) == 16'ha000;
+	assign a0_pla[20] = a0_pla_mem[20] & (w530 & 16'h003f) == 16'h0039 & ~w533;
+	assign a0_pla[21] = a0_pla_mem[21] & (w530 & 16'h003f) == 16'h0039 & ~w532;
+	assign a0_pla[22] = a0_pla_mem[22] & (w530 & 16'h003f) == 16'h0038 & ~w533;
+	assign a0_pla[23] = a0_pla_mem[23] & (w530 & 16'h003f) == 16'h0038 & ~w532;
+	assign a0_pla[24] = a0_pla_mem[24] & (w530 & 16'h0038) == 16'h0010 & ~w533;
+	assign a0_pla[25] = a0_pla_mem[25] & (w530 & 16'h0038) == 16'h0010 & ~w532;
+	assign a0_pla[26] = a0_pla_mem[26] & (w530 & 16'h0038) == 16'h0028 & ~w533;
+	assign a0_pla[27] = a0_pla_mem[27] & (w530 & 16'h003f) == 16'h003a & ~w533;
+	assign a0_pla[28] = a0_pla_mem[28] & (w530 & 16'h0038) == 16'h0028 & ~w532;
+	assign a0_pla[29] = a0_pla_mem[29] & (w530 & 16'h003f) == 16'h003a & ~w532;
+	assign a0_pla[30] = a0_pla_mem[30] & (w530 & 16'h0038) == 16'h0030 & ~w533;
+	assign a0_pla[31] = a0_pla_mem[31] & (w530 & 16'h003f) == 16'h003b & ~w533;
+	assign a0_pla[32] = a0_pla_mem[32] & (w530 & 16'h0038) == 16'h0030 & ~w532;
+	assign a0_pla[33] = a0_pla_mem[33] & (w530 & 16'h003f) == 16'h003b & ~w532;
+	assign a0_pla[34] = a0_pla_mem[34] & (w530 & 16'hb1f8) == 16'h8108;
+	assign a0_pla[35] = a0_pla_mem[35] & (w530 & 16'hb1f8) == 16'h9188;
+	assign a0_pla[36] = a0_pla_mem[36] & (w530 & 16'hb1b8) == 16'h9108;
+	assign a0_pla[37] = a0_pla_mem[37] & (w530 & 16'hffff) == 16'h4e71;
+	assign a0_pla[38] = a0_pla_mem[38] & (w530 & 16'hfff8) == 16'h4ac0;
+	assign a0_pla[39] = a0_pla_mem[39] & (w530 & 16'hfff0) == 16'h4e40;
+	assign a0_pla[40] = a0_pla_mem[40] & (w530 & 16'hffff) == 16'h4e76;
+	assign a0_pla[41] = a0_pla_mem[41] & (w530 & 16'hf1f8) == 16'h0180;
+	assign a0_pla[42] = a0_pla_mem[42] & (w530 & 16'hf178) == 16'h0140;
+	assign a0_pla[43] = a0_pla_mem[43] & (w530 & 16'hfff8) == 16'h4a80;
+	assign a0_pla[44] = a0_pla_mem[44] & (w530 & 16'hf1f8) == 16'h0100;
+	assign a0_pla[45] = a0_pla_mem[45] & (w530 & 16'hf1f8) == 16'h4180;
+	assign a0_pla[46] = a0_pla_mem[46] & (w530 & 16'hf1b8) == 16'hb108;
+	assign a0_pla[47] = a0_pla_mem[47] & (w530 & 16'hf1f8) == 16'hb188;
+	assign a0_pla[48] = a0_pla_mem[48] & (w530 & 16'hf1f0) == 16'hb080;
+	assign a0_pla[49] = a0_pla_mem[49] & (w530 & 16'hf1f0) == 16'hb1c0;
+	assign a0_pla[50] = a0_pla_mem[50] & (w530 & 16'hf1f0) == 16'hb0c0;
+	assign a0_pla[51] = a0_pla_mem[51] & (w530 & 16'hf1b0) == 16'hb000;
+	assign a0_pla[52] = a0_pla_mem[52] & (w530 & 16'hf0f8) == 16'h50c8;
+	assign a0_pla[53] = a0_pla_mem[53] & (w530 & 16'hf1f8) == 16'h81c0;
+	assign a0_pla[54] = a0_pla_mem[54] & (w530 & 16'hf1f8) == 16'h80c0;
+	assign a0_pla[55] = a0_pla_mem[55] & (w530 & 16'hf1f0) == 16'hc140;
+	assign a0_pla[56] = a0_pla_mem[56] & (w530 & 16'hf1f8) == 16'hc188;
+	assign a0_pla[57] = a0_pla_mem[57] & (w530 & 16'hfff8) == 16'h48c0;
+	assign a0_pla[58] = a0_pla_mem[58] & (w530 & 16'h003f) == 16'h003c & ~w533;
+	assign a0_pla[59] = a0_pla_mem[59] & (w530 & 16'h003f) == 16'h003c & ~w532;
+	assign a0_pla[60] = a0_pla_mem[60] & (w530 & 16'hffff) == 16'h4ef9;
+	assign a0_pla[61] = a0_pla_mem[61] & (w530 & 16'hffff) == 16'h4ef8;
+	assign a0_pla[62] = a0_pla_mem[62] & (w530 & 16'hfff8) == 16'h4ed0;
+	assign a0_pla[63] = a0_pla_mem[63] & (w530 & 16'hfff8) == 16'h4ee8;
+	assign a0_pla[64] = a0_pla_mem[64] & (w530 & 16'hffff) == 16'h4efa;
+	assign a0_pla[65] = a0_pla_mem[65] & (w530 & 16'hfff8) == 16'h4ef0;
+	assign a0_pla[66] = a0_pla_mem[66] & (w530 & 16'hffff) == 16'h4efb;
+	assign a0_pla[67] = a0_pla_mem[67] & (w530 & 16'hffff) == 16'h4eb9;
+	assign a0_pla[68] = a0_pla_mem[68] & (w530 & 16'hffff) == 16'h4eb8;
+	assign a0_pla[69] = a0_pla_mem[69] & (w530 & 16'hfff8) == 16'h4e90;
+	assign a0_pla[70] = a0_pla_mem[70] & (w530 & 16'hfff8) == 16'h4ea8;
+	assign a0_pla[71] = a0_pla_mem[71] & (w530 & 16'hffff) == 16'h4eba;
+	assign a0_pla[72] = a0_pla_mem[72] & (w530 & 16'hfff8) == 16'h4eb0;
+	assign a0_pla[73] = a0_pla_mem[73] & (w530 & 16'hffff) == 16'h4ebb;
+	assign a0_pla[74] = a0_pla_mem[74] & (w530 & 16'hf1ff) == 16'h41f9;
+	assign a0_pla[75] = a0_pla_mem[75] & (w530 & 16'hf1ff) == 16'h41f8;
+	assign a0_pla[76] = a0_pla_mem[76] & (w530 & 16'hffb8) == 16'h4ca8;
+	assign a0_pla[77] = a0_pla_mem[77] & (w530 & 16'hffbf) == 16'h4cba;
+	assign a0_pla[78] = a0_pla_mem[78] & (w530 & 16'hffb8) == 16'h4c90;
+	assign a0_pla[79] = a0_pla_mem[79] & (w530 & 16'hffb8) == 16'h4cb0;
+	assign a0_pla[80] = a0_pla_mem[80] & (w530 & 16'hffbf) == 16'h4cbb;
+	assign a0_pla[81] = a0_pla_mem[81] & (w530 & 16'hf1f8) == 16'h41d0;
+	assign a0_pla[82] = a0_pla_mem[82] & (w530 & 16'hf1f8) == 16'h41e8;
+	assign a0_pla[83] = a0_pla_mem[83] & (w530 & 16'hf1ff) == 16'h41fa;
+	assign a0_pla[84] = a0_pla_mem[84] & (w530 & 16'hf1f8) == 16'h41f0;
+	assign a0_pla[85] = a0_pla_mem[85] & (w530 & 16'hf1ff) == 16'h41fb;
+	assign a0_pla[86] = a0_pla_mem[86] & (w530 & 16'hfff8) == 16'h4e50;
+	assign a0_pla[87] = a0_pla_mem[87] & (w530 & 16'hffbf) == 16'h4cb9;
+	assign a0_pla[88] = a0_pla_mem[88] & (w530 & 16'hffbf) == 16'h4cb8;
+	assign a0_pla[89] = a0_pla_mem[89] & (w530 & 16'hfff8) == 16'h4e60;
+	assign a0_pla[90] = a0_pla_mem[90] & (w530 & 16'hf1f8) == 16'h0148;
+	assign a0_pla[91] = a0_pla_mem[91] & (w530 & 16'hf1f8) == 16'h0108;
+	assign a0_pla[92] = a0_pla_mem[92] & (w530 & 16'hf1f8) == 16'h01c8;
+	assign a0_pla[93] = a0_pla_mem[93] & (w530 & 16'hf1f8) == 16'h0188;
+	assign a0_pla[94] = a0_pla_mem[94] & (w530 & 16'hf0f8) == 16'hc0c0;
+	assign a0_pla[95] = a0_pla_mem[95] & (w530 & 16'hfff8) == 16'h4800;
+	assign a0_pla[96] = a0_pla_mem[96] & (w530 & 16'hf9f8) == 16'h4080;
+	assign a0_pla[97] = a0_pla_mem[97] & (w530 & 16'hf9b8) == 16'h4000;
+	assign a0_pla[98] = a0_pla_mem[98] & (w530 & 16'hfff8) == 16'h4880;
+	assign a0_pla[99] = a0_pla_mem[99] & (w530 & 16'hffb8) == 16'h4a00;
+	assign a0_pla[100] = a0_pla_mem[100] & (w530 & 16'hf180) == 16'h0000;
+	assign a0_pla[101] = a0_pla_mem[101] & (w530 & 16'hfff8) == 16'h4e58;
+	assign a0_pla[102] = a0_pla_mem[102] & (w530 & 16'hffff) == 16'h4879;
+	assign a0_pla[103] = a0_pla_mem[103] & (w530 & 16'hffff) == 16'h4878;
+	assign a0_pla[104] = a0_pla_mem[104] & (w530 & 16'h0038) == 16'h0020 & ~w533;
+	assign a0_pla[105] = a0_pla_mem[105] & (w530 & 16'h0038) == 16'h0020 & ~w532;
+	assign a0_pla[106] = a0_pla_mem[106] & (w530 & 16'hfff8) == 16'h4850;
+	assign a0_pla[107] = a0_pla_mem[107] & (w530 & 16'hfff8) == 16'h4868;
+	assign a0_pla[108] = a0_pla_mem[108] & (w530 & 16'hffff) == 16'h487a;
+	assign a0_pla[109] = a0_pla_mem[109] & (w530 & 16'hfff8) == 16'h4870;
+	assign a0_pla[110] = a0_pla_mem[110] & (w530 & 16'hffff) == 16'h487b;
+	assign a0_pla[111] = a0_pla_mem[111] & (w530 & 16'h0038) == 16'h0018 & ~w533;
+	assign a0_pla[112] = a0_pla_mem[112] & (w530 & 16'h0038) == 16'h0018 & ~w532;
+	assign a0_pla[113] = a0_pla_mem[113] & (w530 & 16'hffb8) == 16'h4c98;
+	assign a0_pla[114] = a0_pla_mem[114] & (w530 & 16'hffb8) == 16'h48a0;
+	assign a0_pla[115] = a0_pla_mem[115] & (w530 & 16'hfff0) == 16'h23c0;
+	assign a0_pla[116] = a0_pla_mem[116] & (w530 & 16'hdff0) == 16'h13c0;
+	assign a0_pla[117] = a0_pla_mem[117] & (w530 & 16'hf0f0) == 16'h5080;
+	assign a0_pla[118] = a0_pla_mem[118] & (w530 & 16'hf0f8) == 16'h5048;
+	assign a0_pla[119] = a0_pla_mem[119] & (w530 & 16'hf0b8) == 16'h5000;
+	assign a0_pla[120] = a0_pla_mem[120] & (w530 & 16'hfff0) == 16'h21c0;
+	assign a0_pla[121] = a0_pla_mem[121] & (w530 & 16'hdff0) == 16'h11c0;
+	assign a0_pla[122] = a0_pla_mem[122] & (w530 & 16'hb1f8) == 16'h8100;
+	assign a0_pla[123] = a0_pla_mem[123] & (w530 & 16'hf100) == 16'h7000;
+	assign a0_pla[124] = a0_pla_mem[124] & (w530 & 16'hf1f0) == 16'h2140;
+	assign a0_pla[125] = a0_pla_mem[125] & (w530 & 16'hd1f0) == 16'h1140;
+	assign a0_pla[126] = a0_pla_mem[126] & (w530 & 16'hf1f0) == 16'h20c0;
+	assign a0_pla[127] = a0_pla_mem[127] & (w530 & 16'hd1f0) == 16'h10c0;
+	assign a0_pla[128] = a0_pla_mem[128] & (w530 & 16'hf1f0) == 16'h2100;
+	assign a0_pla[129] = a0_pla_mem[129] & (w530 & 16'hd1f0) == 16'h1100;
+	assign a0_pla[130] = a0_pla_mem[130] & (w530 & 16'hf1f0) == 16'h2080;
+	assign a0_pla[131] = a0_pla_mem[131] & (w530 & 16'hd1f0) == 16'h1080;
+	assign a0_pla[132] = a0_pla_mem[132] & (w530 & 16'hf1f0) == 16'h2180;
+	assign a0_pla[133] = a0_pla_mem[133] & (w530 & 16'hd1f0) == 16'h1180;
+	assign a0_pla[134] = a0_pla_mem[134] & (w530 & 16'hf1f8) == 16'hb180;
+	assign a0_pla[135] = a0_pla_mem[135] & (w530 & 16'hf1b8) == 16'hb100;
+	assign a0_pla[136] = a0_pla_mem[136] & (w530 & 16'ha1f0) == 16'h8080;
+	assign a0_pla[137] = a0_pla_mem[137] & (w530 & 16'hb1b8) == 16'h9180;
+	assign a0_pla[138] = a0_pla_mem[138] & (w530 & 16'hb1f0) == 16'h91c0;
+	assign a0_pla[139] = a0_pla_mem[139] & (w530 & 16'hb1f0) == 16'h90c0;
+	assign a0_pla[140] = a0_pla_mem[140] & (w530 & 16'ha1b0) == 16'h8000;
+	assign a0_pla[141] = a0_pla_mem[141] & (w530 & 16'hb1b8) == 16'h9100;
+	assign a0_pla[142] = a0_pla_mem[142] & (w530 & 16'hf1b0) == 16'h2000;
+	assign a0_pla[143] = a0_pla_mem[143] & (w530 & 16'hf1f0) == 16'h3040;
+	assign a0_pla[144] = a0_pla_mem[144] & (w530 & 16'hd1f0) == 16'h1000;
+	assign a0_pla[145] = a0_pla_mem[145] & (w530 & 16'hfdf8) == 16'h44c0;
+	assign a0_pla[146] = a0_pla_mem[146] & (w530 & 16'hfffb) == 16'h4e73;
+	assign a0_pla[147] = a0_pla_mem[147] & (w530 & 16'hffff) == 16'h4e75;
+	assign a0_pla[148] = a0_pla_mem[148] & (w530 & 16'hf0f8) == 16'h50c0;
+	assign a0_pla[149] = a0_pla_mem[149] & (w530 & 16'hffbf) == 16'h48b9;
+	assign a0_pla[150] = a0_pla_mem[150] & (w530 & 16'hffbf) == 16'h48b8;
+	assign a0_pla[151] = a0_pla_mem[151] & (w530 & 16'hf0e0) == 16'he080;
+	assign a0_pla[152] = a0_pla_mem[152] & (w530 & 16'hf0a0) == 16'he000;
+	assign a0_pla[153] = a0_pla_mem[153] & (w530 & 16'hf0e0) == 16'he0a0;
+	assign a0_pla[154] = a0_pla_mem[154] & (w530 & 16'hf0a0) == 16'he020;
+	assign a0_pla[155] = a0_pla_mem[155] & (w530 & 16'hffb8) == 16'h48a8;
+	assign a0_pla[156] = a0_pla_mem[156] & (w530 & 16'hffb8) == 16'h4890;
+	assign a0_pla[157] = a0_pla_mem[157] & (w530 & 16'hffb8) == 16'h48b0;
+	assign a0_pla[158] = a0_pla_mem[158] & (w530 & 16'hffff) == 16'h4e72;
+	assign a0_pla[159] = a0_pla_mem[159] & (w530 & 16'hfff8) == 16'h40c0;
+	assign a0_pla[160] = a0_pla_mem[160] & (w530 & 16'hfff8) == 16'h4e68;
+	assign a0_pla[161] = a0_pla_mem[161] & (w530 & 16'hfff8) == 16'h4840;
+	assign a0_pla[162] = a0_pla_mem[162] & (w530 & 16'hffff) == 16'h4e70;
+	assign a0_pla[163] = a0_pla_mem[163] & (w530 & 16'hf1c0) == 16'h0080 & ~a0_pla[168];
+	assign a0_pla[164] = a0_pla_mem[164] & (w530 & 16'hf000) == 16'h6000 & ~a0_pla[165] & ~a0_pla[166] & ~a0_pla[167];
+	assign a0_pla[165] = (w530 & 16'hf0ff) == 16'h6000 & ~a0_pla[167];
+	assign a0_pla[166] = (w530 & 16'hff00) == 16'h6100 & ~a0_pla[167];
+	assign a0_pla[167] = (w530 & 16'hffff) == 16'h6100;
+	assign a0_pla[168] = (w530 & 16'hff80) == 16'h0880;
+	assign a0_pla[169] = (w530 & 16'hf000) == 16'hf000;
+	assign a0_pla[170] = (w530 & 16'hf000) == 16'ha000;
 	
 	assign w531 =
-		(a0_pla[20] ? 16'h1e6 : 16'h3ff) &
-		(a0_pla[21] ? 16'h1e2 : 16'h3ff) &
-		(a0_pla[22] ? 16'h00e : 16'h3ff) &
-		(a0_pla[23] ? 16'h00a : 16'h3ff) &
-		(a0_pla[24] ? 16'h00b : 16'h3ff) &
-		(a0_pla[25] ? 16'h006 : 16'h3ff) &
-		(a0_pla[26] ? 16'h1c6 : 16'h3ff) &
-		(a0_pla[27] ? 16'h1c6 : 16'h3ff) &
-		(a0_pla[28] ? 16'h1c2 : 16'h3ff) &
-		(a0_pla[29] ? 16'h1c2 : 16'h3ff) &
-		(a0_pla[30] ? 16'h1e7 : 16'h3ff) &
-		(a0_pla[31] ? 16'h1e7 : 16'h3ff) &
-		(a0_pla[32] ? 16'h1e3 : 16'h3ff) &
-		(a0_pla[33] ? 16'h1e3 : 16'h3ff) &
-		(a0_pla[34] ? 16'h107 : 16'h3ff) &
-		(a0_pla[35] ? 16'h10b : 16'h3ff) &
-		(a0_pla[36] ? 16'h10f : 16'h3ff) &
-		(a0_pla[37] ? 16'h363 : 16'h3ff) &
-		(a0_pla[38] ? 16'h345 : 16'h3ff) &
-		(a0_pla[39] ? 16'h1d0 : 16'h3ff) &
-		(a0_pla[40] ? 16'h06d : 16'h3ff) &
-		(a0_pla[41] ? 16'h3eb : 16'h3ff) &
-		(a0_pla[42] ? 16'h3ef : 16'h3ff) &
-		(a0_pla[43] ? 16'h125 : 16'h3ff) &
-		(a0_pla[44] ? 16'h3e7 : 16'h3ff) &
-		(a0_pla[45] ? 16'h152 : 16'h3ff) &
-		(a0_pla[46] ? 16'h06b : 16'h3ff) &
-		(a0_pla[47] ? 16'h06f : 16'h3ff) &
-		(a0_pla[48] ? 16'h1d5 : 16'h3ff) &
-		(a0_pla[49] ? 16'h1d5 : 16'h3ff) &
-		(a0_pla[50] ? 16'h1d9 : 16'h3ff) &
-		(a0_pla[51] ? 16'h1d1 : 16'h3ff) &
-		(a0_pla[52] ? 16'h06c : 16'h3ff) &
-		(a0_pla[53] ? 16'h0ae : 16'h3ff) &
-		(a0_pla[54] ? 16'h0a6 : 16'h3ff) &
-		(a0_pla[55] ? 16'h3e3 : 16'h3ff) &
-		(a0_pla[56] ? 16'h3e3 : 16'h3ff) &
-		(a0_pla[57] ? 16'h232 : 16'h3ff) &
-		(a0_pla[58] ? 16'h0a7 : 16'h3ff) &
-		(a0_pla[59] ? 16'h0ea : 16'h3ff) &
-		(a0_pla[60] ? 16'h1f6 : 16'h3ff) &
-		(a0_pla[61] ? 16'h297 : 16'h3ff) &
-		(a0_pla[62] ? 16'h255 : 16'h3ff) &
-		(a0_pla[63] ? 16'h2b4 : 16'h3ff) &
-		(a0_pla[64] ? 16'h2b4 : 16'h3ff) &
-		(a0_pla[65] ? 16'h1f7 : 16'h3ff) &
-		(a0_pla[66] ? 16'h1f7 : 16'h3ff) &
-		(a0_pla[67] ? 16'h1f2 : 16'h3ff) &
-		(a0_pla[68] ? 16'h293 : 16'h3ff) &
-		(a0_pla[69] ? 16'h273 : 16'h3ff) &
-		(a0_pla[70] ? 16'h2b0 : 16'h3ff) &
-		(a0_pla[71] ? 16'h2b0 : 16'h3ff) &
-		(a0_pla[72] ? 16'h1f3 : 16'h3ff) &
-		(a0_pla[73] ? 16'h1f3 : 16'h3ff) &
-		(a0_pla[74] ? 16'h3e4 : 16'h3ff) &
-		(a0_pla[75] ? 16'h275 : 16'h3ff) &
-		(a0_pla[76] ? 16'h1fd : 16'h3ff) &
-		(a0_pla[77] ? 16'h1fd : 16'h3ff) &
-		(a0_pla[78] ? 16'h127 : 16'h3ff) &
-		(a0_pla[79] ? 16'h1f5 : 16'h3ff) &
-		(a0_pla[80] ? 16'h1f5 : 16'h3ff) &
-		(a0_pla[81] ? 16'h2f1 : 16'h3ff) &
-		(a0_pla[82] ? 16'h2f2 : 16'h3ff) &
-		(a0_pla[83] ? 16'h2f2 : 16'h3ff) &
-		(a0_pla[84] ? 16'h1fb : 16'h3ff) &
-		(a0_pla[85] ? 16'h1fb : 16'h3ff) &
-		(a0_pla[86] ? 16'h30b : 16'h3ff) &
-		(a0_pla[87] ? 16'h1e9 : 16'h3ff) &
-		(a0_pla[88] ? 16'h1f9 : 16'h3ff) &
-		(a0_pla[89] ? 16'h2f5 : 16'h3ff) &
-		(a0_pla[90] ? 16'h1d6 : 16'h3ff) &
-		(a0_pla[91] ? 16'h1d2 : 16'h3ff) &
-		(a0_pla[92] ? 16'h1ce : 16'h3ff) &
-		(a0_pla[93] ? 16'h1ca : 16'h3ff) &
-		(a0_pla[94] ? 16'h15b : 16'h3ff) &
-		(a0_pla[95] ? 16'h13b : 16'h3ff) &
-		(a0_pla[96] ? 16'h137 : 16'h3ff) &
-		(a0_pla[97] ? 16'h133 : 16'h3ff) &
-		(a0_pla[98] ? 16'h133 : 16'h3ff) &
-		(a0_pla[99] ? 16'h12d : 16'h3ff) &
-		(a0_pla[100] ? 16'h2b9 : 16'h3ff) &
-		(a0_pla[101] ? 16'h119 : 16'h3ff) &
-		(a0_pla[102] ? 16'h1fa : 16'h3ff) &
-		(a0_pla[103] ? 16'h178 : 16'h3ff) &
-		(a0_pla[104] ? 16'h179 : 16'h3ff) &
-		(a0_pla[105] ? 16'h103 : 16'h3ff) &
-		(a0_pla[106] ? 16'h17c : 16'h3ff) &
-		(a0_pla[107] ? 16'h17d : 16'h3ff) &
-		(a0_pla[108] ? 16'h17d : 16'h3ff) &
-		(a0_pla[109] ? 16'h1ff : 16'h3ff) &
-		(a0_pla[110] ? 16'h1ff : 16'h3ff) &
-		(a0_pla[111] ? 16'h00f : 16'h3ff) &
-		(a0_pla[112] ? 16'h21c : 16'h3ff) &
-		(a0_pla[113] ? 16'h123 : 16'h3ff) &
-		(a0_pla[114] ? 16'h3a4 : 16'h3ff) &
-		(a0_pla[115] ? 16'h1ee : 16'h3ff) &
-		(a0_pla[116] ? 16'h1ea : 16'h3ff) &
-		(a0_pla[117] ? 16'h2dc : 16'h3ff) &
-		(a0_pla[118] ? 16'h2dc : 16'h3ff) &
-		(a0_pla[119] ? 16'h2d8 : 16'h3ff) &
-		(a0_pla[120] ? 16'h2dd : 16'h3ff) &
-		(a0_pla[121] ? 16'h2d9 : 16'h3ff) &
-		(a0_pla[122] ? 16'h1cd : 16'h3ff) &
-		(a0_pla[123] ? 16'h23b : 16'h3ff) &
-		(a0_pla[124] ? 16'h2de : 16'h3ff) &
-		(a0_pla[125] ? 16'h2da : 16'h3ff) &
-		(a0_pla[126] ? 16'h2fd : 16'h3ff) &
-		(a0_pla[127] ? 16'h2fe : 16'h3ff) &
-		(a0_pla[128] ? 16'h2fc : 16'h3ff) &
-		(a0_pla[129] ? 16'h2f8 : 16'h3ff) &
-		(a0_pla[130] ? 16'h2f9 : 16'h3ff) &
-		(a0_pla[131] ? 16'h2fa : 16'h3ff) &
-		(a0_pla[132] ? 16'h1ef : 16'h3ff) &
-		(a0_pla[133] ? 16'h1eb : 16'h3ff) &
-		(a0_pla[134] ? 16'h10c : 16'h3ff) &
-		(a0_pla[135] ? 16'h100 : 16'h3ff) &
-		(a0_pla[136] ? 16'h1c5 : 16'h3ff) &
-		(a0_pla[137] ? 16'h1c5 : 16'h3ff) &
-		(a0_pla[138] ? 16'h1c5 : 16'h3ff) &
-		(a0_pla[139] ? 16'h1c9 : 16'h3ff) &
-		(a0_pla[140] ? 16'h1c1 : 16'h3ff) &
-		(a0_pla[141] ? 16'h1c1 : 16'h3ff) &
-		(a0_pla[142] ? 16'h129 : 16'h3ff) &
-		(a0_pla[143] ? 16'h279 : 16'h3ff) &
-		(a0_pla[144] ? 16'h121 : 16'h3ff) &
-		(a0_pla[145] ? 16'h301 : 16'h3ff) &
-		(a0_pla[146] ? 16'h12a : 16'h3ff) &
-		(a0_pla[147] ? 16'h126 : 16'h3ff) &
-		(a0_pla[148] ? 16'h384 : 16'h3ff) &
-		(a0_pla[149] ? 16'h1e5 : 16'h3ff) &
-		(a0_pla[150] ? 16'h1ed : 16'h3ff) &
-		(a0_pla[151] ? 16'h385 : 16'h3ff) &
-		(a0_pla[152] ? 16'h381 : 16'h3ff) &
-		(a0_pla[153] ? 16'h386 : 16'h3ff) &
-		(a0_pla[154] ? 16'h382 : 16'h3ff) &
-		(a0_pla[155] ? 16'h1f1 : 16'h3ff) &
-		(a0_pla[156] ? 16'h3a0 : 16'h3ff) &
-		(a0_pla[157] ? 16'h325 : 16'h3ff) &
-		(a0_pla[158] ? 16'h3a2 : 16'h3ff) &
-		(a0_pla[159] ? 16'h3a5 : 16'h3ff) &
-		(a0_pla[160] ? 16'h230 : 16'h3ff) &
-		(a0_pla[161] ? 16'h341 : 16'h3ff) &
-		(a0_pla[162] ? 16'h3a6 : 16'h3ff) &
-		(a0_pla[163] ? 16'h3e0 : 16'h3ff) &
-		(a0_pla[164] ? 16'h308 : 16'h3ff) &
-		(a0_pla[165] ? 16'h068 : 16'h3ff) &
-		(a0_pla[166] ? 16'h089 : 16'h3ff) &
-		(a0_pla[167] ? 16'h0a9 : 16'h3ff) &
-		(a0_pla[168] ? 16'h2b9 : 16'h3ff);
+		(a0_pla[20] ? 10'h1e6 : 10'h3ff) &
+		(a0_pla[21] ? 10'h1e2 : 10'h3ff) &
+		(a0_pla[22] ? 10'h00e : 10'h3ff) &
+		(a0_pla[23] ? 10'h00a : 10'h3ff) &
+		(a0_pla[24] ? 10'h00b : 10'h3ff) &
+		(a0_pla[25] ? 10'h006 : 10'h3ff) &
+		(a0_pla[26] ? 10'h1c6 : 10'h3ff) &
+		(a0_pla[27] ? 10'h1c6 : 10'h3ff) &
+		(a0_pla[28] ? 10'h1c2 : 10'h3ff) &
+		(a0_pla[29] ? 10'h1c2 : 10'h3ff) &
+		(a0_pla[30] ? 10'h1e7 : 10'h3ff) &
+		(a0_pla[31] ? 10'h1e7 : 10'h3ff) &
+		(a0_pla[32] ? 10'h1e3 : 10'h3ff) &
+		(a0_pla[33] ? 10'h1e3 : 10'h3ff) &
+		(a0_pla[34] ? 10'h107 : 10'h3ff) &
+		(a0_pla[35] ? 10'h10b : 10'h3ff) &
+		(a0_pla[36] ? 10'h10f : 10'h3ff) &
+		(a0_pla[37] ? 10'h363 : 10'h3ff) &
+		(a0_pla[38] ? 10'h345 : 10'h3ff) &
+		(a0_pla[39] ? 10'h1d0 : 10'h3ff) &
+		(a0_pla[40] ? 10'h06d : 10'h3ff) &
+		(a0_pla[41] ? 10'h3eb : 10'h3ff) &
+		(a0_pla[42] ? 10'h3ef : 10'h3ff) &
+		(a0_pla[43] ? 10'h125 : 10'h3ff) &
+		(a0_pla[44] ? 10'h3e7 : 10'h3ff) &
+		(a0_pla[45] ? 10'h152 : 10'h3ff) &
+		(a0_pla[46] ? 10'h06b : 10'h3ff) &
+		(a0_pla[47] ? 10'h06f : 10'h3ff) &
+		(a0_pla[48] ? 10'h1d5 : 10'h3ff) &
+		(a0_pla[49] ? 10'h1d5 : 10'h3ff) &
+		(a0_pla[50] ? 10'h1d9 : 10'h3ff) &
+		(a0_pla[51] ? 10'h1d1 : 10'h3ff) &
+		(a0_pla[52] ? 10'h06c : 10'h3ff) &
+		(a0_pla[53] ? 10'h0ae : 10'h3ff) &
+		(a0_pla[54] ? 10'h0a6 : 10'h3ff) &
+		(a0_pla[55] ? 10'h3e3 : 10'h3ff) &
+		(a0_pla[56] ? 10'h3e3 : 10'h3ff) &
+		(a0_pla[57] ? 10'h232 : 10'h3ff) &
+		(a0_pla[58] ? 10'h0a7 : 10'h3ff) &
+		(a0_pla[59] ? 10'h0ea : 10'h3ff) &
+		(a0_pla[60] ? 10'h1f6 : 10'h3ff) &
+		(a0_pla[61] ? 10'h297 : 10'h3ff) &
+		(a0_pla[62] ? 10'h255 : 10'h3ff) &
+		(a0_pla[63] ? 10'h2b4 : 10'h3ff) &
+		(a0_pla[64] ? 10'h2b4 : 10'h3ff) &
+		(a0_pla[65] ? 10'h1f7 : 10'h3ff) &
+		(a0_pla[66] ? 10'h1f7 : 10'h3ff) &
+		(a0_pla[67] ? 10'h1f2 : 10'h3ff) &
+		(a0_pla[68] ? 10'h293 : 10'h3ff) &
+		(a0_pla[69] ? 10'h273 : 10'h3ff) &
+		(a0_pla[70] ? 10'h2b0 : 10'h3ff) &
+		(a0_pla[71] ? 10'h2b0 : 10'h3ff) &
+		(a0_pla[72] ? 10'h1f3 : 10'h3ff) &
+		(a0_pla[73] ? 10'h1f3 : 10'h3ff) &
+		(a0_pla[74] ? 10'h3e4 : 10'h3ff) &
+		(a0_pla[75] ? 10'h275 : 10'h3ff) &
+		(a0_pla[76] ? 10'h1fd : 10'h3ff) &
+		(a0_pla[77] ? 10'h1fd : 10'h3ff) &
+		(a0_pla[78] ? 10'h127 : 10'h3ff) &
+		(a0_pla[79] ? 10'h1f5 : 10'h3ff) &
+		(a0_pla[80] ? 10'h1f5 : 10'h3ff) &
+		(a0_pla[81] ? 10'h2f1 : 10'h3ff) &
+		(a0_pla[82] ? 10'h2f2 : 10'h3ff) &
+		(a0_pla[83] ? 10'h2f2 : 10'h3ff) &
+		(a0_pla[84] ? 10'h1fb : 10'h3ff) &
+		(a0_pla[85] ? 10'h1fb : 10'h3ff) &
+		(a0_pla[86] ? 10'h30b : 10'h3ff) &
+		(a0_pla[87] ? 10'h1e9 : 10'h3ff) &
+		(a0_pla[88] ? 10'h1f9 : 10'h3ff) &
+		(a0_pla[89] ? 10'h2f5 : 10'h3ff) &
+		(a0_pla[90] ? 10'h1d6 : 10'h3ff) &
+		(a0_pla[91] ? 10'h1d2 : 10'h3ff) &
+		(a0_pla[92] ? 10'h1ce : 10'h3ff) &
+		(a0_pla[93] ? 10'h1ca : 10'h3ff) &
+		(a0_pla[94] ? 10'h15b : 10'h3ff) &
+		(a0_pla[95] ? 10'h13b : 10'h3ff) &
+		(a0_pla[96] ? 10'h137 : 10'h3ff) &
+		(a0_pla[97] ? 10'h133 : 10'h3ff) &
+		(a0_pla[98] ? 10'h133 : 10'h3ff) &
+		(a0_pla[99] ? 10'h12d : 10'h3ff) &
+		(a0_pla[100] ? 10'h2b9 : 10'h3ff) &
+		(a0_pla[101] ? 10'h119 : 10'h3ff) &
+		(a0_pla[102] ? 10'h1fa : 10'h3ff) &
+		(a0_pla[103] ? 10'h178 : 10'h3ff) &
+		(a0_pla[104] ? 10'h179 : 10'h3ff) &
+		(a0_pla[105] ? 10'h103 : 10'h3ff) &
+		(a0_pla[106] ? 10'h17c : 10'h3ff) &
+		(a0_pla[107] ? 10'h17d : 10'h3ff) &
+		(a0_pla[108] ? 10'h17d : 10'h3ff) &
+		(a0_pla[109] ? 10'h1ff : 10'h3ff) &
+		(a0_pla[110] ? 10'h1ff : 10'h3ff) &
+		(a0_pla[111] ? 10'h00f : 10'h3ff) &
+		(a0_pla[112] ? 10'h21c : 10'h3ff) &
+		(a0_pla[113] ? 10'h123 : 10'h3ff) &
+		(a0_pla[114] ? 10'h3a4 : 10'h3ff) &
+		(a0_pla[115] ? 10'h1ee : 10'h3ff) &
+		(a0_pla[116] ? 10'h1ea : 10'h3ff) &
+		(a0_pla[117] ? 10'h2dc : 10'h3ff) &
+		(a0_pla[118] ? 10'h2dc : 10'h3ff) &
+		(a0_pla[119] ? 10'h2d8 : 10'h3ff) &
+		(a0_pla[120] ? 10'h2dd : 10'h3ff) &
+		(a0_pla[121] ? 10'h2d9 : 10'h3ff) &
+		(a0_pla[122] ? 10'h1cd : 10'h3ff) &
+		(a0_pla[123] ? 10'h23b : 10'h3ff) &
+		(a0_pla[124] ? 10'h2de : 10'h3ff) &
+		(a0_pla[125] ? 10'h2da : 10'h3ff) &
+		(a0_pla[126] ? 10'h2fd : 10'h3ff) &
+		(a0_pla[127] ? 10'h2fe : 10'h3ff) &
+		(a0_pla[128] ? 10'h2fc : 10'h3ff) &
+		(a0_pla[129] ? 10'h2f8 : 10'h3ff) &
+		(a0_pla[130] ? 10'h2f9 : 10'h3ff) &
+		(a0_pla[131] ? 10'h2fa : 10'h3ff) &
+		(a0_pla[132] ? 10'h1ef : 10'h3ff) &
+		(a0_pla[133] ? 10'h1eb : 10'h3ff) &
+		(a0_pla[134] ? 10'h10c : 10'h3ff) &
+		(a0_pla[135] ? 10'h100 : 10'h3ff) &
+		(a0_pla[136] ? 10'h1c5 : 10'h3ff) &
+		(a0_pla[137] ? 10'h1c5 : 10'h3ff) &
+		(a0_pla[138] ? 10'h1c5 : 10'h3ff) &
+		(a0_pla[139] ? 10'h1c9 : 10'h3ff) &
+		(a0_pla[140] ? 10'h1c1 : 10'h3ff) &
+		(a0_pla[141] ? 10'h1c1 : 10'h3ff) &
+		(a0_pla[142] ? 10'h129 : 10'h3ff) &
+		(a0_pla[143] ? 10'h279 : 10'h3ff) &
+		(a0_pla[144] ? 10'h121 : 10'h3ff) &
+		(a0_pla[145] ? 10'h301 : 10'h3ff) &
+		(a0_pla[146] ? 10'h12a : 10'h3ff) &
+		(a0_pla[147] ? 10'h126 : 10'h3ff) &
+		(a0_pla[148] ? 10'h384 : 10'h3ff) &
+		(a0_pla[149] ? 10'h1e5 : 10'h3ff) &
+		(a0_pla[150] ? 10'h1ed : 10'h3ff) &
+		(a0_pla[151] ? 10'h385 : 10'h3ff) &
+		(a0_pla[152] ? 10'h381 : 10'h3ff) &
+		(a0_pla[153] ? 10'h386 : 10'h3ff) &
+		(a0_pla[154] ? 10'h382 : 10'h3ff) &
+		(a0_pla[155] ? 10'h1f1 : 10'h3ff) &
+		(a0_pla[156] ? 10'h3a0 : 10'h3ff) &
+		(a0_pla[157] ? 10'h325 : 10'h3ff) &
+		(a0_pla[158] ? 10'h3a2 : 10'h3ff) &
+		(a0_pla[159] ? 10'h3a5 : 10'h3ff) &
+		(a0_pla[160] ? 10'h230 : 10'h3ff) &
+		(a0_pla[161] ? 10'h341 : 10'h3ff) &
+		(a0_pla[162] ? 10'h3a6 : 10'h3ff) &
+		(a0_pla[163] ? 10'h3e0 : 10'h3ff) &
+		(a0_pla[164] ? 10'h308 : 10'h3ff) &
+		(a0_pla[165] ? 10'h068 : 10'h3ff) &
+		(a0_pla[166] ? 10'h089 : 10'h3ff) &
+		(a0_pla[167] ? 10'h0a9 : 10'h3ff) &
+		(a0_pla[168] ? 10'h2b9 : 10'h3ff);
+
+	assign a2_pla[0] = (w530 & 16'h003d) == 16'h003d & ~a2_pla[2] & ~a2_pla[3];
+	assign a2_pla[1] = (w530 & 16'h003e) == 16'h003e & ~a2_pla[2] & ~a2_pla[3];
+	assign a2_pla[2] = (w530 & 16'hf000) == 16'he000;
+	assign a2_pla[3] = (w530 & 16'he000) == 16'h6000;
+	assign a2_pla[4] = (w530 & 16'hf1c0) == 16'h00c0 & ~a2_pla[5];
+	assign a2_pla[5] = (w530 & 16'h0e00) == 16'h0800;
+	assign a2_pla[6] = (w530 & 16'hff00) == 16'h0e00;
+	assign a2_pla[7] = (w530 & 16'hf03e) == 16'h003a & ~a2_pla[8] & ~a2_pla[9];
+	assign a2_pla[8] = (w530 & 16'h0fc0) == 16'h0800;
+	assign a2_pla[9] = (w530 & 16'h01c0) == 16'h0100;
+	assign a2_pla[10] = (w530 & 16'hf03f) == 16'h003c & ~a2_pla[9] & ~a2_pla[11] & ~a2_pla[14];
+	assign a2_pla[11] = (w530 & 16'h0780) == 16'h0200;
+	assign a2_pla[12] = (w530 & 16'he038) == 16'h0008 & ~a2_pla[13];
+	assign a2_pla[13] = (w530 & 16'h1100) == 16'h0100;
+	assign a2_pla[14] = (w530 & 16'h0d80) == 16'h0000;
+	assign a2_pla[15] = (w530 & 16'hf1c0) == 16'h1040;
+	assign a2_pla[16] = (w530 & 16'hc9c0) == 16'h09c0 & ~a2_pla[18];
+	assign a2_pla[17] = (w530 & 16'hc5c0) == 16'h05c0 & ~a2_pla[18];
+	assign a2_pla[18] = (w530 & 16'h3000) == 16'h0000;
+	assign a2_pla[19] = (w530 & 16'hffc0) == 16'h42c0;
+	assign a2_pla[20] = (w530 & 16'hfdc0) == 16'h4c00;
+	assign a2_pla[21] = (w530 & 16'hff80) == 16'h4c00;
+	assign a2_pla[22] = (w530 & 16'hf038) == 16'h4008 & ~a2_pla[24];
+	assign a2_pla[23] = (w530 & 16'hf0be) == 16'h403a & ~a2_pla[25];
+	assign a2_pla[24] = (w530 & 16'h0fc0) == 16'h0e40;
+	assign a2_pla[25] = (w530 & 16'h0f40) == 16'h0840;
+	assign a2_pla[26] = (w530 & 16'hf5be) == 16'h40ba;
+	assign a2_pla[27] = (w530 & 16'hf9fe) == 16'h40ba;
+	assign a2_pla[28] = (w530 & 16'h0dc0) == 16'h04c0;
+	assign a2_pla[29] = (w530 & 16'hf03f) == 16'h403c & ~a2_pla[28] & ~a2_pla[30];
+	assign a2_pla[30] = (w530 & 16'h01c0) == 16'h0180;
+	assign a2_pla[31] = (w530 & 16'hf180) == 16'h4100;
+	assign a2_pla[32] = (w530 & 16'hfff7) == 16'h4e74;
+	assign a2_pla[33] = (w530 & 16'hff78) == 16'h4858;
+	assign a2_pla[34] = (w530 & 16'hffb8) == 16'h4898;
+	assign a2_pla[35] = (w530 & 16'hf1f8) == 16'h41d8;
+	assign a2_pla[36] = (w530 & 16'hffb8) == 16'h4e98;
+	assign a2_pla[37] = (w530 & 16'hfff8) == 16'h4860;
+	assign a2_pla[38] = (w530 & 16'hfd98) == 16'h4c80;
+	assign a2_pla[39] = (w530 & 16'hf1d8) == 16'h41c0;
+	assign a2_pla[40] = (w530 & 16'hf0f8) == 16'h5008;
+	assign a2_pla[41] = (w530 & 16'hf03a) == 16'h503a;
+	assign a2_pla[42] = (w530 & 16'hf03c) == 16'h503c;
+	assign a2_pla[43] = (w530 & 16'hf100) == 16'h7100;
+	assign a2_pla[44] = (w530 & 16'hf038) == 16'h8008 & ~a2_pla[45];
+	assign a2_pla[45] = (w530 & 16'h01c0) == 16'h0100;
+	assign a2_pla[46] = (w530 & 16'h81be) == 16'h813a;
+	assign a2_pla[47] = (w530 & 16'h817e) == 16'h813a & ~a2_pla[51];
+	assign a2_pla[48] = (w530 & 16'h81bc) == 16'h813c & ~a2_pla[51];
+	assign a2_pla[49] = (w530 & 16'h817c) == 16'h813c & ~a2_pla[51];
+	assign a2_pla[50] = (w530 & 16'hf1f8) == 16'h8140;
+	assign a2_pla[51] = (w530 & 16'hf000) == 16'he000;
+	assign a2_pla[52] = (w530 & 16'h91f8) == 16'h9008;
+	//assign a2_pla[53] = (w530 & 16'h0000) == 16'h0000;
+	//assign a2_pla[54] = (w530 & 16'h0000) == 16'h0000;
+	//assign a2_pla[55] = (w530 & 16'h0000) == 16'h0000;
+	assign a2_pla[56] = (w530 & 16'hf8c0) == 16'he8c0;
+	assign a2_pla[57] = (w530 & 16'hb138) == 16'h8008;
+	assign a2_pla[58] = (w530 & 16'hb1f8) == 16'h81c8;
+	assign a2_pla[59] = (w530 & 16'hb1f8) == 16'h8180;
+	assign a2_pla[60] = (w530 & 16'hfff0) == 16'h4e60;
+	assign a2_pla[61] = (w530 & 16'hf8f0) == 16'he0c0;
+	assign a2_pla[62] = (w530 & 16'hf8fc) == 16'he0fc;
+	assign a2_pla[63] = (w530 & 16'hf8fa) == 16'he0fa;
+	assign a2_pla[64] = (w530 & 16'hf5ff) == 16'h007c;
+	assign a2_pla[65] = (w530 & 16'hfffe) == 16'h4e72;
+	assign a2_pla[66] = (w530 & 16'hfffd) == 16'h4e70;
+	assign a2_pla[67] = (w530 & 16'hffc0) == 16'h46c0;
+	assign a2_pla[68] = (w530 & 16'hfff8) == 16'h4e78;
+	//assign a2_pla[69] = (w530 & 16'h0000) == 16'h0000;
+	assign a2_pla[70] = (w530 & 16'h01c0) == 16'h0080; // g2
+	assign a2_pla[71] = (w530 & 16'hf000) == 16'h0000; // g1
+	assign a2_pla_g1 = ~a2_pla[71];
+	assign a2_pla_g2 = ~a2_pla[70];
+	assign a2_pla[72] = (w530 & 16'h0038) == 16'h0010 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla_g3;
+	assign a2_pla[73] = (w530 & 16'h0e00) == 16'h0800 & ~a2_pla_g1 & ~a2_pla_g2; // g3
+	assign a2_pla_g2 = a2_pla[73];
+	assign a2_pla[74] = (w530 & 16'h0138) == 16'h0010 & ~a2_pla_g1 & ~a2_pla[72];
+	assign a2_pla[75] = (w530 & 16'h0038) == 16'h0018 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla_g3;
+	assign a2_pla[76] = (w530 & 16'h0038) == 16'h0018 & ~a2_pla_g1 & ~a2_pla[75];
+	assign a2_pla[77] = (w530 & 16'h0038) == 16'h0020 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla_g3;
+	assign a2_pla[78] = (w530 & 16'h0138) == 16'h0020 & ~a2_pla_g1 & ~a2_pla[77];
+	assign a2_pla[79] = (w530 & 16'h0038) == 16'h0028 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla_g3;
+	assign a2_pla[80] = (w530 & 16'h0fff) == 16'h083a & ~a2_pla_g1;
+	assign a2_pla[81] = (w530 & 16'h0138) == 16'h0028 & ~a2_pla_g1 & ~a2_pla[79];
+	assign a2_pla[82] = (w530 & 16'h0038) == 16'h0030 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla_g3;
+	assign a2_pla[83] = (w530 & 16'h0fff) == 16'h083b & ~a2_pla_g1;
+	assign a2_pla[84] = (w530 & 16'h0138) == 16'h0030 & ~a2_pla_g1 & ~a2_pla[82];
+	assign a2_pla[85] = (w530 & 16'h003f) == 16'h0038 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla_g3;
+	assign a2_pla[86] = (w530 & 16'h013f) == 16'h0038 & ~a2_pla_g1 & ~a2_pla[85];
+	assign a2_pla[87] = (w530 & 16'h003f) == 16'h0039 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla_g3;
+	assign a2_pla[88] = (w530 & 16'h013f) == 16'h0039 & ~a2_pla_g1 & ~a2_pla[87];
+	assign a2_pla[89] = (w530 & 16'h0fb8) == 16'h0c00 & ~a2_pla_g1;
+	assign a2_pla[90] = (w530 & 16'h0ff8) == 16'h0800 & ~a2_pla_g1;
+	assign a2_pla[91] = (w530 & 16'h0f78) == 16'h0840 & ~a2_pla_g1;
+	assign a2_pla[92] = (w530 & 16'h01b8) == 16'h0000 & ~a2_pla[89] & ~a2_pla[90] & ~a2_pla[91];
+	assign a2_pla[93] = (w530 & 16'h01bf) == 16'h003c & ~a2_pla_g1;
+	assign a2_pla[94] = (w530 & 16'h0e38) == 16'h0800 & ~a2_pla_g1 & ~a2_pla_g2;
+	assign a2_pla[95] = (w530 & 16'h0038) == 16'h0000 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla[94] & ~a2_pla[96];
+	assign a2_pla[96] = (w530 & 16'h0e38) == 16'h0c00 & ~a2_pla_g1 & ~a2_pla_g2;
+	assign a2_pla[97] = (w530 & 16'h01c0) == 16'h0100 & ~a2_pla_g1;
+	assign a2_pla[98] = (w530 & 16'h0fc0) == 16'h0800 & ~a2_pla_g1;
+	assign a2_pla[99] = (w530 & 16'h0f40) == 16'h0840 & ~a2_pla_g1;
+	assign a2_pla[100] = (w530 & 16'h0140) == 16'h0140 & ~a2_pla_g1;
+	assign a2_pla[101] = (w530 & 16'h0f80) == 16'h0c00 & ~a2_pla_g1;
+	assign a2_pla[102] = (w530 & 16'h0180) == 16'h0000 & ~a2_pla_g1 & ~a2_pla[98] & ~a2_pla[99] & ~a2_pla[101];
+	assign a2_pla[103] = (w530 & 16'h8180) == 16'h8100;
+	assign a2_pla[104] = (w530 & 16'hf8c0) == 16'he0c0;
+	assign a2_pla[105] = (w530 & 16'h0e00) == 16'h0800 & ~a2_pla_g1 & ~a2_pla_g2;
+	assign a2_pla[106] = (w530 & 16'h0e00) == 16'h0c00 & ~a2_pla_g1 & ~a2_pla_g2;
+	assign a2_pla[107] = (w530 & 16'h01c0) == 16'h0180 & ~a2_pla_g1;
+	assign a2_pla[108] = ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla[105] & ~a2_pla[106];
+	assign a2_pla[109] = (w530 & 16'hfe00) == 16'h4a00 & ~a2_pla_g2;
+	assign a2_pla[110] = (w530 & 16'hf000) == 16'h2000 & ~a2_pla_g2;
+	assign a2_pla[111] = (w530 & 16'hf800) == 16'h4000 & ~a2_pla_g2;
+	assign a2_pla[112] = (w530 & 16'hd000) == 16'h1000 & ~a2_pla_g2;
+	assign a2_pla[113] = (w530 & 16'ha000) == 16'h8000 & ~a2_pla_g2;
+	assign a2_pla[114] = (w530 & 16'hf000) == 16'hb000 & ~a2_pla_g2;
+	assign a2_pla[115] = (w530 & 16'hd1c0) == 16'h1140;
+	assign a2_pla[116] = (w530 & 16'hd1c0) == 16'h1180;
+	assign a2_pla[117] = (w530 & 16'hdfc0) == 16'h11c0;
+	assign a2_pla[118] = (w530 & 16'hf1c0) == 16'h3040;
+	assign a2_pla[119] = (w530 & 16'hf180) == 16'h2000;
+	assign a2_pla[120] = (w530 & 16'hd1c0) == 16'h1000;
+	assign a2_pla[121] = (w530 & 16'hf1c0) == 16'h20c0;
+	assign a2_pla[122] = (w530 & 16'hf1c0) == 16'h2100;
+	assign a2_pla[123] = (w530 & 16'hf1c0) == 16'h2140;
+	assign a2_pla[124] = (w530 & 16'hf1c0) == 16'h2180;
+	assign a2_pla[125] = (w530 & 16'hffc0) == 16'h21c0;
+	assign a2_pla[126] = (w530 & 16'hffc0) == 16'h23c0;
+	assign a2_pla[127] = (w530 & 16'hf980) == 16'h4000;
+	assign a2_pla[128] = (w530 & 16'hdfc0) == 16'h13c0;
+	assign a2_pla[129] = (w530 & 16'hffc0) == 16'h40c0;
+	assign a2_pla[130] = (w530 & 16'hfdc0) == 16'h44c0;
+	assign a2_pla[131] = (w530 & 16'hffc0) == 16'h4800;
+	assign a2_pla[132] = (w530 & 16'hff80) == 16'h4a00;
+	assign a2_pla[133] = (w530 & 16'h81c0) == 16'h8180;
+	assign a2_pla[134] = (w530 & 16'hffc0) == 16'h4ac0;
+	assign a2_pla[135] = (w530 & 16'hf1c0) == 16'h4180;
+	assign a2_pla[136] = (w530 & 16'hf080) == 16'h5000;
+	assign a2_pla[137] = (w530 & 16'hf0c0) == 16'h5080;
+	assign a2_pla[138] = (w530 & 16'hf0c0) == 16'h50c0;
+	assign a2_pla[139] = (w530 & 16'ha180) == 16'h8000;
+	assign a2_pla[140] = (w530 & 16'hb1c0) == 16'h90c0;
+	assign a2_pla[141] = (w530 & 16'hd1c0) == 16'h10c0;
+	assign a2_pla[142] = (w530 & 16'hb1c0) == 16'h91c0;
+	assign a2_pla[143] = (w530 & 16'hf1c0) == 16'h80c0;
+	assign a2_pla[144] = (w530 & 16'hf1c0) == 16'h81c0;
+	assign a2_pla[145] = (w530 & 16'hd1c0) == 16'h1100;
+	assign a2_pla[146] = (w530 & 16'hf1c0) == 16'hb1c0;
+	assign a2_pla[147] = (w530 & 16'hf180) == 16'hb000;
+	assign a2_pla[148] = (w530 & 16'hf1c0) == 16'hb0c0;
+	assign a2_pla[149] = (w530 & 16'hf0c0) == 16'hc0c0;
+	
+	assign w536 = ~(
+		a2_pla[0] | a2_pla[1] | a2_pla[4] | a2_pla[6] | a2_pla[7] | a2_pla[10] | a2_pla[12]
+		| a2_pla[15] | a2_pla[16] | a2_pla[17] | a2_pla[19] | a2_pla[20] | a2_pla[21] | a2_pla[22]
+		| a2_pla[23] | a2_pla[26] | a2_pla[27] | a2_pla[29] | a2_pla[31] | a2_pla[32] | a2_pla[33]
+		| a2_pla[34] | a2_pla[35] | a2_pla[36] | a2_pla[37] | a2_pla[38] | a2_pla[39] | a2_pla[40]
+		| a2_pla[41] | a2_pla[42] | a2_pla[43] | a2_pla[44] | a2_pla[46] | a2_pla[47] | a2_pla[48]
+		| a2_pla[49] | a2_pla[50] | a2_pla[52] | a2_pla[56] | a2_pla[57] | a2_pla[58] | a2_pla[59]
+		| a2_pla[61] | a2_pla[62] | a2_pla[63] | a2_pla[68]
+		);
+	
+	assign w537 = ~(
+		a2_pla[60] | a2_pla[64] | a2_pla[65] | a2_pla[66] | a2_pla[67]
+		);
+
+	assign w534 =
+		(a2_pla[72] ? 10'h00b : 10'h3ff) &
+		(a2_pla[73] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[74] ? 10'h006 : 10'h3ff) &
+		(a2_pla[75] ? 10'h00f : 10'h3ff) &
+		(a2_pla[76] ? 10'h21c : 10'h3ff) &
+		(a2_pla[77] ? 10'h179 : 10'h3ff) &
+		(a2_pla[78] ? 10'h103 : 10'h3ff) &
+		(a2_pla[79] ? 10'h1c6 : 10'h3ff) &
+		(a2_pla[80] ? 10'h1c2 : 10'h3ff) &
+		(a2_pla[81] ? 10'h1c2 : 10'h3ff) &
+		(a2_pla[82] ? 10'h1e7 : 10'h3ff) &
+		(a2_pla[83] ? 10'h1e3 : 10'h3ff) &
+		(a2_pla[84] ? 10'h1e3 : 10'h3ff) &
+		(a2_pla[85] ? 10'h00e : 10'h3ff) &
+		(a2_pla[86] ? 10'h00a : 10'h3ff) &
+		(a2_pla[87] ? 10'h1e6 : 10'h3ff) &
+		(a2_pla[88] ? 10'h1e2 : 10'h3ff) &
+		(a2_pla[89] ? 10'h108 : 10'h3ff) &
+		(a2_pla[90] ? 10'h3e7 : 10'h3ff) &
+		(a2_pla[91] ? 10'h3ef : 10'h3ff) &
+		(a2_pla[92] ? 10'h100 : 10'h3ff) &
+		(a2_pla[93] ? 10'h1cc : 10'h3ff) &
+		(a2_pla[94] ? 10'h3eb : 10'h3ff) &
+		(a2_pla[95] ? 10'h10c : 10'h3ff) &
+		(a2_pla[96] ? 10'h104 : 10'h3ff) &
+		(a2_pla[97] ? 10'h0ab : 10'h3ff) &
+		(a2_pla[98] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[99] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[100] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[101] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[102] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[103] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[104] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[105] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[106] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[107] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[108] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[109] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[110] ? 10'h2f9 : 10'h3ff) &
+		(a2_pla[111] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[112] ? 10'h2fa : 10'h3ff) &
+		(a2_pla[113] ? 10'h1c5 : 10'h3ff) &
+		(a2_pla[114] ? 10'h1d5 : 10'h3ff) &
+		(a2_pla[115] ? 10'h2da : 10'h3ff) &
+		(a2_pla[116] ? 10'h1eb : 10'h3ff) &
+		(a2_pla[117] ? 10'h2d9 : 10'h3ff) &
+		(a2_pla[118] ? 10'h279 : 10'h3ff) &
+		(a2_pla[119] ? 10'h129 : 10'h3ff) &
+		(a2_pla[120] ? 10'h121 : 10'h3ff) &
+		(a2_pla[121] ? 10'h2fd : 10'h3ff) &
+		(a2_pla[122] ? 10'h2fc : 10'h3ff) &
+		(a2_pla[123] ? 10'h2de : 10'h3ff) &
+		(a2_pla[124] ? 10'h1ef : 10'h3ff) &
+		(a2_pla[125] ? 10'h2dd : 10'h3ff) &
+		(a2_pla[126] ? 10'h1ee : 10'h3ff) &
+		(a2_pla[127] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[128] ? 10'h1ea : 10'h3ff) &
+		(a2_pla[129] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[130] ? 10'h301 : 10'h3ff) &
+		(a2_pla[131] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[132] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[133] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[134] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[135] ? 10'h152 : 10'h3ff) &
+		(a2_pla[136] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[137] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[138] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[139] ? 10'h1c1 : 10'h3ff) &
+		(a2_pla[140] ? 10'h1c9 : 10'h3ff) &
+		(a2_pla[141] ? 10'h2fe : 10'h3ff) &
+		(a2_pla[142] ? 10'h1c5 : 10'h3ff) &
+		(a2_pla[143] ? 10'h0a6 : 10'h3ff) &
+		(a2_pla[144] ? 10'h0ae : 10'h3ff) &
+		(a2_pla[145] ? 10'h2f8 : 10'h3ff) &
+		(a2_pla[146] ? 10'h1d5 : 10'h3ff) &
+		(a2_pla[147] ? 10'h1d1 : 10'h3ff) &
+		(a2_pla[148] ? 10'h1d9 : 10'h3ff) &
+		(a2_pla[149] ? 10'h15b : 10'h3ff);
+	
+	assign w535 =
+		(a2_pla[72] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[73] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[74] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[75] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[76] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[77] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[78] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[79] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[80] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[81] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[82] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[83] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[84] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[85] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[86] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[87] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[88] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[89] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[90] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[91] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[92] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[93] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[94] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[95] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[96] ? 10'h3ff : 10'h3ff) &
+		(a2_pla[97] ? 10'h215 : 10'h3ff) &
+		(a2_pla[98] ? 10'h215 : 10'h3ff) &
+		(a2_pla[99] ? 10'h081 : 10'h3ff) &
+		(a2_pla[100] ? 10'h081 : 10'h3ff) &
+		(a2_pla[101] ? 10'h087 : 10'h3ff) &
+		(a2_pla[102] ? 10'h299 : 10'h3ff) &
+		(a2_pla[103] ? 10'h299 : 10'h3ff) &
+		(a2_pla[104] ? 10'h3c7 : 10'h3ff) &
+		(a2_pla[105] ? 10'h069 : 10'h3ff) &
+		(a2_pla[106] ? 10'h08f : 10'h3ff) &
+		(a2_pla[107] ? 10'h069 : 10'h3ff) &
+		(a2_pla[108] ? 10'h29d : 10'h3ff) &
+		(a2_pla[109] ? 10'h3cb : 10'h3ff) &
+		(a2_pla[110] ? 10'h3a9 : 10'h3ff) &
+		(a2_pla[111] ? 10'h2bc : 10'h3ff) &
+		(a2_pla[112] ? 10'h3ab : 10'h3ff) &
+		(a2_pla[113] ? 10'h1cb : 10'h3ff) &
+		(a2_pla[114] ? 10'h1d7 : 10'h3ff) &
+		(a2_pla[115] ? 10'h38a : 10'h3ff) &
+		(a2_pla[116] ? 10'h298 : 10'h3ff) &
+		(a2_pla[117] ? 10'h388 : 10'h3ff) &
+		(a2_pla[118] ? 10'h158 : 10'h3ff) &
+		(a2_pla[119] ? 10'h29f : 10'h3ff) &
+		(a2_pla[120] ? 10'h29b : 10'h3ff) &
+		(a2_pla[121] ? 10'h3ad : 10'h3ff) &
+		(a2_pla[122] ? 10'h38f : 10'h3ff) &
+		(a2_pla[123] ? 10'h38e : 10'h3ff) &
+		(a2_pla[124] ? 10'h29c : 10'h3ff) &
+		(a2_pla[125] ? 10'h38c : 10'h3ff) &
+		(a2_pla[126] ? 10'h30f : 10'h3ff) &
+		(a2_pla[127] ? 10'h2b8 : 10'h3ff) &
+		(a2_pla[128] ? 10'h32b : 10'h3ff) &
+		(a2_pla[129] ? 10'h3a1 : 10'h3ff) &
+		(a2_pla[130] ? 10'h159 : 10'h3ff) &
+		(a2_pla[131] ? 10'h15c : 10'h3ff) &
+		(a2_pla[132] ? 10'h3c3 : 10'h3ff) &
+		(a2_pla[133] ? 10'h29d : 10'h3ff) &
+		(a2_pla[134] ? 10'h343 : 10'h3ff) &
+		(a2_pla[135] ? 10'h151 : 10'h3ff) &
+		(a2_pla[136] ? 10'h2f3 : 10'h3ff) &
+		(a2_pla[137] ? 10'h2f7 : 10'h3ff) &
+		(a2_pla[138] ? 10'h380 : 10'h3ff) &
+		(a2_pla[139] ? 10'h1c3 : 10'h3ff) &
+		(a2_pla[140] ? 10'h1c7 : 10'h3ff) &
+		(a2_pla[141] ? 10'h3af : 10'h3ff) &
+		(a2_pla[142] ? 10'h1cb : 10'h3ff) &
+		(a2_pla[143] ? 10'h0a4 : 10'h3ff) &
+		(a2_pla[144] ? 10'h0ac : 10'h3ff) &
+		(a2_pla[145] ? 10'h38b : 10'h3ff) &
+		(a2_pla[146] ? 10'h1d7 : 10'h3ff) &
+		(a2_pla[147] ? 10'h1d3 : 10'h3ff) &
+		(a2_pla[148] ? 10'h1cf : 10'h3ff) &
+		(a2_pla[149] ? 10'h15a : 10'h3ff);
 
 
 endmodule
