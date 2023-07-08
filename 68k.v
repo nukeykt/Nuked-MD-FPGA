@@ -777,6 +777,153 @@ module m68kcpu
 	reg w730;
 	reg w731;
 	reg w732;
+	reg w733;
+	wire w734;
+	wire w735;
+	wire w736;
+	reg w737;
+	reg w738;
+	reg w739;
+	reg w740;
+	reg w741;
+	reg w742;
+	wire w743;
+	reg w744;
+	wire w745;
+	reg w746;
+	wire w747;
+	reg w748;
+	wire w749;
+	reg w750;
+	reg w751;
+	reg w752;
+	reg w753;
+	reg w754;
+	reg w755;
+	reg w756;
+	wire w757;
+	reg w758;
+	reg w759;
+	reg w760;
+	reg w761;
+	reg w762;
+	reg w763;
+	wire w764;
+	reg w765;
+	reg w766;
+	reg w767;
+	reg w768;
+	reg w769;
+	reg w770;
+	wire w771;
+	reg w773;
+	wire w774;
+	reg w775;
+	reg w776;
+	reg w777;
+	wire w778;
+	reg w779;
+	wire w780;
+	reg w781;
+	wire w783;
+	reg w784;
+	wire w785;
+	wire w786;
+	wire w787;
+	wire w789;
+	wire w790;
+	wire w791;
+	wire w792;
+	reg w793;
+	wire w794;
+	wire w795;
+	wire w796;
+	wire w797;
+	wire w798;
+	wire w799;
+	wire w800;
+	wire w801;
+	wire w802;
+	wire w803;
+	wire w804;
+	wire w805;
+	wire w806;
+	reg w807;
+	reg w808;
+	wire w809;
+	wire w810;
+	wire w811;
+	reg w812;
+	wire w813;
+	wire w814;
+	wire w815;
+	wire w816;
+	wire w817;
+	reg w818;
+	reg w819;
+	wire w820;
+	wire w821;
+	wire w822;
+	wire w823;
+	wire w824;
+	wire w825;
+	wire w826;
+	wire w827;
+	wire w828;
+	wire w829;
+	wire w830;
+	wire w831;
+	wire w832;
+	reg w833;
+	reg w834;
+	reg w835;
+	wire w836;
+	wire w837;
+	reg w838;
+	reg w839;
+	wire w840;
+	reg w841;
+	wire w842;
+	wire w843;
+	reg w844;
+	reg w845;
+	reg w846;
+	reg w847;
+	reg w848;
+	wire w849;
+	reg w850;
+	reg w851;
+	reg w852;
+	reg w853;
+	wire w854;
+	wire w855;
+	wire w856;
+	wire w857;
+	wire w858;
+	wire w859;
+	wire w860;
+	wire w861;
+	wire w862;
+	wire w863;
+	wire w864;
+	wire w865;
+	wire w866;
+	wire w867;
+	wire w868;
+	wire w869;
+	wire w870;
+	wire w871;
+	wire w872;
+	wire w873;
+	wire w874;
+	wire w875;
+	wire w876;
+	wire w877;
+	wire w878;
+	wire w879;
+	wire w880;
+	wire w881;
+	
 	
 	
 	reg [15:0] b1[0:3];
@@ -4317,5 +4464,388 @@ module m68kcpu
 	w713 = (w685 |
 		(w682 & (w569 & 15'h2000) != 15'h0) |
 		(w683 & (w569 & 15'h6080) != 15'h0));
+	
+	assign w734 = b3[2][15];
+	assign w735 = ~w982;
+	
+	assign w736 = w708 ? w793 : w750;
+	
+	assign w743 = r8[15];
+	
+	assign w745 = ~w739;
+	
+	assign w747 = ~w717;
+	
+	assign w749 = w748 ? c3 : 1'h0;
+	
+	assign w757 = w756 ? c1 : 1'h0;
+	
+	assign w771 = ~w770;
+
+	assign w774 = ~w773;
+	
+	always @(posedge MCLK)
+	begin
+		if (~w726)
+			w733 <= w732;
+		else if (~w714)
+			w733 <= w734;
+		
+		if (~w715)
+			w737 <= w734;
+		else if (~w714)
+			w737 <= w740;
+		else if (~w716)
+			w737 <= w735;
+		
+		if (~w726)
+			w738 <= w740;
+		else if (~w727)
+			w738 <= w737;
+		else if (~w728)
+			w738 <= w736;
+		else if (~w729)
+			w738 <= ~w736;
+		else if (~w730)
+			w738 <= 1'h0;
+		else if (~w731)
+			w738 <= 1'h1;
+		
+		if (~w721)
+			w739 <= w737;
+		else if (~w722)
+			w739 <= w736;
+		else if (~w723)
+			w739 <= 1'h0;
+		else if (~w720)
+			w739 <= w985;
+		
+		if (c2)
+		begin
+			w740 <= r8[15];
+			w741 <= r8[0];
+		end
+		
+		if (~w714)
+			w742 <= w741;
+		else if (~w715)
+			w742 <= w739;
+		else if (~w719)
+			w742 <= w780;
+		
+		if (~w714)
+			w744 <= w743;
+		else if (~w716)
+			w744 <= w962[7];
+		else if (~w715)
+			w744 <= w970;
+		
+		if (w725)
+			w746 <= w737;
+		else if (w724)
+			w746 <= w985;
+		
+		if (c1)
+			w748 <= w688;
+		
+		if (w749)
+			w750 <= alu_io[4];
+		else if (w790)
+			w750 <= ~w791;
+		
+		if (w749)
+			w751 <= alu_io[0];
+		else if (w792)
+			w751 <= ~w791;
+		
+		if (w749)
+			w752 <= alu_io[1];
+		else if (w794)
+			w752 <= ~w795;
+		
+		if (w749)
+			w753 <= alu_io[3];
+		else if (w797)
+			w753 <= w798;
+			
+		if (w749)
+			w754 <= alu_io[2];
+		else if (w799)
+			w754 <= ~w800;
+		
+		if (c3)
+			w755 <= 1'h1;
+		else if (c1)
+			w755 <= 1'h0;
+		if (!c1)
+			w756 <= w755;
+		
+		if (c3)
+		begin
+			w758 <= ~w691;
+			w759 <= ~(w691 | w693);
+			w760 <= ~(w694 | w695);
+			w761 <= ~w696;
+			w762 <= ~w697;
+			w763 <= ~w698;
+			w765 <= ~w699;
+			w766 <= ~w700;
+			w767 <= ~w701;
+			w768 <= ~w702;
+			w769 <= ~w703;
+			w770 <= ~w704;
+			w773 <= ~w705;
+			w775 <= ~w706;
+			w776 <= ~(~w706 | ~w707);
+			w777 <= ~w707;
+		end
+	end
+	
+	assign w778 = w709 ? 1'h0 : c3;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w779 <= ~irdbus[16];
+	end
+	
+	assign w780 = w779 ? w751 : w805;
+	
+	always @(posedge MCLK)
+	begin
+		if (w778)
+		begin
+			w781 <= w746;
+			w782 <= w744;
+		end
+	end
+	
+	assign w783 = w781 ^ w782;
+	
+	assign w785 = w775;
+	assign w786 = w777;
+	assign w789 = ~w776;
+	
+	always @(posedge MCLK)
+	begin
+		if (w785)
+			w784 <= ~w750;
+		else if (~w771 & ~w789)
+			w784 <= w972;
+		else if (~w772 & ~w789)
+			w784 <= w978;
+		else if (w786)
+			w784 <= w781;
+	end
+	
+	assign w787 = w774 ? w784 : ~w784;
+	
+	assign w791 = ~(w787 | (w769 & w751));
+	
+	assign w790 = w758 ? 1'h0 : w757;
+	
+	assign w792 = w759 ? 1'h0 : w757;
+	
+	assign w764 = w763 ? w757 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (w764)
+			w793 <= ~w791;
+	end
+	
+	assign w794 = w760 ? 1'h0 : w757;
+	
+	assign w795 = ~(w767 | (w796 & ~w766)
+		| (w752 & w765) | (w783 & w765));
+	
+	assign w796 = w771 ? w977 : w971;
+	
+	assign w797 = w761 ? 1'h0 : w757;
+	
+	assign w798 = w771 ? w970 : w962[7];
+	
+	assign w799 = w762 ? 1'h0 : w757;
+	
+	assign w800 = w801 | w804;
+	
+	assign w801 = ~(w754 | ~w768);
+	
+	assign w802 = ~w975;
+	assign w803 = ~(w975 & w976);
+	
+	assign w804 = w771 ? w803 : w802;
+	
+	assign w805 = w753 ^ w752;
+	
+	assign w806 = ~(~w724 & ~w529[17]);
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+		begin
+			w807 <= w529[16];
+			w808 <= ~w529[15];
+		end
+	end
+	
+	assign w809 = ~(w807 | ~w808);
+	assign w810 = ~(w807 | w808);
+	assign w811 = ~w807;
+	
+	always @(posedge MCLK)
+	begin
+		if (c3)
+			w812 <= 1'h0;
+		else if (c2)
+			w812 <= 1'h1;
+	end
+	
+	assign w815 = w159[0];
+	
+	assign w814 = ~(~w815 | ~w578);
+	
+	assign w813 = ~(w529[14] | w529[11] | w814);
+	
+	assign w816 = ~(w815 | ~w578);
+	
+	assign w817 = ~(w529[14] | w529[11] | w816);
+	
+	always @(posedge MCLK)
+	begin
+		if (w267)
+		begin
+			w818 <= 1'h0;
+			w819 <= 1'h0;
+		end
+		else if (c2 | w812)
+		begin
+			w818 <= ~w813;
+			w819 <= ~w817;
+		end
+	end
+	
+	assign w820 = ~(w724 | w725);
+	
+	assign w821 = ~(w529[10] & ~w529[9]);
+	
+	assign w822 = ~(w529[8] & ~w529[9]);
+	
+	assign w833 = ~(w529[11] | w529[14]);
+	
+	assign w834 = ~(w823 | w529[12] | w267);
+	assign w835 = ~(w823 | w267 | w578 | w529[13]);
+	
+	assign w826 = w529[13] ^ w529[12];
+	
+	assign w827 = ~(~w267 & (w826 | w578));
+	
+	assign w828 = ~w529[14];
+	
+	assign w829 = ~w529[11];
+	
+	assign w830 = ~(w828 | w529[11]);
+	assign w831 = ~(w829 | w529[14]);
+	assign w832 = ~(w829 | w828);
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+		begin
+			w833 <= ~w529[10];
+			w834 <= ~w529[9];
+			w835 <= w529[7];
+		end
+	end
+	
+	assign w836 = ~(w833 | w834);
+	assign w837 = ~(w834 | ~w529[8]);
+	
+	always @(posedge MCLK)
+	begin
+		if (c2)
+			w838 <= 1'h0;
+		else if (c3)
+			w838 <= w835;
+		
+		if (c2)
+		begin
+			w839 <= ~w529[12];
+			w841 <= ~w529[13];
+		end
+	end
+
+	assign w840 = ~(w839 & w838);
+	assign w842 = ~(w841 & w838);
+	assign w849 = ~(~w529[29] | w576);
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+		begin
+			w844 <= ~w529[31];
+			w845 <= ~w529[30];
+			w846 <= w849;
+			w848 <= ~(w849 | ~w529[32]);
+			w850 <= w529[33];
+			w851 <= ~w529[34];
+			w852 <= ~w529[35];
+		end
+		
+		if (w844 & w845)
+			w847 <= 1'h0;
+		else if (~w844)
+			w847 <= c3;
+		else if (~w845)
+			w847 <= c2;
+		
+		if (w851 & w852)
+			w853 <= 1'h0;
+		else if (~w851)
+			w853 <= c3;
+		else if (~w852)
+			w853 <= c2;
+	end
+	
+	assign w854 = w850;
+	
+	assign w855 = w848;
+	
+	assign w856 = w846;
+	
+	assign w857 = w846 ? 1'h0 : c6;
+	
+	assign w843 = w192 ? w853 : 1'h0;
+	assign w858 = w198 ? w847 : 1'h0;
+	assign w859 = w197 ? w847 : 1'h0;
+	assign w860 = w191 ? w853 : 1'h0;
+	assign w861 = w190 ? w853 : 1'h0;
+	assign w862 = w196 ? w847 : 1'h0;
+	assign w863 = w195 ? w847 : 1'h0;
+	assign w864 = w189 ? w853 : 1'h0;
+	assign w865 = w188 ? w853 : 1'h0;
+	assign w866 = w194 ? w847 : 1'h0;
+	assign w867 = w193 ? w847 : 1'h0;
+	assign w868 = w187 ? w853 : 1'h0;
+	assign w869 = w184 ? w853 : 1'h0;
+	assign w870 = w186 ? w847 : 1'h0;
+	assign w871 = w185 ? w847 : 1'h0;
+	assign w872 = w183 ? w853 : 1'h0;
+	assign w873 = w669 ? w853 : 1'h0;
+	assign w874 = w676 ? w847 : 1'h0;
+	
+	assign w875 = w836 ? c3 : 1'h0;
+	
+	assign w876 = w944[4];
+	
+	assign w877 = w837 ? c2 : 1'h0;
+	
+	assign w878 = w529[20] ? c2 : 1'h0;
+	
+	assign w879 = w529[21] ? c2 : 1'h0;
+	
+	assign w880 = w840 ? 1'h0 : clk1;
+	
+	assign w881 = w842 ? 1'h0 : clk1;
 	
 endmodule
