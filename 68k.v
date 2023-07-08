@@ -42,7 +42,7 @@ module m68kcpu
 	output BG,
 	output [2:0] FC,
 	output RW,
-	output [23:1] ADDRESS,
+	output [22:0] ADDRESS,
 	output AS,
 	output LDS,
 	output UDS
@@ -986,12 +986,61 @@ module m68kcpu
 	wire w943;
 	reg [4:0] w944;
 	reg w945;
-	
+	wire w946;
+	wire [15:0] w947;
+	reg [15:0] w948;
+	wire [15:0] w949;
+	reg [15:0] w950;
+	wire [15:0] w951;
+	wire [15:0] w952;
+	wire [15:0] w953;
+	wire [18:0] w954;
+	wire w955;
+	wire w956;
+	wire w957;
+	wire w958;
+	wire w959;
+	wire w960;
+	wire [15:0] w961;
+	reg [15:0] w962;
+	reg [15:0] w963;
+	reg [15:0] w964;
+	wire w965;
+	wire w966;
+	reg w967;
+	wire w968;
+	wire w969;
+	reg w970;
+	reg w971;
+	reg w972;
+	wire w973;
+	wire w974;
+	wire w975;
+	wire w976;
+	reg w977;
+	reg w978;
+	wire w979;
+	reg [15:0] w980;
+	reg [15:0] w981;
+	wire w982;
+	wire w983;
+	reg [15:0] w984;
+	wire w985;
+	wire w986;
+	wire w987;
+	reg [15:0] data_l;
+	reg as_l1;
+	reg as_l2;
+	reg as_l3;
 	
 	
 	reg [15:0] b1[0:3];
 	reg [15:0] b2[0:3];
 	reg [15:0] b3[0:3];
+	
+	reg [15:0] data_io;
+	
+	wire [15:0] address_mux;
 	
 	wire c1;
 	wire c2;
@@ -4980,7 +5029,7 @@ module m68kcpu
 	always @(posedge MCLK)
 	begin
 		if (w725)
-			w898 <= ~w733; // TODO: w963
+			w898 <= ~w733;
 	end
 	
 	assign w899 = r8[0];
@@ -5121,5 +5170,239 @@ module m68kcpu
 			w945 <= ~w946;
 		end
 	end
+	
+	assign w947 <= ~((w945 | ~w944[3]) ? (16'h1 << w944[2:0]) : (16'h100 << w944[2:0]));
+	
+	always @(posedge MCLK)
+	begin
+		if (w880)
+			w948[7:0] <= data_io[7:0];
+		if (w881)
+			w948[15:8] <= data_io[15:8];
+	end
+	
+	assign w949 = w926 ? w980 : ~w980;
+	
+	always @(posedge MCLK)
+	begin
+		if (w921)
+			w950 <= b3[0];
+		else if (w919)
+			w950 <= w918 ? 16'hffff : 16'h0;
+		else if (w920)
+			w950 <= { 8'h0, w965, (w905 & w974) | (w965 & w972), (w905 & w974) | (w965 & w972), w965,
+				w965, (w905 & w968) | (w965 & w969), (w905 & w968) | (w965 & w969), w965 };
+	end
+	
+	assign w951 = ~(
+		(w910 ? 16'hffff : 16'h0) |
+		(w916 ? (w949 & w950) : 16'h0) |
+		w952);
+	
+	assign w952 = ~(
+		(w911 ? 16'hffff : 16'h0) |
+		(w949 | w950));
+	
+	assign w953 = ~(
+		(w911 ? 16'hffff : 16'h0) |
+		(w914 ? (w949 & w950) : 16'h0));
+	
+	
+	assign w954[0] = ~(~w953[0] | (w951[0] & ~w909));
+	assign w954[1] = ~(~w953[1] | (w951[1] & ~w954[0]));
+	assign w954[2] = ~(~w953[2] | (w951[2] & ~w954[1]));
+	assign w954[3] = ~(~w953[3] | (w951[3] & ~w954[2]));
+	
+	assign w955 = ~w954[3];
+	assign w954[4] = ~w955;
+	
+	assign w954[5] = ~(~w953[4] | (w951[4] & ~w954[4]));
+	assign w954[6] = ~(~w953[5] | (w951[5] & ~w954[5]));
+	assign w954[7] = ~(~w953[6] | (w951[6] & ~w954[6]));
+	assign w954[8] = ~(~w953[7] | (w951[7] & ~w954[7]));
+	
+	assign w956 = ~w954[8];
+	assign w957 = ~(w954[4] | (w951 & 16'hf0) != 16'hf0);
+	assign w954[9] = ~(w956 | w957);
+	
+	assign w954[10] = ~(~w953[8] | (w951[8] & ~w954[9]));
+	assign w954[11] = ~(~w953[9] | (w951[9] & ~w954[10]));
+	assign w954[12] = ~(~w953[10] | (w951[10] & ~w954[11]));
+	assign w954[13] = ~(~w953[11] | (w951[11] & ~w954[12]));
+	
+	assign w958 = ~w954[13];
+	assign w959 = ~(w954[4] | (w951 & 16'hff0) != 16'hff0);
+	assign w960 = ~(w954[9] | (w951 & 16'hf00) != 16'hf00);
+	assign w914[14] = ~(w958 | w959 | w960);
+	
+	assign w954[15] = ~(~w953[12] | (w951[12] & ~w954[14]));
+	assign w954[16] = ~(~w953[13] | (w951[13] & ~w954[15]));
+	assign w954[17] = ~(~w953[14] | (w951[14] & ~w954[16]));
+	assign w954[18] = ~(~w953[15] | (w951[15] & ~w954[17]));
+	
+	assign w961 = ~(w951 ^ {w954[17:14], w957[12:9], w957[7:4], w957[2:0], w909});
+	
+	always @(posedge MCLK)
+	begin
+		if (w903)
+		begin
+			w962 <= w961;
+			w967 <= ~w955;
+			w970 <= w961[15];
+			w971 <= w954[7] ^ w954[8];
+			w972 <= w956;
+			w977 <= w954[17] ^ w954[18];
+			w978 <= ~w954[18];
+		end
+		
+		if (w900)
+		begin
+			w963 <= { w902, ~r8[15:1]};
+		end
+		else
+		begin
+			if (w897)
+			begin
+				w963[15:1] <= ~r8[14:0];
+			end
+			if (w725)
+			begin
+				w963[0] <= w898;
+			end
+		end
+		
+		if (w896)
+			r8 <= ~w963;
+		
+		if (w888)
+			w964 <= w962;
+		else if (w887)
+			w964 <= ~b3[3];
+		else if (w886)
+			w964 <= ~b3[1];
+	end
+	
+	assign w965 = ~w905;
+	
+	assign w966 = ~(
+		w962[3] & (w962[2] | w962[1])
+		);
+	
+	assign w969 = ~w967;
+	
+	assign w973 = ~(
+		w962[7]
+		& ((w962[6] | w962[5])
+			| (w962[4] & ~w966)));
+	
+	assign w974 = ~(w973 & ~w972);
+	
+	assign w975 = (w962 & 16'hff) == 16'h0;
+	assign w976 = (w962 & 16'hff00) == 16'h0;
+	
+	assign w979 = ~b3[2][15];
+	
+	always @(posedge MCLK)
+	begin
+		if (w928)
+		begin
+			w980[7:0] <= b3[2][7:0];
+			if (w933)
+				w983[15:8] <= w983 ? 8'hff : 8'h0
+			else
+				w983[15:8] <= b3[2][15:8];
+		end
+		else if (w923)
+			w980 <= w981;
+		else if (w922)
+		begin
+			w980[6:0] <= b3[2][7:1];
+			w980[7] <= w931 ? w932 : b3[2][8];
+			w980[14:8] <= b3[2][15:9];
+			w980[15] <= w934;
+		end
+		
+		if (w936)
+			w981 <= b3[0];
+		else if (w938)
+			w981 <= b3[2];
+	end
+	
+	assign w982 = ~b3[2][7];
+	assign w983 = b3[2][7];
+	
+	always @(posedge MCLK)
+	begin
+		if (w942)
+			w984 <= data_io;
+	end
+	
+	assign w985 = b3[2][0];
+	
+	assign w986 = w818 ? 1'h0 : clk1;
+	assign w976 = w819 ? 1'h0 : clk1;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk2)
+			data_l <= DATA;
+	end
+	
+	assign DATA = w361 ? ~data_io : 'bz;
+	
+	assign address_mux = w267 ?
+		{ irdbus[23], irdbus[21], irdbus[19], irdbus[17], irdbus[15], irdbus[13], irdbus[11], irdbus[9],
+			irdbus[31], irdbus[30], irdbus[29], irdbus[28], irdbus[27], irdbus[26], irdbus[25], irdbus[24],
+			irdbus[22], irdbus[20], irdbus[18], irdbus[16], irdbus[14], irdbus[12], irdbus[10] }
+			: { w108[7:0], w159[15:1] };
+	
+	assign ADDRESS = w400 ? address_mux : 'bz;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk2)
+		begin
+			as_l1 <= w376;
+			as_l3 <= w409;
+		end
+		if (as_l1 & clk1)
+			as_l2 <= 1'h0;
+		else if (~as_l1)
+			as_l2 <= 1'h1;
+	end
+	
+	assign AS = as_l3 ? 'bz : ~as_l2;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk2)
+		begin
+			uds_l1 <= w385;
+			uds_l3 <= w409;
+		end
+		if (uds_l1 & clk1)
+			uds_l2 <= 1'h0;
+		else if (~uds_l1)
+			uds_l2 <= w413;
+	end
+	
+	assign UDS = uds_l3 ? 'bz : ~uds_l2;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk2)
+		begin
+			lds_l1 <= w385;
+			lds_l3 <= w409;
+		end
+		if (lds_l1 & clk1)
+			lds_l2 <= 1'h0;
+		else if (~lds_l1)
+			lds_l2 <= w412;
+	end
+	
+	assign LDS = lds_l3 ? 'bz : ~lds_l2;
+
+	
 	
 endmodule
