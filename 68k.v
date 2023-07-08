@@ -192,7 +192,7 @@ module m68kcpu
 	wire w170;
 	reg [15:0] w171;
 	wire [15:0] w172;
-	wire w173;
+	wire [15:0] w173;
 	wire w174;
 	wire w175;
 	wire w176;
@@ -561,7 +561,7 @@ module m68kcpu
 	wire w527;
 	reg [67:0] w528;
 	reg [67:0] w529;
-	reg [67:0] ucode[0:117];
+	reg [271:0] ucode[0:117];
 	reg [15:0] w530;
 	wire [170:0] a0_pla;
 	reg [164:20] a0_pla_mem;
@@ -947,8 +947,8 @@ module m68kcpu
 	reg w904;
 	wire w905;
 	wire w906;
-	wire w907;
-	wire w908;
+	//wire w907;
+	//wire w908;
 	wire w909;
 	wire w910;
 	wire w911;
@@ -965,7 +965,7 @@ module m68kcpu
 	wire w922;
 	wire w923;
 	reg w924;
-	wire w925;
+	//wire w925;
 	wire w926;
 	reg w927;
 	wire w928;
@@ -1018,7 +1018,7 @@ module m68kcpu
 	wire w976;
 	reg w977;
 	reg w978;
-	wire w979;
+	//wire w979;
 	reg [15:0] w980;
 	reg [15:0] w981;
 	wire w982;
@@ -1640,11 +1640,11 @@ module m68kcpu
 			w294[0] <= w435[2];
 			
 			w296[1] <= w296[0];
-			w296[1] <= w296[2];
+			w296[3] <= w296[2];
 			w297[1] <= w297[0];
-			w297[1] <= w297[2];
+			w297[3] <= w297[2];
 			w298[1] <= w298[0];
-			w298[1] <= w298[2];
+			w298[3] <= w298[2];
 			w299 <= ~w296[3];
 			w301 <= ~w297[3];
 			w303 <= ~w298[3];
@@ -1655,7 +1655,7 @@ module m68kcpu
 			
 			w359[1] <= w359[0];
 			
-			w359[2] <= w359[3];
+			w359[2] <= w359_3;
 			
 			w363 <= ~((w395 & w418_1) | w364[1] | ~w383);
 			
@@ -1820,6 +1820,9 @@ module m68kcpu
 	assign _w281_1 = _w281_0 & ~w278;
 	assign _w281_3 = _w281_2 & ~w278;
 	
+	assign _w284_1 = (_w284_0 | w286) & ~w278;
+	assign _w284_3 = (_w284_2 | w286) & ~w278;
+	
 	assign w280 = ~_w279_2 ? 1'h0 : (_w279_3 ? 1'h1 : w280_mem);
 	
 	assign w282_n = _w281_3 ? 1'h0 : (~_w281_2 ? 1'h1 : w282_n_mem);
@@ -1862,9 +1865,9 @@ module m68kcpu
 	assign w295 = IPL[0];
 	
 	assign IPL[0] = (w297[2] & w298[2] & w266) ? 1'h0 : 'bz;
-	assign IPL[1] = (IPL[0] & w266) ? 1'h0 : 'bz;
-	assign IPL[2] = (IPL[0] & w266) ? 1'h0 : 'bz;
-	assign BERR = (IPL[0] & w266) ? 1'h0 : 'bz;
+	assign IPL[1] = (w295 & w266) ? 1'h0 : 'bz;
+	assign IPL[2] = (w295 & w266) ? 1'h0 : 'bz;
+	assign BERR = (w295 & w266) ? 1'h0 : 'bz;
 	
 	assign w300 = ~((w296[2] & w296[3]) | (~w296[2] & ~w296[3]));
 	assign w302 = ~((w297[2] & w297[3]) | (~w297[2] & ~w297[3]));
@@ -2131,7 +2134,7 @@ module m68kcpu
 		if (~w401 & clk1)
 			w400 <= 1'h1;
 		else if (w399 | (c2 & w267) | w401)
-			w401 <= 1'h0;
+			w400 <= 1'h0;
 	end
 	
 	assign w402 = ~(w404 | w422);
@@ -2156,7 +2159,7 @@ module m68kcpu
 	assign w412 = ~w411;
 	assign w413 = ~w405;
 	
-	assign w416 = ~(w359[3] | w417);
+	assign w416 = ~(w359_3 | w417);
 	
 	always @(posedge MCLK)
 	begin
@@ -2298,6 +2301,8 @@ module m68kcpu
 	assign w462[9] = w451 & ~w455;
 	assign w462[10] = ~w451 & w454 & ~w455;
 	
+	assign w463 = ~w451 & ~w454 & ~w455;
+	
 	assign w464 = (
 		(w462[3] ? 10'h1c0 : 10'h3ff) &
 		(w462[4] ? 10'h1c0 : 10'h3ff) &
@@ -2365,7 +2370,7 @@ module m68kcpu
 		else if (w561)
 		begin
 			w472 <= w557;
-			w473 <= w558;
+			w473 <= w555;
 		end
 		else if (w562)
 		begin
@@ -3530,7 +3535,7 @@ module m68kcpu
 	assign a2_pla_g2 = ~a2_pla[70];
 	assign a2_pla[72] = (w530 & 16'h0038) == 16'h0010 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla_g3;
 	assign a2_pla[73] = (w530 & 16'h0e00) == 16'h0800 & ~a2_pla_g1 & ~a2_pla_g2; // g3
-	assign a2_pla_g2 = a2_pla[73];
+	assign a2_pla_g3 = a2_pla[73];
 	assign a2_pla[74] = (w530 & 16'h0138) == 16'h0010 & ~a2_pla_g1 & ~a2_pla[72];
 	assign a2_pla[75] = (w530 & 16'h0038) == 16'h0018 & ~a2_pla_g1 & ~a2_pla_g2 & ~a2_pla_g3;
 	assign a2_pla[76] = (w530 & 16'h0038) == 16'h0018 & ~a2_pla_g1 & ~a2_pla[75];
@@ -4184,6 +4189,8 @@ module m68kcpu
 	assign w580 = ~irdbus[2];
 	assign w581 = ~irdbus[0];
 	
+	assign w582 = ~(w586 | ird_pla2[8] | ird_pla2[7] | w583);
+	
 	assign w583 = 1'h0;
 	
 	assign w584 = ~(ird_pla2[6] | ird_pla2[5] | ird_pla2[4]);
@@ -4735,7 +4742,7 @@ module m68kcpu
 		if (c3)
 		begin
 			w758 <= ~w691;
-			w759 <= ~(w691 | w693);
+			w759 <= ~(w692 | w693);
 			w760 <= ~(w694 | w695);
 			w761 <= ~w696;
 			w762 <= ~w697;
@@ -5085,8 +5092,8 @@ module m68kcpu
 	assign w906 = ~w710;
 	assign w905 = ~w906;
 	
-	assign w908 = ~w907;
-	assign w907 = ~c2;
+	//assign w908 = ~w907;
+	//assign w907 = ~c2;
 	
 	assign w909 = ~w738;
 	
@@ -5136,7 +5143,7 @@ module m68kcpu
 	
 	assign w923 = ~w924;
 	
-	assign w925 = w718;
+	//assign w925 = w718;
 	assign w926 = ~w718;
 	
 	always @(posedge MCLK)
@@ -5305,9 +5312,6 @@ module m68kcpu
 			end
 		end
 		
-		if (w896)
-			r8 <= ~w963;
-		
 		if (w888)
 			w964 <= w962;
 		else if (w887)
@@ -5321,6 +5325,8 @@ module m68kcpu
 	assign w966 = ~(
 		w962[3] & (w962[2] | w962[1])
 		);
+		
+	assign w968 = ~(w966 & w967);
 	
 	assign w969 = ~w967;
 	
@@ -5334,7 +5340,7 @@ module m68kcpu
 	assign w975 = (w962 & 16'hff) == 16'h0;
 	assign w976 = (w962 & 16'hff00) == 16'h0;
 	
-	assign w979 = ~b3[2][15];
+	//assign w979 = ~b3[2][15];
 	
 	always @(posedge MCLK)
 	begin
@@ -5374,7 +5380,7 @@ module m68kcpu
 	assign w985 = b3[2][0];
 	
 	assign w986 = w818 ? 1'h0 : clk1;
-	assign w976 = w819 ? 1'h0 : clk1;
+	assign w987 = w819 ? 1'h0 : clk1;
 	
 	always @(posedge MCLK)
 	begin
@@ -5702,16 +5708,16 @@ module m68kcpu
 	
 	assign b1_pulldown_comb[0] = (w128 & w854) ? b123_pulldown[0] : (w128 ? b12_pulldown[0] : b1_pulldown[0]);
 	assign b1_pulldown_comb[1] = (w128 & w854) ? b123_pulldown[1] : (w128 ? b12_pulldown[1] : b1_pulldown[1]);
-	assign b1_pulldown_comb[2] = (w128 & w854) ? b123_pulldown[2] : (w128 ? b12_pulldown[2] : b1_pulldown[2]);
-	assign b1_pulldown_comb[3] = (w128 & w854) ? b123_pulldown[3] : (w128 ? b12_pulldown[3] : b1_pulldown[3]);
+	assign b1_pulldown_comb[2] = (w127 & w855) ? b123_pulldown[2] : (w127 ? b12_pulldown[2] : b1_pulldown[2]);
+	assign b1_pulldown_comb[3] = (w127 & w855) ? b123_pulldown[3] : (w127 ? b12_pulldown[3] : b1_pulldown[3]);
 	assign b2_pulldown_comb[0] = (w128 & w854) ? b123_pulldown[0] : (w128 ? b12_pulldown[0] : (w854 ? b23_pulldown[0] : b2_pulldown[0]));
 	assign b2_pulldown_comb[1] = (w128 & w854) ? b123_pulldown[1] : (w128 ? b12_pulldown[1] : (w854 ? b23_pulldown[1] : b2_pulldown[1]));
-	assign b2_pulldown_comb[2] = (w128 & w854) ? b123_pulldown[2] : (w128 ? b12_pulldown[2] : (w854 ? b23_pulldown[2] : b2_pulldown[2]));
-	assign b2_pulldown_comb[3] = (w128 & w854) ? b123_pulldown[3] : (w128 ? b12_pulldown[3] : (w854 ? b23_pulldown[3] : b2_pulldown[3]));
+	assign b2_pulldown_comb[2] = (w127 & w855) ? b123_pulldown[2] : (w127 ? b12_pulldown[2] : (w855 ? b23_pulldown[2] : b2_pulldown[2]));
+	assign b2_pulldown_comb[3] = (w127 & w855) ? b123_pulldown[3] : (w127 ? b12_pulldown[3] : (w855 ? b23_pulldown[3] : b2_pulldown[3]));
 	assign b3_pulldown_comb[0] = (w128 & w854) ? b123_pulldown[0] : (w854 ? b23_pulldown[0] : b3_pulldown[0]);
 	assign b3_pulldown_comb[1] = (w128 & w854) ? b123_pulldown[1] : (w854 ? b23_pulldown[1] : b3_pulldown[1]);
-	assign b3_pulldown_comb[2] = (w128 & w854) ? b123_pulldown[2] : (w854 ? b23_pulldown[2] : b3_pulldown[2]);
-	assign b3_pulldown_comb[3] = (w128 & w854) ? b123_pulldown[3] : (w854 ? b23_pulldown[3] : b3_pulldown[3]);
+	assign b3_pulldown_comb[2] = (w127 & w855) ? b123_pulldown[2] : (w855 ? b23_pulldown[2] : b3_pulldown[2]);
+	assign b3_pulldown_comb[3] = (w127 & w855) ? b123_pulldown[3] : (w855 ? b23_pulldown[3] : b3_pulldown[3]);
 	
 	always @(posedge MCLK)
 	begin
@@ -5869,44 +5875,72 @@ module m68kcpu
 			r6[9] <= (r6[9] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
 		
 		if (w843)
-			r6[0] <= (r6[0] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[0] <= (r7[0] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 		else if (w858)
-			r6[0] <= (r6[0] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[0] <= (r7[0] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 		if (w859)
-			r6[1] <= (r6[1] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[1] <= (r7[1] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 		else if (w860)
-			r6[1] <= (r6[1] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[1] <= (r7[1] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 		if (w861)
-			r6[2] <= (r6[2] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[2] <= (r7[2] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 		else if (w862)
-			r6[2] <= (r6[2] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[2] <= (r7[2] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 		if (w863)
-			r6[3] <= (r6[3] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[3] <= (r7[3] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 		else if (w864)
-			r6[3] <= (r6[3] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[3] <= (r7[3] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 		if (w865)
-			r6[4] <= (r6[4] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[4] <= (r7[4] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 		else if (w866)
-			r6[4] <= (r6[4] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[4] <= (r7[4] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 		if (w867)
-			r6[5] <= (r6[5] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[5] <= (r7[5] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 		else if (w868)
-			r6[5] <= (r6[5] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[5] <= (r7[5] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 		if (w869)
-			r6[6] <= (r6[6] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[6] <= (r7[6] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 		else if (w870)
-			r6[6] <= (r6[6] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[6] <= (r7[6] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 		if (w871)
-			r6[7] <= (r6[7] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[7] <= (r7[7] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 		else if (w872)
-			r6[7] <= (r6[7] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[7] <= (r7[7] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 		if (w873)
-			r6[8] <= (r6[8] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[8] <= (r7[8] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 		else if (w874)
-			r6[8] <= (r6[8] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[8] <= (r7[8] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 			
 		if (w895)
 			r8 <= (r8 & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+		else if (w896)
+			r8 <= ~w963;
+	end
+
+	always @(posedge MCLK)
+	begin
+		if (w885)
+			data_io[7:0] <= ~w964[7:0];
+		else if (w986)
+			data_io[7:0] <= ~data_l[7:0];
+		else if (w883)
+		begin
+			if (w884)
+				data_io[7:0] <= ~w964[15:8];
+			else if (w987)
+				data_io[7:0] <= ~data_l[15:8];
+		end
+		if (w884)
+			data_io[15:8] <= ~w964[15:8];
+		else if (w987)
+			data_io[15:8] <= ~data_l[15:8];
+		else if (w883)
+		begin
+			if (w885)
+				data_io[15:8] <= ~w964[7:0];
+			else if (w986)
+				data_io[15:8] <= ~data_l[7:0];
+		end
 	end
 	
 endmodule
