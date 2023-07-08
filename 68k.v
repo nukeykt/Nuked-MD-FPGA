@@ -48,10 +48,10 @@ module m68kcpu
 	output UDS
 	);
 	
-	reg w1;
+	wire w1;
 	reg l1;
 	reg l2;
-	reg w2;
+	wire w2;
 	reg l3;
 	reg l4;
 	wire w3;
@@ -142,13 +142,13 @@ module m68kcpu
 	wire w98;
 	wire w99;
 	wire w100;
-	reg l6;
+	//reg l6;
 	reg l7;
 	reg l8;
 	reg l9;
-	reg l10;
-	reg w101;
-	reg w102;
+	//reg l10;
+	wire w101;
+	wire w102;
 	reg w103;
 	wire w104;
 	reg w105;
@@ -888,13 +888,13 @@ module m68kcpu
 	reg w844;
 	reg w845;
 	reg w846;
-	reg w847;
+	wire w847;
 	reg w848;
 	wire w849;
 	reg w850;
 	reg w851;
 	reg w852;
-	reg w853;
+	wire w853;
 	wire w854;
 	wire w855;
 	wire w856;
@@ -923,6 +923,69 @@ module m68kcpu
 	wire w879;
 	wire w880;
 	wire w881;
+	reg w882;
+	wire w883;
+	reg w884;
+	reg w885;
+	wire w886;
+	wire w887;
+	wire w888;
+	reg w889;
+	wire w890
+	reg w891;
+	wire w892;
+	reg w893;
+	reg w894;
+	wire w895;
+	wire w896;
+	wire w897;
+	reg w898;
+	wire w899;
+	wire w900;
+	wire w901;
+	wire w902;
+	wire w903;
+	reg w904;
+	wire w905;
+	wire w906;
+	wire w907;
+	wire w908;
+	wire w909;
+	wire w910;
+	wire w911;
+	wire w912;
+	reg w913;
+	wire w914;
+	reg w915;
+	wire w916;
+	reg w917;
+	wire w918;
+	wire w919;
+	wire w920;
+	wire w921;
+	wire w922;
+	wire w923;
+	reg w924;
+	wire w925;
+	wire w926;
+	reg w927;
+	wire w928;
+	reg w929;
+	wire w930;
+	wire w931;
+	wire w932;
+	wire w933;
+	wire w934;
+	reg w935;
+	wire w936;
+	reg w937;
+	wire w938;
+	reg w940;
+	reg w941;
+	wire w942;
+	wire w943;
+	reg [4:0] w944;
+	reg w945;
 	
 	
 	
@@ -961,19 +1024,22 @@ module m68kcpu
 			l3 <= ~w529[62];
 			l4 <= ~w529[61];
 		end
-		if (l1 & l2)
-			w1 <= 1'h0;
-		else if (~l1)
-			w1 <= c3;
-		else if (~l2)
-			w1 <= c2;
-		if (l3 & l4)
-			w2 <= 1'h0;
-		else if (~l3)
-			w2 <= c3;
-		else if (~l4)
-			w2 <= c2;
+		//if (l1 & l2)
+		//	w1 <= 1'h0;
+		//else if (~l1)
+		//	w1 <= c3;
+		//else if (~l2)
+		//	w1 <= c2;
+		//if (l3 & l4)
+		//	w2 <= 1'h0;
+		//else if (~l3)
+		//	w2 <= c3;
+		//else if (~l4)
+		//	w2 <= c2;
 	end
+	
+	assign w1 = (~l2) ? c2 : ((~l1) ? c3 : 1'h0);
+	assign w2 = (~l4) ? c2 : ((~l3) ? c3 : 1'h0);
 	
 	wire v1_1 = w42 & ~w67 & ~w66;
 	wire v2_1 = ~w63 & w62 & w39;
@@ -1139,32 +1205,32 @@ module m68kcpu
 	begin
 		if (c1)
 		begin
-			l6 <= w529[57];
+			//l6 <= w529[57];
 			l7 <= ~w529[58];
 			l8 <= w529[57];
 			l9 <= w636;
-			l10 <= w529[57];
+			//l10 <= w529[57];
 		end
 		
-		if (l7)
-			w101 <= 1'h0;
-		else
-		begin
-			if (~l6)
-				w101 <= c3;
-			if (l8)
-				w101 <= c2;
-		end
+	//	if (l7)
+	//		w101 <= 1'h0;
+	//	else
+	//	begin
+	//		if (~l6)
+	//			w101 <= c3;
+	//		if (l8)
+	//			w101 <= c2;
+	//	end
 		
-		if (l9)
-			w102 <= 1'h0;
-		else
-		begin
-			if (~l10)
-				w102 <= c3;
-			if (l8)
-				w102 <= c2;
-		end
+	//	if (l9)
+	//		w102 <= 1'h0;
+	//	else
+	//	begin
+	//		if (~l10)
+	//			w102 <= c3;
+	//		if (l8)
+	//			w102 <= c2;
+	//	end
 		
 		if (c1)
 		begin
@@ -1172,6 +1238,9 @@ module m68kcpu
 			w105 <= ~w529[54];
 		end
 	end
+	
+	assign w101 = l7 ? 1'h0 : (l8 ? c2 : c3);
+	assign w102 = l9 ? 1'h0 : (l8 ? c2 : c3);
 	
 	assign w104 = w103 ? c6 : 1'h0;
 	assign w106 = w105 ? c6 : 1'h0;
@@ -4792,20 +4861,23 @@ module m68kcpu
 			w852 <= ~w529[35];
 		end
 		
-		if (w844 & w845)
-			w847 <= 1'h0;
-		else if (~w844)
-			w847 <= c3;
-		else if (~w845)
-			w847 <= c2;
-		
-		if (w851 & w852)
-			w853 <= 1'h0;
-		else if (~w851)
-			w853 <= c3;
-		else if (~w852)
-			w853 <= c2;
+	//	if (w844 & w845)
+	//		w847 <= 1'h0;
+	//	else if (~w844)
+	//		w847 <= c3;
+	//	else if (~w845)
+	//		w847 <= c2;
+	//	
+	//	if (w851 & w852)
+	//		w853 <= 1'h0;
+	//	else if (~w851)
+	//		w853 <= c3;
+	//	else if (~w852)
+	//		w853 <= c2;
 	end
+	
+	assign w847 = (~w845) ? c2 : ((~w844) ? c3 : 1'h0);
+	assign w853 = (~w852) ? c2 : ((~w851) ? c3 : 1'h0);
 	
 	assign w854 = w850;
 	
@@ -4847,5 +4919,207 @@ module m68kcpu
 	assign w880 = w840 ? 1'h0 : clk1;
 	
 	assign w881 = w842 ? 1'h0 : clk1;
+	
+	always @(posedge MCLK)
+	begin
+		if (c2)
+			w882 <= w827;
+	end
+	
+	assign w883 = ~w882;
+	
+	always @(posedge MCLK)
+	begin
+		if (c2)
+		begin
+			w884 <= w825;
+			w885 <= w824;
+		end
+	end
+	
+	assign w886 = w830 ? c2 : 1'h0;
+	
+	assign w887 = w831 ? c2 : 1'h0;
+	
+	assign w888 = w832 ? c2 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+		begin
+			w889 <= w529[22];
+			w891 <= w529[23];
+		end
+	end
+	
+	assign w890 = w889 ? c2 : 1'h0;
+	
+	assign w891 = w891 ? c2 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+		begin
+			w893 <= w822;
+			w894 <= w821;
+		end
+		
+		//if (w893 & w894)
+		//	w895 <= 1'h0;
+		//else if (~w893)
+		//	w895 <= c3;
+		//else if (~w894)
+		//	w895 <= c2;
+	end
+	
+	assign w895 = (~w894) ? c2 : ((~w893) : c3 : 1'h0);
+	
+	assign w896 = w820 ? 1'h0 : c3;
+	assign w897 = w725 ? c2 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (w725)
+			w898 <= ~w733; // TODO: w963
+	end
+	
+	assign w899 = r8[0];
+	
+	assign w900 = w725 ? 1'h0 : c2;
+	
+	assign w901 = r8[1];
+	
+	assign w902 = ~w739;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w904 <= w686;
+	end
+	
+	assign w904 ? 1'h0 : c3;
+	
+	assign w906 = ~w710;
+	assign w905 = ~w906;
+	
+	assign w908 = ~w907;
+	assign w907 = ~c2;
+	
+	assign w909 = ~w738;
+	
+	assign w910 = w725;
+	
+	assign w912 = ~w711;
+	
+	assign w911 = w912;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w913 <= w712;
+	end
+	
+	assign w914 = ~w913;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w915 <= w713;
+	end
+	
+	assign w916 = ~w915;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w917 <= ~w529[15];
+	end
+	
+	assign w918 = ~w917;
+	
+	assign w919 = ~w811;
+	
+	assign w920 = w810 ? c2 : 1'h0;
+	
+	assign w921 = w809;
+	
+	assign w922 = w724;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w924 <= ~w529[17];
+	end
+	
+	assign w923 = ~w924;
+	
+	assign w925 = w718;
+	assign w926 = ~w718;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w927 <= w806;
+	end
+	
+	assign w928 = ~w927;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w929 <= w930;
+	end
+	
+	assign w930 = ~ird_pla1[47];
+	
+	assign w931 = ~w929;
+	
+	assign w932 = ~w745;
+	
+	assign w933 = w747;
+	
+	assign w934 = w742;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w935 <= w529[18];
+	end
+	
+	assign w936 = w935 ? c3 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w937 <= w529[19];
+	end
+	
+	assign w938 = w937 ? c3 : 1'h0;
+	
+	always @(posedge MCLK)
+	begin
+		if (c1)
+			w940 <= w543;
+		
+		if (c2)
+			w941 <= 1'h1;
+		else if (c3)
+			w941 <= ~w940;
+	end
+	
+	assign w942 = clk2 ? 1'h0 : (w941 ? 1'h0 : clk1);
+	
+	assign w943 = w542 ? c2 : 1'h0;
+	
+	assign w946 = ~w856;
+	
+	always @(posedge MCLK)
+	begin
+		if (w875)
+		begin
+			w944 <= b3[2][4:0];
+			w945 <= ~w946;
+		end
+	end
 	
 endmodule
