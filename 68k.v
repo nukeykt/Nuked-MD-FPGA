@@ -326,8 +326,8 @@ module m68kcpu
 	wire w306;
 	wire w307;
 	reg w308;
-	wire w309;
-	wire w310;
+	//wire w309;
+	reg w310;
 	wire w311;
 	reg w312;
 	wire w313;
@@ -452,6 +452,7 @@ module m68kcpu
 	wire w421_1;
 	wire w422;
 	wire w423;
+	reg w423_mem;
 	wire w424;
 	wire w425;
 	wire w426;
@@ -1891,8 +1892,15 @@ module m68kcpu
 	assign w306 = ipc_t2 == 3'h0;
 	assign w307 = ~(w302 | w304 | w300);
 	
-	assign w309 = ~(w310 | w311 | w318 | w308);
-	assign w310 = ~(w313 | w309 | w316);
+	always @(posedge MCLK)
+	begin
+		if (w313 | w316)
+			w310 <= 1'h0;
+		else if (w311 | w318 | w308)
+			w310 <= 1'h0;
+	end
+	//assign w309 = ~(w310 | w311 | w318 | w308);
+	//assign w310 = ~(w313 | w309 | w316);
 	assign w311 = ~(w308 | clk2 | w312 | w306);
 	assign w313 = ~(w314 | clk2 | w315[1] | w308);
 	assign w316 = ~(w308 | clk2 | w317);
@@ -2182,7 +2190,11 @@ module m68kcpu
 	assign w422 = ~(w428 | w425 | w267 | w424);
 	assign w423 = ~w422;
 	
-	assign w424 = c2 ? w441 : w423;
+	always @(posedge MCLK)
+	begin
+		w423_mem <= w423;
+	end
+	assign w424 = c2 ? w441 : w423_mem;
 	
 	assign w425 = ~(w393 | w426 | clk2);
 	
