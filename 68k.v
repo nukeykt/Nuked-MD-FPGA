@@ -31,7 +31,6 @@ module m68kcpu
 	input BR,
 	input BGACK,
 	input DTACK,
-	input DATA,
 	input VPA_TEST,
 	inout [2:0] IPL,
 	inout BERR,
@@ -116,8 +115,7 @@ module m68kcpu
 	wire w74;
 	reg w75;
 	wire w76;
-	reg w76;
-	wire w77;
+	reg w77;
 	wire w78;
 	wire w79;
 	wire w80;
@@ -214,7 +212,7 @@ module m68kcpu
 	wire w191;
 	wire w192;
 	wire w193;
-	wire w184;
+	wire w194;
 	wire w195;
 	wire w196;
 	wire w197;
@@ -277,8 +275,7 @@ module m68kcpu
 	reg w258;
 	reg [3:0] w259[0:1];
 	reg w260;
-	reg w261_0;
-	reg w261_1;
+	reg w261[0:1];
 	reg w262;
 	reg w263;
 	reg w264;
@@ -294,15 +291,15 @@ module m68kcpu
 	reg w276[0:2];
 	reg w277[0:5];
 	reg w278;
-	reg _w279_0, _w379_2;
-	wire _w279_1, _w379_3;
+	reg _w279_0, _w279_2;
+	wire _w279_1, _w279_3;
 	reg w280_mem;
 	wire w280;
 	reg _w281_0, _w281_2;
 	wire _w281_1, _w281_3;
 	reg w282_mem, w282_n_mem;
 	wire w282, w282_n;
-	reg _w284_0, _w284_1;
+	reg _w284_0, _w284_2;
 	wire _w284_1, _w284_3;
 	wire w285;
 	reg w285_mem;
@@ -323,7 +320,7 @@ module m68kcpu
 	wire w300;
 	reg w301;
 	wire w302;
-	reg w303
+	reg w303;
 	wire w304;
 	wire w305;
 	wire w306;
@@ -451,7 +448,7 @@ module m68kcpu
 	wire w418_1;
 	wire w419;
 	reg w420;
-	reg w421_mem
+	reg w421_mem;
 	wire w421_1;
 	wire w422;
 	wire w423;
@@ -528,6 +525,7 @@ module m68kcpu
 	wire w491;
 	wire w492;
 	wire w493;
+	wire w494;
 	reg w495;
 	wire w496;
 	wire w497;
@@ -825,6 +823,7 @@ module m68kcpu
 	reg w779;
 	wire w780;
 	reg w781;
+	reg w782;
 	wire w783;
 	reg w784;
 	wire w785;
@@ -931,7 +930,7 @@ module m68kcpu
 	wire w887;
 	wire w888;
 	reg w889;
-	wire w890
+	wire w890;
 	reg w891;
 	wire w892;
 	reg w893;
@@ -1032,6 +1031,18 @@ module m68kcpu
 	reg as_l1;
 	reg as_l2;
 	reg as_l3;
+	reg uds_l1;
+	reg uds_l2;
+	reg uds_l3;
+	reg lds_l1;
+	reg lds_l2;
+	reg lds_l3;
+	reg rw_l;
+	wire w988;
+	wire w989;
+	wire w990;
+	reg w991;
+	wire w992;
 	
 	
 	reg [15:0] b1[0:3];
@@ -1061,7 +1072,7 @@ module m68kcpu
 	reg o_e;
 	reg o_bg;
 	
-	assign E = o_e;
+	assign E_CLK = o_e;
 	assign BG = o_bg;
 	
 	wire clk1 = ~CLK;
@@ -1142,28 +1153,28 @@ module m68kcpu
 	wire v1_6 = ~w67 & w41 & w66;
 	wire v2_6 = w63 & ~w62 & w40;
 	
-	assign w23 = (v1_5 & ~w65) ? w1 : 1'h0;
-	assign w24 = (v2_5 & ~w64) ? w2 : 1'h0;
-	assign w25 = (v2_5 & w64) ? w2 : 1'h0;
-	assign w26 = (v1_5 & w65) ? w1 : 1'h0;
+	assign w23 = (v1_6 & ~w65) ? w1 : 1'h0;
+	assign w24 = (v2_6 & ~w64) ? w2 : 1'h0;
+	assign w25 = (v2_6 & w64) ? w2 : 1'h0;
+	assign w26 = (v1_6 & w65) ? w1 : 1'h0;
 	
-	wire v1_6 = w41 & w67 & ~w66;
-	wire v2_6 = ~w63 & w62 & w40;
+	wire v1_7 = w41 & w67 & ~w66;
+	wire v2_7 = ~w63 & w62 & w40;
 	
-	assign w27 = (v1_6 & ~w65) ? w1 : 1'h0;
-	assign w28 = (v2_6 & ~w64) ? w2 : 1'h0;
-	assign w29 = (v2_6 & w64) ? w2 : 1'h0;
-	assign w30 = (v1_6 & w65) ? w1 : 1'h0;
+	assign w27 = (v1_7 & ~w65) ? w1 : 1'h0;
+	assign w28 = (v2_7 & ~w64) ? w2 : 1'h0;
+	assign w29 = (v2_7 & w64) ? w2 : 1'h0;
+	assign w30 = (v1_7 & w65) ? w1 : 1'h0;
 	
-	wire v1_7 = w41 & w67 & w66;
-	wire v2_7 = w63 & w62 & w40;
+	wire v1_8 = w41 & w67 & w66;
+	wire v2_8 = w63 & w62 & w40;
 	
-	assign w31 = (v1_7 & ~w65) ? w1 : 1'h0;
-	assign w32 = (v2_7 & ~w64) ? w2 : 1'h0;
-	assign w33 = (v2_7 & w64 & w634) ? w2 : 1'h0;
-	assign w34 = (v1_7 & w65 & w634) ? w1 : 1'h0;
-	assign w35 = (v1_7 & w65 & w88) ? w1 : 1'h0;
-	assign w36 = (v2_7 & w64 & w88) ? w2 : 1'h0;
+	assign w31 = (v1_8 & ~w65) ? w1 : 1'h0;
+	assign w32 = (v2_8 & ~w64) ? w2 : 1'h0;
+	assign w33 = (v2_8 & w64 & w634) ? w2 : 1'h0;
+	assign w34 = (v1_8 & w65 & w634) ? w1 : 1'h0;
+	assign w35 = (v1_8 & w65 & w88) ? w1 : 1'h0;
+	assign w36 = (v2_8 & w64 & w88) ? w2 : 1'h0;
 	
 	assign w37 = (~w55 & ~w77) ? w2 : 1'h0;
 	assign w38 = (~w58 & ~w75) ? w1 : 1'h0;
@@ -1236,9 +1247,9 @@ module m68kcpu
 	
 	assign w88 = ~w634;
 	
-	assign w89 = ~(~w529[46] : w529[47]);
-	assign w90 = ~(~w529[46] : ~w529[47]);
-	assign w91 = ~(w529[46] : ~w529[47]);
+	assign w89 = ~(~w529[46] | w529[47]);
+	assign w90 = ~(~w529[46] | ~w529[47]);
+	assign w91 = ~(w529[46] | ~w529[47]);
 	
 	assign w92 = w90 ? c2 : 1'h0;
 	assign w93 = w91 ? c2 : 1'h0;
@@ -1572,19 +1583,19 @@ module m68kcpu
 	
 	wire [12:0] br_fsm_cases;
 	
-	assign br_fsm_cases[0] = (w270[1] == 3'h7) & ~w395 & w268_2 & ~w269_2;
-	assign br_fsm_cases[1] = (w270[1] == 3'h1) & w268_2;
+	assign br_fsm_cases[0] = (w270[1] == 3'h7) & ~w395 & w268[2] & ~w269[2];
+	assign br_fsm_cases[1] = (w270[1] == 3'h1) & w268[2];
 	assign br_fsm_cases[2] = (w270[1] == 3'h4);
-	assign br_fsm_cases[3] = (w270[1] == 3'h2) & w268_2;
+	assign br_fsm_cases[3] = (w270[1] == 3'h2) & w268[2];
 	assign br_fsm_cases[4] = (w270[1] == 3'h6);
-	assign br_fsm_cases[5] = (w270[1] == 3'h0) & w268_2 & ~w269_2;
-	assign br_fsm_cases[6] = (w270[1] == 3'h7) & ~w395 & w269_2;
-	assign br_fsm_cases[7] = (w270[1] == 3'h5) & w269_2;
-	assign br_fsm_cases[8] = (w270[1] == 3'h1) & ~w268_2 & w269_2;
-	assign br_fsm_cases[9] = (w270[1] == 3'h2) & ~w268_2 & w269_2;
-	assign br_fsm_cases[10] = (w270[1] == 3'h2) & w268_2 & ~w269_2;
-	assign br_fsm_cases[11] = (w270[1] == 3'h0) & w269_2;
-	assign br_fsm_cases[12] = (w270[1] == 3'h5) & w268_2;
+	assign br_fsm_cases[5] = (w270[1] == 3'h0) & w268[2] & ~w269[2];
+	assign br_fsm_cases[6] = (w270[1] == 3'h7) & ~w395 & w269[2];
+	assign br_fsm_cases[7] = (w270[1] == 3'h5) & w269[2];
+	assign br_fsm_cases[8] = (w270[1] == 3'h1) & ~w268[2] & w269[2];
+	assign br_fsm_cases[9] = (w270[1] == 3'h2) & ~w268[2] & w269[2];
+	assign br_fsm_cases[10] = (w270[1] == 3'h2) & w268[2] & ~w269[2];
+	assign br_fsm_cases[11] = (w270[1] == 3'h0) & w269[2];
+	assign br_fsm_cases[12] = (w270[1] == 3'h5) & w268[2];
 	
 	always @(posedge MCLK)
 	begin
@@ -1613,7 +1624,7 @@ module m68kcpu
 			w277[2] <= w277[1];
 			w277[4] <= w277[3];
 			
-			w278 <= (w275[2] & w276[2]) | (w265[2] & w395 & w277[5]);
+			w278 <= (w275[2] & w276[2]) | (w275[2] & w395 & w277[5]);
 			
 			_w279_0 <= _w279_1;
 			_w279_2 <= _w279_1;
@@ -1672,7 +1683,7 @@ module m68kcpu
 			
 			w398 <= ~(~w397 | w381 | w267);
 			
-			w418[0] <= w394;
+			w414[0] <= w394;
 			
 			w414[2] <= w414[1];
 			
@@ -1706,23 +1717,23 @@ module m68kcpu
 			
 			if (w259[0] == 4'h8)
 				w264 <= 1'h1;
-			else iof (w259[0] == 4'hc & ~w263)
+			else if (w259[0] == 4'hc & ~w263)
 				w264 <= 1'h0;
 			
 			w267 <= w266;
 			
 			w268[0] <= ~BR;
-			w268[2] <= w268_1;
+			w268[2] <= w268[1];
 			
 			w269[0] <= ~BGACK;
-			w269[2] <= w269_1;
+			w269[2] <= w269[1];
 			
-			w273 <= w268_2;
-			w274 <= w269_2;
+			w273 <= w268[2];
+			w274 <= w269[2];
 			
-			w270[1] <= w270_0;
+			w270[1] <= w270[0];
 			
-			o_bg <= w270_0[0];
+			o_bg <= w270[0][0];
 			
 			w275[0] <= ~RESET;
 			w275[2] <= w275[1];
@@ -1844,6 +1855,8 @@ module m68kcpu
 			w292 <= 1'h0;
 	end
 	
+	assign w988 = ~(w276[2] & w438);
+	
 	assign w293 = w988 & w294[1] & w325 & w351;
 	
 	assign w295 = IPL[0];
@@ -1905,7 +1918,7 @@ module m68kcpu
 		end
 	end
 	
-	assign w325 <= w322 | w323 | w324;
+	assign w325 = w322 | w323 | w324;
 	
 	always @(posedge MCLK)
 	begin
@@ -2240,6 +2253,18 @@ module m68kcpu
 	
 	assign w450 = (w446 | w447) ? c3 : 1'h0;
 	
+	assign w989 = w536;
+	
+	assign w990 = ~(w537 | w547);
+	
+	assign w992 = ~(w267 | w310);
+	
+	always @(posedge MCLK)
+	begin
+		if (c4)
+			w991 <= w992;
+	end
+	
 	always @(posedge MCLK)
 	begin
 		if (w449)
@@ -2418,12 +2443,12 @@ module m68kcpu
 			w502 <= ~(codebus[4] | w508);
 			w503 <= ~(codebus[8] | w508);
 			w504 <= ~(codebus[9] | w508);
-			w505 <= ~((codebus[1] & w507) | w358[1]);
-			w506 <= ~((codebus[0] & w507) | w356[1]);
+			w505 <= ~((codebus[1] & w507) | w358_1);
+			w506 <= ~((codebus[0] & w507) | w356_1);
 		end
 	end
 	
-	assign w507 = ~(w356[1] | w357[1] | w358[1]);
+	assign w507 = ~(w356_1 | w357_1 | w358_1);
 	assign w508 = ~w507;
 	assign w509 = ~(~w495 | ~w500);
 	assign w510 = ~(~w495 | w500);
@@ -2436,10 +2461,10 @@ module m68kcpu
 	assign w517 = ~(w506 | ~w505);
 	assign w518 = ~(~w506 | ~w505);
 	
-	assign w524 = ~(~w505 | ~w506):
-	assign w525 = ~(w505 | ~w506):
-	assign w526 = ~(~w505 | w506):
-	assign w527 = ~(w505 | w506):
+	assign w524 = ~(~w505 | ~w506);
+	assign w525 = ~(w505 | ~w506);
+	assign w526 = ~(~w505 | w506);
+	assign w527 = ~(w505 | w506);
 	
 	integer i, j;
 	
@@ -3881,9 +3906,9 @@ module m68kcpu
 	assign cond_pla2[21] = w559 == 4'h1 & w157;
 	assign cond_pla2[22] = w559 == 4'h0 & ~w553;
 	
-	assign w555_1 = |cond_pla[17:0];
+	assign w555_1 = |cond_pla1[17:0];
 	
-	assign w556_1 = |cond_pla[17:0];
+	assign w556_1 = |cond_pla1[17:0];
 	
 	assign w555 = ~(
 		(cond_pla2[0] & w555_1) |
@@ -3912,7 +3937,7 @@ module m68kcpu
 		cond_pla2[4] |
 		cond_pla2[15] |
 		cond_pla2[20] |
-		cond_pla2[21] |
+		cond_pla2[21]
 		);
 	
 	assign w557 = ~(
@@ -3948,99 +3973,99 @@ module m68kcpu
 	
 	assign w568 = w529[11] | w529[14];
 	
-	assign ird_pla1[0] = (chip->irdbus & 32'h55000580) == 32'h0;
-	assign ird_pla1[1] = (chip->irdbus & 32'h9a000000) == 32'h0 & ~ird_pla1[2] & ~ird_pla1[3] & ~ird_pla1[4];
-	assign ird_pla1[2] = (chip->irdbus & 32'h9a010000) == 32'h0;
-	assign ird_pla1[3] = (chip->irdbus & 32'h9a02a000) == 32'h0;
-	assign ird_pla1[4] = (chip->irdbus & 32'h9a000580) == 32'h0;
-	assign ird_pla1[5] = (chip->irdbus & 32'ha9010000) == 32'h0;
-	assign ird_pla1[6] = (chip->irdbus & 32'ha9020000) == 32'h0;
-	assign ird_pla1[7] = (chip->irdbus & 32'ha924a000) == 32'h0;
-	assign ird_pla1[8] = (chip->irdbus & 32'ha9000240) == 32'h0 & ~ird_pla1[15];
-	assign ird_pla1[9] = (chip->irdbus & 32'ha914a000) == 32'h0;
-	assign ird_pla1[10] = (chip->irdbus & 32'ha9000140) == 32'h0 & ~ird_pla1[15];
-	assign ird_pla1[11] = (chip->irdbus & 32'ha928a000) == 32'h0;
-	assign ird_pla1[12] = (chip->irdbus & 32'ha9000280) == 32'h0 & ~ird_pla1[15];
-	assign ird_pla1[13] = (chip->irdbus & 32'ha918a000) == 32'h0;
-	assign ird_pla1[14] = (chip->irdbus & 32'ha9000180) == 32'h0 & ~ird_pla1[15];
-	assign ird_pla1[15] = (chip->irdbus & 32'ha900a000) == 32'h0;
-	assign ird_pla1[16] = (chip->irdbus & 32'h65000000) == 32'h0;
-	assign ird_pla1[17] = (chip->irdbus & 32'h65029000) == 32'h0;
-	assign ird_pla1[18] = (chip->irdbus & 32'h45590000) == 32'h0;
-	assign ird_pla1[19] = (chip->irdbus & 32'h45954000) == 32'h0;
-	assign ird_pla1[20] = (chip->irdbus & 32'h45650000) == 32'h0;
-	assign ird_pla1[21] = (chip->irdbus & 32'h45690000) == 32'h0;
-	assign ird_pla1[22] = (chip->irdbus & 32'h45550000) == 32'h0;
-	assign ird_pla1[23] = (chip->irdbus & 32'h45990000) == 32'h0;
-	assign ird_pla1[24] = (chip->irdbus & 32'h45958000) == 32'h0;
-	assign ird_pla1[25] = (chip->irdbus & 32'h55a50000) == 32'h0;
-	assign ird_pla1[26] = (chip->irdbus & 32'h55024000) == 32'h0;
-	assign ird_pla1[27] = (chip->irdbus & 32'h55028000) == 32'h0;
-	assign ird_pla1[28] = (chip->irdbus & 32'h55000000) == 32'h0;
-	assign ird_pla1[29] = (chip->irdbus & 32'h46010000) == 32'h0 & ~ird_pla1[31];
-	assign ird_pla1[30] = (chip->irdbus & 32'h46020000) == 32'h0 & ~ird_pla1[31];
-	assign ird_pla1[31] = (chip->irdbus & 32'h4600a000) == 32'h0;
-	assign ird_pla1[32] = (chip->irdbus & 32'h48000000) == 32'h0;
-	assign ird_pla1[33] = (chip->irdbus & 32'h95000000) == 32'h0;
-	assign ird_pla1[34] = (chip->irdbus & 32'h85000000) == 32'h0 & ~ird_pla1[35] & ~ird_pla1[36];
-	assign ird_pla1[35] = (chip->irdbus & 32'h85025500) == 32'h0;
-	assign ird_pla1[36] = (chip->irdbus & 32'h8500a000) == 32'h0;
-	assign ird_pla1[37] = (chip->irdbus & 32'ha5000000) == 32'h0;
-	assign ird_pla1[38] = (chip->irdbus & 32'h96000000) == 32'h0;
-	assign ird_pla1[39] = (chip->irdbus & 32'h86000000) == 32'h0 & ~ird_pla1[40] & ~ird_pla1[41];
-	assign ird_pla1[40] = (chip->irdbus & 32'h86021500) == 32'h0;
-	assign ird_pla1[41] = (chip->irdbus & 32'h86024500) == 32'h0;
-	assign ird_pla1[42] = (chip->irdbus & 32'ha6000000) == 32'h0;
-	assign ird_pla1[43] = (chip->irdbus & 32'h6599a000) == 32'h0;
-	assign ird_pla1[44] = (chip->irdbus & 32'h8600a000) == 32'h0;
-	assign ird_pla1[45] = (chip->irdbus & 32'h58016000) == 32'h0;
-	assign ird_pla1[46] = (chip->irdbus & 32'h64000580) == 32'h0;
-	assign ird_pla1[47] = (chip->irdbus & 32'ha9005000) == 32'h0;
-	assign ird_pla1[48] = (chip->irdbus & 32'ha9002000) == 32'h0;
-	assign ird_pla1[49] = (chip->irdbus & 32'ha9009000) == 32'h0;
+	assign ird_pla1[0] = (irdbus & 32'h55000580) == 32'h0;
+	assign ird_pla1[1] = (irdbus & 32'h9a000000) == 32'h0 & ~ird_pla1[2] & ~ird_pla1[3] & ~ird_pla1[4];
+	assign ird_pla1[2] = (irdbus & 32'h9a010000) == 32'h0;
+	assign ird_pla1[3] = (irdbus & 32'h9a02a000) == 32'h0;
+	assign ird_pla1[4] = (irdbus & 32'h9a000580) == 32'h0;
+	assign ird_pla1[5] = (irdbus & 32'ha9010000) == 32'h0;
+	assign ird_pla1[6] = (irdbus & 32'ha9020000) == 32'h0;
+	assign ird_pla1[7] = (irdbus & 32'ha924a000) == 32'h0;
+	assign ird_pla1[8] = (irdbus & 32'ha9000240) == 32'h0 & ~ird_pla1[15];
+	assign ird_pla1[9] = (irdbus & 32'ha914a000) == 32'h0;
+	assign ird_pla1[10] = (irdbus & 32'ha9000140) == 32'h0 & ~ird_pla1[15];
+	assign ird_pla1[11] = (irdbus & 32'ha928a000) == 32'h0;
+	assign ird_pla1[12] = (irdbus & 32'ha9000280) == 32'h0 & ~ird_pla1[15];
+	assign ird_pla1[13] = (irdbus & 32'ha918a000) == 32'h0;
+	assign ird_pla1[14] = (irdbus & 32'ha9000180) == 32'h0 & ~ird_pla1[15];
+	assign ird_pla1[15] = (irdbus & 32'ha900a000) == 32'h0;
+	assign ird_pla1[16] = (irdbus & 32'h65000000) == 32'h0;
+	assign ird_pla1[17] = (irdbus & 32'h65029000) == 32'h0;
+	assign ird_pla1[18] = (irdbus & 32'h45590000) == 32'h0;
+	assign ird_pla1[19] = (irdbus & 32'h45954000) == 32'h0;
+	assign ird_pla1[20] = (irdbus & 32'h45650000) == 32'h0;
+	assign ird_pla1[21] = (irdbus & 32'h45690000) == 32'h0;
+	assign ird_pla1[22] = (irdbus & 32'h45550000) == 32'h0;
+	assign ird_pla1[23] = (irdbus & 32'h45990000) == 32'h0;
+	assign ird_pla1[24] = (irdbus & 32'h45958000) == 32'h0;
+	assign ird_pla1[25] = (irdbus & 32'h55a50000) == 32'h0;
+	assign ird_pla1[26] = (irdbus & 32'h55024000) == 32'h0;
+	assign ird_pla1[27] = (irdbus & 32'h55028000) == 32'h0;
+	assign ird_pla1[28] = (irdbus & 32'h55000000) == 32'h0;
+	assign ird_pla1[29] = (irdbus & 32'h46010000) == 32'h0 & ~ird_pla1[31];
+	assign ird_pla1[30] = (irdbus & 32'h46020000) == 32'h0 & ~ird_pla1[31];
+	assign ird_pla1[31] = (irdbus & 32'h4600a000) == 32'h0;
+	assign ird_pla1[32] = (irdbus & 32'h48000000) == 32'h0;
+	assign ird_pla1[33] = (irdbus & 32'h95000000) == 32'h0;
+	assign ird_pla1[34] = (irdbus & 32'h85000000) == 32'h0 & ~ird_pla1[35] & ~ird_pla1[36];
+	assign ird_pla1[35] = (irdbus & 32'h85025500) == 32'h0;
+	assign ird_pla1[36] = (irdbus & 32'h8500a000) == 32'h0;
+	assign ird_pla1[37] = (irdbus & 32'ha5000000) == 32'h0;
+	assign ird_pla1[38] = (irdbus & 32'h96000000) == 32'h0;
+	assign ird_pla1[39] = (irdbus & 32'h86000000) == 32'h0 & ~ird_pla1[40] & ~ird_pla1[41];
+	assign ird_pla1[40] = (irdbus & 32'h86021500) == 32'h0;
+	assign ird_pla1[41] = (irdbus & 32'h86024500) == 32'h0;
+	assign ird_pla1[42] = (irdbus & 32'ha6000000) == 32'h0;
+	assign ird_pla1[43] = (irdbus & 32'h6599a000) == 32'h0;
+	assign ird_pla1[44] = (irdbus & 32'h8600a000) == 32'h0;
+	assign ird_pla1[45] = (irdbus & 32'h58016000) == 32'h0;
+	assign ird_pla1[46] = (irdbus & 32'h64000580) == 32'h0;
+	assign ird_pla1[47] = (irdbus & 32'ha9005000) == 32'h0;
+	assign ird_pla1[48] = (irdbus & 32'ha9002000) == 32'h0;
+	assign ird_pla1[49] = (irdbus & 32'ha9009000) == 32'h0;
 
-	assign ird_pla2[0] = (chip->irdbus & 32'h68008000) == 32'h0 & ~w586 & ~w587;
-	assign ird_pla2[1] = (chip->irdbus & 32'h00000500) == 32'h0;
-	assign ird_pla2[2] = (chip->irdbus & 32'h8500a000) == 32'h0 & ~w586 & ~w587;
-	assign ird_pla2[3] = (chip->irdbus & 32'h6599a000) == 32'h0 & ~w586 & ~w587;
-	assign ird_pla2[4] = (chip->irdbus & 32'ha9000000) == 32'h0 & ~w586;
-	assign ird_pla2[5] = (chip->irdbus & 32'h66004000) == 32'h0 & ~w586;
-	assign ird_pla2[6] = (chip->irdbus & 32'h66001000) == 32'h0 & ~w586;
-	assign ird_pla2[7] = (chip->irdbus & 32'h6a010000) == 32'h0;
-	assign ird_pla2[8] = (chip->irdbus & 32'h69000000) == 32'h0;
-	assign ird_pla2[9] = (chip->irdbus & 32'h55020000) == 32'h0 & ~ird_pla2[1];
-	assign ird_pla2[10] = (chip->irdbus & 32'h6519a000) == 32'h0;
-	assign ird_pla2[11] = (chip->irdbus & 32'h55950000) == 32'h0 & ~ird_pla2[1];
-	assign ird_pla2[12] = (chip->irdbus & 32'h55024580) == 32'h0;
-	assign ird_pla2[13] = (chip->irdbus & 32'h6600a580) == 32'h0;
-	assign ird_pla2[14] = (chip->irdbus & 32'h6600a000) == 32'h0 & ~ird_pla2[13];
-	assign ird_pla2[15] = (chip->irdbus & 32'h55015000) == 32'h0 & ~ird_pla2[16];
-	assign ird_pla2[16] = (chip->irdbus & 32'h00940500) == 32'h0;
-	assign ird_pla2[17] = (chip->irdbus & 32'h80005000) == 32'h0;
-	assign ird_pla2[18] = (chip->irdbus & 32'h20005000) == 32'h0;
-	assign ird_pla2[19] = (chip->irdbus & 32'h56000000) == 32'h0;
-	assign ird_pla2[20] = (chip->irdbus & 32'ha9000a80) == 32'h0;
-	assign ird_pla2[21] = (chip->irdbus & 32'h00000a98) == 32'h0 & ~ird_pla2[20] & ~w529[24];
-	assign ird_pla2[22] = (chip->irdbus & 32'h00000a84) == 32'h0 & ~ird_pla2[20] & ~w529[24];
-	assign ird_pla2[23] = (chip->irdbus & 32'h66000000) == 32'h0;
-	assign ird_pla2[24] = (chip->irdbus & 32'h55010000) == 32'h0;
-	assign ird_pla2[25] = (chip->irdbus & 32'ha9001000) == 32'h0;
-	assign ird_pla2[26] = (chip->irdbus & 32'ha9004000) == 32'h0;
-	assign ird_pla2[27] = (chip->irdbus & 32'h00000540) == 32'h0;
-	assign ird_pla2[28] = (chip->irdbus & 32'h6600a580) == 32'h0;
-	assign ird_pla2[29] = (chip->irdbus & 32'h65a96a6a) == 32'h0;
-	assign ird_pla2[30] = (chip->irdbus & 32'h6565a000) == 32'h0;
-	assign ird_pla2[31] = (chip->irdbus & 32'h55015000) == 32'h0;
+	assign ird_pla2[0] = (irdbus & 32'h68008000) == 32'h0 & ~w586 & ~w587;
+	assign ird_pla2[1] = (irdbus & 32'h00000500) == 32'h0;
+	assign ird_pla2[2] = (irdbus & 32'h8500a000) == 32'h0 & ~w586 & ~w587;
+	assign ird_pla2[3] = (irdbus & 32'h6599a000) == 32'h0 & ~w586 & ~w587;
+	assign ird_pla2[4] = (irdbus & 32'ha9000000) == 32'h0 & ~w586;
+	assign ird_pla2[5] = (irdbus & 32'h66004000) == 32'h0 & ~w586;
+	assign ird_pla2[6] = (irdbus & 32'h66001000) == 32'h0 & ~w586;
+	assign ird_pla2[7] = (irdbus & 32'h6a010000) == 32'h0;
+	assign ird_pla2[8] = (irdbus & 32'h69000000) == 32'h0;
+	assign ird_pla2[9] = (irdbus & 32'h55020000) == 32'h0 & ~ird_pla2[1];
+	assign ird_pla2[10] = (irdbus & 32'h6519a000) == 32'h0;
+	assign ird_pla2[11] = (irdbus & 32'h55950000) == 32'h0 & ~ird_pla2[1];
+	assign ird_pla2[12] = (irdbus & 32'h55024580) == 32'h0;
+	assign ird_pla2[13] = (irdbus & 32'h6600a580) == 32'h0;
+	assign ird_pla2[14] = (irdbus & 32'h6600a000) == 32'h0 & ~ird_pla2[13];
+	assign ird_pla2[15] = (irdbus & 32'h55015000) == 32'h0 & ~ird_pla2[16];
+	assign ird_pla2[16] = (irdbus & 32'h00940500) == 32'h0;
+	assign ird_pla2[17] = (irdbus & 32'h80005000) == 32'h0;
+	assign ird_pla2[18] = (irdbus & 32'h20005000) == 32'h0;
+	assign ird_pla2[19] = (irdbus & 32'h56000000) == 32'h0;
+	assign ird_pla2[20] = (irdbus & 32'ha9000a80) == 32'h0;
+	assign ird_pla2[21] = (irdbus & 32'h00000a98) == 32'h0 & ~ird_pla2[20] & ~w529[24];
+	assign ird_pla2[22] = (irdbus & 32'h00000a84) == 32'h0 & ~ird_pla2[20] & ~w529[24];
+	assign ird_pla2[23] = (irdbus & 32'h66000000) == 32'h0;
+	assign ird_pla2[24] = (irdbus & 32'h55010000) == 32'h0;
+	assign ird_pla2[25] = (irdbus & 32'ha9001000) == 32'h0;
+	assign ird_pla2[26] = (irdbus & 32'ha9004000) == 32'h0;
+	assign ird_pla2[27] = (irdbus & 32'h00000540) == 32'h0;
+	assign ird_pla2[28] = (irdbus & 32'h6600a580) == 32'h0;
+	assign ird_pla2[29] = (irdbus & 32'h65a96a6a) == 32'h0;
+	assign ird_pla2[30] = (irdbus & 32'h6565a000) == 32'h0;
+	assign ird_pla2[31] = (irdbus & 32'h55015000) == 32'h0;
 	
-	wire [3:0] ird_pla3_i == { w549, w550, w551, w552 };
+	wire [3:0] ird_pla3_i = { w549, w550, w551, w552 };
 
 	assign ird_pla3[0] = (ird_pla3_i & 4'd7) == 4'd0;
 	assign ird_pla3[1] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00008000) == 32'h0;
 	assign ird_pla3[2] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00002000) == 32'h0;
 	assign ird_pla3[3] = (ird_pla3_i & 4'd15) == 4'd3;
-	assign ird_pla3[4] = (ird_pla3_i & 4'd15) == 4'd6 & ~~w611;
-	assign ird_pla3[5] = (ird_pla3_i & 4'd15) == 4'd6 & ~~w610;
-	assign ird_pla3[6] = (ird_pla3_i & 4'd15) == 4'd6 & ~~w609;
+	assign ird_pla3[4] = (ird_pla3_i & 4'd15) == 4'd6 & w611;
+	assign ird_pla3[5] = (ird_pla3_i & 4'd15) == 4'd6 & w610;
+	assign ird_pla3[6] = (ird_pla3_i & 4'd15) == 4'd6 & w609;
 	assign ird_pla3[7] = (ird_pla3_i & 4'd15) == 4'd0 & (irdbus & 32'h65a96a69) == 32'h0;
 	assign ird_pla3[8] = (ird_pla3_i & 4'd15) == 4'd12;
 	assign ird_pla3[9] = (ird_pla3_i & 4'd15) == 4'd11;
@@ -4066,28 +4091,28 @@ module m68kcpu
 	assign ird_pla3[29] = (ird_pla3_i & 4'd15) == 4'd7 & (irdbus & 32'h00000002) == 32'h0;
 
 
-	assign ird_pla4[0] = (irdbus & 0x00000a84ul) == 32'h0 & ~ird_pla4[2] & ~w529[24];
-	assign ird_pla4[1] = (irdbus & 0x00000a98ul) == 32'h0 & ~ird_pla4[2] & ~w529[24];
-	assign ird_pla4[2] = (irdbus & 0xa9000a80ul) == 32'h0;
-	assign ird_pla4[3] = (irdbus & 0x65a96900ul) == 32'h0;
-	assign ird_pla4[4] = (irdbus & 0x66000000ul) == 32'h0;
-	assign ird_pla4[5] = (irdbus & 0x55010000ul) == 32'h0;
-	assign ird_pla4[6] = (irdbus & 0x69560000ul) == 32'h0;
-	assign ird_pla4[7] = (irdbus & 0x65a90000ul) == 32'h0;
-	assign ird_pla4[8] = (irdbus & 0x65956000ul) == 32'h0;
-	assign ird_pla4[9] = (irdbus & 0x00080000ul) == 32'h0;
-	assign ird_pla4[10] = (irdbus & 0x00200000ul) == 32'h0;
-	assign ird_pla4[11] = (irdbus & 0x00800000ul) == 32'h0;
-	assign ird_pla4[12] = (irdbus & 0xa5029580ul) == 32'h0;
-	assign ird_pla4[13] = (irdbus & 0x84020580ul) == 32'h0 & ~ird_pla4[12];
-	assign ird_pla4[14] = (irdbus & 0x90020580ul) == 32'h0;
-	assign ird_pla4[15] = (irdbus & 0x8200a000ul) == 32'h0;
-	assign ird_pla4[16] = (irdbus & 0x6502a000ul) == 32'h0;
-	assign ird_pla4[17] = (irdbus & 0x52000000ul) == 32'h0 & ~ird_pla4[19];
-	assign ird_pla4[18] = (irdbus & 0x58000000ul) == 32'h0 & ~ird_pla4[19];
-	assign ird_pla4[19] = (irdbus & 0x00015000ul) == 32'h0;
-	assign ird_pla4[20] = (irdbus & 0x65858000ul) == 32'h0;
-	assign ird_pla4[21] = (irdbus & 0x65958940ul) == 32'h0;
+	assign ird_pla4[0] = (irdbus & 32'h00000a84) == 32'h0 & ~ird_pla4[2] & ~w529[24];
+	assign ird_pla4[1] = (irdbus & 32'h00000a98) == 32'h0 & ~ird_pla4[2] & ~w529[24];
+	assign ird_pla4[2] = (irdbus & 32'ha9000a80) == 32'h0;
+	assign ird_pla4[3] = (irdbus & 32'h65a96900) == 32'h0;
+	assign ird_pla4[4] = (irdbus & 32'h66000000) == 32'h0;
+	assign ird_pla4[5] = (irdbus & 32'h55010000) == 32'h0;
+	assign ird_pla4[6] = (irdbus & 32'h69560000) == 32'h0;
+	assign ird_pla4[7] = (irdbus & 32'h65a90000) == 32'h0;
+	assign ird_pla4[8] = (irdbus & 32'h65956000) == 32'h0;
+	assign ird_pla4[9] = (irdbus & 32'h00080000) == 32'h0;
+	assign ird_pla4[10] = (irdbus & 32'h00200000) == 32'h0;
+	assign ird_pla4[11] = (irdbus & 32'h00800000) == 32'h0;
+	assign ird_pla4[12] = (irdbus & 32'ha5029580) == 32'h0;
+	assign ird_pla4[13] = (irdbus & 32'h84020580) == 32'h0 & ~ird_pla4[12];
+	assign ird_pla4[14] = (irdbus & 32'h90020580) == 32'h0;
+	assign ird_pla4[15] = (irdbus & 32'h8200a000) == 32'h0;
+	assign ird_pla4[16] = (irdbus & 32'h6502a000) == 32'h0;
+	assign ird_pla4[17] = (irdbus & 32'h52000000) == 32'h0 & ~ird_pla4[19];
+	assign ird_pla4[18] = (irdbus & 32'h58000000) == 32'h0 & ~ird_pla4[19];
+	assign ird_pla4[19] = (irdbus & 32'h00015000) == 32'h0;
+	assign ird_pla4[20] = (irdbus & 32'h65858000) == 32'h0;
+	assign ird_pla4[21] = (irdbus & 32'h65958940) == 32'h0;
 
 	assign w569 =
 		(ird_pla1[1] ? 15'h1000 : 15'h7fff) &
@@ -4270,7 +4295,7 @@ module m68kcpu
 			alu_io <= 16'hffff;
 		else if (w597[11])
 		begin
-			alu_io <= { w606, 1'h0, w607, 2'h0, w609, w610, w611, 3'h0, w760, w753, w754, w752, w751 }, 
+			alu_io <= { w606, 1'h0, w607, 2'h0, w609, w610, w611, 3'h0, w760, w753, w754, w752, w751 };
 		end
 		else if (w180)
 		begin
@@ -4351,7 +4376,7 @@ module m68kcpu
 	
 	assign w621 = ~ird_pla4[20] ? { w625, ird_pla4[11], ird_pla4[10], ird_pla4[9] } : (~ird_pla4[21] ? w620 : ~w620);
 	
-	assign w625 = ird_pla4[18] | ird_pla[17] | ird_pla4[16] | ird_pla4[15] | ird_pla4[14] | ird_pla4[13];
+	assign w625 = ird_pla4[18] | ird_pla4[17] | ird_pla4[16] | ird_pla4[15] | ird_pla4[14] | ird_pla4[13];
 	
 	assign w626 = (w529[43] | w627) ? 4'hf : w621;
 	
@@ -4386,7 +4411,7 @@ module m68kcpu
 	
 	assign w645 = ~(w644 | w230);
 	
-	assign w656 = w645 ? w639 : w641;
+	assign w646 = w645 ? w639 : w641;
 	
 	assign w647 = ~w529[27];
 	
@@ -4583,12 +4608,12 @@ module m68kcpu
 		end
 	end
 	
-	w712 = (w685 |
+	assign w712 = (w685 |
 		(w681 & (w569 & 15'h2000) != 15'h0) |
 		(w682 & (w569 & 15'h3000) != 15'h0) |
 		(w683 & (w569 & 15'h7080) != 15'h0));
 	
-	w713 = (w685 |
+	assign w713 = (w685 |
 		(w682 & (w569 & 15'h2000) != 15'h0) |
 		(w683 & (w569 & 15'h6080) != 15'h0));
 	
@@ -4759,7 +4784,7 @@ module m68kcpu
 			w784 <= ~w750;
 		else if (~w771 & ~w789)
 			w784 <= w972;
-		else if (~w772 & ~w789)
+		else if (w771 & ~w789)
 			w784 <= w978;
 		else if (w786)
 			w784 <= w781;
@@ -4858,10 +4883,10 @@ module m68kcpu
 	
 	assign w822 = ~(w529[8] & ~w529[9]);
 	
-	assign w833 = ~(w529[11] | w529[14]);
+	assign w823 = ~(w529[11] | w529[14]);
 	
-	assign w834 = ~(w823 | w529[12] | w267);
-	assign w835 = ~(w823 | w267 | w578 | w529[13]);
+	assign w824 = ~(w823 | w529[12] | w267);
+	assign w825 = ~(w823 | w267 | w578 | w529[13]);
 	
 	assign w826 = w529[13] ^ w529[12];
 	
@@ -5012,7 +5037,7 @@ module m68kcpu
 	
 	assign w890 = w889 ? c2 : 1'h0;
 	
-	assign w891 = w891 ? c2 : 1'h0;
+	assign w892 = w891 ? c2 : 1'h0;
 	
 	always @(posedge MCLK)
 	begin
@@ -5055,7 +5080,7 @@ module m68kcpu
 			w904 <= w686;
 	end
 	
-	assign w904 ? 1'h0 : c3;
+	assign w903 = w904 ? 1'h0 : c3;
 	
 	assign w906 = ~w710;
 	assign w905 = ~w906;
@@ -5180,7 +5205,7 @@ module m68kcpu
 		end
 	end
 	
-	assign w947 <= ~((w945 | ~w944[3]) ? (16'h1 << w944[2:0]) : (16'h100 << w944[2:0]));
+	assign w947 = ~((w945 | ~w944[3]) ? (16'h1 << w944[2:0]) : (16'h100 << w944[2:0]));
 	
 	always @(posedge MCLK)
 	begin
@@ -5242,14 +5267,14 @@ module m68kcpu
 	assign w958 = ~w954[13];
 	assign w959 = ~(w954[4] | (w951 & 16'hff0) != 16'hff0);
 	assign w960 = ~(w954[9] | (w951 & 16'hf00) != 16'hf00);
-	assign w914[14] = ~(w958 | w959 | w960);
+	assign w954[14] = ~(w958 | w959 | w960);
 	
 	assign w954[15] = ~(~w953[12] | (w951[12] & ~w954[14]));
 	assign w954[16] = ~(~w953[13] | (w951[13] & ~w954[15]));
 	assign w954[17] = ~(~w953[14] | (w951[14] & ~w954[16]));
 	assign w954[18] = ~(~w953[15] | (w951[15] & ~w954[17]));
 	
-	assign w961 = ~(w951 ^ {w954[17:14], w957[12:9], w957[7:4], w957[2:0], w909});
+	assign w961 = ~(w951 ^ {w954[17:14], w954[12:9], w954[7:4], w954[2:0], w909});
 	
 	always @(posedge MCLK)
 	begin
@@ -5317,9 +5342,9 @@ module m68kcpu
 		begin
 			w980[7:0] <= b3[2][7:0];
 			if (w933)
-				w983[15:8] <= w983 ? 8'hff : 8'h0
+				w980[15:8] <= w983 ? 8'hff : 8'h0;
 			else
-				w983[15:8] <= b3[2][15:8];
+				w980[15:8] <= b3[2][15:8];
 		end
 		else if (w923)
 			w980 <= w981;
@@ -5411,6 +5436,14 @@ module m68kcpu
 	end
 	
 	assign LDS = lds_l3 ? 'bz : ~lds_l2;
+	
+	always @(posedge MCLK)
+	begin
+		if (clk2)
+			rw_l <= w382;
+	end
+	
+	assign RW = (~rw_l) ? 1'h0 : ((rw_l & ~w409) ? 1'h1 : 'bz);
 
 	// alu bus & registers logic
 	
@@ -5447,7 +5480,7 @@ module m68kcpu
 		(w86 ? ~r2 : 16'h0) |
 		(w102 ? ~r3 : 16'h0) |
 		(w93 ? ~w109 : 16'h0) |
-		(w125 ? 16'ffff : 16'h0);
+		(w125 ? 16'hffff : 16'h0);
 	
 	assign b1_pulldown[1] = 
 		(w104 ? b1[0] : 16'h0) |
@@ -5472,7 +5505,7 @@ module m68kcpu
 		(w86 ? r2 : 16'h0) |
 		(w102 ? r3 : 16'h0) |
 		(w93 ? w109 : 16'h0) |
-		(w124 ? 16'ffff : 16'h0);
+		(w124 ? 16'hffff : 16'h0);
 	
 	assign b1_pulldown[2] = 
 		(w106 ? b1[3] : 16'h0) |
@@ -5498,7 +5531,7 @@ module m68kcpu
 		(w101 ? ~r3 : 16'h0) |
 		(w94 ? ~w109 : 16'h0) |
 		(w79 ? w107 : 16'h0) |
-		(w123 ? 16'ffff : 16'h0);
+		(w123 ? 16'hffff : 16'h0);
 	
 	assign b1_pulldown[3] = 
 		(w106 ? b1[2] : 16'h0) |
@@ -5524,7 +5557,7 @@ module m68kcpu
 		(w101 ? r3 : 16'h0) |
 		(w94 ? w109 : 16'h0) |
 		(w79 ? ~w107 : 16'h0) |
-		(w126 ? 16'ffff : 16'h0);
+		(w126 ? 16'hffff : 16'h0);
 	
 	assign b2_pulldown[0] =
 		(w153 ? ~w147 : 16'h0) |
