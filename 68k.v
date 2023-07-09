@@ -494,14 +494,16 @@ module m68kcpu
 	wire w463;
 	wire [9:0] w464;
 	wire w465[0:4];
-	reg [9:0] codebus;
+	wire [9:0] codebus;
+	reg [9:0] codebus_mem;
 	wire w466;
 	wire w467;
 	wire w468;
 	wire w469;
 	wire w470;
 	wire w471;
-	reg [9:0] codebus2;
+	wire [9:0] codebus2;
+	reg [9:0] codebus2_mem;
 	reg w472;
 	reg w473;
 	wire w474;
@@ -1119,12 +1121,23 @@ module m68kcpu
 		c4_l = 1'h0;
 		c5_l = 1'h0;
 		c6 = 1'h0;
-		codebus = 10'h0;
-		codebus2 = 10'h0;
+		codebus_mem = 10'h0;
+		codebus2_mem = 10'h0;
 		for (ii = 0; ii < 68; ii = ii + 1)
 			w529[ii] = 1'h0;
 		for (ii = 0; ii < 17; ii = ii + 1)
 			w522[ii] = 1'h0;
+		for (ii = 0; ii < 18; ii = ii + 1)
+			r1[ii] = 16'h0;
+		r2 = 16'h0;
+		r3 = 16'h0;
+		r4 = 16'h0;
+		r5 = 16'h0;
+		for (ii = 0; ii < 10; ii = ii + 1)
+			r6[ii] = 16'h0;
+		for (ii = 0; ii < 9; ii = ii + 1)
+			r7[ii] = 16'h0;
+		r8 = 16'h0;
 	end
 	
 	
@@ -2359,39 +2372,41 @@ module m68kcpu
 		(w462[7] ? 10'h1c4 : 10'h3ff) &
 		(w462[8] ? 10'h1c0 : 10'h3ff));
 	
+	assign codebus = w466 ? w445 : (w467 ? w464 : (w482[3] ? w534 : (w482[2] ? w535 : codebus_mem)));
+	assign codebus2[5:0] = w476 ? ~codebus[5:0] :
+		(w486 ? { ~w522[10], ~w522[9], ~w522[8], ~w522[7], ~w522[12], ~w522[11]} : codebus2_mem[5:0]);
+	assign codebus2[9:8] = w476 ? ~codebus[9:8] :
+		(w486 ? { ~w522[14], ~w522[13] } : codebus2_mem[9:8]);
+	assign codebus2[7:6] = w476 ? ~codebus[7:6] :
+		(w482[0] ? { ~w473, ~w472 } : (w482[1] ? { w485, w484 } : codebus2_mem[7:6]));
+	
 	always @(posedge MCLK)
 	begin
-		if (w466)
-			codebus <= w445;
-		else if (w467)
-			codebus <= w464;
-		else if (w482[3])
-			codebus <= w534;
-		else if (w482[2])
-			codebus <= w535;
-		if (w476)
-			codebus2 <= ~codebus;
-		if (w482[0])
-		begin
-			codebus2[6] <= ~w472;
-			codebus2[7] <= ~w473;
-		end
-		if (w482[1])
-		begin
-			codebus2[6] <= w484;
-			codebus2[7] <= w485;
-		end
-		if (w486)
-		begin
-			codebus2[0] <= ~w522[11];
-			codebus2[1] <= ~w522[12];
-			codebus2[2] <= ~w522[7];
-			codebus2[3] <= ~w522[8];
-			codebus2[4] <= ~w522[9];
-			codebus2[5] <= ~w522[10];
-			codebus2[8] <= ~w522[13];
-			codebus2[9] <= ~w522[14];
-		end
+		codebus_mem <= codebus;
+		codebus2_mem <= codebus2;
+	//	if (w476)
+	//		codebus2 <= ~codebus;
+	//	if (w482[0])
+	//	begin
+	//		codebus2[6] <= ~w472;
+	//		codebus2[7] <= ~w473;
+	//	end
+	//	if (w482[1])
+	//	begin
+	//		codebus2[6] <= w484;
+	//		codebus2[7] <= w485;
+	//	end
+	//	if (w486)
+	//	begin
+	//		codebus2[0] <= ~w522[11];
+	//		codebus2[1] <= ~w522[12];
+	//		codebus2[2] <= ~w522[7];
+	//		codebus2[3] <= ~w522[8];
+	//		codebus2[4] <= ~w522[9];
+	//		codebus2[5] <= ~w522[10];
+	//		codebus2[8] <= ~w522[13];
+	//		codebus2[9] <= ~w522[14];
+	//	end
 	end
 	
 	assign w465[0] = ~(w462[3] | w462[4] | w462[5] | w462[6] | w462[7] | w462[8]);
@@ -2455,7 +2470,7 @@ module m68kcpu
 	assign w482[1] = ~w479 & ~w480 & ~w481;
 	assign w482[2] = w479 & w480 & ~w481;
 	assign w482[3] = ~w479 & w480 & ~w481;
-	assign w482[4] = w479 & ~w480 & w481;
+	assign w482[4] = w479 & ~w480 & ~w481;
 	
 	assign w483 = ~w482[4];
 	
