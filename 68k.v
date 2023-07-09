@@ -667,7 +667,7 @@ module m68kcpu
 	reg w617;
 	reg w618;
 	wire w619;
-	reg w620;
+	reg [3:0] w620;
 	wire [3:0] w621;
 	wire w625;
 	wire [3:0] w626;
@@ -3390,7 +3390,7 @@ module m68kcpu
 			8'b11101010: ncode_addr <= 7'd2; 8'b11101011: ncode_addr <= 7'd2;
 			8'b11110000: ncode_addr <= 7'd1; 8'b11110001: ncode_addr <= 7'd1; 8'b11110010: ncode_addr <= 7'd1; 8'b11110011: ncode_addr <= 7'd1;
 			8'b11111000: ncode_addr <= 7'd0; 8'b11111001: ncode_addr <= 7'd0; 8'b11111010: ncode_addr <= 7'd0; 8'b11111011: ncode_addr <= 7'd0;
-			default: ucode_addr <= 7'd0;
+			default: ncode_addr <= 7'd0;
 		endcase
 		
 		if (c3)
