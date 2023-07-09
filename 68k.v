@@ -1080,10 +1080,53 @@ module m68kcpu
 	wire clk1 = ~CLK;
 	wire clk2 = CLK;
 	
+	integer ii;
+	
 	initial
 	begin
 		$readmemb("68k_ucode.txt", ucode);
 		$readmemb("68k_ncode.txt", ncode);
+		
+		w259[0] = 4'h0;
+		w259[1] = 4'h0;
+		w260 = 1'h0;
+		w261[0] = 1'h0;
+		w261[1] = 1'h0;
+		w262 = 1'h0;
+		w335 = 1'h0;
+		w338 = 1'h0;
+		w278 = 1'h0;
+		w275[0] = 1'h0;
+		w275[1] = 1'h0;
+		w275[2] = 1'h0;
+		w276[0] = 1'h0;
+		w276[1] = 1'h0;
+		w276[2] = 1'h0;
+		w268[0] = 1'h0;
+		w268[1] = 1'h0;
+		w268[2] = 1'h0;
+		w269[0] = 1'h0;
+		w269[1] = 1'h0;
+		w269[2] = 1'h0;
+		w270[0] = 3'h0;
+		w270[1] = 3'h0;
+		w383 = 1'h0;
+		w384 = 1'h0;
+		w386 = 1'h0;
+		w387 = 1'h0;
+		w388 = 1'h0;
+		c1_l = 1'h0;
+		c2_l = 1'h0;
+		c3_l = 1'h0;
+		c4_l = 1'h0;
+		c5_l = 1'h0;
+		c6 = 1'h0;
+		codebus = 10'h0;
+		codebus2 = 10'h0;
+		for (ii = 0; ii < 68; ii = ii + 1)
+			w529[ii] = 1'h0;
+		for (ii = 0; ii < 17; ii = ii + 1)
+			w522[ii] = 1'h0;
 	end
 	
 	
@@ -1676,7 +1719,7 @@ module m68kcpu
 			
 			w373 <= ~w365;
 			
-			w374 <= ~(w389[2] | w384);
+			w374 <= ~(w389[2] | ~w384);
 			
 			w378 <= ~(~w388 | (w389[7] & w397) | w267);
 			
@@ -2135,7 +2178,7 @@ module m68kcpu
 	
 	assign w396 = ~(w414[2] | w415 | w416);
 	
-	assign w397 = ~(w267 | w419 | ~(w421_1 & w567) | w426);
+	assign w397 = ~(w267 | w419 | (~w421_1 & w567) | w426);
 	
 	assign w399 = w398 ? clk2 : 1'h0;
 	
@@ -2407,7 +2450,7 @@ module m68kcpu
 		begin
 			w479 <= w522[2];
 			w480 <= w522[3];
-			w481 <= w522[4];
+			w481 <= w522[1];
 		end
 		else if (w477)
 		begin
@@ -3130,8 +3173,8 @@ module m68kcpu
 //		end
 //	end
 
-	reg [6:0] ncode_addr;
-	reg [5:0] ucode_addr;
+	reg [6:0] ncode_addr = 7'h0;
+	reg [5:0] ucode_addr = 6'h0;
 	
 	wire [9:0] code_addr = { w504, w503, w490, w489, w501, w502, w495, w500, w505, w506 };
 	
