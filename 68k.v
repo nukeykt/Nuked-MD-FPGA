@@ -801,16 +801,11 @@ module m68kcpu
 	wire w747;
 	reg w748;
 	wire w749;
-	wire w750;
-	reg w750_mem;
-	wire w751;
-	reg w751_mem;
-	wire w752;
-	reg w752_mem;
-	wire w753;
-	reg w753_mem;
-	wire w754;
-	reg w754_mem;
+	reg w750;
+	reg w751;
+	reg w752;
+	reg w753;
+	reg w754;
 	reg w755;
 	reg w756;
 	wire w757;
@@ -1407,10 +1402,10 @@ module m68kcpu
 	// replace carry look-ahead circuit with simple add
 	assign w114 = ~(~w110 + ~b1[1] + addr_carry);
 	
-	assign w123 = c1 ? 1'h0 : ~(w100 | b2[2][15]);
-	assign w124 = c1 ? 1'h0 : ~(w99 | b2[1][15]);
-	assign w125 = c1 ? 1'h0 : ~(w99 | b2[0][15]);
-	assign w126 = c1 ? 1'h0 : ~(w100 | b2[3][15]);
+	assign w123 = c1 ? 1'h0 : ~(w100 | b2_mem[2][15]);
+	assign w124 = c1 ? 1'h0 : ~(w99 | b2_mem[1][15]);
+	assign w125 = c1 ? 1'h0 : ~(w99 | b2_mem[0][15]);
+	assign w126 = c1 ? 1'h0 : ~(w100 | b2_mem[3][15]);
 	
 	always @(posedge MCLK)
 	begin
@@ -4956,15 +4951,15 @@ module m68kcpu
 	
 	assign w746 = w725 ? w737 : (w724 ? w985 : w746_mem);
 		
-	assign w750 = w749 ? alu_io[4] : (w790 ? ~w791 : w750_mem);
-	
-	assign w751 = w749 ? alu_io[0] : (w792 ? ~w791 : w751_mem);
-	
-	assign w752 = w749 ? alu_io[1] : (w794 ? ~w795 : w752_mem);
-	
-	assign w753 = w749 ? alu_io[3] : (w797 ? w798 : w753_mem);
-	
-	assign w754 = w749 ? alu_io[2] : (w799 ? ~w800 : w754_mem);
+	//assign w750 = w749 ? alu_io[4] : (w790 ? ~w791 : w750_mem);
+	//
+	//assign w751 = w749 ? alu_io[0] : (w792 ? ~w791 : w751_mem);
+	//
+	//assign w752 = w749 ? alu_io[1] : (w794 ? ~w795 : w752_mem);
+	//
+	//assign w753 = w749 ? alu_io[3] : (w797 ? w798 : w753_mem);
+	//
+	//assign w754 = w749 ? alu_io[2] : (w799 ? ~w800 : w754_mem);
 	
 	always @(posedge MCLK)
 	begin
@@ -4991,11 +4986,15 @@ module m68kcpu
 		if (c1)
 			w748 <= w688;
 		
-		w750_mem <= w750;
-		w751_mem <= w751;
-		w752_mem <= w752;
-		w753_mem <= w753;
-		w754_mem <= w754;
+		w750 <= w749 ? alu_io[4] : (w790 ? ~w791 : w750);
+		
+		w751 <= w749 ? alu_io[0] : (w792 ? ~w791 : w751);
+		
+		w752 <= w749 ? alu_io[1] : (w794 ? ~w795 : w752);
+		
+		w753 <= w749 ? alu_io[3] : (w797 ? w798 : w753);
+		
+		w754 <= w749 ? alu_io[2] : (w799 ? ~w800 : w754);
 		
 		if (c3)
 			w755 <= 1'h1;
