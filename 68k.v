@@ -777,28 +777,40 @@ module m68kcpu
 	reg w730;
 	reg w731;
 	reg w732;
-	reg w733;
+	wire w733;
+	reg w733_mem;
 	wire w734;
 	wire w735;
 	wire w736;
-	reg w737;
-	reg w738;
-	reg w739;
+	wire w737;
+	reg w737_mem;
+	wire w738;
+	reg w738_mem;
+	wire w739;
+	reg w739_mem;
 	reg w740;
 	reg w741;
-	reg w742;
+	wire w742;
+	reg w742_mem;
 	wire w743;
-	reg w744;
+	wire w744;
+	reg w744_mem;
 	wire w745;
-	reg w746;
+	wire w746;
+	reg w746_mem;
 	wire w747;
 	reg w748;
 	wire w749;
-	reg w750;
-	reg w751;
-	reg w752;
-	reg w753;
-	reg w754;
+	wire w750;
+	reg w750_mem;
+	wire w751;
+	reg w751_mem;
+	wire w752;
+	reg w752_mem;
+	wire w753;
+	reg w753_mem;
+	wire w754;
+	reg w754_mem;
 	reg w755;
 	reg w756;
 	wire w757;
@@ -827,7 +839,8 @@ module m68kcpu
 	reg w781;
 	reg w782;
 	wire w783;
-	reg w784;
+	wire w784;
+	reg w784_mem;
 	wire w785;
 	wire w786;
 	wire w787;
@@ -1168,7 +1181,7 @@ module m68kcpu
 	assign w2 = (~l4) ? c2 : ((~l3) ? c3 : 1'h0);
 	
 	wire v1_1 = w42 & ~w67 & ~w66;
-	wire v2_1 = ~w63 & w62 & w39;
+	wire v2_1 = ~w63 & ~w62 & w39;
 	
 	assign w3 = (v1_1 & ~w65) ? w1 : 1'h0;
 	assign w4 = (v2_1 & ~w64) ? w2 : 1'h0;
@@ -4076,7 +4089,7 @@ module m68kcpu
 			w538 <= w530;
 	end
 
-	assign irdbus = (w267 ? irdbus_normal : 16'h0) | irdbus_dbg;
+	assign irdbus = (~w267 ? irdbus_normal : 16'h0) | irdbus_dbg;
 	
 	assign irdbus_normal = {
 		~w538[15], w538[15],
@@ -4853,7 +4866,7 @@ module m68kcpu
 			w717 <= ~(w685 |
 				(w683 & (w569 & 15'h0080) != 15'h0));
 			
-			w718 <= ~(
+			w718 <= (
 				(w683 & (w569 & 15'h0771) != 15'h0) |
 				(w682 & (w569 & 15'h0631) != 15'h0));
 			
@@ -4867,9 +4880,9 @@ module m68kcpu
 			
 			w723 <= ~(w681 & (w569 & 15'h0010) != 15'h0);
 			
-			w724 <= ~(w681 & (w569 & 15'h02d2) != 15'h0);
+			w724 <= (w681 & (w569 & 15'h02d2) != 15'h0);
 			
-			w725 <= ~(w681 & (w569 & 15'h050d) != 15'h0);
+			w725 <= (w681 & (w569 & 15'h050d) != 15'h0);
 			
 			w726 <= ~(w681 & (w569 & 15'h0001) != 15'h0);
 			
@@ -4926,41 +4939,39 @@ module m68kcpu
 
 	assign w774 = ~w773;
 	
+	assign w733 = ~w726 ? w732 : (~w714 ? w734 : w733_mem);
+	
+	assign w737 = ~w715 ? w734 : (~w714 ? w740 : (~w716 ? w735 : w737_mem ));
+	
+	assign w738 = ~w726 ? w740 : (~w727 ? w737 : (~w728 ? w736 : (~w729 ? ~w736 : (~w730 ? 1'h0 : (~w731 ? 1'h1 : w738_mem)))));
+	
+	assign w739 = ~w721 ? w737 : (~w722 ? w736 : (~w723 ? 1'h0 : (~w720 ? w985 : w739_mem)));
+	
+	assign w742 = ~w714 ? w741 : (~w715 ? w739 : (~w719 ? w780 : w742_mem));
+	
+	assign w744 = ~w714 ? w743 : (~w716 ? w962[7] : (~w715 ? w970 : w744_mem));
+	
+	assign w746 = w725 ? w737 : (w724 ? w985 : w746_mem);
+		
+	assign w750 = w749 ? alu_io[4] : (w790 ? ~w791 : w750_mem);
+	
+	assign w751 = w749 ? alu_io[0] : (w792 ? ~w791 : w751_mem);
+	
+	assign w752 = w749 ? alu_io[1] : (w794 ? ~w795 : w752_mem);
+	
+	assign w753 = w749 ? alu_io[3] : (w797 ? w798 : w753_mem);
+	
+	assign w754 = w749 ? alu_io[2] : (w799 ? ~w800 : w754_mem);
+	
 	always @(posedge MCLK)
 	begin
-		if (~w726)
-			w733 <= w732;
-		else if (~w714)
-			w733 <= w734;
+		w733_mem <= w733;
 		
-		if (~w715)
-			w737 <= w734;
-		else if (~w714)
-			w737 <= w740;
-		else if (~w716)
-			w737 <= w735;
+		w737_mem <= w737;
 		
-		if (~w726)
-			w738 <= w740;
-		else if (~w727)
-			w738 <= w737;
-		else if (~w728)
-			w738 <= w736;
-		else if (~w729)
-			w738 <= ~w736;
-		else if (~w730)
-			w738 <= 1'h0;
-		else if (~w731)
-			w738 <= 1'h1;
+		w738_mem <= w738;
 		
-		if (~w721)
-			w739 <= w737;
-		else if (~w722)
-			w739 <= w736;
-		else if (~w723)
-			w739 <= 1'h0;
-		else if (~w720)
-			w739 <= w985;
+		w739_mem <= w739;
 		
 		if (c2)
 		begin
@@ -4968,52 +4979,20 @@ module m68kcpu
 			w741 <= r8[0];
 		end
 		
-		if (~w714)
-			w742 <= w741;
-		else if (~w715)
-			w742 <= w739;
-		else if (~w719)
-			w742 <= w780;
+		w742_mem <= w742;
 		
-		if (~w714)
-			w744 <= w743;
-		else if (~w716)
-			w744 <= w962[7];
-		else if (~w715)
-			w744 <= w970;
+		w744_mem <= w744;
 		
-		if (w725)
-			w746 <= w737;
-		else if (w724)
-			w746 <= w985;
+		w746_mem <= w746;
 		
 		if (c1)
 			w748 <= w688;
 		
-		if (w749)
-			w750 <= alu_io[4];
-		else if (w790)
-			w750 <= ~w791;
-		
-		if (w749)
-			w751 <= alu_io[0];
-		else if (w792)
-			w751 <= ~w791;
-		
-		if (w749)
-			w752 <= alu_io[1];
-		else if (w794)
-			w752 <= ~w795;
-		
-		if (w749)
-			w753 <= alu_io[3];
-		else if (w797)
-			w753 <= w798;
-			
-		if (w749)
-			w754 <= alu_io[2];
-		else if (w799)
-			w754 <= ~w800;
+		w750_mem <= w750;
+		w751_mem <= w751;
+		w752_mem <= w752;
+		w753_mem <= w753;
+		w754_mem <= w754;
 		
 		if (c3)
 			w755 <= 1'h1;
@@ -5068,16 +5047,11 @@ module m68kcpu
 	assign w786 = w777;
 	assign w789 = ~w776;
 	
+	assign w784 = w785 ? ~w750 : ((~w771 & ~w789) ? w972 : ((w771 & ~w789) ? w978 : (w786 ? w781 : w784_mem)));
+	
 	always @(posedge MCLK)
 	begin
-		if (w785)
-			w784 <= ~w750;
-		else if (~w771 & ~w789)
-			w784 <= w972;
-		else if (w771 & ~w789)
-			w784 <= w978;
-		else if (w786)
-			w784 <= w781;
+		w784_mem <= w784;
 	end
 	
 	assign w787 = w774 ? w784 : ~w784;
@@ -6187,10 +6161,10 @@ module m68kcpu
 		else if (w874)
 			r7[8] <= (r7[8] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
 			
-		if (w895)
-			r8 <= (r8 & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
-		else if (w896)
+		if (w896)
 			r8 <= ~w963;
+		else if (w895)
+			r8 <= (r8 & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
 	end
 
 	always @(posedge MCLK)
