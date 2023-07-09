@@ -4642,9 +4642,9 @@ module m68kcpu
 		end
 		else if (w604)
 		begin
-			w609 = alu_io[10];
-			w610 = alu_io[9];
-			w611 = alu_io[8];
+			w609 <= alu_io[10];
+			w610 <= alu_io[9];
+			w611 <= alu_io[8];
 		end
 	end
 	
