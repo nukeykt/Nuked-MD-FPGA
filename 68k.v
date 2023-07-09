@@ -5746,8 +5746,7 @@ module m68kcpu
 	wire [15:0] b2_pulldown_comb[0:3];
 	wire [15:0] b3_pulldown_comb[0:3];
 	
-	assign b1_pulldown[0] = 
-		(w104 ? b1[1] : 16'h0) |
+	assign b1_pulldown[0] = w104 ? b1[1] : (
 		(w37 ? ~r1[0] : 16'h0) |
 		(w36 ? ~r1[1] : 16'h0) |
 		(w33 ? ~r1[2] : 16'h0) |
@@ -5769,10 +5768,9 @@ module m68kcpu
 		(w86 ? ~r2 : 16'h0) |
 		(w102 ? ~r3 : 16'h0) |
 		(w93 ? ~w109 : 16'h0) |
-		(w125 ? 16'hffff : 16'h0);
+		(w125 ? 16'hffff : 16'h0));
 	
-	assign b1_pulldown[1] = 
-		(w104 ? b1[0] : 16'h0) |
+	assign b1_pulldown[1] = w104 ? b1[0] : (
 		(w37 ? r1[0] : 16'h0) |
 		(w36 ? r1[1] : 16'h0) |
 		(w33 ? r1[2] : 16'h0) |
@@ -5794,10 +5792,9 @@ module m68kcpu
 		(w86 ? r2 : 16'h0) |
 		(w102 ? r3 : 16'h0) |
 		(w93 ? w109 : 16'h0) |
-		(w124 ? 16'hffff : 16'h0);
+		(w124 ? 16'hffff : 16'h0));
 	
-	assign b1_pulldown[2] = 
-		(w106 ? b1[3] : 16'h0) |
+	assign b1_pulldown[2] = w106 ? b1[3] : (
 		(w38 ? ~r1[0] : 16'h0) |
 		(w35 ? ~r1[1] : 16'h0) |
 		(w34 ? ~r1[2] : 16'h0) |
@@ -5820,10 +5817,9 @@ module m68kcpu
 		(w101 ? ~r3 : 16'h0) |
 		(w94 ? ~w109 : 16'h0) |
 		(w79 ? w107 : 16'h0) |
-		(w123 ? 16'hffff : 16'h0);
+		(w123 ? 16'hffff : 16'h0));
 	
-	assign b1_pulldown[3] = 
-		(w106 ? b1[2] : 16'h0) |
+	assign b1_pulldown[3] = w106 ? b1[2] : (
 		(w38 ? r1[0] : 16'h0) |
 		(w35 ? r1[1] : 16'h0) |
 		(w34 ? r1[2] : 16'h0) |
@@ -5846,9 +5842,9 @@ module m68kcpu
 		(w101 ? r3 : 16'h0) |
 		(w94 ? w109 : 16'h0) |
 		(w79 ? ~w107 : 16'h0) |
-		(w126 ? 16'hffff : 16'h0);
+		(w126 ? 16'hffff : 16'h0));
 	
-	assign b2_pulldown[0] =
+	assign b2_pulldown[0] = c6 ? b2[1] : (
 		(w153 ? ~w147 : 16'h0) |
 		(w156 ? ~r4 : 16'h0) |
 		(w178 ? ~r5 : 16'h0) |
@@ -5861,10 +5857,9 @@ module m68kcpu
 		(w250 ? ~r6[6] : 16'h0) |
 		(w253 ? ~r6[7] : 16'h0) |
 		(w254 ? ~r6[8] : 16'h0) |
-		(w257 ? ~r6[9] : 16'h0) |
-		(c6 ? b2[1] : 16'h0);
+		(w257 ? ~r6[9] : 16'h0));
 		
-	assign b2_pulldown[1] =
+	assign b2_pulldown[1] = c6 ? b2[0] : (
 		(w153 ? w147 : 16'h0) |
 		(w156 ? r4 : 16'h0) |
 		(w178 ? r5 : 16'h0) |
@@ -5877,10 +5872,9 @@ module m68kcpu
 		(w250 ? r6[6] : 16'h0) |
 		(w253 ? r6[7] : 16'h0) |
 		(w254 ? r6[8] : 16'h0) |
-		(w257 ? r6[9] : 16'h0) |
-		(c6 ? b2[0] : 16'h0);
+		(w257 ? r6[9] : 16'h0));
 	
-	assign b2_pulldown[2] =
+	assign b2_pulldown[2] = c6 ? b2[3] : (
 		(w152 ? ~w147 : 16'h0) |
 		(w163 ? w158 : 16'h0) |
 		(w155 ? ~r4 : 16'h0) |
@@ -5894,10 +5888,9 @@ module m68kcpu
 		(w251 ? ~r6[6] : 16'h0) |
 		(w252 ? ~r6[7] : 16'h0) |
 		(w255 ? ~r6[8] : 16'h0) |
-		(w256 ? ~r6[9] : 16'h0) |
-		(c6 ? b2[3] : 16'h0);
+		(w256 ? ~r6[9] : 16'h0));
 	
-	assign b2_pulldown[3] =
+	assign b2_pulldown[3] = c6 ? b2[2] : (
 		(w152 ? w147 : 16'h0) |
 		(w163 ? ~w158 : 16'h0) |
 		(w155 ? r4 : 16'h0) |
@@ -5911,10 +5904,9 @@ module m68kcpu
 		(w251 ? r6[6] : 16'h0) |
 		(w252 ? r6[7] : 16'h0) |
 		(w255 ? r6[8] : 16'h0) |
-		(w256 ? r6[9] : 16'h0) |
-		(c6 ? b2[2] : 16'h0);
+		(w256 ? r6[9] : 16'h0));
 	
-	assign b3_pulldown[0] =
+	assign b3_pulldown[0] = c6 ? b3[1] : (
 		(w877 ? w947 : 16'h0) |
 		(w878 ? w948 : 16'h0) |
 		(w892 ? ~w962 : 16'h0) |
@@ -5927,10 +5919,9 @@ module m68kcpu
 		(w869 ? ~r7[6] : 16'h0) |
 		(w872 ? ~r7[7] : 16'h0) |
 		(w873 ? ~r7[8] : 16'h0) |
-		(w895 ? ~r8 : 16'h0) |
-		(c6 ? b3[1] : 16'h0);
+		(w895 ? ~r8 : 16'h0));
 	
-	assign b3_pulldown[1] =
+	assign b3_pulldown[1] = c6 ? b3[0] : (
 		(w877 ? ~w947 : 16'h0) |
 		(w878 ? ~w948 : 16'h0) |
 		(w892 ? w962 : 16'h0) |
@@ -5943,10 +5934,9 @@ module m68kcpu
 		(w869 ? r7[6] : 16'h0) |
 		(w872 ? r7[7] : 16'h0) |
 		(w873 ? r7[8] : 16'h0) |
-		(w895 ? r8 : 16'h0) |
-		(c6 ? b3[0] : 16'h0);
+		(w895 ? r8 : 16'h0));
 	
-	assign b3_pulldown[2] =
+	wire [15:0] b3_pulldown_2_t = 
 		(w879 ? w948 : 16'h0) |
 		(w890 ? ~w962 : 16'h0) |
 		(w858 ? ~r7[0] : 16'h0) |
@@ -5957,11 +5947,13 @@ module m68kcpu
 		(w867 ? ~r7[5] : 16'h0) |
 		(w870 ? ~r7[6] : 16'h0) |
 		(w871 ? ~r7[7] : 16'h0) |
-		(w874 ? ~r7[8] : 16'h0) |
-		(c6 ? { 8'h0, b3[3][7:0] } : 16'h0) |
-		(w857 ? { b3[3][15:8], 8'h0 } : 16'h0);
+		(w874 ? ~r7[8] : 16'h0);
 	
-	assign b3_pulldown[3] =
+	assign b3_pulldown[2][7:0] = c6 ? b3[3][7:0] : b3_pulldown_2_t[7:0];
+	assign b3_pulldown[2][15:8] = w857 ? b3[3][15:8] : b3_pulldown_2_t[15:8];
+	
+	
+	wire [15:0] b3_pulldown_3_t = 
 		(w879 ? ~w948 : 16'h0) |
 		(w890 ? w962 : 16'h0) |
 		(w858 ? r7[0] : 16'h0) |
@@ -5972,9 +5964,10 @@ module m68kcpu
 		(w867 ? r7[5] : 16'h0) |
 		(w870 ? r7[6] : 16'h0) |
 		(w871 ? r7[7] : 16'h0) |
-		(w874 ? r7[8] : 16'h0) |
-		(c6 ? { 8'h0, b3[2][7:0] } : 16'h0) |
-		(w857 ? { b3[2][15:8], 8'h0 } : 16'h0);
+		(w874 ? r7[8] : 16'h0);
+	
+	assign b3_pulldown[3][7:0] = c6 ? b3[2][7:0] : b3_pulldown_3_t[7:0];
+	assign b3_pulldown[3][15:8] = w857 ? b3[2][15:8] : b3_pulldown_3_t[15:8];
 	
 	assign b12_pulldown[0] = b1_pulldown[0] | b2_pulldown[0];
 	assign b12_pulldown[1] = b1_pulldown[1] | b2_pulldown[1];
