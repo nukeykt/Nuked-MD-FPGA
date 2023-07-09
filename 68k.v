@@ -135,8 +135,6 @@ module m68kcpu
 	wire w94;
 	wire w95;
 	reg l5;
-	wire w96;
-	wire w97;
 	wire w98;
 	wire w99;
 	wire w100;
@@ -154,7 +152,7 @@ module m68kcpu
 	reg [15:0] w107;
 	wire [7:0] w108;
 	reg [15:0] w109;
-	reg [15:0] w110;
+	wire [15:0] w110;
 	wire [15:0] w114;
 	wire addr_carry;
 	wire w123;
@@ -1062,7 +1060,7 @@ module m68kcpu
 	
 	reg [15:0] data_io;
 	
-	wire [15:0] address_mux;
+	wire [22:0] address_mux;
 	
 	wire c1;
 	wire c2;
@@ -1309,10 +1307,7 @@ module m68kcpu
 	
 	assign w95 = c1 ? 1'h0 : (l5 ? c3 : 1'h0);
 	
-	assign w96 = w643;
-	assign w97 = ~w643;
-	
-	assign w98 = ~w639;
+	assign w98 = w639;
 	assign w99 = w103;
 	assign w100 = w105;
 	
@@ -1378,16 +1373,10 @@ module m68kcpu
 	
 	assign w108 = ~w107[7:0];
 	
-	always @(posedge MCLK)
-	begin
-		if (w97)
-			w110 <= w98 ? 16'hffff : 16'h0;
-		else if (w96)
-			w110 <= b1[3];
-	end
+	assign w110 = w643 ? b1[3] : (w98 ? 16'hffff : 16'h0);
 	
 	// replace carry look-ahead circuit with simple add
-	assign w114 = ~w110 + ~b1[1] + addr_carry;
+	assign w114 = ~(~w110 + ~b1[1] + addr_carry);
 	
 	assign w123 = c1 ? 1'h0 : ~(w100 | b2[2][15]);
 	assign w124 = c1 ? 1'h0 : ~(w99 | b2[1][15]);
@@ -1406,7 +1395,9 @@ module m68kcpu
 	assign w132 = w643 ? b2[3] : { w639 ? 14'h3fff : 14'h0, w642, w640 };
 	
 	// replace carry look-ahead circuit with simple add
-	assign { addr_carry, w145 } = { 1'h0, ~w132 } + { 1'h0, ~b2[1] } + { 16'h0, w638 & w646 };
+	wire [15:0] w145_t;
+	assign w145 = ~w145_t;
+	assign { addr_carry, w145_t } = { 1'h0, ~w132 } + { 1'h0, ~b2[1] } + { 16'h0, w638 & w646 };
 	
 	always @(posedge MCLK)
 	begin
@@ -4587,7 +4578,7 @@ module m68kcpu
 		end
 		else if (w603)
 		begin
-			alu_io <= alu_io & w591;
+			alu_io <= alu_io & ~w591;
 		end
 		else if (w597[1])
 		begin
@@ -5673,7 +5664,7 @@ module m68kcpu
 			irdbus[22], irdbus[20], irdbus[18], irdbus[16], irdbus[14], irdbus[12], irdbus[10] }
 			: { w108[7:0], w159[15:1] };
 	
-	assign ADDRESS = w400 ? address_mux : 'bz;
+	assign ADDRESS = w400 ? ~address_mux : 'bz;
 	
 	always @(posedge MCLK)
 	begin
