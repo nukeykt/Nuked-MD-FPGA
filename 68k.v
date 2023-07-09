@@ -1060,9 +1060,12 @@ module m68kcpu
 	wire w992;
 	
 	
-	reg [15:0] b1[0:3];
-	reg [15:0] b2[0:3];
-	reg [15:0] b3[0:3];
+	wire [15:0] b1[0:3];
+	wire [15:0] b2[0:3];
+	wire [15:0] b3[0:3];
+	reg [15:0] b1_mem[0:3];
+	reg [15:0] b2_mem[0:3];
+	reg [15:0] b3_mem[0:3];
 	
 	reg [15:0] r1[0:17];
 	reg [15:0] r2;
@@ -1959,7 +1962,7 @@ module m68kcpu
 		if (w313 | w316)
 			w310 <= 1'h0;
 		else if (w311 | w318 | w308)
-			w310 <= 1'h0;
+			w310 <= 1'h1;
 	end
 	//assign w309 = ~(w310 | w311 | w318 | w308);
 	//assign w310 = ~(w313 | w309 | w316);
@@ -2339,7 +2342,7 @@ module m68kcpu
 	always @(posedge MCLK)
 	begin
 		if (c4)
-			w991 <= w992;
+			w991 <= ~w992;
 	end
 	
 	always @(posedge MCLK)
@@ -5720,7 +5723,17 @@ module m68kcpu
 	wire [15:0] b2_pulldown_comb[0:3];
 	wire [15:0] b3_pulldown_comb[0:3];
 	
-	assign b1_pulldown[0] = w104 ? b1[1] : (
+	wire [15:0] b1_s_pulldown[0:3];
+	wire [15:0] b2_s_pulldown[0:3];
+	wire [15:0] b3_s_pulldown[0:3];
+	wire [15:0] b12_s_pulldown[0:3];
+	wire [15:0] b23_s_pulldown[0:3];
+	wire [15:0] b123_s_pulldown[0:3];
+	wire [15:0] b1_s_pulldown_comb[0:3];
+	wire [15:0] b2_s_pulldown_comb[0:3];
+	wire [15:0] b3_s_pulldown_comb[0:3];
+	
+	assign b1_pulldown[0] = w104 ? b1_mem[1] : (
 		(w37 ? ~r1[0] : 16'h0) |
 		(w36 ? ~r1[1] : 16'h0) |
 		(w33 ? ~r1[2] : 16'h0) |
@@ -5744,7 +5757,7 @@ module m68kcpu
 		(w93 ? ~w109 : 16'h0) |
 		(w125 ? 16'hffff : 16'h0));
 	
-	assign b1_pulldown[1] = w104 ? b1[0] : (
+	assign b1_pulldown[1] = w104 ? b1_mem[0] : (
 		(w37 ? r1[0] : 16'h0) |
 		(w36 ? r1[1] : 16'h0) |
 		(w33 ? r1[2] : 16'h0) |
@@ -5768,7 +5781,7 @@ module m68kcpu
 		(w93 ? w109 : 16'h0) |
 		(w124 ? 16'hffff : 16'h0));
 	
-	assign b1_pulldown[2] = w106 ? b1[3] : (
+	assign b1_pulldown[2] = w106 ? b1_mem[3] : (
 		(w38 ? ~r1[0] : 16'h0) |
 		(w35 ? ~r1[1] : 16'h0) |
 		(w34 ? ~r1[2] : 16'h0) |
@@ -5793,7 +5806,7 @@ module m68kcpu
 		(w79 ? w107 : 16'h0) |
 		(w123 ? 16'hffff : 16'h0));
 	
-	assign b1_pulldown[3] = w106 ? b1[2] : (
+	assign b1_pulldown[3] = w106 ? b1_mem[2] : (
 		(w38 ? r1[0] : 16'h0) |
 		(w35 ? r1[1] : 16'h0) |
 		(w34 ? r1[2] : 16'h0) |
@@ -5818,7 +5831,7 @@ module m68kcpu
 		(w79 ? ~w107 : 16'h0) |
 		(w126 ? 16'hffff : 16'h0));
 	
-	assign b2_pulldown[0] = c6 ? b2[1] : (
+	assign b2_pulldown[0] = c6 ? b2_mem[1] : (
 		(w153 ? ~w147 : 16'h0) |
 		(w156 ? ~r4 : 16'h0) |
 		(w178 ? ~r5 : 16'h0) |
@@ -5833,7 +5846,7 @@ module m68kcpu
 		(w254 ? ~r6[8] : 16'h0) |
 		(w257 ? ~r6[9] : 16'h0));
 		
-	assign b2_pulldown[1] = c6 ? b2[0] : (
+	assign b2_pulldown[1] = c6 ? b2_mem[0] : (
 		(w153 ? w147 : 16'h0) |
 		(w156 ? r4 : 16'h0) |
 		(w178 ? r5 : 16'h0) |
@@ -5848,7 +5861,7 @@ module m68kcpu
 		(w254 ? r6[8] : 16'h0) |
 		(w257 ? r6[9] : 16'h0));
 	
-	assign b2_pulldown[2] = c6 ? b2[3] : (
+	assign b2_pulldown[2] = c6 ? b2_mem[3] : (
 		(w152 ? ~w147 : 16'h0) |
 		(w163 ? w158 : 16'h0) |
 		(w155 ? ~r4 : 16'h0) |
@@ -5864,7 +5877,7 @@ module m68kcpu
 		(w255 ? ~r6[8] : 16'h0) |
 		(w256 ? ~r6[9] : 16'h0));
 	
-	assign b2_pulldown[3] = c6 ? b2[2] : (
+	assign b2_pulldown[3] = c6 ? b2_mem[2] : (
 		(w152 ? w147 : 16'h0) |
 		(w163 ? ~w158 : 16'h0) |
 		(w155 ? r4 : 16'h0) |
@@ -5880,7 +5893,7 @@ module m68kcpu
 		(w255 ? r6[8] : 16'h0) |
 		(w256 ? r6[9] : 16'h0));
 	
-	assign b3_pulldown[0] = c6 ? b3[1] : (
+	assign b3_pulldown[0] = c6 ? b3_mem[1] : (
 		(w877 ? w947 : 16'h0) |
 		(w878 ? w948 : 16'h0) |
 		(w892 ? ~w962 : 16'h0) |
@@ -5895,7 +5908,7 @@ module m68kcpu
 		(w873 ? ~r7[8] : 16'h0) |
 		(w895 ? ~r8 : 16'h0));
 	
-	assign b3_pulldown[1] = c6 ? b3[0] : (
+	assign b3_pulldown[1] = c6 ? b3_mem[0] : (
 		(w877 ? ~w947 : 16'h0) |
 		(w878 ? ~w948 : 16'h0) |
 		(w892 ? w962 : 16'h0) |
@@ -5923,8 +5936,8 @@ module m68kcpu
 		(w871 ? ~r7[7] : 16'h0) |
 		(w874 ? ~r7[8] : 16'h0);
 	
-	assign b3_pulldown[2][7:0] = c6 ? b3[3][7:0] : b3_pulldown_2_t[7:0];
-	assign b3_pulldown[2][15:8] = w857 ? b3[3][15:8] : b3_pulldown_2_t[15:8];
+	assign b3_pulldown[2][7:0] = c6 ? b3_mem[3][7:0] : b3_pulldown_2_t[7:0];
+	assign b3_pulldown[2][15:8] = w857 ? b3_mem[3][15:8] : b3_pulldown_2_t[15:8];
 	
 	
 	wire [15:0] b3_pulldown_3_t = 
@@ -5940,8 +5953,8 @@ module m68kcpu
 		(w871 ? r7[7] : 16'h0) |
 		(w874 ? r7[8] : 16'h0);
 	
-	assign b3_pulldown[3][7:0] = c6 ? b3[2][7:0] : b3_pulldown_3_t[7:0];
-	assign b3_pulldown[3][15:8] = w857 ? b3[2][15:8] : b3_pulldown_3_t[15:8];
+	assign b3_pulldown[3][7:0] = c6 ? b3_mem[2][7:0] : b3_pulldown_3_t[7:0];
+	assign b3_pulldown[3][15:8] = w857 ? b3_mem[2][15:8] : b3_pulldown_3_t[15:8];
 	
 	assign b12_pulldown[0] = b1_pulldown[0] | b2_pulldown[0];
 	assign b12_pulldown[1] = b1_pulldown[1] | b2_pulldown[1];
@@ -5969,202 +5982,271 @@ module m68kcpu
 	assign b3_pulldown_comb[2] = (w127 & w855) ? b123_pulldown[2] : (w855 ? b23_pulldown[2] : b3_pulldown[2]);
 	assign b3_pulldown_comb[3] = (w127 & w855) ? b123_pulldown[3] : (w855 ? b23_pulldown[3] : b3_pulldown[3]);
 	
+	assign b1_s_pulldown[0] = w104 ? b1_mem[1] : (
+		(w125 ? 16'hffff : 16'h0));
+	
+	assign b1_s_pulldown[1] = w104 ? b1_mem[0] : (
+		(w124 ? 16'hffff : 16'h0));
+	
+	assign b1_s_pulldown[2] = w106 ? b1_mem[3] : (
+		(w123 ? 16'hffff : 16'h0));
+	
+	assign b1_s_pulldown[3] = w106 ? b1_mem[2] : (
+		(w126 ? 16'hffff : 16'h0));
+	
+	assign b2_s_pulldown[0] = c6 ? b2_mem[1] : 16'h0;
+		
+	assign b2_s_pulldown[1] = c6 ? b2_mem[0] : 16'h0;
+	
+	assign b2_s_pulldown[2] = c6 ? b2_mem[3] : 16'h0;
+	
+	assign b2_s_pulldown[3] = c6 ? b2_mem[2] : 16'h0;
+	
+	assign b3_s_pulldown[0] = c6 ? b3_mem[1] : 16'h0;
+	
+	assign b3_s_pulldown[1] = c6 ? b3_mem[0] : 16'h0;
+	
+	assign b3_s_pulldown[2][7:0] = c6 ? b3_mem[3][7:0] : 8'h0;
+	assign b3_s_pulldown[2][15:8] = w857 ? b3_mem[3][15:8] : 8'h0;
+	
+	assign b3_s_pulldown[3][7:0] = c6 ? b3_mem[2][7:0] : 8'h0;
+	assign b3_s_pulldown[3][15:8] = w857 ? b3_mem[2][15:8] : 8'h0;
+	
+	assign b12_s_pulldown[0] = b1_s_pulldown[0] | b2_s_pulldown[0];
+	assign b12_s_pulldown[1] = b1_s_pulldown[1] | b2_s_pulldown[1];
+	assign b12_s_pulldown[2] = b1_s_pulldown[2] | b2_s_pulldown[2];
+	assign b12_s_pulldown[3] = b1_s_pulldown[3] | b2_s_pulldown[3];
+	assign b23_s_pulldown[0] = b2_s_pulldown[0] | b3_s_pulldown[0];
+	assign b23_s_pulldown[1] = b2_s_pulldown[1] | b3_s_pulldown[1];
+	assign b23_s_pulldown[2] = b2_s_pulldown[2] | b3_s_pulldown[2];
+	assign b23_s_pulldown[3] = b2_s_pulldown[3] | b3_s_pulldown[3];
+	assign b123_s_pulldown[0] = b1_s_pulldown[0] | b2_s_pulldown[0] | b3_s_pulldown[0];
+	assign b123_s_pulldown[1] = b1_s_pulldown[1] | b2_s_pulldown[1] | b3_s_pulldown[1];
+	assign b123_s_pulldown[2] = b1_s_pulldown[2] | b2_s_pulldown[2] | b3_s_pulldown[2];
+	assign b123_s_pulldown[3] = b1_s_pulldown[3] | b2_s_pulldown[3] | b3_s_pulldown[3];
+	
+	assign b1_s_pulldown_comb[0] = (w128 & w854) ? b123_s_pulldown[0] : (w128 ? b12_s_pulldown[0] : b1_s_pulldown[0]);
+	assign b1_s_pulldown_comb[1] = (w128 & w854) ? b123_s_pulldown[1] : (w128 ? b12_s_pulldown[1] : b1_s_pulldown[1]);
+	assign b1_s_pulldown_comb[2] = (w127 & w855) ? b123_s_pulldown[2] : (w127 ? b12_s_pulldown[2] : b1_s_pulldown[2]);
+	assign b1_s_pulldown_comb[3] = (w127 & w855) ? b123_s_pulldown[3] : (w127 ? b12_s_pulldown[3] : b1_s_pulldown[3]);
+	assign b2_s_pulldown_comb[0] = (w128 & w854) ? b123_s_pulldown[0] : (w128 ? b12_s_pulldown[0] : (w854 ? b23_s_pulldown[0] : b2_s_pulldown[0]));
+	assign b2_s_pulldown_comb[1] = (w128 & w854) ? b123_s_pulldown[1] : (w128 ? b12_s_pulldown[1] : (w854 ? b23_s_pulldown[1] : b2_s_pulldown[1]));
+	assign b2_s_pulldown_comb[2] = (w127 & w855) ? b123_s_pulldown[2] : (w127 ? b12_s_pulldown[2] : (w855 ? b23_s_pulldown[2] : b2_s_pulldown[2]));
+	assign b2_s_pulldown_comb[3] = (w127 & w855) ? b123_s_pulldown[3] : (w127 ? b12_s_pulldown[3] : (w855 ? b23_s_pulldown[3] : b2_s_pulldown[3]));
+	assign b3_s_pulldown_comb[0] = (w128 & w854) ? b123_s_pulldown[0] : (w854 ? b23_s_pulldown[0] : b3_s_pulldown[0]);
+	assign b3_s_pulldown_comb[1] = (w128 & w854) ? b123_s_pulldown[1] : (w854 ? b23_s_pulldown[1] : b3_s_pulldown[1]);
+	assign b3_s_pulldown_comb[2] = (w127 & w855) ? b123_s_pulldown[2] : (w855 ? b23_s_pulldown[2] : b3_s_pulldown[2]);
+	assign b3_s_pulldown_comb[3] = (w127 & w855) ? b123_s_pulldown[3] : (w855 ? b23_s_pulldown[3] : b3_s_pulldown[3]);
+	
+	assign b1[0] = ~b1_pulldown_comb[0];
+	assign b1[1] = ~b1_pulldown_comb[1];
+	assign b1[2] = ~b1_pulldown_comb[2];
+	assign b1[3] = ~b1_pulldown_comb[3];
+	assign b2[0] = ~b2_pulldown_comb[0];
+	assign b2[1] = ~b2_pulldown_comb[1];
+	assign b2[2] = ~b2_pulldown_comb[2];
+	assign b2[3] = ~b2_pulldown_comb[3];
+	assign b3[0] = ~b3_pulldown_comb[0];
+	assign b3[1] = ~b3_pulldown_comb[1];
+	assign b3[2] = ~b3_pulldown_comb[2];
+	assign b3[3] = ~b3_pulldown_comb[3];
+	
 	always @(posedge MCLK)
 	begin
-		b1[0] <= ~b1_pulldown_comb[0];
-		b1[1] <= ~b1_pulldown_comb[1];
-		b1[2] <= ~b1_pulldown_comb[2];
-		b1[3] <= ~b1_pulldown_comb[3];
-		b2[0] <= ~b2_pulldown_comb[0];
-		b2[1] <= ~b2_pulldown_comb[1];
-		b2[2] <= ~b2_pulldown_comb[2];
-		b2[3] <= ~b2_pulldown_comb[3];
-		b3[0] <= ~b3_pulldown_comb[0];
-		b3[1] <= ~b3_pulldown_comb[1];
-		b3[2] <= ~b3_pulldown_comb[2];
-		b3[3] <= ~b3_pulldown_comb[3];
+		b1_mem[0] <= b1[0];
+		b1_mem[1] <= b1[1];
+		b1_mem[2] <= b1[2];
+		b1_mem[3] <= b1[3];
+		b2_mem[0] <= b2[0];
+		b2_mem[1] <= b2[1];
+		b2_mem[2] <= b2[2];
+		b2_mem[3] <= b2[3];
+		b3_mem[0] <= b3[0];
+		b3_mem[1] <= b3[1];
+		b3_mem[2] <= b3[2];
+		b3_mem[3] <= b3[3];
 		
 		if (w38)
-			r1[0] <= (r1[0] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[0] <= (r1[0] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w37)
-			r1[0] <= (r1[0] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[0] <= (r1[0] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		if (w36)
-			r1[1] <= (r1[1] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[1] <= (r1[1] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		else if (w35)
-			r1[1] <= (r1[1] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[1] <= (r1[1] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		if (w34)
-			r1[2] <= (r1[2] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[2] <= (r1[2] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w33)
-			r1[2] <= (r1[2] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[2] <= (r1[2] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		if (w32)
-			r1[3] <= (r1[3] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[3] <= (r1[3] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		else if (w31)
-			r1[3] <= (r1[3] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[3] <= (r1[3] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		if (w30)
-			r1[4] <= (r1[4] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[4] <= (r1[4] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w29)
-			r1[4] <= (r1[4] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[4] <= (r1[4] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		if (w28)
-			r1[5] <= (r1[5] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[5] <= (r1[5] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		else if (w27)
-			r1[5] <= (r1[5] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[5] <= (r1[5] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		if (w26)
-			r1[6] <= (r1[6] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[6] <= (r1[6] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w25)
-			r1[6] <= (r1[6] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[6] <= (r1[6] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		if (w24)
-			r1[7] <= (r1[7] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[7] <= (r1[7] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		else if (w23)
-			r1[7] <= (r1[7] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[7] <= (r1[7] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		if (w22)
-			r1[8] <= (r1[8] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[8] <= (r1[8] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w21)
-			r1[8] <= (r1[8] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[8] <= (r1[8] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		if (w20)
-			r1[9] <= (r1[9] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[9] <= (r1[9] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		else if (w19)
-			r1[9] <= (r1[9] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[9] <= (r1[9] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		if (w18)
-			r1[10] <= (r1[10] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[10] <= (r1[10] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w17)
-			r1[10] <= (r1[10] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[10] <= (r1[10] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		if (w16)
-			r1[11] <= (r1[11] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[11] <= (r1[11] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		else if (w15)
-			r1[11] <= (r1[11] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[11] <= (r1[11] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		if (w14)
-			r1[12] <= (r1[12] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[12] <= (r1[12] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w13)
-			r1[12] <= (r1[12] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[12] <= (r1[12] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		if (w12)
-			r1[13] <= (r1[13] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[13] <= (r1[13] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		else if (w11)
-			r1[13] <= (r1[13] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[13] <= (r1[13] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		if (w10)
-			r1[14] <= (r1[14] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[14] <= (r1[14] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w9)
-			r1[14] <= (r1[14] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[14] <= (r1[14] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		if (w8)
-			r1[15] <= (r1[15] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[15] <= (r1[15] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		else if (w7)
-			r1[15] <= (r1[15] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[15] <= (r1[15] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		if (w6)
-			r1[16] <= (r1[16] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[16] <= (r1[16] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w5)
-			r1[16] <= (r1[16] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[16] <= (r1[16] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		if (w4)
-			r1[17] <= (r1[17] & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r1[17] <= (r1[17] & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		else if (w3)
-			r1[17] <= (r1[17] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r1[17] <= (r1[17] & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		
 		if (w92)
 			r2 <= w109;
 		else if (w87)
-			r2 <= (r2 & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r2 <= (r2 & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w86)
-			r2 <= (r2 & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r2 <= (r2 & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		
 		if (w101)
-			r3 <= (r3 & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
+			r3 <= (r3 & ~b1_s_pulldown_comb[2]) | b1_s_pulldown_comb[3];
 		else if (w102)
-			r3 <= (r3 & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
+			r3 <= (r3 & ~b1_s_pulldown_comb[0]) | b1_s_pulldown_comb[1];
 		
 		if (w154)
 			r4 <= w147;
 		else if (w155)
-			r4 <= (r4 & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r4 <= (r4 & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		else if (w156)
-			r4 <= (r4 & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r4 <= (r4 & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		
 		if (w181)
 			r5 <= alu_io;
 		else if (w179)
-			r5 <= (r5 & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r5 <= (r5 & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		else if (w178)
-			r5 <= (r5 & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r5 <= (r5 & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		
 		if (w235)
-			r6[0] <= (r6[0] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[0] <= (r6[0] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		else if (w239)
-			r6[0] <= (r6[0] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[0] <= (r6[0] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		if (w240)
-			r6[1] <= (r6[1] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[1] <= (r6[1] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		else if (w241)
-			r6[1] <= (r6[1] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[1] <= (r6[1] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		if (w242)
-			r6[2] <= (r6[2] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[2] <= (r6[2] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		else if (w243)
-			r6[2] <= (r6[2] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[2] <= (r6[2] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		if (w244)
-			r6[3] <= (r6[3] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[3] <= (r6[3] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		else if (w245)
-			r6[3] <= (r6[3] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[3] <= (r6[3] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		if (w246)
-			r6[4] <= (r6[4] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[4] <= (r6[4] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		else if (w247)
-			r6[4] <= (r6[4] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[4] <= (r6[4] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		if (w248)
-			r6[5] <= (r6[5] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[5] <= (r6[5] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		else if (w249)
-			r6[5] <= (r6[5] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[5] <= (r6[5] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		if (w250)
-			r6[6] <= (r6[6] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[6] <= (r6[6] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		else if (w251)
-			r6[6] <= (r6[6] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[6] <= (r6[6] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		if (w252)
-			r6[7] <= (r6[7] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[7] <= (r6[7] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		else if (w253)
-			r6[7] <= (r6[7] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[7] <= (r6[7] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		if (w254)
-			r6[8] <= (r6[8] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[8] <= (r6[8] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		else if (w255)
-			r6[8] <= (r6[8] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[8] <= (r6[8] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		if (w256)
-			r6[9] <= (r6[9] & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
+			r6[9] <= (r6[9] & ~b2_s_pulldown_comb[2]) | b2_s_pulldown_comb[3];
 		else if (w257)
-			r6[9] <= (r6[9] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
+			r6[9] <= (r6[9] & ~b2_s_pulldown_comb[0]) | b2_s_pulldown_comb[1];
 		
 		if (w843)
-			r7[0] <= (r7[0] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[0] <= (r7[0] & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 		else if (w858)
-			r7[0] <= (r7[0] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[0] <= (r7[0] & ~b3_s_pulldown_comb[2]) | b3_s_pulldown_comb[3];
 		if (w859)
-			r7[1] <= (r7[1] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[1] <= (r7[1] & ~b3_s_pulldown_comb[2]) | b3_s_pulldown_comb[3];
 		else if (w860)
-			r7[1] <= (r7[1] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[1] <= (r7[1] & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 		if (w861)
-			r7[2] <= (r7[2] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[2] <= (r7[2] & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 		else if (w862)
-			r7[2] <= (r7[2] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[2] <= (r7[2] & ~b3_s_pulldown_comb[2]) | b3_s_pulldown_comb[3];
 		if (w863)
-			r7[3] <= (r7[3] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[3] <= (r7[3] & ~b3_s_pulldown_comb[2]) | b3_s_pulldown_comb[3];
 		else if (w864)
-			r7[3] <= (r7[3] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[3] <= (r7[3] & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 		if (w865)
-			r7[4] <= (r7[4] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[4] <= (r7[4] & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 		else if (w866)
-			r7[4] <= (r7[4] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[4] <= (r7[4] & ~b3_s_pulldown_comb[2]) | b3_s_pulldown_comb[3];
 		if (w867)
-			r7[5] <= (r7[5] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[5] <= (r7[5] & ~b3_s_pulldown_comb[2]) | b3_s_pulldown_comb[3];
 		else if (w868)
-			r7[5] <= (r7[5] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[5] <= (r7[5] & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 		if (w869)
-			r7[6] <= (r7[6] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[6] <= (r7[6] & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 		else if (w870)
-			r7[6] <= (r7[6] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[6] <= (r7[6] & ~b3_s_pulldown_comb[2]) | b3_s_pulldown_comb[3];
 		if (w871)
-			r7[7] <= (r7[7] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[7] <= (r7[7] & ~b3_s_pulldown_comb[2]) | b3_s_pulldown_comb[3];
 		else if (w872)
-			r7[7] <= (r7[7] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[7] <= (r7[7] & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 		if (w873)
-			r7[8] <= (r7[8] & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r7[8] <= (r7[8] & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 		else if (w874)
-			r7[8] <= (r7[8] & ~b3_pulldown_comb[2]) | b3_pulldown_comb[3];
+			r7[8] <= (r7[8] & ~b3_s_pulldown_comb[2]) | b3_s_pulldown_comb[3];
 			
 		if (w896)
 			r8 <= ~w963;
 		else if (w895)
-			r8 <= (r8 & ~b3_pulldown_comb[0]) | b3_pulldown_comb[1];
+			r8 <= (r8 & ~b3_s_pulldown_comb[0]) | b3_s_pulldown_comb[1];
 	end
 
 	always @(posedge MCLK)
