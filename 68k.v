@@ -1665,7 +1665,7 @@ module m68kcpu
 		if (clk1)
 		begin
 			o_e <= w258;
-			w259[0] <= w260 ? 4'hf :  { w259[1][2:0], w262 };
+			w259[0] <= w260 ? 4'hf : { w259[1][2:0], w262 };
 			
 			w261[1] <= w261[0];
 			
@@ -5319,7 +5319,7 @@ module m68kcpu
 		//	w895 <= c2;
 	end
 	
-	assign w895 = (~w894) ? c2 : ((~w893) : c3 : 1'h0);
+	assign w895 = (~w894) ? c2 : ((~w893) ? c3 : 1'h0);
 	
 	assign w896 = w820 ? 1'h0 : c3;
 	assign w897 = w725 ? c2 : 1'h0;
@@ -6057,31 +6057,31 @@ module m68kcpu
 		else if (w3)
 			r1[17] <= (r1[17] & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
 		
-		if (w87)
+		if (w92)
+			r2 <= w109;
+		else if (w87)
 			r2 <= (r2 & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
 		else if (w86)
 			r2 <= (r2 & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
-		else if (w92)
-			r2 <= w109;
 		
 		if (w101)
 			r3 <= (r3 & ~b1_pulldown_comb[2]) | b1_pulldown_comb[3];
 		else if (w102)
 			r3 <= (r3 & ~b1_pulldown_comb[0]) | b1_pulldown_comb[1];
 		
-		if (w155)
+		if (w154)
+			r4 <= w147;
+		else if (w155)
 			r4 <= (r4 & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
 		else if (w156)
 			r4 <= (r4 & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
-		else if (w154)
-			r4 <= w147;
 		
-		if (w179)
+		if (w181)
+			r5 <= alu_io;
+		else if (w179)
 			r5 <= (r5 & ~b2_pulldown_comb[2]) | b2_pulldown_comb[3];
 		else if (w178)
 			r5 <= (r5 & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
-		else if (w181)
-			r5 <= alu_io;
 		
 		if (w235)
 			r6[0] <= (r6[0] & ~b2_pulldown_comb[0]) | b2_pulldown_comb[1];
