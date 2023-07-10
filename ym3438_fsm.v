@@ -31,7 +31,7 @@ module ym3438_fsm
 	
 	wire reset_low_cnt = fsm_reset | cnt_low_out[1];
 	
-	ym3438_cnt_bit #(.DATA_WIDTH(2)) cnt_low
+	ym_cnt_bit #(.DATA_WIDTH(2)) cnt_low
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -42,7 +42,7 @@ module ym3438_fsm
 		.c_out()
 		);
 	
-	ym3438_cnt_bit #(.DATA_WIDTH(3)) cnt_high
+	ym_cnt_bit #(.DATA_WIDTH(3)) cnt_high
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -85,7 +85,7 @@ module ym3438_fsm
 	
 	wire fsm_timer_ed;
 	
-	ym3438_edge_detect ed
+	ym_edge_detect ed
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -96,7 +96,7 @@ module ym3438_fsm
 	wire alg_fb_sel_sr_out;
 	wire alg_fb_sel = ~alg_fb_sel_sr_out;
 		
-	ym3438_sr_bit alg_fb_sel_sr
+	ym_sr_bit alg_fb_sel_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),

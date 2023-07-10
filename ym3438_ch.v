@@ -28,7 +28,7 @@ module ym3438_ch
 	wire [8:0] ch_accm_sr_i;
 	wire [8:0] ch_accm_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(9), .SR_LENGTH(6)) ch_accm_sr
+	ym_sr_bit_array #(.DATA_WIDTH(9), .SR_LENGTH(6)) ch_accm_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -55,7 +55,7 @@ module ym3438_ch
 	wire [8:0] ch_value_sr_o1;
 	wire [8:0] ch_value_sr_o2;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(9), .SR_LENGTH(5)) ch_value_sr1
+	ym_sr_bit_array #(.DATA_WIDTH(9), .SR_LENGTH(5)) ch_value_sr1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -64,7 +64,7 @@ module ym3438_ch
 		.data_out(ch_value_sr_o1)
 		);
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(9)) ch_value_sr2
+	ym_sr_bit_array #(.DATA_WIDTH(9)) ch_value_sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -77,7 +77,7 @@ module ym3438_ch
 	
 	wire load_ed_o;
 	
-	ym3438_edge_detect load_ed
+	ym_edge_detect load_ed
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -95,7 +95,7 @@ module ym3438_ch
 	
 	wire [8:0] ch_value_lock_o;
 
-	ym3438_slatch #(.DATA_WIDTH(9)) ch_value_lock
+	ym_slatch #(.DATA_WIDTH(9)) ch_value_lock
 		(
 		.MCLK(MCLK),
 		.en(~ch_lock),

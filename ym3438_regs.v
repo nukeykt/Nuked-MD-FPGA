@@ -52,7 +52,7 @@ module ym3438_reg_ctrl
 	
 	wire fm_addr_sr_o;
 	
-	ym3438_sr_bit fm_addr_sr
+	ym_sr_bit fm_addr_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -66,7 +66,7 @@ module ym3438_reg_ctrl
 	wire fm_data_sr_o2;
 	wire fm_data_sr_o = ~fm_data_sr_o2;
 	
-	ym3438_sr_bit fm_data_sr
+	ym_sr_bit fm_data_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -82,7 +82,7 @@ module ym3438_reg_ctrl
 	
 	assign fm_address_in = nIC ? 9'h000 : (fm_addr_write ? { bank, data } : fm_address_out); 
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(9)) fm_address
+	ym_sr_bit_array #(.DATA_WIDTH(9)) fm_address
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -96,7 +96,7 @@ module ym3438_reg_ctrl
 	
 	assign fm_data_in = nIC ? 8'h00 : (fm_data_write ? data : fm_data_out); 
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(8)) fm_data
+	ym_sr_bit_array #(.DATA_WIDTH(8)) fm_data
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -114,7 +114,7 @@ module ym3438_reg_ctrl
 	
 	wire reset_low_cnt = cnt_reset | cnt_low_out[1];
 	
-	ym3438_cnt_bit #(.DATA_WIDTH(2)) cnt_low
+	ym_cnt_bit #(.DATA_WIDTH(2)) cnt_low
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -125,7 +125,7 @@ module ym3438_reg_ctrl
 		.c_out()
 		);
 	
-	ym3438_cnt_bit #(.DATA_WIDTH(3)) cnt_high
+	ym_cnt_bit #(.DATA_WIDTH(3)) cnt_high
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -161,7 +161,7 @@ module ym3438_reg_ctrl
 	
 	wire [3:0] reg_multi_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(4), .SR_LENGTH(2)) reg_multi_sr
+	ym_sr_bit_array #(.DATA_WIDTH(4), .SR_LENGTH(2)) reg_multi_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -338,7 +338,7 @@ module ym3438_reg_ctrl
 	wire [5:0] reg_a4_in;
 	wire [5:0] reg_a4_out;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(6)) reg_a4
+	ym_sr_bit_array #(.DATA_WIDTH(6)) reg_a4
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -352,7 +352,7 @@ module ym3438_reg_ctrl
 	wire [5:0] reg_ac_in;
 	wire [5:0] reg_ac_out;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(6)) reg_ac
+	ym_sr_bit_array #(.DATA_WIDTH(6)) reg_ac
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -490,7 +490,7 @@ module ym3438_reg_ctrl
 	
 	wire load_ed_o;
 	
-	ym3438_edge_detect load_ed
+	ym_edge_detect load_ed
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -498,7 +498,7 @@ module ym3438_reg_ctrl
 		.outp(load_ed_o)
 		);
 
-	ym3438_slatch #(.DATA_WIDTH(2)) pan_lock
+	ym_slatch #(.DATA_WIDTH(2)) pan_lock
 		(
 		.MCLK(MCLK),
 		.en(load_ed_o),
@@ -665,7 +665,7 @@ module ym3438_reg_ctrl
 	
 	wire [1:0] reg_27_timer_reset_o;
 
-	ym3438_sr_bit_array #(.DATA_WIDTH(2)) reg_27_timer_reset
+	ym_sr_bit_array #(.DATA_WIDTH(2)) reg_27_timer_reset
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -755,7 +755,7 @@ module ym3438_reg_ctrl
 	wire reg_dac_msb_in;
 	wire reg_dac_msb_out;
 
-	ym3438_sr_bit reg_dac_msb
+	ym_sr_bit reg_dac_msb
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -820,7 +820,7 @@ module ym3438_reg_ctrl
 	wire kon_sr1_in;
 	wire kon_sr1_out;
 	
-	ym3438_sr_bit #(.SR_LENGTH(6)) kon_sr1
+	ym_sr_bit #(.SR_LENGTH(6)) kon_sr1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -832,7 +832,7 @@ module ym3438_reg_ctrl
 	wire kon_sr2_in;
 	wire kon_sr2_out;
 	
-	ym3438_sr_bit #(.SR_LENGTH(6)) kon_sr2
+	ym_sr_bit #(.SR_LENGTH(6)) kon_sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -844,7 +844,7 @@ module ym3438_reg_ctrl
 	wire kon_sr3_in;
 	wire kon_sr3_out;
 	
-	ym3438_sr_bit #(.SR_LENGTH(6)) kon_sr3
+	ym_sr_bit #(.SR_LENGTH(6)) kon_sr3
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -856,7 +856,7 @@ module ym3438_reg_ctrl
 	wire kon_sr4_in;
 	wire kon_sr4_out;
 	
-	ym3438_sr_bit #(.SR_LENGTH(6)) kon_sr4
+	ym_sr_bit #(.SR_LENGTH(6)) kon_sr4
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -889,7 +889,7 @@ module ym3438_reg_ctrl
 	wire timer_a_load_cnt_i;
 	
 	
-	ym3438_cnt_bit_load #(.DATA_WIDTH(10)) timer_a_cnt
+	ym_cnt_bit_load #(.DATA_WIDTH(10)) timer_a_cnt
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -904,7 +904,7 @@ module ym3438_reg_ctrl
 	
 	assign timer_a_inc = (timer_a_load & fsm_sel_1) | timer_test;
 	
-	ym3438_slatch timer_a_load_l
+	ym_slatch timer_a_load_l
 		(
 		.MCLK(MCLK),
 		.en(timer_ed),
@@ -913,7 +913,7 @@ module ym3438_reg_ctrl
 		.nval()
 		);
 	
-	ym3438_sr_bit timer_a_load_sr
+	ym_sr_bit timer_a_load_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -922,7 +922,7 @@ module ym3438_reg_ctrl
 		.sr_out(timer_a_load_sr_o)
 		);
 	
-	ym3438_sr_bit timer_a_of_sr
+	ym_sr_bit timer_a_of_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -933,7 +933,7 @@ module ym3438_reg_ctrl
 		
 	assign timer_a_load_cnt_i = (~timer_a_load_sr_o & timer_a_load) | timer_a_of_sr_o;
 	
-	ym3438_sr_bit timer_a_load_cnt_sr
+	ym_sr_bit timer_a_load_cnt_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -950,7 +950,7 @@ module ym3438_reg_ctrl
 	wire timer_a_status_sr_o = ~timer_a_status_sr_o2;
 	assign timer_a_status = ~timer_a_status_sr_o;
 	
-	ym3438_sr_bit timer_a_status_sr
+	ym_sr_bit timer_a_status_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -970,7 +970,7 @@ module ym3438_reg_ctrl
 	wire timer_b_load_cnt_i;
 	wire timer_b_subcnt_of_sr_o;
 	
-	ym3438_cnt_bit #(.DATA_WIDTH(4)) timer_b_subcnt
+	ym_cnt_bit #(.DATA_WIDTH(4)) timer_b_subcnt
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -981,7 +981,7 @@ module ym3438_reg_ctrl
 		.c_out(timer_b_sub_cout)
 		);
 	
-	ym3438_sr_bit timer_b_subcnt_of_sr
+	ym_sr_bit timer_b_subcnt_of_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -991,7 +991,7 @@ module ym3438_reg_ctrl
 		);
 	
 	
-	ym3438_cnt_bit_load #(.DATA_WIDTH(8)) timer_b_cnt
+	ym_cnt_bit_load #(.DATA_WIDTH(8)) timer_b_cnt
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1006,7 +1006,7 @@ module ym3438_reg_ctrl
 	
 	assign timer_b_inc = (timer_b_load & timer_b_subcnt_of_sr_o) | timer_test;
 	
-	ym3438_slatch timer_b_load_l
+	ym_slatch timer_b_load_l
 		(
 		.MCLK(MCLK),
 		.en(timer_ed),
@@ -1015,7 +1015,7 @@ module ym3438_reg_ctrl
 		.nval()
 		);
 	
-	ym3438_sr_bit timer_b_load_sr
+	ym_sr_bit timer_b_load_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1024,7 +1024,7 @@ module ym3438_reg_ctrl
 		.sr_out(timer_b_load_sr_o)
 		);
 	
-	ym3438_sr_bit timer_b_of_sr
+	ym_sr_bit timer_b_of_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1035,7 +1035,7 @@ module ym3438_reg_ctrl
 		
 	assign timer_b_load_cnt_i = (~timer_b_load_sr_o & timer_b_load) | timer_b_of_sr_o;
 	
-	ym3438_sr_bit timer_b_load_cnt_sr
+	ym_sr_bit timer_b_load_cnt_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1052,7 +1052,7 @@ module ym3438_reg_ctrl
 	wire timer_b_status_sr_o = ~timer_b_status_sr_o2;
 	assign timer_b_status = ~timer_b_status_sr_o;
 	
-	ym3438_sr_bit timer_b_status_sr
+	ym_sr_bit timer_b_status_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1063,7 +1063,7 @@ module ym3438_reg_ctrl
 	
 	wire kon_csm_o;
 	
-	ym3438_slatch kon_csm_l
+	ym_slatch kon_csm_l
 		(
 		.MCLK(MCLK),
 		.en(timer_ed),
@@ -1076,7 +1076,7 @@ module ym3438_reg_ctrl
 	
 	wire [10:0] fnum_mux;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(11)) fnum_sr
+	ym_sr_bit_array #(.DATA_WIDTH(11)) fnum_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1134,7 +1134,7 @@ module ym3438_op_register #(parameter DATA_WIDTH = 1)
 	
 	wire [DATA_WIDTH-1:0] sr1_in;
 	wire [DATA_WIDTH-1:0] sr1_out;
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH), .SR_LENGTH(12)) sr1
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH), .SR_LENGTH(12)) sr1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1145,7 +1145,7 @@ module ym3438_op_register #(parameter DATA_WIDTH = 1)
 		
 	wire [DATA_WIDTH-1:0] sr2_in;
 	wire [DATA_WIDTH-1:0] sr2_out;
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH), .SR_LENGTH(12)) sr2
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH), .SR_LENGTH(12)) sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1182,7 +1182,7 @@ module ym3438_ch_register #(parameter DATA_WIDTH = 1)
 	
 	wire [DATA_WIDTH-1:0] sr_in[0:5];
 	wire [DATA_WIDTH-1:0] sr_out[0:5];
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_0
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_0
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1190,7 +1190,7 @@ module ym3438_ch_register #(parameter DATA_WIDTH = 1)
 		.data_in(sr_in[0]),
 		.data_out(sr_out[0])
 		);
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_1
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1198,7 +1198,7 @@ module ym3438_ch_register #(parameter DATA_WIDTH = 1)
 		.data_in(sr_in[1]),
 		.data_out(sr_out[1])
 		);
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_2
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1206,7 +1206,7 @@ module ym3438_ch_register #(parameter DATA_WIDTH = 1)
 		.data_in(sr_in[2]),
 		.data_out(sr_out[2])
 		);
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_3
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_3
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1214,7 +1214,7 @@ module ym3438_ch_register #(parameter DATA_WIDTH = 1)
 		.data_in(sr_in[3]),
 		.data_out(sr_out[3])
 		);
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_4
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) sr_4
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1222,7 +1222,7 @@ module ym3438_ch_register #(parameter DATA_WIDTH = 1)
 		.data_in(sr_in[4]),
 		.data_out(sr_out[4])
 		);
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) s_5
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) s_5
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1264,7 +1264,7 @@ module ym3438_reg_wr_ctrl #(parameter REG_ADDRESS = 0)
 	wire reg_addr_o = ~reg_addr_o2;
 	wire reg_addr_sel = ~bank & data == REG_ADDRESS & write_addr_en;
 
-	ym3438_sr_bit reg_addr_sr
+	ym_sr_bit reg_addr_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -1293,7 +1293,7 @@ module ym3438_reg_data #(parameter DATA_WIDTH = 1)
 	wire [DATA_WIDTH-1:0] reg_sr_in;
 	wire [DATA_WIDTH-1:0] reg_sr_out;
 
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) reg_sr
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) reg_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),

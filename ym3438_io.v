@@ -38,7 +38,7 @@ module ym3438_io
 	
 	wire write_a_sig;
 	
-	ym3438_rs_trig write_a_tr1
+	ym_rs_trig write_a_tr1
 		(
 		.MCLK(MCLK),
 		.set(write_addr),
@@ -49,7 +49,7 @@ module ym3438_io
 	
 	wire write_a_tr2_q;
 	
-	ym3438_rs_trig_sync write_a_tr2
+	ym_rs_trig_sync write_a_tr2
 		(
 		.MCLK(MCLK),
 		.set(write_a_tr1_q),
@@ -59,7 +59,7 @@ module ym3438_io
 		.nq()
 		);
 	
-	ym3438_slatch write_a_sl
+	ym_slatch write_a_sl
 		(
 		.MCLK(MCLK),
 		.en(c2),
@@ -70,7 +70,7 @@ module ym3438_io
 	
 	wire write_a_sig_delay;
 	
-	ym3438_sr_bit write_a_sr
+	ym_sr_bit write_a_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -85,7 +85,7 @@ module ym3438_io
 	
 	wire write_d_sig;
 	
-	ym3438_rs_trig write_d_tr1
+	ym_rs_trig write_d_tr1
 		(
 		.MCLK(MCLK),
 		.set(write_data),
@@ -96,7 +96,7 @@ module ym3438_io
 	
 	wire write_d_tr2_q;
 	
-	ym3438_rs_trig_sync write_d_tr2
+	ym_rs_trig_sync write_d_tr2
 		(
 		.MCLK(MCLK),
 		.set(write_d_tr1_q),
@@ -106,7 +106,7 @@ module ym3438_io
 		.nq()
 		);
 	
-	ym3438_slatch write_d_sl
+	ym_slatch write_d_sl
 		(
 		.MCLK(MCLK),
 		.en(c2),
@@ -117,7 +117,7 @@ module ym3438_io
 		
 	wire write_d_sig_delay;
 	
-	ym3438_sr_bit write_d_sr
+	ym_sr_bit write_d_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -132,7 +132,7 @@ module ym3438_io
 	wire [8:0] data_in = { address[1], data };
 	wire data_l_en = ~WR & ~CS;
 	
-	ym3438_slatch data_l[0:8]
+	ym_slatch data_l[0:8]
 		(
 		.MCLK(MCLK),
 		.en(data_l_en),
@@ -145,7 +145,7 @@ module ym3438_io
 	
 	wire busy_state_o;
 	
-	ym3438_cnt_bit #(.DATA_WIDTH(5)) busy_cnt
+	ym_cnt_bit #(.DATA_WIDTH(5)) busy_cnt
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -158,7 +158,7 @@ module ym3438_io
 	
 	wire busy_state_i = ~(write_data_en | (~busy_state_o & ~(busy_of | ~io_IC)));
 	
-	ym3438_sr_bit busy_sr
+	ym_sr_bit busy_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -178,7 +178,7 @@ module ym3438_io
 	
 	wire timer_a_status_sl_out;
 	
-	ym3438_slatch timer_a_status_sl
+	ym_slatch timer_a_status_sl
 		(
 		.MCLK(MCLK),
 		.en(~read_en),
@@ -189,7 +189,7 @@ module ym3438_io
 	
 	wire timer_b_status_sl_out;
 	
-	ym3438_slatch timer_b_status_sl
+	ym_slatch timer_b_status_sl
 		(
 		.MCLK(MCLK),
 		.en(~read_en),
@@ -222,7 +222,7 @@ module ym3438_io
 	
 	wire [8:0] ch_dbg_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(9)) ch_dbg_sr
+	ym_sr_bit_array #(.DATA_WIDTH(9)) ch_dbg_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),

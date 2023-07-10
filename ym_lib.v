@@ -1,4 +1,4 @@
-module ym3438_sr_bit #(parameter SR_LENGTH = 1)
+module ym_sr_bit #(parameter SR_LENGTH = 1)
 	(
 	input MCLK,
 	input c1,
@@ -28,7 +28,7 @@ module ym3438_sr_bit #(parameter SR_LENGTH = 1)
 
 endmodule
 
-module ym3438_sr_bit_array #(parameter SR_LENGTH = 1, DATA_WIDTH = 16)
+module ym_sr_bit_array #(parameter SR_LENGTH = 1, DATA_WIDTH = 16)
 	(
 	input MCLK,
 	input c1,
@@ -43,7 +43,7 @@ module ym3438_sr_bit_array #(parameter SR_LENGTH = 1, DATA_WIDTH = 16)
 		genvar i;
 		for (i = 0; i < DATA_WIDTH; i = i + 1)
 		begin : l1
-			ym3438_sr_bit #(.SR_LENGTH(SR_LENGTH)) sr (
+			ym_sr_bit #(.SR_LENGTH(SR_LENGTH)) sr (
 			.MCLK(MCLK),
 			.c1(c1),
 			.c2(c2),
@@ -57,7 +57,7 @@ module ym3438_sr_bit_array #(parameter SR_LENGTH = 1, DATA_WIDTH = 16)
 
 endmodule
 
-module ym3438_cnt_bit #(parameter DATA_WIDTH = 1)
+module ym_cnt_bit #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input c1,
@@ -72,7 +72,7 @@ module ym3438_cnt_bit #(parameter DATA_WIDTH = 1)
 	wire [DATA_WIDTH-1:0] data_out;
 	wire [DATA_WIDTH:0] sum;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) mem
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) mem
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -88,7 +88,7 @@ module ym3438_cnt_bit #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym3438_dlatch_1 #(parameter DATA_WIDTH = 1)
+module ym_dlatch_1 #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input c1,
@@ -110,7 +110,7 @@ module ym3438_dlatch_1 #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym3438_dlatch_2 #(parameter DATA_WIDTH = 1)
+module ym_dlatch_2 #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input c2,
@@ -132,7 +132,7 @@ module ym3438_dlatch_2 #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym3438_edge_detect
+module ym_edge_detect
 	(
 	input MCLK,
 	input c1,
@@ -142,7 +142,7 @@ module ym3438_edge_detect
 	
 	wire prev_out;
 	
-	ym3438_dlatch_1 prev
+	ym_dlatch_1 prev
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -153,7 +153,7 @@ module ym3438_edge_detect
 	assign outp = ~(prev_out | ~inp);
 endmodule
 
-module ym3438_slatch #(parameter DATA_WIDTH = 1)
+module ym_slatch #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input en,
@@ -175,7 +175,7 @@ module ym3438_slatch #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym3438_rs_trig
+module ym_rs_trig
 	(
 	input MCLK,
 	input set,
@@ -198,7 +198,7 @@ module ym3438_rs_trig
 	
 endmodule
 
-module ym3438_rs_trig_sync
+module ym_rs_trig_sync
 	(
 	input MCLK,
 	input set,
@@ -225,7 +225,7 @@ module ym3438_rs_trig_sync
 	
 endmodule
 
-module ym3438_cnt_bit_load #(parameter DATA_WIDTH = 1)
+module ym_cnt_bit_load #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input c1,
@@ -242,7 +242,7 @@ module ym3438_cnt_bit_load #(parameter DATA_WIDTH = 1)
 	wire [DATA_WIDTH-1:0] data_out;
 	wire [DATA_WIDTH:0] sum;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) mem
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) mem
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -260,7 +260,7 @@ module ym3438_cnt_bit_load #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym3438_dbg_read #(parameter DATA_WIDTH = 1)
+module ym_dbg_read #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input c1,
@@ -274,7 +274,7 @@ module ym3438_dbg_read #(parameter DATA_WIDTH = 1)
 	wire [DATA_WIDTH-1:0] data_in;
 	wire [DATA_WIDTH-1:0] data_out;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) mem
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) mem
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -298,7 +298,7 @@ module ym3438_dbg_read #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym3438_dbg_read_eg #(parameter DATA_WIDTH = 1)
+module ym_dbg_read_eg #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input c1,
@@ -312,7 +312,7 @@ module ym3438_dbg_read_eg #(parameter DATA_WIDTH = 1)
 	wire [DATA_WIDTH-1:0] data_in;
 	wire [DATA_WIDTH-1:0] data_out;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) mem
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) mem
 		(
 		.MCLK(MCLK),
 		.c1(c1),

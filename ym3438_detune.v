@@ -12,7 +12,7 @@ module ym3438_detune
 	
 	wire [2:0] dt_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(3)) dt_sr
+	ym_sr_bit_array #(.DATA_WIDTH(3)) dt_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -23,7 +23,7 @@ module ym3438_detune
 	
 	assign dt_sign_1 = dt_sr_o[2];
 	
-	ym3438_sr_bit dt_sr2
+	ym_sr_bit dt_sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),

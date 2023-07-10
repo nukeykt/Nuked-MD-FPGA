@@ -24,7 +24,7 @@ module ym3438_op
 	
 	wire [9:0] phase_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(10)) phase_sr
+	ym_sr_bit_array #(.DATA_WIDTH(10)) phase_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -116,7 +116,7 @@ module ym3438_op
 	
 	wire [18:0] sin_lut_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(19)) sin_lut_sr
+	ym_sr_bit_array #(.DATA_WIDTH(19)) sin_lut_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -127,7 +127,7 @@ module ym3438_op
 	
 	wire sin_index_0_sr_o;
 	
-	ym3438_sr_bit sin_index_0_sr
+	ym_sr_bit sin_index_0_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -144,7 +144,7 @@ module ym3438_op
 	
 	wire sign_sr_o;
 	
-	ym3438_sr_bit #(.SR_LENGTH(3)) sign_sr
+	ym_sr_bit #(.SR_LENGTH(3)) sign_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -155,7 +155,7 @@ module ym3438_op
 	
 	wire [9:0] eg_att_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(10)) eg_att_sr
+	ym_sr_bit_array #(.DATA_WIDTH(10)) eg_att_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -169,7 +169,7 @@ module ym3438_op
 	
 	wire [12:0] att_sum_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(13)) att_sum_sr
+	ym_sr_bit_array #(.DATA_WIDTH(13)) att_sum_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -260,7 +260,7 @@ module ym3438_op
 	
 	wire [12:0] pow_lut_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(13)) pow_lut_sr
+	ym_sr_bit_array #(.DATA_WIDTH(13)) pow_lut_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -271,7 +271,7 @@ module ym3438_op
 	
 	wire pow_index_0_sr_o;
 	
-	ym3438_sr_bit pow_index_0_sr
+	ym_sr_bit pow_index_0_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -287,7 +287,7 @@ module ym3438_op
 	
 	wire [3:0] pow_shift_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(4)) pow_shift_sr
+	ym_sr_bit_array #(.DATA_WIDTH(4)) pow_shift_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -328,7 +328,7 @@ module ym3438_op
 	
 	assign op_output = op_value_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(14)) op_value_sr
+	ym_sr_bit_array #(.DATA_WIDTH(14)) op_value_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -340,7 +340,7 @@ module ym3438_op
 	wire [13:0] op_op1_1_sr_i;
 	wire [13:0] op_op1_1_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(14), .SR_LENGTH(6)) op_op1_1_sr
+	ym_sr_bit_array #(.DATA_WIDTH(14), .SR_LENGTH(6)) op_op1_1_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -354,7 +354,7 @@ module ym3438_op
 	wire [13:0] op_op1_2_sr_i;
 	wire [13:0] op_op1_2_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(14), .SR_LENGTH(6)) op_op1_2_sr
+	ym_sr_bit_array #(.DATA_WIDTH(14), .SR_LENGTH(6)) op_op1_2_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -368,7 +368,7 @@ module ym3438_op
 	wire [13:0] op_op2_sr_i;
 	wire [13:0] op_op2_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(14), .SR_LENGTH(6)) op_op2_sr
+	ym_sr_bit_array #(.DATA_WIDTH(14), .SR_LENGTH(6)) op_op2_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -394,7 +394,7 @@ module ym3438_op
 	
 	wire [13:0] op_sum_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(14)) op_sum_sr
+	ym_sr_bit_array #(.DATA_WIDTH(14)) op_sum_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -426,7 +426,7 @@ module ym3438_op
 		| ({10{fb_sel[6]}} & op_sum_sr_o[12:3])
 		| ({10{fb_sel[7]}} & op_sum_sr_o[11:2]);
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(10), .SR_LENGTH(6)) op_fm_sr
+	ym_sr_bit_array #(.DATA_WIDTH(10), .SR_LENGTH(6)) op_fm_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),

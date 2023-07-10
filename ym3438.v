@@ -257,7 +257,7 @@ module ym3438(
 	wire [4:0] kcode_sr1_o;
 	wire [4:0] kcode_sr2_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(5)) kcode_sr1
+	ym_sr_bit_array #(.DATA_WIDTH(5)) kcode_sr1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -266,7 +266,7 @@ module ym3438(
 		.data_out(kcode_sr1_o)
 		);
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(5)) kcode_sr2
+	ym_sr_bit_array #(.DATA_WIDTH(5)) kcode_sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),

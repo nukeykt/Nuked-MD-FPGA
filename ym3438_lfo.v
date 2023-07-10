@@ -16,7 +16,7 @@ module ym3438_lfo
 	wire [6:0] lfo_subcnt_sr_in;
 	wire [6:0] lfo_subcnt_sr_out;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(7)) lfo_subcnt_sr
+	ym_sr_bit_array #(.DATA_WIDTH(7)) lfo_subcnt_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -66,7 +66,7 @@ module ym3438_lfo
 	wire [6:0] lfo_cnt_sr_in;
 	wire [6:0] lfo_cnt_sr_out;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(7)) lfo_cnt_sr
+	ym_sr_bit_array #(.DATA_WIDTH(7)) lfo_cnt_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -81,7 +81,7 @@ module ym3438_lfo
 	
 	wire fsm_sel0;
 	
-	ym3438_sr_bit fsm_sel0_sr
+	ym_sr_bit fsm_sel0_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -92,7 +92,7 @@ module ym3438_lfo
 	
 	wire lfo_cnt_load;
 	
-	ym3438_edge_detect lfo_ed
+	ym_edge_detect lfo_ed
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -102,7 +102,7 @@ module ym3438_lfo
 	
 	wire [6:0] lfo_cnt_lock;
 	
-	ym3438_slatch #(.DATA_WIDTH(7)) lfo_cnt_l
+	ym_slatch #(.DATA_WIDTH(7)) lfo_cnt_l
 		(
 		.MCLK(MCLK),
 		.en(lfo_cnt_load),
@@ -115,7 +115,7 @@ module ym3438_lfo
 	
 	wire lfo_pm_sign_l_o;
 	
-	ym3438_dlatch_1 lfo_pm_sign_l
+	ym_dlatch_1 lfo_pm_sign_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -165,7 +165,7 @@ module ym3438_lfo
 	wire lfo_pms_6_l_o;
 	wire lfo_pms_7_l_o;
 	
-	ym3438_dlatch_1 lfo_pms_5_l
+	ym_dlatch_1 lfo_pms_5_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -174,7 +174,7 @@ module ym3438_lfo
 		.nval(lfo_pms_5_l_o)
 		);
 	
-	ym3438_dlatch_1 lfo_pms_6_l
+	ym_dlatch_1 lfo_pms_6_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -183,7 +183,7 @@ module ym3438_lfo
 		.nval(lfo_pms_6_l_o)
 		);
 	
-	ym3438_dlatch_1 lfo_pms_7_l
+	ym_dlatch_1 lfo_pms_7_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -199,7 +199,7 @@ module ym3438_lfo
 	wire [6:0] lfo_pm_add_1_o;
 	wire [6:0] lfo_pm_add_2_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(7)) lfo_pm_add_1_l
+	ym_dlatch_1 #(.DATA_WIDTH(7)) lfo_pm_add_1_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -208,7 +208,7 @@ module ym3438_lfo
 		.nval(lfo_pm_add_1_o)
 		);
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(7)) lfo_pm_add_2_l
+	ym_dlatch_1 #(.DATA_WIDTH(7)) lfo_pm_add_2_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -228,7 +228,7 @@ module ym3438_lfo
 	
 	wire [7:0] lfo_pm_sum_o;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(8)) lfo_pm_sum_l
+	ym_dlatch_2 #(.DATA_WIDTH(8)) lfo_pm_sum_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -239,7 +239,7 @@ module ym3438_lfo
 	
 	wire lfo_pm_sign_l2_o;
 	
-	ym3438_dlatch_2 lfo_pm_sign_l2
+	ym_dlatch_2 lfo_pm_sign_l2
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -250,7 +250,7 @@ module ym3438_lfo
 	
 	wire lfo_pm_sign_l3_o;
 	
-	ym3438_dlatch_2 lfo_pm_sign_l3
+	ym_dlatch_2 lfo_pm_sign_l3
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -261,7 +261,7 @@ module ym3438_lfo
 	
 	wire [10:0] fnum_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(11)) fnum_sr
+	ym_sr_bit_array #(.DATA_WIDTH(11)) fnum_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -272,7 +272,7 @@ module ym3438_lfo
 	
 	wire [11:0] fnum_lfo_add = {fnum_sr_o, 1'h0} + { {4 {lfo_pm_sign_l2_o}}, lfo_pm_sum_o} + lfo_pm_sign_l3_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(12)) fnum_lfo_l
+	ym_dlatch_1 #(.DATA_WIDTH(12)) fnum_lfo_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),

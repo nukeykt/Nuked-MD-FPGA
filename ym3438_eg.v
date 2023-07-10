@@ -38,7 +38,7 @@ module ym3438_eg
 	
 	wire fsm_sel1;
 	
-	ym3438_sr_bit fsm_sel1_sr
+	ym_sr_bit fsm_sel1_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -49,7 +49,7 @@ module ym3438_eg
 	
 	wire fsm_sel12;
 	
-	ym3438_sr_bit #(.SR_LENGTH(12)) fsm_sel12_sr
+	ym_sr_bit #(.SR_LENGTH(12)) fsm_sel12_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -61,7 +61,7 @@ module ym3438_eg
 	wire subcnt_rst;
 	wire [1:0] subcnt_o;
 	
-	ym3438_cnt_bit #(.DATA_WIDTH(2)) subcnt
+	ym_cnt_bit #(.DATA_WIDTH(2)) subcnt
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -76,7 +76,7 @@ module ym3438_eg
 	
 	wire subcnt_of_l_o;
 	
-	ym3438_dlatch_1 subcnt_of_l
+	ym_dlatch_1 subcnt_of_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -87,7 +87,7 @@ module ym3438_eg
 	
 	wire subcnt_of_sr_o;
 	
-	ym3438_sr_bit subcnt_of_sr
+	ym_sr_bit subcnt_of_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -102,7 +102,7 @@ module ym3438_eg
 	
 	wire mask_bit = ~(fsm_sel0 | fsm_sel12 | nIC) & (mask_bit_sr_o | timer_bit);
 	
-	ym3438_sr_bit mask_bit_sr
+	ym_sr_bit mask_bit_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -115,7 +115,7 @@ module ym3438_eg
 	wire eg_timer_o1;
 	wire eg_timer_o2;
 	
-	ym3438_sr_bit #(.SR_LENGTH(11)) eg_timer_sr
+	ym_sr_bit #(.SR_LENGTH(11)) eg_timer_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -124,7 +124,7 @@ module ym3438_eg
 		.sr_out(eg_timer_o1)
 		);
 	
-	ym3438_sr_bit eg_timer_sr2
+	ym_sr_bit eg_timer_sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -136,7 +136,7 @@ module ym3438_eg
 	wire carry_sr_i;
 	wire carry_sr_o;
 	
-	ym3438_sr_bit carry_sr
+	ym_sr_bit carry_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -172,7 +172,7 @@ module ym3438_eg
 			else
 				assign timer_shift_i[i] = timer_shift_sel[i+1];
 	
-			ym3438_sr_bit timer_shift_sr
+			ym_sr_bit timer_shift_sr
 				(
 				.MCLK(MCLK),
 				.c1(c1),
@@ -185,7 +185,7 @@ module ym3438_eg
 	
 	wire eg_cnt_ed_o;
 	
-	ym3438_edge_detect eg_cnt_ed
+	ym_edge_detect eg_cnt_ed
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -195,7 +195,7 @@ module ym3438_eg
 	
 	wire [1:0] eg_cnt_low_o;
 		
-	ym3438_slatch #(.DATA_WIDTH(2)) eg_cnt_low
+	ym_slatch #(.DATA_WIDTH(2)) eg_cnt_low
 		(
 		.MCLK(MCLK),
 		.en(eg_cnt_ed_o),
@@ -217,7 +217,7 @@ module ym3438_eg
 	
 	wire [3:0] eg_cnt_shift_o;
 		
-	ym3438_slatch #(.DATA_WIDTH(4)) eg_cnt_shift
+	ym_slatch #(.DATA_WIDTH(4)) eg_cnt_shift
 		(
 		.MCLK(MCLK),
 		.en(eg_cnt_ed_o),
@@ -228,7 +228,7 @@ module ym3438_eg
 	
 	wire rate_nz_sr_o;
 	
-	ym3438_sr_bit rate_nz_sr
+	ym_sr_bit rate_nz_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -239,7 +239,7 @@ module ym3438_eg
 	
 	wire [4:0] rate_l_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(5)) rate_l
+	ym_dlatch_1 #(.DATA_WIDTH(5)) rate_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -258,7 +258,7 @@ module ym3438_eg
 	
 	wire [4:0] rate_ks_add_l_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(5)) rate_ks_add_l
+	ym_dlatch_1 #(.DATA_WIDTH(5)) rate_ks_add_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -271,7 +271,7 @@ module ym3438_eg
 	
 	wire [6:0] rate_sum_l_o;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(7)) rate_sum_l
+	ym_dlatch_2 #(.DATA_WIDTH(7)) rate_sum_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -295,7 +295,7 @@ module ym3438_eg
 	
 	wire step_low_l_o;
 	
-	ym3438_dlatch_1 step_low_l
+	ym_dlatch_1 step_low_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -312,7 +312,7 @@ module ym3438_eg
 	
 	wire rate_not_max_sr_o;
 	
-	ym3438_sr_bit rate_not_max_sr
+	ym_sr_bit rate_not_max_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -326,7 +326,7 @@ module ym3438_eg
 	wire rate_14_l_o;
 	wire rate_15_l_o;
 	
-	ym3438_dlatch_1 rate_12_l
+	ym_dlatch_1 rate_12_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -335,7 +335,7 @@ module ym3438_eg
 		.nval(rate_12_l_o)
 		);
 	
-	ym3438_dlatch_1 rate_13_l
+	ym_dlatch_1 rate_13_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -344,7 +344,7 @@ module ym3438_eg
 		.nval(rate_13_l_o)
 		);
 	
-	ym3438_dlatch_1 rate_14_l
+	ym_dlatch_1 rate_14_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -353,7 +353,7 @@ module ym3438_eg
 		.nval(rate_14_l_o)
 		);
 	
-	ym3438_dlatch_1 rate_15_l
+	ym_dlatch_1 rate_15_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -370,7 +370,7 @@ module ym3438_eg
 	
 	wire rate_hi_sel_l_o;
 	
-	ym3438_dlatch_1 rate_hi_sel_l
+	ym_dlatch_1 rate_hi_sel_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -389,7 +389,7 @@ module ym3438_eg
 	wire inc3_l_o;
 	wire inc4_l_o;
 	
-	ym3438_dlatch_2 inc1_l
+	ym_dlatch_2 inc1_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -398,7 +398,7 @@ module ym3438_eg
 		.nval()
 		);
 	
-	ym3438_dlatch_2 inc2_l
+	ym_dlatch_2 inc2_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -407,7 +407,7 @@ module ym3438_eg
 		.nval()
 		);
 	
-	ym3438_dlatch_2 inc3_l
+	ym_dlatch_2 inc3_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -416,7 +416,7 @@ module ym3438_eg
 		.nval()
 		);
 	
-	ym3438_dlatch_2 inc4_l
+	ym_dlatch_2 inc4_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -427,7 +427,7 @@ module ym3438_eg
 	
 	wire inc_test_i = inc1_l_o | inc2_l_o | inc3_l_o | inc4_l_o;
 	
-	ym3438_sr_bit inc_test_sr
+	ym_sr_bit inc_test_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -438,7 +438,7 @@ module ym3438_eg
 	
 	wire [4:0] sl_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(5), .SR_LENGTH(2)) sl_sr
+	ym_sr_bit_array #(.DATA_WIDTH(5), .SR_LENGTH(2)) sl_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -451,7 +451,7 @@ module ym3438_eg
 	wire ssg_pg_reset;
 	wire ssg_pg_reset_o;
 	
-	ym3438_sr_bit #(.SR_LENGTH(2)) ssg_pg_reset_sr
+	ym_sr_bit #(.SR_LENGTH(2)) ssg_pg_reset_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -463,7 +463,7 @@ module ym3438_eg
 	wire ssg_toggle;
 	wire ssg_toggle_o;
 	
-	ym3438_sr_bit #(.SR_LENGTH(2)) ssg_toggle_sr
+	ym_sr_bit #(.SR_LENGTH(2)) ssg_toggle_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -474,7 +474,7 @@ module ym3438_eg
 		
 	wire ssg_enable_o;
 	
-	ym3438_sr_bit #(.SR_LENGTH(2)) ssg_enable_sr
+	ym_sr_bit #(.SR_LENGTH(2)) ssg_enable_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -486,7 +486,7 @@ module ym3438_eg
 	wire ssg_holdup_i = ~(ssg_holdup & ssg_enable & kon);
 	wire ssg_holdup_o;
 	
-	ym3438_sr_bit #(.SR_LENGTH(2)) ssg_holdup_sr
+	ym_sr_bit #(.SR_LENGTH(2)) ssg_holdup_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -498,7 +498,7 @@ module ym3438_eg
 	wire ssg_inv_i;
 	wire ssg_inv_o;
 	
-	ym3438_sr_bit #(.SR_LENGTH(24)) ssg_inv_sr
+	ym_sr_bit #(.SR_LENGTH(24)) ssg_inv_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -508,7 +508,7 @@ module ym3438_eg
 		);
 	
 	wire csm_kon_o;
-	ym3438_sr_bit #(.SR_LENGTH(2)) csm_kon_sr
+	ym_sr_bit #(.SR_LENGTH(2)) csm_kon_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -519,7 +519,7 @@ module ym3438_eg
 	
 	wire [6:0] tl_o;
 	wire [6:0] tl_o1;
-	ym3438_sr_bit_array #(.DATA_WIDTH(7)) tl_sr_1
+	ym_sr_bit_array #(.DATA_WIDTH(7)) tl_sr_1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -528,7 +528,7 @@ module ym3438_eg
 		.data_out(tl_o)
 		);
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(7)) tl_sr_2
+	ym_sr_bit_array #(.DATA_WIDTH(7)) tl_sr_2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -538,7 +538,7 @@ module ym3438_eg
 		);
 	
 	wire pg_reset_i;
-	ym3438_sr_bit #(.SR_LENGTH(2)) pg_reset_sr
+	ym_sr_bit #(.SR_LENGTH(2)) pg_reset_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -549,7 +549,7 @@ module ym3438_eg
 		
 	wire kon_sr_o;
 	
-	ym3438_sr_bit #(.SR_LENGTH(2)) kon_sr
+	ym_sr_bit #(.SR_LENGTH(2)) kon_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -561,7 +561,7 @@ module ym3438_eg
 	wire okon_sr1_o;
 	wire okon_sr_o;
 	
-	ym3438_sr_bit #(.SR_LENGTH(22)) okon_sr1
+	ym_sr_bit #(.SR_LENGTH(22)) okon_sr1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -570,7 +570,7 @@ module ym3438_eg
 		.sr_out(okon_sr1_o)
 		);
 	
-	ym3438_sr_bit #(.SR_LENGTH(2)) okon_sr2
+	ym_sr_bit #(.SR_LENGTH(2)) okon_sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -583,7 +583,7 @@ module ym3438_eg
 	wire [1:0] state_sr1_o;
 	wire [1:0] state_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(2), .SR_LENGTH(22)) state_sr1
+	ym_sr_bit_array #(.DATA_WIDTH(2), .SR_LENGTH(22)) state_sr1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -592,7 +592,7 @@ module ym3438_eg
 		.data_out(state_sr1_o)
 		);
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(2), .SR_LENGTH(2)) state_sr2
+	ym_sr_bit_array #(.DATA_WIDTH(2), .SR_LENGTH(2)) state_sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -647,7 +647,7 @@ module ym3438_eg
 		| eg_mute
 		| set_release_koff;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(10), .SR_LENGTH(21)) eg_level_sr1
+	ym_sr_bit_array #(.DATA_WIDTH(10), .SR_LENGTH(21)) eg_level_sr1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -656,7 +656,7 @@ module ym3438_eg
 		.data_out(eg_level_sr_o1)
 		);
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(10), .SR_LENGTH(2)) eg_level_sr2
+	ym_sr_bit_array #(.DATA_WIDTH(10), .SR_LENGTH(2)) eg_level_sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -678,7 +678,7 @@ module ym3438_eg
 	
 	wire eg_invert;
 	
-	ym3438_sr_bit eg_invert_sr
+	ym_sr_bit eg_invert_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -714,7 +714,7 @@ module ym3438_eg
 	
 	wire [9:0] eg_add_l_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(10)) eg_add_l
+	ym_dlatch_1 #(.DATA_WIDTH(10)) eg_add_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -729,7 +729,7 @@ module ym3438_eg
 	
 	wire [9:0] eg_level_comb_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(10)) eg_level_comb_l
+	ym_dlatch_1 #(.DATA_WIDTH(10)) eg_level_comb_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -740,7 +740,7 @@ module ym3438_eg
 		
 	wire [9:0] eg_level_sum = eg_add_l_o + eg_level_comb_o + 1'h1;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(10)) eg_level_sum_l
+	ym_dlatch_2 #(.DATA_WIDTH(10)) eg_level_sum_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -751,7 +751,7 @@ module ym3438_eg
 	
 	wire [9:0] eg_level_out_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(10)) eg_level_out_sr
+	ym_sr_bit_array #(.DATA_WIDTH(10)) eg_level_out_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -762,7 +762,7 @@ module ym3438_eg
 	
 	wire [9:0] eg_level_outinv_l1_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(10)) eg_level_outinv_l1
+	ym_dlatch_1 #(.DATA_WIDTH(10)) eg_level_outinv_l1
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -774,7 +774,7 @@ module ym3438_eg
 	wire [9:0] eg_level_outinv_l2_i = eg_level_outinv_l1_o + 10'h201;
 	wire [9:0] eg_level_outinv_l2_o;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(10)) eg_level_outinv_l2
+	ym_dlatch_2 #(.DATA_WIDTH(10)) eg_level_outinv_l2
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -785,7 +785,7 @@ module ym3438_eg
 	
 	wire [9:0] eg_level_out = eg_invert ? eg_level_outinv_l2_o : eg_level_out_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(10)) eg_level_out_sr2
+	ym_sr_bit_array #(.DATA_WIDTH(10)) eg_level_out_sr2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -800,7 +800,7 @@ module ym3438_eg
 	
 	wire [1:0] ams_l_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(2)) ams_l
+	ym_dlatch_1 #(.DATA_WIDTH(2)) ams_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -811,7 +811,7 @@ module ym3438_eg
 	
 	wire [5:0] lfo_am_l_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(6)) lfo_am_l
+	ym_dlatch_1 #(.DATA_WIDTH(6)) lfo_am_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -839,7 +839,7 @@ module ym3438_eg
 	
 	wire [6:0] eg_lfo_mux_l_o;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(7)) eg_lfo_mux_l
+	ym_dlatch_2 #(.DATA_WIDTH(7)) eg_lfo_mux_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -852,7 +852,7 @@ module ym3438_eg
 	//wire [10:0] eg_level_lfo = eg_level_out_test;
 	wire [10:0] eg_level_lfo_l_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(11)) eg_level_lfo_l
+	ym_dlatch_1 #(.DATA_WIDTH(11)) eg_level_lfo_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -863,7 +863,7 @@ module ym3438_eg
 	
 	wire ch3_sel_sr_o;
 	
-	ym3438_sr_bit ch3_sel_sr
+	ym_sr_bit ch3_sel_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -877,7 +877,7 @@ module ym3438_eg
 	wire [6:0] tl_add_l_i = not_csm ? tl_o : 7'h0;
 	wire [6:0] tl_add_l_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(7)) tl_add_l
+	ym_dlatch_1 #(.DATA_WIDTH(7)) tl_add_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -894,7 +894,7 @@ module ym3438_eg
 	
 	wire [9:0] eg_level_tl_clamp = eg_level_of ? eg_level_tl[9:0] : 10'h0;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(10)) eg_out_l
+	ym_dlatch_2 #(.DATA_WIDTH(10)) eg_out_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -903,7 +903,7 @@ module ym3438_eg
 		.nval(eg_out)
 		);
 	
-	ym3438_dbg_read_eg #(.DATA_WIDTH(10)) dbg_read
+	ym_dbg_read_eg #(.DATA_WIDTH(10)) dbg_read
 		(
 		.MCLK(MCLK),
 		.c1(c1),

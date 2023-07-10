@@ -18,7 +18,7 @@ module ym3438_pg
 	
 	wire [2:0] block_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(3)) block_sr
+	ym_sr_bit_array #(.DATA_WIDTH(3)) block_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -29,7 +29,7 @@ module ym3438_pg
 	
 	wire [2:0] block_l_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(3)) block_l
+	ym_dlatch_1 #(.DATA_WIDTH(3)) block_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -57,7 +57,7 @@ module ym3438_pg
 	
 	wire [16:0] freq_l_o;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(17)) freq_l
+	ym_dlatch_2 #(.DATA_WIDTH(17)) freq_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -68,7 +68,7 @@ module ym3438_pg
 	
 	wire [4:0] dt_value_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(5)) dt_value_sr
+	ym_sr_bit_array #(.DATA_WIDTH(5)) dt_value_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -83,7 +83,7 @@ module ym3438_pg
 	
 	wire [16:0] freq_l2_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(17)) freq_l2
+	ym_dlatch_1 #(.DATA_WIDTH(17)) freq_l2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -105,7 +105,7 @@ module ym3438_pg
 	
 	wire multi_sel_1_l_o;
 	
-	ym3438_dlatch_1 multi_sel_1_l
+	ym_dlatch_1 multi_sel_1_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -116,7 +116,7 @@ module ym3438_pg
 	
 	wire multi_sel_2_l_o;
 	
-	ym3438_dlatch_1 multi_sel_2_l
+	ym_dlatch_1 multi_sel_2_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -127,7 +127,7 @@ module ym3438_pg
 	
 	wire multi_sel_3_l_o;
 	
-	ym3438_dlatch_1 multi_sel_3_l
+	ym_dlatch_1 multi_sel_3_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -138,7 +138,7 @@ module ym3438_pg
 	
 	wire multi_sel_4_l_o;
 	
-	ym3438_dlatch_1 multi_sel_4_l
+	ym_dlatch_1 multi_sel_4_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -149,7 +149,7 @@ module ym3438_pg
 	
 	wire multi_sel_5_l_o;
 	
-	ym3438_dlatch_1 multi_sel_5_l
+	ym_dlatch_1 multi_sel_5_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -160,7 +160,7 @@ module ym3438_pg
 	
 	wire multi_sel_6_l_o;
 	
-	ym3438_dlatch_1 multi_sel_6_l
+	ym_dlatch_1 multi_sel_6_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -171,7 +171,7 @@ module ym3438_pg
 	
 	wire multi_sel_7_l_o;
 	
-	ym3438_dlatch_1 multi_sel_7_l
+	ym_dlatch_1 multi_sel_7_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -182,7 +182,7 @@ module ym3438_pg
 	
 	wire multi_sel_8_l_o;
 	
-	ym3438_dlatch_1 multi_sel_8_l
+	ym_dlatch_1 multi_sel_8_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -193,7 +193,7 @@ module ym3438_pg
 	
 	wire multi_sel_9_l_o;
 	
-	ym3438_dlatch_1 multi_sel_9_l
+	ym_dlatch_1 multi_sel_9_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -218,7 +218,7 @@ module ym3438_pg
 	
 	wire [19:0] freq_multi_add1_l_o;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(20)) freq_multi_add1_l
+	ym_dlatch_2 #(.DATA_WIDTH(20)) freq_multi_add1_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -229,7 +229,7 @@ module ym3438_pg
 	
 	wire [17:0] freq_multi_add2_l_o;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(18)) freq_multi_add2_l
+	ym_dlatch_2 #(.DATA_WIDTH(18)) freq_multi_add2_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -240,7 +240,7 @@ module ym3438_pg
 		
 	wire multi_c_in;
 	
-	ym3438_dlatch_2 multi_c_in_l
+	ym_dlatch_2 multi_c_in_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -252,7 +252,7 @@ module ym3438_pg
 	wire [19:0] freq_multi_sum = freq_multi_add1_l_o + { freq_multi_add2_l_o, 2'h0 } + multi_c_in;
 	wire [19:0] freq_multi_sum_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(20)) freq_multi_sum_sr
+	ym_sr_bit_array #(.DATA_WIDTH(20)) freq_multi_sum_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -263,7 +263,7 @@ module ym3438_pg
 	
 	wire [16:0] freq_multi_add3_l_o;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(17)) freq_multi_add3_l
+	ym_dlatch_2 #(.DATA_WIDTH(17)) freq_multi_add3_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -274,7 +274,7 @@ module ym3438_pg
 	
 	wire [19:0] freq_multi_add3_sr_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(20)) freq_multi_add3_sr
+	ym_sr_bit_array #(.DATA_WIDTH(20)) freq_multi_add3_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -285,7 +285,7 @@ module ym3438_pg
 	
 	wire multi_sel_4_l2_o;
 	
-	ym3438_dlatch_2 multi_sel_4_l2
+	ym_dlatch_2 multi_sel_4_l2
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -296,7 +296,7 @@ module ym3438_pg
 	
 	wire multi_sel_4_sr_o;
 	
-	ym3438_sr_bit multi_sel_4_sr
+	ym_sr_bit multi_sel_4_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -309,7 +309,7 @@ module ym3438_pg
 	
 	wire [19:0] freq_multi_add3_l2_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(20)) freq_multi_add3_l2
+	ym_dlatch_1 #(.DATA_WIDTH(20)) freq_multi_add3_l2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -320,7 +320,7 @@ module ym3438_pg
 	
 	wire [19:0] freq_multi_sum_l_o;
 	
-	ym3438_dlatch_1 #(.DATA_WIDTH(20)) freq_multi_sum_l
+	ym_dlatch_1 #(.DATA_WIDTH(20)) freq_multi_sum_l
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -332,7 +332,7 @@ module ym3438_pg
 	wire [19:0] freq_inc = freq_multi_sum_l_o + freq_multi_add3_l2_o;
 	wire [19:0] freq_inc_l_o;
 	
-	ym3438_dlatch_2 #(.DATA_WIDTH(20)) freq_inc_l
+	ym_dlatch_2 #(.DATA_WIDTH(20)) freq_inc_l
 		(
 		.MCLK(MCLK),
 		.c2(c2),
@@ -343,7 +343,7 @@ module ym3438_pg
 	
 	wire pg_reset_sr_o;
 	
-	ym3438_sr_bit pg_reset_sr
+	ym_sr_bit pg_reset_sr
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -360,7 +360,7 @@ module ym3438_pg
 	
 	wire [19:0] pg_values_o;
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(20), .SR_LENGTH(20)) pg_values
+	ym_sr_bit_array #(.DATA_WIDTH(20), .SR_LENGTH(20)) pg_values
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -369,7 +369,7 @@ module ym3438_pg
 		.data_out(pg_values_o)
 		);
 	
-	ym3438_sr_bit_array #(.DATA_WIDTH(20), .SR_LENGTH(4)) pg_values2
+	ym_sr_bit_array #(.DATA_WIDTH(20), .SR_LENGTH(4)) pg_values2
 		(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -380,7 +380,7 @@ module ym3438_pg
 	
 	assign pg_out = pg_values_o[19:10];
 	
-	ym3438_dbg_read #(.DATA_WIDTH(10)) dbg_read
+	ym_dbg_read #(.DATA_WIDTH(10)) dbg_read
 		(
 		.MCLK(MCLK),
 		.c1(c1),
