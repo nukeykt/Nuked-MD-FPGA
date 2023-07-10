@@ -57,6 +57,9 @@ module YM7101
 	output [7:0] RA
 	);
 	
+	wire clk1, clk2;
+	wire hclk1, hclk2;
+	
 	wire reset_comb;
 	wire mclk_and1;
 	reg dff1;
@@ -152,7 +155,38 @@ module YM7101
 		end
 	end
 	
-
+	// clk1, clk2
+	
+	reg dclk_l;
+	
+	always @(posedge MCLK)
+	begin
+		dclk_l <= mclk_dclk;
+	end
+	
+	assign clk1 = ~mclk_dclk & dclk_l;
+	assign clk2 = mclk_dclk & ~dclk_l;
+	
+	// hclk1, hclk2 (half clock)
+	
+	wire reset_l1_o;
+	wire reset_l2_o;
+	wire reset_pulse = reset_l1_o & ~reset_l2_o;
+	ym_sr_bit reset_l1(.MCLK(MCLK), .c1(clk1), .c2(clk2), .bit_in(~reset_comb), .sr_out(reset_l1_o)); // static latch
+	ym_sr_bit reset_l2(.MCLK(MCLK), .c1(clk1), .c2(clk2), .bit_in(reset_l1_o), .sr_out(reset_l2_o));
+	
+	wire dclk_prescaler_l1_o;
+	wire dclk_prescaler_l2_o;
+	wire dclk_prescaler_l3_o;
+	wire dclk_prescaler_dff1_l2;
+	wire dclk_prescaler_dff2_l2;
+	assign hclk1 = ~dclk_prescaler_dff1_l2;
+	assign hclk2 = ~dclk_prescaler_dff2_l2;
+	ym_sr_bit dclk_prescaler_l1(.MCLK(MCLK), .c1(clk1), .c2(clk2), .bit_in(~(dclk_prescaler_l1_o | reset_pulse)), .sr_out(dclk_prescaler_l1_o));
+	ym_dlatch_1 dclk_prescaler_l2(.MCLK(MCLK), .c1(clk1), .inp(dclk_prescaler_l1_o), .val(dclk_prescaler_l2_o));
+	ym_dlatch_1 dclk_prescaler_l3(.MCLK(MCLK), .c1(clk1), .inp(~dclk_prescaler_l1_o), .val(dclk_prescaler_l3_o));
+	ym7101_dff dclk_prescaler_dff1(.MCLK(MCLK), .clk(~clk1), .inp(1'h1), .rst(dclk_prescaler_l2_o & clk2), outp(dclk_prescaler_dff1_l2));
+	ym7101_dff dclk_prescaler_dff2(.MCLK(MCLK), .clk(~clk1), .inp(1'h1), .rst(dclk_prescaler_l3_o & clk2), outp(dclk_prescaler_dff2_l2));
 
 endmodule
 
@@ -162,7 +196,7 @@ module ym7101_dff
 	input MCLK,
 	input clk,
 	input inp,
-	input rst
+	input rst,
 	output outp
 	);
 	
