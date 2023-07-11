@@ -10,7 +10,9 @@ module ym_sr_bit #(parameter SR_LENGTH = 1)
 	reg [SR_LENGTH-1:0] v1 = 0;
 	reg [SR_LENGTH-1:0] v2 = 0;
 	
-	assign sr_out = v2[SR_LENGTH-1];
+	wire [SR_LENGTH-1:0] v2_assign = c2 ? v1 : v2;
+	
+	assign sr_out = v2_assign[SR_LENGTH-1];
 	
 	always @(posedge MCLK)
 	begin
@@ -21,8 +23,7 @@ module ym_sr_bit #(parameter SR_LENGTH = 1)
 			else
 				v1 <= { v2[SR_LENGTH-2:0], bit_in };
 		end
-		if (c2)
-			v2 <= v1;
+		v2 <= v2_assign;
 	end
 
 
@@ -99,14 +100,15 @@ module ym_dlatch_1 #(parameter DATA_WIDTH = 1)
 	
 	reg [DATA_WIDTH-1:0] mem = {DATA_WIDTH{1'h0}};
 	
+	wire [DATA_WIDTH-1:0] mem_assign = c1 ? inp : mem;
+	
 	always @(posedge MCLK)
 	begin
-		if (c1)
-			mem <= inp;
+		mem <= mem_assign;
 	end
 	
-	assign val = mem;
-	assign nval = ~mem;
+	assign val = mem_assign;
+	assign nval = ~mem_assign;
 	
 endmodule
 
@@ -121,14 +123,15 @@ module ym_dlatch_2 #(parameter DATA_WIDTH = 1)
 	
 	reg [DATA_WIDTH-1:0] mem = {DATA_WIDTH{1'h0}};
 	
+	wire [DATA_WIDTH-1:0] mem_assign = c2 ? inp : mem;
+	
 	always @(posedge MCLK)
 	begin
-		if (c2)
-			mem <= inp;
+		mem <= mem_assign;
 	end
 	
-	assign val = mem;
-	assign nval = ~mem;
+	assign val = mem_assign;
+	assign nval = ~mem_assign;
 	
 endmodule
 
@@ -164,14 +167,15 @@ module ym_slatch #(parameter DATA_WIDTH = 1)
 	
 	reg [DATA_WIDTH-1:0] mem = {DATA_WIDTH{1'h0}};
 	
+	wire [DATA_WIDTH-1:0] mem_assign = en ? inp : mem;
+	
 	always @(posedge MCLK)
 	begin
-		if (en)
-			mem <= inp;
+		mem <= mem_assign;
 	end
 	
-	assign val = mem;
-	assign nval = ~mem;
+	assign val = mem_assign;
+	assign nval = ~mem_assign;
 	
 endmodule
 
@@ -180,20 +184,18 @@ module ym_rs_trig
 	input MCLK,
 	input set,
 	input rst,
-	output reg q = 0,
-	output reg nq = 1
+	output q,
+	output nq
 	);
+	
+	reg mem = 1'h0;
+	
+	assign q = rst ? 1'h0 : (set ? 1'h1 : mem);
+	assign nq = set ? 1'h0 : (rst ? 1'h1 : ~mem); 
 	
 	always @(posedge MCLK)
 	begin
-		if (rst)
-			q <= 0;
-		else if (set)
-			q <= 1;
-		if (set)
-			nq <= 0;
-		else if (rst)
-			nq <= 1;
+		mem <= q;
 	end
 	
 endmodule
@@ -204,23 +206,18 @@ module ym_rs_trig_sync
 	input set,
 	input rst,
 	input c1,
-	output reg q = 0,
-	output reg nq = 1
+	output q,
+	output nq
 	);
+	
+	reg mem = 1'h0;
+	
+	assign q = (c1 & rst) ? 1'h0 : ((c1 & set) ? 1'h1 : mem);
+	assign nq = (c1 & set) ? 1'h0 : ((c1 & rst) ? 1'h1 : ~mem); 
 	
 	always @(posedge MCLK)
 	begin
-		if (c1)
-		begin
-			if (rst)
-				q <= 0;
-			else if (set)
-				q <= 1;
-			if (set)
-				nq <= 0;
-			else if (rst)
-				nq <= 1;
-		end
+		mem <= q;
 	end
 	
 endmodule
