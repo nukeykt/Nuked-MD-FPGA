@@ -104,6 +104,9 @@ module ym7101
 	wire cpu_clk0;
 	wire cpu_clk1;
 	
+	wire i_csync = ~CSYNC;
+	wire i_hsync = ~HSYNC;
+	
 	wire reset_ext;
 	
 	wire clk1, clk2;
@@ -1311,6 +1314,623 @@ module ym7101
 	
 	// FSM block
 	
+	ym_cnt_bit_load #(.DATA_WIDTH(9)) cnt105(.MCLK(MCLK), .c1(hclk1), .c2(hclk2),
+		.c_in(w436), .reset(1'h0), .load(w437), .load_val(w428), val(l105));
+	
+	assign w355 = w106 ? { l105, w446 } : { 1'h0, l106 };
+	
+	ym_cnt_bit_load #(.DATA_WIDTH(9)) cnt106(.MCLK(MCLK), .c1(hclk1), .c2(hclk2),
+		.c_in(w363), .reset(1'h0), .load(w361), .load_val(w364), val(l106));
+	
+	ym_sr_bit #(.SR_LENGTH(8)) sr107(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l663), .sr_out(l107));
+	
+	ym_sr_bit sr108(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w476), .sr_out(l108));
+	
+	ym_sr_bit sr109(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w359), .sr_out(l109));
+	
+	ym_sr_bit sr110(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w504), .sr_out(l110));
+	
+	assign w356 = w357 | (l118 & w380);
+	
+	assign w357 = reg_test1[6:4] == 3'h1;
+	
+	assign w358 = ~(w476 | w477 | w478 | w479);
+	
+	assign w359 = w358 & w386 & w395;
+	
+	assign w360 = ~l117;
+	
+	ym_sr_bit sr111(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w503), .sr_out(l111));
+	
+	ym_sr_bit sr112(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w490), .sr_out(l112));
+	
+	assign w361 = l112 | w88 | reset_comb | w370;
+	
+	assign w362 = ~(w361 | reg_test1[3]);
+	
+	assign w363 = w362 | (reg_test1[3] & ~INTAK);
+	
+	assign w364 = w88 ? io_data[8:0] : { 3'h7, ~w365, w368, w367, w366, w365 };
+	
+	assign w365 = ~reg_80_b0 & reg_rs1 & reg_m5;
+
+	assign w366 = ~reg_80_b0 & ~reg_rs1;
+	
+	assign w367 = reg_80_b0 & ~reg_rs1;
+	
+	assign w368 = w365 | w369;
+	
+	assign w369 = ~reg_rs1 & reg_80_b0 & reg_m5;
+	// h40: 457
+	// h32: 466
+	// m4: 466
+	
+	assign w370 = ~l113 & l121 & reg_80_b0;
+	
+	ym_sr_bit sr113(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w121), .sr_out(l113));
+	
+	ym_sr_bit sr114(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w491), .sr_out(l114));
+	
+	ym_sr_bit sr115(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w502), .sr_out(l115));
+	
+	ym_sr_bit sr116(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w384), .sr_out(l116));
+	
+	assign w371 = reg_test1[6:4] == 3'h2;
+	
+	assign w372 = w371 | (l119 & w380);
+	
+	ym_sr_bit sr117(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w505), .sr_out(l117));
+	
+	ym_sr_bit sr118(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w477), .sr_out(l118));
+	
+	ym_sr_bit sr119(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w478), .sr_out(l119));
+	
+	assign w373 = ~(reg_m5 ? l107 : l663);
+	
+	assign w374 = reg_8c_b6 ? hclk2 : w373;
+	
+	ym_sr_bit sr120(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(i_csync), .sr_out(l120));
+	
+	assign w375 = l120 | w411;
+	
+	assign w376 = w377 & (l121 | w375);
+	
+	assign w377 = ~(l114 | reset_comb);
+	
+	ym_sr_bit sr121(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w376), .sr_out(l121));
+	
+	ym_sr_bit sr122(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w492), .sr_out(l122));
+	
+	ym_sr_bit sr123(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w501), .sr_out(l123));
+	
+	assign w378 = reg_vscr ? l124 : ~l117;
+	
+	assign w379 = w378 & w380;
+	
+	assign w380 = reg_test1[6:4] == 3'h0;
+	
+	assign w381 = reg_test1[6:4] == 3'h5;
+	
+	assign w382 = reg_test1[6:4] == 3'h3;
+	
+	assign w383 = reg_test1[6:4] == 3'h4;
+	
+	assign w384 = ~(w483 & ~l132);
+	
+	assign w385 = w382 | (w380 & l125);
+	
+	assign w386 = ~(w480 | w483 | w481);
+	
+	ym_sr_bit sr124(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w506), .sr_out(l124));
+	
+	ym_sr_bit sr125(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w479), .sr_out(l125));
+	
+	ym_sr_bit sr126(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w480), .sr_out(l126));
+	
+	assign w387 = reg_m5 ? l127 : w420;
+	
+	ym_sr_bit #(.SR_LENGTH(8)) sr127(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w420), .sr_out(l127));
+	
+	assign w388 = t29 & ~w439;
+	
+	ym_sr_bit sr128(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w397), .sr_out(l128));
+	
+	assign w389 = reg_disp & t29 & t38;
+	
+	ym_sr_bit sr129(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(t30), .sr_out(l129));
+	
+	assign w390 = w441 | w450;
+	
+	assign w391 = t31 & w443;
+	
+	ym_sr_bit sr130(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w493), .sr_out(l130));
+	
+	assign w392 = reset_comb | l137;
+	
+	ym7101_rs_trig rs29(.MCLK(MCLK), .set(l130), .rst(w392), .q(t29));
+	
+	ym_sr_bit sr131(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w500), .sr_out(l131));
+	
+	assign w393 = l133 & w380;
+	
+	ym_sr_bit sr132(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w403), .sr_out(l132));
+	
+	assign w394 = w383 | (w380 & l126);
+	
+	assign w395 = ~(w486 | w489 | w482 | w488);
+	
+	ym_sr_bit sr133(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w507), .sr_out(l133));
+	
+	ym_sr_bit sr134(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w481), .sr_out(l134));
+	
+	assign w396 = reg_m5 ? l135 : w421;
+	
+	ym_sr_bit #(.SR_LENGTH(7)) sr135(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w421), .sr_out(l135));
+	
+	ym_sr_bit sr136(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w404), .sr_out(l136));
+	
+	assign w397 = ~(~reg_80_b0 & w387);
+	
+	assign w398 = ~(w441 | w443 | w450);
+	
+	assign w399 = ~w398 & t32;
+	
+	assign w400 = w390 & t32;
+	
+	ym7101_rs_trig rs30(.MCLK(MCLK), .set(w401), .rst(l152), .q(t30));
+	
+	assign w401 = reset_comb | l143;
+	
+	ym_sr_bit sr137(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w494), .sr_out(l137));
+	
+	ym_sr_bit sr138(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w499), .sr_out(l138));
+	
+	assign w402 = w380 & l140;
+	
+	ym_sr_bit sr139(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w410), .sr_out(l139));
+	
+	assign w403 = l139 | w410;
+	
+	ym_sr_bit sr140(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w508), .sr_out(l140));
+	
+	ym_sr_bit sr141(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w502), .sr_out(l141));
+	
+	ym_sr_bit sr142(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w489), .sr_out(l142));
+	
+	assign w404 = ~(w396 & ~reg_8c_b5);
+	
+	assign w405 = w398 & t33;
+	
+	assign w406 = w398 & t33;
+	
+	ym7101_rs_trig rs31(.MCLK(MCLK), .set(w407), .rst(w408), .q(t31));
+	
+	assign w407 = l137 | l153;
+	
+	assign w408 = reset_comb | w409;
+	
+	assign w409 = l131 | l144;
+	
+	ym_sr_bit sr143(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w495), .sr_out(l143));
+	
+	ym_sr_bit sr144(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w498), .sr_out(l144));
+	
+	assign w410 = w361 & w416;
+	
+	ym_sr_bit sr145(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w510), .sr_out(l145));
+	
+	ym_sr_bit sr146(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w509), .sr_out(l146));
+	
+	ym_sr_bit sr147(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w487), .sr_out(l147));
+	
+	ym_sr_bit sr148(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w488), .sr_out(l148));
+	
+	assign w411 = reg_8c_b5 & l149;
+	
+	ym_sr_bit sr149(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(i_hsync), .sr_out(l149));
+	
+	ym_sr_bit sr150(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w412), .sr_out(l150));
+	
+	assign w412 = w405 | w399;
+	
+	assign w413 = w405 | w400 | w391;
+	
+	ym_sr_bit sr151(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w413), .sr_out(l151));
+	
+	ym7101_rs_trig rs32(.MCLK(MCLK), .set(w414), .rst(l138), .q(t32));
+	
+	assign w414 = w409 | reset_comb;
+	
+	ym_sr_bit sr152(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w496), .sr_out(l152));
+	
+	ym_sr_bit sr153(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w497), .sr_out(l153));
+	
+	assign w415 = w380 & l154;
+	
+	assign w416 = ~reg_8c_b4 & reg_80_b0;
+	
+	assign w417 = l146 | l145;
+	
+	assign w418 = l145 | l155;
+	
+	assign w419 = w381 | (w380 & l148);
+	
+	ym_sr_bit sr154(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w511), .sr_out(l154));
+	
+	ym_sr_bit sr155(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w485), .sr_out(l155));
+	
+	ym_sr_bit sr156(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w484), .sr_out(l156));
+	
+	assign w420 = l151 & l663;
+	
+	assign w421 = w427 ? l160 : l157;
+	
+	ym_sr_bit sr157(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l150), .sr_out(l157));
+	
+	assign w422 = reg_m5 ? l158 : l129;
+	
+	ym_sr_bit #(.SR_LENGTH(8)) sr158(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l129), .sr_out(l158));
+	
+	ym7101_rs_trig rs33(.MCLK(MCLK), .set(w423), .rst(l123), .q(t33));
+	
+	assign w423 = reset_comb | l131;
+	
+	assign w424 = l159 & w380;
+	
+	assign w425 = w416 & ~reg_81_b0;
+	
+	ym_sr_bit sr159(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w512), .sr_out(l159));
+	
+	ym_cnt_bit cnt160(.MCLK(MCLK), .c1(hclk1), .c2(hclk2),
+		.c_in(w426), .reset(reset_comb), .val(l160));
+	
+	assign w426 = w420 & ~l61;
+	
+	ym_sr_bit sr161(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w420), .sr_out(l161));
+	
+	assign w427 = reg_m5 & reg_80_b3;
+	
+	assign w428 = w87 ? io_data[8:0] :
+		{ 2'h3, ~w431, w429, ~w107, w433, ~cpu_pal, w434, w435 };
+	
+	assign w429 = w430 | w431;
+	
+	assign w430 = ~cpu_pal & w107;
+	
+	assign w431 = cpu_pal & ~reg_m5;
+	
+	assign w432 = cpu_pal & w107;
+	
+	assign w433 = w432 | w431;
+	
+	assign w434 = cpu_pal & ~w446;
+	
+	assign w435 = ~cpu_pal ^ w446;
+	
+	assign w436 = (~reg_test1[2] & l115 & ~w437) | (reg_test1[2] & ~cpu_bg);
+	
+	assign w437 = w438 | reset_comb | w86 | w460;
+	
+	assign w438 = l115 & l174;
+	
+	ym_sr_bit sr162(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(~w475), .sr_out(l162));
+	
+	assign w439 = ~(reg_disp & (l162 | t38));
+	
+	ym_sr_bit sr163(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w474), .sr_out(l163));
+	
+	assign w440 = reset_comb | w442;
+	
+	ym7101_rs_trig rs34(.MCLK(MCLK), .set(w444), .rst(w440), .q(t34));
+	
+	assign w441 = t34 & reg_m5;
+	
+	ym_sr_bit sr164(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w473), .sr_out(l164));
+	
+	assign w442 = l163 & w449;
+	
+	ym7101_rs_trig rs35(.MCLK(MCLK), .set(w445), .rst(w444), .q(t35));
+	
+	assign w443 = t35 & reg_m5;
+	
+	ym_sr_bit sr165(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w472), .sr_out(l165));
+	
+	assign w444 = l164 & w449;
+	
+	assign w445 = reset_comb | w447;
+	
+	ym7101_rs_trig rs36(.MCLK(MCLK), .set(w452), .rst(w448), .q(t36));
+	
+	ym_cnt_bit_rs cnt166(.MCLK(CLK), .c1(hclk1), .c2(hclk2), .c_in(w455), .reset(w455), .set(l168), .val(w446));
+	
+	ym_sr_bit sr167(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w471), .sr_out(l167));
+	
+	assign w447 = l165 & w449;
+	
+	assign w448 = reset_comb | w447;
+	
+	assign w449 = l111 | ~w446;
+	
+	ym_sr_bit sr168(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w456), .sr_out(l168));
+	
+	assign w450 = reg_m5 & t36;
+	
+	assign w451 = reset_comb | ~reg_lsm0 | (w454 & ~t39);
+	
+	ym_sr_bit sr169(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w470), .sr_out(l169));
+	
+	assign w452 = l169 & w449;
+	
+	assign w453 = w452 | reset_comb;
+	
+	ym7101_rs_trig rs37(.MCLK(MCLK), .set(w453), .rst(l167), .q(t37));
+	
+	assign w454 = reg_80_b0 & w459;
+	
+	assign w455 = ~reg_80_b0 & w459;
+	
+	assign w456 = w454 & t39;
+	
+	ym_sr_bit sr170(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w469), .sr_out(l170));
+	
+	assign w457 = ~l170;
+	
+	assign w458 = reset_comb | w457;
+	
+	assign w459 = ~l170 & l110;
+	
+	ym7101_rs_trig rs38(.MCLK(MCLK), .set(l172), .rst(w458), .q(t38));
+	
+	ym_sr_bit sr171(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l114), .sr_out(l171));
+	
+	ym_sr_bit sr172(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(~w468), .sr_out(l172));
+	
+	ym7101_rs_trig rs39(.MCLK(MCLK), .set(w465), .rst(w461), .q(t39));
+	
+	assign w460 = reg_80_b0 & ~l176 & l175;
+	
+	assign w461 = reset_comb | (w460 & l171);
+	
+	assign w462 = ~(l167 | reset_comb);
+	
+	assign w463 = l120 & (l122 | l114);
+	
+	assign w464 = w462 & (l175 | w463);
+	
+	assign w465 = w460 & l173;
+	
+	assign w466 = ~w439;
+	
+	assign pla_vcnt[0] = l105 == 9'd511;
+	assign pla_vcnt[1] = w446 & cpu_pal & w108 & l105 == 9'd471;
+	assign pla_vcnt[2] = w446 & cpu_pal & w107 & l105 == 9'd463;
+	assign pla_vcnt[3] = w446 & ~cpu_pal & w107 & l105 == 9'd490;
+	assign pla_vcnt[4] = ~w446 & cpu_pal & w108 & l105 == 9'd472;
+	assign pla_vcnt[5] = ~w446 & cpu_pal & w107 & l105 == 9'd464;
+	assign pla_vcnt[6] = ~w446 & cpu_pal & ~reg_m5 & l105 == 9'd448;
+	assign pla_vcnt[7] = ~w446 & ~cpu_pal & w107 & l105 == 9'd491;
+	assign pla_vcnt[8] = ~w446 & ~cpu_pal & ~reg_m5 & l105 == 9'd475;
+	assign pla_vcnt[9] = w446 & cpu_pal & w108 & l105 == 9'd468;
+	assign pla_vcnt[10] = w446 & cpu_pal & w107 & l105 == 9'd460;
+	assign pla_vcnt[11] = w446 & ~cpu_pal & w107 & l105 == 9'd487;
+	assign pla_vcnt[12] = ~w446 & cpu_pal & w108 & l105 == 9'd469;
+	assign pla_vcnt[13] = ~w446 & cpu_pal & w107 & l105 == 9'd461;
+	assign pla_vcnt[14] = ~w446 & cpu_pal & ~reg_m5 & l105 == 9'd445;
+	assign pla_vcnt[15] = ~w446 & ~cpu_pal & w107 & l105 == 9'd488;
+	assign pla_vcnt[16] = ~w446 & ~cpu_pal & ~reg_m5 & l105 == 9'd472;
+	assign pla_vcnt[17] = w446 & cpu_pal & w108 & l105 == 9'd465;
+	assign pla_vcnt[18] = w446 & cpu_pal & w107 & l105 == 9'd457;
+	assign pla_vcnt[19] = w446 & ~cpu_pal & w107 & l105 == 9'd484;
+	assign pla_vcnt[20] = ~w446 & cpu_pal & w108 & l105 == 9'd466;
+	assign pla_vcnt[21] = ~w446 & cpu_pal & w107 & l105 == 9'd458;
+	assign pla_vcnt[22] = ~w446 & cpu_pal & ~reg_m5 & l105 == 9'd442;
+	assign pla_vcnt[23] = ~w446 & ~cpu_pal & w107 & l105 == 9'd485;
+	assign pla_vcnt[24] = ~w446 & ~cpu_pal & ~reg_m5 & l105 == 9'd469;
+	assign pla_vcnt[25] = cpu_pal & w108 & l105 == 9'd482;
+	assign pla_vcnt[26] = cpu_pal & w107 & l105 == 9'd474;
+	assign pla_vcnt[27] = cpu_pal & ~reg_m5 & l105 == 9'd458;
+	assign pla_vcnt[28] = ~cpu_pal & w107 & l105 == 9'd501;
+	assign pla_vcnt[29] = ~cpu_pal & ~reg_m5 & l105 == 9'd485;
+	assign pla_vcnt[30] = reg_lsm0 & cpu_pal & w108 & l105 == 9'd263;
+	assign pla_vcnt[31] = reg_lsm0 & cpu_pal & w107 & l105 == 9'd255;
+	assign pla_vcnt[32] = ~reg_lsm0 & cpu_pal & w108 & l105 == 9'd264;
+	assign pla_vcnt[33] = ~reg_lsm0 & cpu_pal & w107 & l105 == 9'd256;
+	assign pla_vcnt[34] = ~reg_lsm0 & cpu_pal & ~reg_m5 & l105 == 9'd240;
+	assign pla_vcnt[35] = ~cpu_pal & w107 & l105 == 9'd232;
+	assign pla_vcnt[36] = ~cpu_pal & ~reg_m5 & l105 == 9'd216;
+	assign pla_vcnt[37] = w108 & l105 == 9'd240;
+	assign pla_vcnt[38] = w107 & l105 == 9'd224;
+	assign pla_vcnt[39] = ~reg_m5 & l105 == 9'd192;
+	assign pla_vcnt[40] = l105 == 9'd0;
+	assign pla_vcnt[41] = reg_lsm0 & cpu_pal & w108 & l105 == 9'd265;
+	assign pla_vcnt[42] = reg_lsm0 & cpu_pal & w107 & l105 == 9'd257;
+	assign pla_vcnt[43] = ~reg_lsm0 & cpu_pal & w108 & l105 == 9'd266;
+	assign pla_vcnt[44] = ~reg_lsm0 & cpu_pal & w107 & l105 == 9'd258;
+	assign pla_vcnt[45] = ~reg_lsm0 & cpu_pal & ~reg_m5 & l105 == 9'd242;
+	assign pla_vcnt[46] = ~cpu_pal & w107 & l105 == 9'd234;
+	assign pla_vcnt[47] = ~cpu_pal & ~reg_m5 & l105 == 9'd218;
+	
+	assign pla_hcnt1[0] = w466 & ~reg_m5 & l106 == 9'd488;
+	assign pla_hcnt1[1] = w466 & ~reg_m5 & l106 == 9'd484;
+	assign pla_hcnt1[2] = w466 & ~reg_m5 & (l106 & 9'd507) == 9'd472;
+	assign pla_hcnt1[3] = w466 & ~reg_m5 & (l106 & 9'd503) == 9'd272;
+	assign pla_hcnt1[4] = w466 & ~reg_m5 & (l106 & 9'd495) == 9'd268;
+	assign pla_hcnt1[5] = w466 & reg_m5 & reg_rs1 & (l106 & 9'd463) == 9'd266;
+	assign pla_hcnt1[6] = w466 & reg_m5 & (l106 & 9'd271) == 9'd10;
+	assign pla_hcnt1[7] = w466 & reg_m5 & reg_rs1 & l106 == 9'd484;
+	assign pla_hcnt1[8] = w466 & reg_m5 & reg_rs1 & l106 == 9'd460;
+	assign pla_hcnt1[9] = w466 & reg_m5 & reg_rs1 & l106 == 9'd458;
+	assign pla_hcnt1[10] = w466 & ~w425 & reg_m5 & reg_rs1 & (l106 & 9'd505) == 9'd344;
+	assign pla_hcnt1[11] = w466 & ~w416 & reg_m5 & reg_rs1 & l106 == 9'd364;
+	assign pla_hcnt1[12] = w466 & ~w416 & reg_m5 & reg_rs1 & (l106 & 9'd509) == 9'd360;
+	assign pla_hcnt1[13] = w466 & ~w416 & reg_m5 & reg_rs1 & (l106 & 9'd505) == 9'd352;
+	assign pla_hcnt1[14] = w466 & reg_m5 & reg_rs1 & (l106 & 9'd505) == 9'd336;
+	assign pla_hcnt1[15] = w466 & reg_m5 & reg_rs1 & (l106 & 9'd505) == 9'd328;
+	assign pla_hcnt1[16] = w466 & reg_m5 & reg_rs1 & (l106 & 9'd509) == 9'd324;
+	assign pla_hcnt1[17] = w466 & ~w416 & reg_m5 & ~reg_rs1 & l106 == 9'd290;
+	assign pla_hcnt1[18] = w466 & ~w416 & reg_m5 & ~reg_rs1 & (l106 & 9'd509) == 9'd292;
+	assign pla_hcnt1[19] = w466 & ~w425 & reg_m5 & ~reg_rs1 & (l106 & 9'd505) == 9'd280;
+	assign pla_hcnt1[20] = w466 & reg_m5 & ~reg_rs1 & (l106 & 9'd505) == 9'd264;
+	assign pla_hcnt1[21] = w466 & reg_m5 & ~reg_rs1 & (l106 & 9'd509) == 9'd260;
+	assign pla_hcnt1[22] = w466 & reg_m5 & ~reg_rs1 & (l106 & 9'd505) == 9'd272;
+	assign pla_hcnt1[23] = w466 & reg_m5 & l106 == 9'd486;
+	assign pla_hcnt1[24] = w466 & reg_m5 & (l106 & 9'd503) == 9'd498;
+	assign pla_hcnt1[25] = w466 & reg_m5 & (l106 & 9'd505) == 9'd488;
+	assign pla_hcnt1[26] = w466 & reg_m5 & (l106 & 9'd509) == 9'd480;
+	assign pla_hcnt1[27] = w466 & reg_m5 & (l106 & 9'd497) == 9'd464;
+	assign pla_hcnt1[28] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd488;
+	assign pla_hcnt1[29] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd476;
+	assign pla_hcnt1[30] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd284;
+	assign pla_hcnt1[31] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd272;
+	assign pla_hcnt1[32] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd484;
+	assign pla_hcnt1[33] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd472;
+	assign pla_hcnt1[34] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd280;
+	assign pla_hcnt1[35] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd268;
+	assign pla_hcnt1[36] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd480;
+	assign pla_hcnt1[37] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd468;
+	assign pla_hcnt1[38] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd276;
+	assign pla_hcnt1[39] = w466 & ~reg_m5 & (l106 & 9'd509) == 9'd264;
+	assign pla_hcnt1[40] = w466 & ~reg_m5 & (l106 & 9'd279) == 9'd18;
+	assign pla_hcnt1[41] = w466 & ~reg_m5 & (l106 & 9'd287) == 9'd10;
+	assign pla_hcnt1[42] = w466 & ~reg_m5 & (l106 & 9'd497) == 9'd496;
+	assign pla_hcnt1[43] = ~w466 & (l106 & 9'd259) == 9'd0;
+	assign pla_hcnt1[44] = (l106 & 9'd1) == 9'd1;
+	assign pla_hcnt1[45] = w466 & reg_m5 & l106 == 9'd510;
+	assign pla_hcnt1[46] = w466 & reg_m5 & l106 == 9'd502;
+	assign pla_hcnt1[47] = w466 & reg_m5 & l106 == 9'd508;
+	assign pla_hcnt1[48] = w466 & reg_m5 & l106 == 9'd500;
+	assign pla_hcnt1[49] = w466 & reg_m5 & l106 == 9'd504;
+	assign pla_hcnt1[50] = w466 & reg_m5 & l106 == 9'd496;
+	assign pla_hcnt1[51] = w466 & reg_m5 & reg_rs1 & (l106 & 9'd455) == 9'd262;
+	assign pla_hcnt1[52] = w466 & (l106 & 9'd263) == 9'd6;
+	assign pla_hcnt1[53] = w466 & reg_m5 & reg_rs1 & (l106 & 9'd455) == 9'd260;
+	assign pla_hcnt1[54] = w466 & (l106 & 9'd263) == 9'd4;
+	assign pla_hcnt1[55] = w466 & reg_m5 & reg_rs1 & (l106 & 9'd463) == 9'd264;
+	assign pla_hcnt1[56] = w466 & (l106 & 9'd271) == 9'd8;
+	assign pla_hcnt1[57] = w466 & ~reg_m5 & (l106 & 9'd271) == 9'd8;
+	assign pla_hcnt1[58] = w466 & reg_m5 & reg_rs1 & (l106 & 9'd463) == 9'd256;
+	assign pla_hcnt1[59] = w466 & (l106 & 9'd271) == 9'd0;
+	assign pla_hcnt1[60] = ~w466 & (l106 & 9'd63) == 9'd50;
+	assign pla_hcnt1[61] = w466 & reg_m5 & reg_rs1 & l106 == 9'd306;
+	assign pla_hcnt1[62] = w466 & reg_m5 & (l106 & 9'd319) == 9'd50;
+	
+	assign pla_hcnt2[0] = (chip->l106 & 9'd15) == 9'd3;
+	assign pla_hcnt2[1] = l106 == 9'd507;
+	assign pla_hcnt2[2] = reg_m5 & reg_rs1 & (chip->l106 & 9'd463) == 9'd269;
+	assign pla_hcnt2[3] = reg_m5 & (chip->l106 & 9'd271) == 9'd13;
+	assign pla_hcnt2[4] = ~reg_m5 & l106 == 9'd483;
+	assign pla_hcnt2[5] = ~reg_m5 & l106 == 9'd471;
+	assign pla_hcnt2[6] = ~reg_m5 & l106 == 9'd279;
+	assign pla_hcnt2[7] = ~reg_m5 & l106 == 9'd267;
+	assign pla_hcnt2[8] = (chip->l106 & 9'd15) == 9'd15;
+	assign pla_hcnt2[9] = ~reg_m5 & (chip->l106 & 9'd15) == 9'd15;
+	assign pla_hcnt2[10] = (chip->l106 & 9'd15) == 9'd7;
+	assign pla_hcnt2[11] = (chip->l106 & 9'd7) == 9'd0;
+	assign pla_hcnt2[12] = reg_rs1 & l106 == 9'd322;
+	assign pla_hcnt2[13] = ~reg_rs1 & l106 == 9'd258;
+	assign pla_hcnt2[14] = l106 == 9'd0;
+	assign pla_hcnt2[15] = reg_rs1 & l106 == 9'd120;
+	assign pla_hcnt2[16] = ~reg_rs1 & l106 == 9'd95;
+	assign pla_hcnt2[17] = reg_m5 & reg_rs1 & l106 == 9'd328;
+	assign pla_hcnt2[18] = reg_m5 & ~reg_rs1 & l106 == 9'd264;
+	assign pla_hcnt2[19] = ~reg_m5 & l106 == 9'd488;
+	assign pla_hcnt2[20] = reg_rs1 & l106 == 9'd482;
+	assign pla_hcnt2[21] = ~reg_rs1 & l106 == 9'd488;
+	assign pla_hcnt2[22] = reg_rs1 & l106 == 9'd358;
+	assign pla_hcnt2[23] = ~reg_rs1 & l106 == 9'd292;
+	assign pla_hcnt2[24] = reg_rs1 & l106 == 9'd164;
+	assign pla_hcnt2[25] = reg_rs1 & l106 == 9'd466;
+	assign pla_hcnt2[26] = ~reg_rs1 & l106 == 9'd134;
+	assign pla_hcnt2[27] = ~reg_rs1 & l106 == 9'd475;
+	assign pla_hcnt2[28] = reg_rs1 & l106 == 9'd148;
+	assign pla_hcnt2[29] = ~reg_rs1 & l106 == 9'd121;
+	assign pla_hcnt2[30] = reg_rs1 & l106 == 9'd120;
+	assign pla_hcnt2[31] = ~reg_rs1 & l106 == 9'd95;
+	assign pla_hcnt2[32] = reg_rs1 & l106 == 9'd1;
+	assign pla_hcnt2[33] = ~reg_rs1 & l106 == 9'd0;
+	assign pla_hcnt2[34] = reg_rs1 & l106 == 9'd348;
+	assign pla_hcnt2[35] = ~reg_rs1 & l106 == 9'd284;
+	assign pla_hcnt2[36] = reg_rs1 & l106 == 9'd330;
+	assign pla_hcnt2[37] = ~reg_rs1 & l106 == 9'd266;
+	assign pla_hcnt2[38] = l106 == 9'd18;
+	assign pla_hcnt2[39] = ~reg_lcb & l106 == 9'd10;
+	assign pla_hcnt2[40] = reg_rs1 & l106 == 9'd43;
+	assign pla_hcnt2[41] = ~reg_rs1 & l106 == 9'd36;
+	assign pla_hcnt2[42] = reg_rs1 & l106 == 9'd253;
+	assign pla_hcnt2[43] = ~reg_rs1 & l106 == 9'd206;
+	assign pla_hcnt2[44] = reg_rs1 & l106 == 9'd363;
+	assign pla_hcnt2[45] = ~reg_rs1 & l106 == 9'd294;
+
+	assign w467 = pla_vcnt[41] | pla_vcnt[42] | pla_vcnt[43]
+		| pla_vcnt[44] | pla_vcnt[45] | pla_vcnt[46] | pla_vcnt[47];
+	assign w468 = ~pla_vcnt[40];
+	assign w469 = ~(pla_vcnt[37] | pla_vcnt[38] | pla_vcnt[39]);
+	assign w470 = pla_vcnt[30] | pla_vcnt[31] | pla_vcnt[32]
+		| pla_vcnt[33] | pla_vcnt[34] | pla_vcnt[35] | pla_vcnt[36];
+	assign w471 = pla_vcnt[25] | pla_vcnt[26] | pla_vcnt[27]
+		| pla_vcnt[28] | pla_vcnt[29];
+	assign w472 = pla_vcnt[17] | pla_vcnt[18] | pla_vcnt[19] | pla_vcnt[20]
+		| pla_vcnt[21] | pla_vcnt[22] | pla_vcnt[23] | pla_vcnt[24];
+	assign w473 = pla_vcnt[9] | pla_vcnt[10] | pla_vcnt[11] | pla_vcnt[12]
+		| pla_vcnt[13] | pla_vcnt[14] | pla_vcnt[15] | pla_vcnt[16];
+	assign w474 = pla_vcnt[1] | pla_vcnt[2] | pla_vcnt[3] | pla_vcnt[4]
+		| pla_vcnt[5] | pla_vcnt[6] | pla_vcnt[7] | pla_vcnt[8];
+	assign w475 = ~pla_vcnt[0];
+
+	assign w476 = pla_hcnt1[60] | pla_hcnt1[61] | pla_hcnt1[62];
+	assign w477 = pla_hcnt1[50] | pla_hcnt1[57] | pla_hcnt1[58] | pla_hcnt1[59];
+	assign w478 = pla_hcnt1[49] | pla_hcnt1[55] | pla_hcnt1[56];
+	assign w479 = pla_hcnt1[47] | pla_hcnt1[48] | pla_hcnt1[53] | pla_hcnt1[54];
+	assign w480 = pla_hcnt1[45] | pla_hcnt1[46] | pla_hcnt1[51] | pla_hcnt1[52];
+	assign w481 = pla_hcnt1[5] | pla_hcnt1[6] | pla_hcnt1[36] |
+		pla_hcnt1[37] | pla_hcnt1[38] | pla_hcnt1[39];
+	assign w482 = pla_hcnt1[7] | pla_hcnt1[8] | pla_hcnt1[9] | pla_hcnt1[10]
+		| pla_hcnt1[11] | pla_hcnt1[12] | pla_hcnt1[13] | pla_hcnt1[14]
+		| pla_hcnt1[15] | pla_hcnt1[16] | pla_hcnt1[17] | pla_hcnt1[18]
+		| pla_hcnt1[19] | pla_hcnt1[20] | pla_hcnt1[21] | pla_hcnt1[22]
+		| pla_hcnt1[24] | pla_hcnt1[25] | pla_hcnt1[26] | pla_hcnt1[27]
+		| pla_hcnt1[32] | pla_hcnt1[33] | pla_hcnt1[34] | pla_hcnt1[35];
+	assign w483 = pla_hcnt1[44];
+	assign w484 = pla_hcnt1[0] | pla_hcnt1[1] | pla_hcnt1[2] | pla_hcnt1[3] | pla_hcnt1[4];
+	assign w485 = pla_hcnt1[36] | pla_hcnt1[37] | pla_hcnt1[38] | pla_hcnt1[39]
+		| pla_hcnt1[43];
+	assign w486 = w403 | pla_hcnt1[40] | pla_hcnt1[41] | pla_hcnt1[42];
+	assign w487 = pla_hcnt1[7] | pla_hcnt1[8] | pla_hcnt1[9] | pla_hcnt1[10]
+		| pla_hcnt1[11] | pla_hcnt1[12] | pla_hcnt1[13] | pla_hcnt1[14]
+		| pla_hcnt1[17] | pla_hcnt1[18] | pla_hcnt1[19] | pla_hcnt1[22] | pla_hcnt1[23]
+		| pla_hcnt1[24] | pla_hcnt1[25] | pla_hcnt1[26] | pla_hcnt1[27]
+		| pla_hcnt1[40] | pla_hcnt1[41] | pla_hcnt1[42]
+		| pla_hcnt1[46] | pla_hcnt1[47] | pla_hcnt1[48]
+		| pla_hcnt1[49] | pla_hcnt1[50];
+	assign w488 = pla_hcnt1[23];
+	assign w489 = pla_hcnt1[31] | pla_hcnt1[28] | pla_hcnt1[29] | pla_hcnt1[30];
+
+	assign w490 = pla_hcnt2[44] | pla_hcnt2[45];
+	assign w491 = pla_hcnt2[42] | pla_hcnt2[43];
+	assign w492 = pla_hcnt2[40] | pla_hcnt2[41];
+	assign w493 = pla_hcnt2[38] | pla_hcnt2[39];
+	assign w494 = pla_hcnt2[36] | pla_hcnt2[37];
+	assign w495 = pla_hcnt2[34] | pla_hcnt2[35];
+	assign w496 = pla_hcnt2[32] | pla_hcnt2[33];
+	assign w497 = pla_hcnt2[30] | pla_hcnt2[31];
+	assign w498 = pla_hcnt2[28] | pla_hcnt2[29];
+	assign w499 = pla_hcnt2[24] | pla_hcnt2[25] | pla_hcnt2[26] | pla_hcnt2[27];
+	assign w500 = pla_hcnt2[22] | pla_hcnt2[23];
+	assign w501 = pla_hcnt2[20] | pla_hcnt2[21];
+	assign w502 = ~(pla_hcnt2[17] | pla_hcnt2[18] | pla_hcnt2[19]);
+	assign w503 = pla_hcnt2[15] | pla_hcnt2[16];
+	assign w504 = pla_hcnt2[14];
+	assign w505 = ~(pla_hcnt2[12] | pla_hcnt2[13]);
+	assign w506 = pla_hcnt2[11];
+	assign w507 = pla_hcnt2[9] | pla_hcnt2[10];
+	assign w508 = pla_hcnt2[8];
+	assign w509 = pla_hcnt2[4] | pla_hcnt2[5] | pla_hcnt2[6] | pla_hcnt2[7];
+	assign w510 = pla_hcnt2[2] | pla_hcnt2[3];
+	assign w511 = pla_hcnt2[1];
+	assign w512 = pla_hcnt2[0];
+	
+	ym_sr_bit sr663(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(t35), .sr_out(l663));
+
 	// Plane block
 	
 	// Sprite block
