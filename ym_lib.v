@@ -393,3 +393,61 @@ module ym_cnt_bit_rs #(parameter DATA_WIDTH = 1)
 	assign c_out = sum[DATA_WIDTH];
 	
 endmodule
+
+module ym_cnt_bit_rev #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input c1,
+	input c2,
+	input c_in,
+	input dec,
+	input reset,
+	output [DATA_WIDTH-1:0] val,
+	output c_out
+	);
+	
+	wire [DATA_WIDTH-1:0] data_in;
+	wire [DATA_WIDTH-1:0] data_out;
+	wire [DATA_WIDTH:0] sum;
+	
+	ym_sr_bit_array #(.DATA_WIDTH(DATA_WIDTH)) mem
+		(
+		.MCLK(MCLK),
+		.c1(c1),
+		.c2(c2),
+		.data_in(data_in),
+		.data_out(data_out)
+		);
+	
+	assign sum = data_out + {DATA_WIDTH{dec}} + c_in;
+	assign val = data_out;
+	assign data_in = reset ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
+	assign c_out = sum[DATA_WIDTH];
+	
+endmodule
+
+module ym_sr_bit_en #(parameter SR_LENGTH = 2)
+	(
+	input MCLK,
+	input c1,
+	input c2,
+	input en,
+	input data_in,
+	output [SR_LENGTH-1:0] data_out
+	);
+	
+	wire [SR_LENGTH-1:0] sr_out;
+	wire [SR_LENGTH-1:0] sr_in = en ? { sr_out[SR_LENGTH-2:0], data_in } : sr_out;
+	
+	assign data_out = sr_out;
+	
+	ym_sr_bit_array #(.DATA_WIDTH(SR_LENGTH)) mem
+		(
+		.MCLK(MCLK),
+		.c1(c1),
+		.c2(c2),
+		.data_in(sr_in),
+		.data_out(sr_out)
+		);
+
+endmodule
