@@ -1227,7 +1227,7 @@ module ym7101
 	
 	assign w354 = w331 ? l102 : l103;
 	
-	ym_sr_bit_array #(.DATA_WIDTH(8)) sr104(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .val(l104));
+	ym_sr_bit_array #(.DATA_WIDTH(8)) sr104(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(unk_data), .data_out(l104));
 	
 	ym_slatch_r #(.DATA_WIDTH(8)) sl_hit(.MCLK(MCLK), .en(w229), .rst(reset_comb), .inp(~reg_data_l2[7:0]), .val(reg_hit));
 	
@@ -1932,6 +1932,724 @@ module ym7101
 	ym_sr_bit sr663(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(t35), .sr_out(l663));
 
 	// Plane block
+	
+	assign w513 = (hclk1 & w379) | reg_test1[7];
+	
+	ym_sr_bit sr178(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l106[3]), .sr_out(l178));
+	
+	assign w514 = hclk1 & l115 & (reg_m5 | l162);
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl179(.MCLK(MCLK), .en(w230), .inp(reg_data_l2[7:0]), .val(l179));
+	
+	assign w515 = reg_m5 ? vsram_out : { 3'h0, l179 };
+	
+	ym_slatch #(.DATA_WIDTH(11)) sl180(.MCLK(MCLK), .en(w516), .inp(vsram_out), .val(l180));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(11)) sr181(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in({ l182, l104 }), .data_out(l181));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(3)) sr182(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(vram_data[10:8]), .data_out(l182));
+	
+	ym_sr_bit sr183(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l209), .sr_out(l183));
+	
+	assign w516 = l209 & hclk1;
+	
+	assign w517 = w514 | reg_test1[7];
+	
+	ym_slatch #(.DATA_WIDTH(11)) sl184(.MCLK(MCLK), .en(w517), .inp(w515), .val(l184));
+	
+	ym_slatch #(.DATA_WIDTH(11)) sl185(.MCLK(MCLK), .en(w513), .inp(vsram_out), .val(l185));
+	
+	ym_sr_bit sr186(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w519), .sr_out(l186));
+	
+	assign w518 = { l184[10:8], l186 ? l184[7:0] : 8'h0 };
+	
+	assign w519 = ~(l106[7:6] == 2'h3 & reg_80_b7);
+	
+	assign w520 = reg_m5 & (l178 | reg_vscr);
+	
+	assign w521 = w520 ? l185 : w518;
+	
+	assign w522 = w521 + { 2'h0, w355[8:0] };
+	
+	ym_slatch #(.DATA_WIDTH(2)) sl_hsz(.MCLK(MCLK), .en(w224), .inp(reg_data_l2[1:0]), .val(reg_hsz));
+	
+	ym_slatch #(.DATA_WIDTH(2)) sl_vsz(.MCLK(MCLK), .en(w224), .inp(reg_data_l2[5:4]), .val(reg_vsz));
+	
+	assign w523 = reg_hsz == 2'h0;
+	
+	assign w524 = reg_hsz == 2'h1;
+	
+	assign w525 = reg_hsz == 2'h3;
+	
+	assign w526 = w106 ? w522[10:4] : w522[9:3];
+	
+	assign w527 =
+		( w523 ? w528 : 7'h0 ) |
+		( w524 ? { w528[5:0], w555[5] }: 7'h0 ) |
+		( w525 ? { w528[4:0], w555[6:5] } : 7'h0 );
+	
+	wire [2:0] w528_sum = w526[4:2] + { 2'h0, w529 };
+	
+	assign w528 = { reg_vsz[1] & w526[6], reg_vsz[0] & w526[5], w528_sum, w526[1:0] };
+	
+	assign w529 = ~reg_m5 & w530;
+	
+	assign w530 = w526[4:2] == 3'h7 | w526[5];
+	
+	assign w531 = reg_m5 & w558;
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl_sa(.MCLK(MCLK), .en(w218), .inp(reg_data_l2[6:3]), .val(reg_sa));
+	
+	ym_slatch #(.DATA_WIDTH(2)) sl_sa(.MCLK(MCLK), .en(w218), .inp(reg_data_l2[2:1]), .val(reg_nt));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl_sb(.MCLK(MCLK), .en(w220), .inp(reg_data_l2[3:0]), .val(reg_sb));
+	
+	assign w532 = l200 ? reg_sb : reg_sa;
+	
+	assign w533 = reg_m5 ? w527[6:5] : reg_nt;
+	
+	ym_slatch sl_8e_b0(.MCLK(MCLK), .en(w232), .inp(reg_data_l2[0]), .val(reg_8e_b0));
+	
+	ym_slatch sl_8e_b4(.MCLK(MCLK), .en(w232), .inp(reg_data_l2[4]), .val(reg_8e_b4));
+	
+	assign w534 = l106[8:7] != 2'h3;
+	
+	assign w535 = { reg_hscr ? w537[7:3] : 5'h0, reg_lscr ? w537[2:0] : 3'h0 };
+	
+	assign w536 = reg_rs1 ?
+		{ w537[7:3], l106[8] } :
+		{ reg_wd[0], w537[7:3] };
+	
+	ym_slatch #(.DATA_WIDTH(6)) sl_wd(.MCLK(MCLK), .en(w219), .inp(reg_data_l2[6:1]), .val(reg_wd));
+	
+	ym_slatch #(.DATA_WIDTH(7)) sl_hs(.MCLK(MCLK), .en(w233), .inp(reg_data_l2[6:0]), .val(reg_hs));
+	
+	assign w537 = w106 ? w355[8:0] : w355[7:0];
+	
+	assign w538 = w546 ^ ~l187;
+	
+	assign w539 = w538 & w534;
+	
+	assign w540 = w545 ^ l189;
+	
+	assign w541 = (w540 | w539) & ~l106[3] & reg_m5;
+	
+	ym_slatch #(.DATA_WIDTH(5)) sl_whp(.MCLK(MCLK), .en(w223), .inp(reg_data_l2[4:0]), .val(reg_whp));
+	
+	ym_slatch sl_rigt(.MCLK(MCLK), .en(w223), .inp(reg_data_l2[7]), .val(reg_rigt));
+	
+	ym_slatch #(.DATA_WIDTH(5)) sl_wvp(.MCLK(MCLK), .en(w222), .inp(reg_data_l2[4:0]), .val(reg_wvp));
+	
+	ym_slatch sl_down(.MCLK(MCLK), .en(w222), .inp(reg_data_l2[7]), .val(reg_down));
+	
+	assign w542 = reg_test1[7] | l115;
+	
+	assign w543 = l115 & (reg_m5 | l162);
+	
+	assign w544 = w543 | reg_test1[7];
+	
+	ym_slatch sl187(.MCLK(MCLK), .en(w542), .inp(reg_rigt), .val(l187));
+	
+	ym_slatch #(.DATA_WIDTH(5)) sl188(.MCLK(MCLK), .en(w542), .inp(reg_whp), .val(l188));
+	
+	ym_slatch sl189(.MCLK(MCLK), .en(w544), .inp(reg_down), .val(l189));
+	
+	ym_slatch #(.DATA_WIDTH(5)) sl190(.MCLK(MCLK), .en(w544), .inp(reg_wvp), .val(l190));
+	
+	assign w545 = w537[7:3] < l190;
+	
+	assign w546 = l188 <= l106[8:4];
+	
+	assign w547 = reg_test1[7] | l115;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl_88(.MCLK(MCLK), .en(w231), .inp(reg_data_l2[7:0]), .val(reg_88));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl191(.MCLK(MCLK), .en(w570), .inp(vram_serial), .val(l191));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl192(.MCLK(MCLK), .en(w572), .inp(vram_serial), .val(l192));
+	
+	assign w548 = w394 | w385;
+	
+	assign w549 = w372 | (reg_test1[8] & cpu_pen);
+	
+	assign w550 = w394 & ~reg_m5;
+	
+	assign w551 = w550 | w385;
+	
+	assign w552 = ~(~reg_80_b6 | w355[5] | w355[6] | w355[4] | w355[7]);
+	
+	assign w553 = w552 | reg_m5;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl193(.MCLK(MCLK), .en(w547), .inp(reg_88), .val(l193));
+	
+	assign w554 = ~(
+		(~w553 ? { 2'h0, l193 } : 10'h0) |
+		(w574 ? { l194, l191 } : 10'h0) |
+		(w575 ? { l195, l192 } : 10'h0)
+		);
+	
+	ym_slatch #(.DATA_WIDTH(2)) sl194(.MCLK(MCLK), .en(w571), .inp(vram_serial[1:0]), .val(l194));
+	
+	ym_slatch #(.DATA_WIDTH(2)) sl195(.MCLK(MCLK), .en(w573), .inp(vram_serial[1:0]), .val(l195));
+	
+	assign w555 = { w554[9:4], w564 } + { w567, w565, w563 } + 7'h1;
+	
+	ym_sr_bit sr196(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w548), .sr_out(l196));
+	
+	ym_sr_bit sr197(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l106[3]), .sr_out(l197));
+	
+	ym_sr_bit sr198(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(~w550), .sr_out(l198));
+	
+	ym_sr_bit sr199(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w551), .sr_out(l199));
+	
+	assign w556 = reg_m5 & ~reg_test1[8] & w549;
+	
+	ym_sr_bit sr200(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w556), .sr_out(l200));
+	
+	assign w557 = ~w541 & w356;
+	
+	ym_sr_bit sr201(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w557), .sr_out(l201));
+	
+	assign w558 = l200 | l201;
+	
+	assign w559 = w356 & w541;
+	
+	ym_sr_bit sr202(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w559), .sr_out(l202));
+	
+	assign w560 = w356 | w549;
+	
+	ym_sr_bit sr203(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w560), .sr_out(l203));
+	
+	ym_sr_bit sr204(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l203), .sr_out(l204));
+	
+	ym_sr_bit sr205(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l204), .sr_out(l205));
+	
+	assign w561 = reg_rs1 ? w568 : l106[8];
+	
+	assign w562 = ~(w561 | reg_m5);
+	
+	assign w563 = w562 & l106[3];
+	
+	assign w564 = w554[3] | reg_m5;
+	
+	assign w565 = w561 ? 4'hf : l106[7:4];
+	
+	assign w566 = reg_m5 & l199;
+	
+	assign w567 = w561 ? reg_hsz : { w568, l106[8] };
+	
+	assign w568 = l106[8] & (l106[7] | l106[6])
+	
+	ym_sr_bit sr206(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w201), .sr_out(l206));
+	
+	ym_sr_bit sr207(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w323), .sr_out(l207));
+	
+	ym_sr_bit sr208(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w324), .sr_out(l208));
+	
+	ym_sr_bit sr209(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l206), .sr_out(l209));
+	
+	ym_sr_bit sr210(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l207), .sr_out(l210));
+	
+	ym_sr_bit sr211(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l208), .sr_out(l211));
+	
+	assign w569 = l206 | l207 | l208;
+	
+	ym_sr_bit_array #(.DATA_WIDTH(6)) sr212(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w626), .data_out(l212));
+	
+	ym_dlatch_1 dl213(.MCLK(MCLK), .c1(clk1), .inp(~(hclk1 & l316)), .nval(l213));
+	
+	assign w570 = l213 & clk2;
+	
+	ym_sr_bit sr214(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l213), .sr_out(l214));
+	
+	assign w571 = l214 & clk2;
+	
+	ym_sr_bit sr215(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l214), .sr_out(l215));
+	
+	assign w572 = l215 & clk2;
+	
+	ym_sr_bit sr216(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l215), .sr_out(l216));
+	
+	assign w573 = l216 & clk2;
+	
+	assign w574 = ~w541 & reg_m5 & ~l106[3];
+	
+	assign w575 = ~w541 & reg_m5 & l106[3];
+	
+	assign w576 = l217 ? w355[3:0] : w522[3:0];
+	
+	assign w577 = w583 ? 4'hf : w576;
+	
+	assign w578 = w106 ? { l219, w577[3] } : { l220[0], l219 };
+	
+	assign w579 = w106 ? l220[2:0] : { w581, l220[2:1] };
+	
+	assign w580 = w106 ? { l222[2:0], l221, w577[3] } : { w581, l222[2:0], l221 };
+	
+	assign w581 = l197 ? reg_8e_b4 : reg_8e_b0;
+	
+	ym_sr_bit sr217(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w541), .sr_out(l217));
+	
+	assign w582 = w394 & reg_m5;
+	
+	ym_sr_bit sr218(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w582), .sr_out(l218));
+	
+	assign w583 = l218 ? l222[4] : w585;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl219(.MCLK(MCLK), .en(w615), .inp(vram_serial), .val(l219));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl220(.MCLK(MCLK), .en(w616), .inp(vram_serial), .val(l220));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl221(.MCLK(MCLK), .en(w617), .inp(vram_serial), .val(l221));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl222(.MCLK(MCLK), .en(w618), .inp(vram_serial), .val(l222));
+	
+	assign w584 = reg_m5 ? l220[3] : l220[1];
+	assign w585 = reg_m5 ? l220[4] : l220[2];
+	assign w586 = reg_m5 ? l220[6:5] : { 1'h0, l220[3] };
+	assign w587 = reg_m5 ? l220[7] : l220[4];
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl223(.MCLK(MCLK), .en(w591), .inp(vram_serial), .val(l223));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl224(.MCLK(MCLK), .en(w590), .inp(vram_serial), .val(l224));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl225(.MCLK(MCLK), .en(w589), .inp(vram_serial), .val(l225));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl226(.MCLK(MCLK), .en(w588), .inp(vram_serial), .val(l226));
+	
+	ym_dlatch_1 dl227(.MCLK(MCLK), .c1(clk1), .inp(w613), .nval(l227));
+	
+	ym_sr_bit sr228(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l227), .sr_out(l228));
+	
+	ym_sr_bit sr229(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l228), .sr_out(l229));
+	
+	ym_sr_bit sr230(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l229), .sr_out(l230));
+	
+	ym_sr_bit sr231(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l230), .sr_out(l231));
+	
+	assign w588 = l227 & clk2;
+	
+	assign w589 = l228 & clk2;
+	
+	assign w590 = l229 & clk2;
+	
+	assign w591 = l230 & clk2;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl232(.MCLK(MCLK), .en(w592), .inp(l223), .val(l232));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl233(.MCLK(MCLK), .en(w592), .inp(l224), .val(l233));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl234(.MCLK(MCLK), .en(w592), .inp(l225), .val(l234));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl235(.MCLK(MCLK), .en(w592), .inp(l226), .val(l235));
+	
+	assign w592 = w598 & clk2;
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl236(.MCLK(MCLK), .en(l242), .inp(w554[3:0]), .val(l236));
+	
+	assign w593 = w614 & l236 == 4'hf;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl237(.MCLK(MCLK), .en(w611), .inp(l232), .val(l237));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl238(.MCLK(MCLK), .en(w611), .inp(l233), .val(l238));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl239(.MCLK(MCLK), .en(w611), .inp(l234), .val(l239));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl240(.MCLK(MCLK), .en(w611), .inp(l235), .val(l240));
+	
+	ym_cnt_bit_load #(.DATA_WIDTH(4)) cnt241(.MCLK(MCLK), .c1(hclk1), .c2(hclk2),
+		.c_in(1'h1), .reset(1'h0), .load(w614), .load_val(l236), val(l241));
+	
+	ym_sr_bit sr242(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w614), .sr_out(l242));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl243(.MCLK(MCLK), .en(w597), .inp(vram_serial), .val(l243));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl244(.MCLK(MCLK), .en(w596), .inp(vram_serial), .val(l244));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl245(.MCLK(MCLK), .en(w595), .inp(vram_serial), .val(l245));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl246(.MCLK(MCLK), .en(w594), .inp(vram_serial), .val(l246));
+	
+	ym_dlatch_1 dl247(.MCLK(MCLK), .c1(clk1), .inp(w600), .nval(l247));
+	
+	ym_sr_bit sr248(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l247), .sr_out(l248));
+	
+	ym_sr_bit sr249(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l248), .sr_out(l249));
+	
+	ym_sr_bit sr250(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l249), .sr_out(l250));
+	
+	assign w594 = l247 & clk2;
+	
+	assign w595 = l248 & clk2;
+	
+	assign w596 = l249 & clk2;
+	
+	assign w597 = l250 & clk2;
+	
+	ym_dlatch_1 dl251(.MCLK(MCLK), .c1(clk1), .inp(w633), .nval(l251));
+	
+	ym_sr_bit sr252(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l251), .sr_out(l252));
+	
+	ym_sr_bit sr253(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l252), .sr_out(l253));
+	
+	ym_sr_bit sr254(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l253), .sr_out(l254));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl255(.MCLK(MCLK), .en(w592), .inp(l243), .val(l255));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl256(.MCLK(MCLK), .en(w592), .inp(l244), .val(l256));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl257(.MCLK(MCLK), .en(w592), .inp(l245), .val(l257));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl258(.MCLK(MCLK), .en(w592), .inp(l246), .val(l258));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl259(.MCLK(MCLK), .en(w591),
+		.inp({ w587, l522[7], w586[1], l222[6], w586[0], l222[5], w584, l222[3] }), .val(l259));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl260(.MCLK(MCLK), .en(w592), .inp(l259), .val(l260));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl261(.MCLK(MCLK), .en(w611), .inp(l255), .val(l261));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl262(.MCLK(MCLK), .en(w611), .inp(l256), .val(l262));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl263(.MCLK(MCLK), .en(w611), .inp(l257), .val(l263));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl264(.MCLK(MCLK), .en(w611), .inp(l258), .val(l264));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl265(.MCLK(MCLK), .en(w611), .inp(l260), .val(l265));
+	
+	assign w598 = reg_m5 ? l302 : l231;
+	
+	assign w599 = reg_m5 & l241[3];
+	
+	assign w600 = ~(hclk1 & w612);
+	
+	assign w601 = reg_m5 ^ l241[1];
+	
+	assign w602 = w599 ? l265[0] : l265[1];
+	
+	assign w603 = w599 ? l265[2] : l265[3];
+	
+	assign w604 = w599 ? l265[4] : l265[5];
+	
+	assign w605 = w599 ? l265[6] : l265[7];
+	
+	wire[2:0] w606_t = { l241[2], w601, l241[0] };
+	
+	assign w606 = w602 ? ~w606_t : w606_t;
+	
+	wire [7:0] w606_sel;
+	
+	assign w606_sel[0] = w606 == 3'h0;
+	assign w606_sel[1] = w606 == 3'h1;
+	assign w606_sel[2] = w606 == 3'h2;
+	assign w606_sel[3] = w606 == 3'h3;
+	assign w606_sel[4] = w606 == 3'h4;
+	assign w606_sel[5] = w606 == 3'h5;
+	assign w606_sel[6] = w606 == 3'h6;
+	assign w606_sel[7] = w606 == 3'h7;
+	
+	wire [3:0] w607_m4 =
+		(w606_sel[0] ? { l239[7], l240[7], l263[7], l264[7] } : 4'h0 ) |
+		(w606_sel[1] ? { l239[6], l240[6], l263[6], l264[6] } : 4'h0 ) |
+		(w606_sel[2] ? { l239[5], l240[5], l263[5], l264[5] } : 4'h0 ) |
+		(w606_sel[3] ? { l239[4], l240[4], l263[4], l264[4] } : 4'h0 ) |
+		(w606_sel[4] ? { l239[3], l240[3], l263[3], l264[3] } : 4'h0 ) |
+		(w606_sel[5] ? { l239[2], l240[2], l263[2], l264[2] } : 4'h0 ) |
+		(w606_sel[6] ? { l239[1], l240[1], l263[1], l264[1] } : 4'h0 ) |
+		(w606_sel[7] ? { l239[0], l240[0], l263[0], l264[0] } : 4'h0 );
+	
+	wire [3:0] w607_m5_1 =
+		(w606_sel[7] : l261[3:0] : 4'h0) |
+		(w606_sel[6] : l261[7:3] : 4'h0) |
+		(w606_sel[5] : l262[3:0] : 4'h0) |
+		(w606_sel[4] : l262[7:3] : 4'h0) |
+		(w606_sel[3] : l263[3:0] : 4'h0) |
+		(w606_sel[2] : l263[7:3] : 4'h0) |
+		(w606_sel[1] : l265[3:0] : 4'h0) |
+		(w606_sel[0] : l265[7:3] : 4'h0);
+	
+	wire [3:0] w607_m5_2 =
+		(w606_sel[7] : l237[3:0] : 4'h0) |
+		(w606_sel[6] : l237[7:3] : 4'h0) |
+		(w606_sel[5] : l238[3:0] : 4'h0) |
+		(w606_sel[4] : l238[7:3] : 4'h0) |
+		(w606_sel[3] : l239[3:0] : 4'h0) |
+		(w606_sel[2] : l239[7:3] : 4'h0) |
+		(w606_sel[1] : l240[3:0] : 4'h0) |
+		(w606_sel[0] : l240[7:3] : 4'h0);
+	
+	assign w607 =
+		(~reg_m5 ? w607_m4 : 4'h0) |
+		((reg_m5 & ~l241[3]) ? w607_m5_1 : 4'h0) |
+		((reg_m5 & l241[3]) ? w607_m5_2 : 4'h0);
+	
+	assign w608 = l241[3] | ~reg_m5;
+	
+	assign w609 = w608 & l241[2:0] == 3'h7;
+	
+	assign w610 = ~(w609 | w593);
+	
+	ym_dlatch_1 dl266(.MCLK(MCLK), .c1(hclk1), .inp(w610), .nval(l266));
+	
+	assign w611 = hclk2 & l266;
+	
+	assign w612 = w393 | (reg_test1[9] & cpu_pen);
+	
+	ym_sr_bit sr267(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w612), .sr_out(l267));
+	
+	ym_sr_bit sr268(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l267), .sr_out(l268));
+	
+	assign w613 = ~(l268 & hclk1);
+	
+	ym_sr_bit_array #(.DATA_WIDTH(4)) sr269(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w607), .data_out(l269));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(4)) sr270(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(l269), .data_out(l270));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(2)) sr271(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in({ w604, w603 }), .data_out(l271));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(2)) sr272(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(l271), .data_out(l272));
+	
+	ym_sr_bit sr273(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w605), .sr_out(l273));
+	
+	ym_sr_bit sr274(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l273), .sr_out(l274));
+	
+	assign w614 = w424 | w90;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl275(.MCLK(MCLK), .en(w622), .inp(vram_serial), .val(l275));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl276(.MCLK(MCLK), .en(w621), .inp(vram_serial), .val(l276));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl277(.MCLK(MCLK), .en(w620), .inp(vram_serial), .val(l277));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl278(.MCLK(MCLK), .en(w619), .inp(vram_serial), .val(l278));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl279(.MCLK(MCLK), .en(w631), .inp(l275), .val(l279));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl280(.MCLK(MCLK), .en(w631), .inp(l276), .val(l280));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl281(.MCLK(MCLK), .en(w631), .inp(l277), .val(l281));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl282(.MCLK(MCLK), .en(w631), .inp(l278), .val(l282));
+	
+	assign w615 = l251 & clk2;
+	assign w616 = l252 & clk2;
+	assign w617 = l253 & clk2;
+	assign w618 = l254 & clk2;
+	
+	ym_dlatch_1 dl283(.MCLK(MCLK), .c1(clk1), .inp(w640), .nval(l283));
+	
+	ym_sr_bit sr284(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l251), .sr_out(l284));
+	
+	ym_sr_bit sr285(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l252), .sr_out(l285));
+	
+	ym_sr_bit sr286(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l253), .sr_out(l286));
+	
+	assign w619 = l283 & clk2;
+	assign w620 = l284 & clk2;
+	assign w621 = l285 & clk2;
+	assign w622 = l286 & clk2;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl287(.MCLK(MCLK), .en(w645), .inp(l279), .val(l287));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl288(.MCLK(MCLK), .en(w645), .inp(l280), .val(l288));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl289(.MCLK(MCLK), .en(w645), .inp(l281), .val(l289));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl290(.MCLK(MCLK), .en(w645), .inp(l282), .val(l290));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl291(.MCLK(MCLK), .en(w631),
+		.inp({ w587, l522[7], w586[1], l222[6], w586[0], l222[5], w584, l222[3] }), .val(l291));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl292(.MCLK(MCLK), .en(w645), .inp(l291), .val(l292));
+	
+	assign w623 = ~(reg_m5 & reg_vscr);
+	
+	ym_sr_bit_array #(.DATA_WIDTH(6)) sr293(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(vram_address[6:1]), .data_out(l293));
+	
+	assign w624 = w623 & l106[3];
+	
+	assign w625 = reg_vscr ? l106[8:4] : 5'h0;
+	
+	assign w626 = w569 ? l293 : { w625, w624 };
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl294(.MCLK(MCLK), .en(w630), .inp(vram_serial), .val(l294));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl295(.MCLK(MCLK), .en(w629), .inp(vram_serial), .val(l295));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl296(.MCLK(MCLK), .en(w628), .inp(vram_serial), .val(l296));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl297(.MCLK(MCLK), .en(w627), .inp(vram_serial), .val(l297));
+	
+	ym_dlatch_1 dl298(.MCLK(MCLK), .c1(clk1), .inp(w639), .nval(l298));
+	
+	ym_sr_bit sr299(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l251), .sr_out(l299));
+	
+	ym_sr_bit sr300(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l252), .sr_out(l300));
+	
+	ym_sr_bit sr301(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l253), .sr_out(l301));
+	
+	ym_sr_bit sr302(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l254), .sr_out(l302));
+	
+	assign w627 = l298 & clk2;
+	
+	assign w628 = l299 & clk2;
+	
+	assign w629 = l300 & clk2;
+	
+	assign w630 = l301 & clk2;
+	
+	assign w631 = l302 & clk2;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl303(.MCLK(MCLK), .en(w631), .inp(l294), .val(l303));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl304(.MCLK(MCLK), .en(w631), .inp(l295), .val(l304));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl305(.MCLK(MCLK), .en(w631), .inp(l296), .val(l305));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl306(.MCLK(MCLK), .en(w631), .inp(l297), .val(l306));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl307(.MCLK(MCLK), .en(w645), .inp(l303), .val(l307));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl308(.MCLK(MCLK), .en(w645), .inp(l304), .val(l308));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl309(.MCLK(MCLK), .en(w645), .inp(l305), .val(l309));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl310(.MCLK(MCLK), .en(w645), .inp(l306), .val(l310));
+	
+	ym_cnt_bit_load #(.DATA_WIDTH(4)) cnt311(.MCLK(MCLK), .c1(hclk1), .c2(hclk2),
+		.c_in(1'h1), .reset(1'h0), .load(w649), .load_val({~w554[3], w554[2:0]}), val(l311));
+	
+	wire [2:0] w632_t = l311[2:0];
+	
+	assign w632 = w634 ? ~w632_t : w632_t;
+	
+	assign w633 = ~(hclk1 & l205);
+	
+	assign w634 = l311[3] ? l292[0] : l292[1];
+	assign w635 = l311[3] ? l292[2] : l292[3];
+	assign w636 = l311[3] ? l292[4] : l292[5];
+	assign w637 = l311[3] ? l292[6] : l292[7];
+	
+	assign w638 = w402 | (reg_test1[10] & cpu_pen);
+	
+	ym_sr_bit sr312(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w638), .sr_out(l312));
+	
+	ym_sr_bit sr313(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l312), .sr_out(l313));
+	
+	assign w639 = ~(hclk1 & l313);
+	
+	assign w640 = ~(hclk1 & w638);
+	
+	assign w641 = { w632[2], ~w632[1], w632[0] };
+	
+	assign w642 = w419 | (reg_test1[6] & cpu_pen);
+	
+	ym_sr_bit sr314(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w642), .sr_out(l314));
+	
+	ym_sr_bit sr315(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l314), .sr_out(l315));
+	
+	ym_sr_bit sr316(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l315), .sr_out(l316));
+	
+	assign w643 = l314 & ~reg_test1[7];
+	
+	assign w644 = ~(l311 == 4'h15);
+	
+	ym_dlatch_1 dl317(.MCLK(MCLK), .c1(hclk1), .inp(w644), .nval(l317));
+	
+	assign w645 = l317 & hclk2;
+	
+	assign w646 = l269 != 4'h0;
+	
+	wire [7:0] w641_sel;
+	
+	assign w641_sel[0] = w641 == 3'h0;
+	assign w641_sel[1] = w641 == 3'h1;
+	assign w641_sel[2] = w641 == 3'h2;
+	assign w641_sel[3] = w641 == 3'h3;
+	assign w641_sel[4] = w641 == 3'h4;
+	assign w641_sel[5] = w641 == 3'h5;
+	assign w641_sel[6] = w641 == 3'h6;
+	assign w641_sel[7] = w641 == 3'h7;
+	
+	wire [3:0] w647_1 =
+		(w641_sel[7] : l307[3:0] : 4'h0) |
+		(w641_sel[6] : l307[7:3] : 4'h0) |
+		(w641_sel[5] : l308[3:0] : 4'h0) |
+		(w641_sel[4] : l308[7:3] : 4'h0) |
+		(w641_sel[3] : l309[3:0] : 4'h0) |
+		(w641_sel[2] : l309[7:3] : 4'h0) |
+		(w641_sel[1] : l310[3:0] : 4'h0) |
+		(w641_sel[0] : l310[7:3] : 4'h0);
+	
+	wire [3:0] w647_2 =
+		(w641_sel[7] : l287[3:0] : 4'h0) |
+		(w641_sel[6] : l287[7:3] : 4'h0) |
+		(w641_sel[5] : l288[3:0] : 4'h0) |
+		(w641_sel[4] : l288[7:3] : 4'h0) |
+		(w641_sel[3] : l289[3:0] : 4'h0) |
+		(w641_sel[2] : l289[7:3] : 4'h0) |
+		(w641_sel[1] : l290[3:0] : 4'h0) |
+		(w641_sel[0] : l290[7:3] : 4'h0);
+	
+	assign w647 =
+		(l311[3] ? w647_1 : 4'h0) |
+		(~l311[3] ? w647_2 : 4'h0);
+	
+	ym_sr_bit_array #(.DATA_WIDTH(4)) sr318(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w647), .data_out(l318));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(4)) sr319(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(l318), .data_out(l319));
+	
+	assign w648 = l318 != 4'h0;
+	
+	ym_sr_bit sr320(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w637), .sr_out(l320));
+	
+	ym_sr_bit sr321(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l320), .sr_out(l321));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(2)) sr322(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in({w636, w635}), .data_out(l322));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(2)) sr323(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(l322), .data_out(l323));
+	
+	assign w649 = w92 | w415;
+	
+	// vsram
+	
+	wire [5:0] vsram_index = l212;
+	
+	wire vsram_w1 = hclk1 & l211;
+	wire vsram_w2 = hclk1 & l210;
+	
+	always @(posedge MCLK)
+	begin
+		if (vsram_index < 6'd40)
+		begin
+			if (vsram_w1)
+			begin
+				vsram_out[7:0] <= l181[7:0];
+				vsram_low[vsram_index] <= l181[7:0];
+			end
+			else
+				vsram_out[7:0] <= vsram_low[vsram_index];
+			if (vsram_w2)
+			begin
+				vsram_out[10:8] <= l181[10:8];
+				vsram_hi[vsram_index] <= l181[10:8];
+			end
+			else
+				vsram_out[10:8] <= vsram_hi[vsram_index];
+			if (vsram_index[0])
+				vsram_out_odd <= vsram_out;
+			else
+				vsram_out_even <= vsram_out;
+		end
+		else
+		begin
+			if (vsram_index[0])
+				vsram_out <= vsram_out & vsram_out_odd;
+			else
+				vsram_out <= vsram_out & vsram_out_even;
+		end
+	end
+	
 	
 	// Sprite block
 	
