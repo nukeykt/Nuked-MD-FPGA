@@ -107,6 +107,8 @@ module ym7101
 	wire i_csync = ~CSYNC;
 	wire i_hsync = ~HSYNC;
 	
+	wire i_spa = ~SPA_B;
+	
 	wire reset_ext;
 	
 	wire clk1, clk2;
@@ -222,6 +224,9 @@ module ym7101
 	reg [55:0] linebuffer_out;
 	reg [55:0] linebuffer_out_0;
 	reg [55:0] linebuffer_out_1;
+	
+	reg [8:0] color_ram[0:63];
+	reg [8:0] color_ram_out;
 	
 	// prescaler
 	
@@ -4219,8 +4224,326 @@ module ym7101
 	
 	assign SPA = l613 ? 'bz : 1'h0;
 	
-	
 	// Video MUX block
+	
+	assign w1021 = w302 | w178 | w303;
+	
+	ym_sr_bit sr601(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w302), .sr_out(l601));
+	
+	ym_sr_bit sr602(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w303), .sr_out(l602));
+	
+	assign w1022 = l273 ? w973 : ~l320;
+	
+	assign w1023 = ~l273 & w973 & l320;
+	
+	assign w1024 = l273 & ~w973 & ~l320;
+	
+	assign w1025 = ~l273 & ~w973 & l320;
+	
+	assign w1026 = l273 & ~w973 & l320;
+	
+	assign w1027 = w1029 & ~l273 & ~w973 & ~l320;
+	
+	assign w1028 = w1029 & ~l273 & w973 & ~l320;
+	
+	assign w1029 = reg_ste & reg_m5;
+	
+	assign w1030 = w1029 & w975 & w1065
+	
+	assign w1031 = w1030 | ~w976;
+	
+	assign w1032 = ~w646 & (reg_m5 | w976);
+	
+	assign w1033 = ~reg_m5 | ~w648;
+	
+	assign w1034 = reg_test0[8:7] == 2'h1;
+	assign w1035 = reg_test0[8:7] == 2'h2;
+	assign w1036 = reg_test0[8:7] == 2'h3;
+	assign w1037 = reg_test0[8:7] == 2'h0;
+	
+	assign w1038 = w1032 & w1024;
+	
+	assign w1039 = w1026 & w1033;
+	
+	assign w1040 = w1032 & w1033 & w1026;
+	
+	assign w1041 = w1038 | w1039 | w1040 | w1022 | w1023;
+	
+	assign w1042 = w1041 & w976 & w1062;
+	
+	assign w1043 = w1042 & ~w1030;
+	
+	assign w1044 = w1043 | w1034;
+	
+	assign w1045 = w1042 & w1030;
+	
+	assign w1046 = w1031 & w1022;
+	
+	assign w1047 = w1031 & w1033 & w1023;
+	
+	assign w1048 = w1031 & w1033 & w1025;
+	
+	assign w1049 = w1048 | w1047 | w1046 | w1026 | w1024;
+	
+	assign w1050 = w1049 & ~w1032 & w1062;
+	
+	assign w1051 = w1050 | w1035;
+	
+	assign w1052 = w1031 & w1023;
+	
+	assign w1053 = w1032 & w1026;
+	
+	assign w1054 = w1032 & w1031 & w1022;
+	
+	assign w1055 = w1032 & w1031 & w1024;
+	
+	assign w1056 = w1055 | w1053 | w1052 | w1054 | w1025;
+	
+	assign w1057 = w1056 & ~w1033 & w1062;
+	
+	assign w1058 = w1057 | w1036;
+	
+	assign w1059 = w1032 & w1031 & w1033;
+	
+	assign w1060 = w1059 | ~w1062;
+	
+	assign w1061 = w1060 & w1037;
+	
+	assign w1062 = ~reg_test0[6] & l618;
+	
+	ym_sr_bit sr603(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1044), .sr_out(l603));
+	
+	ym_sr_bit sr604(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1051), .sr_out(l604));
+	
+	ym_sr_bit sr605(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1058), .sr_out(l605));
+	
+	ym_sr_bit sr606(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1061), .sr_out(l606));
+	
+	assign w1063 = ~w1044 & ~w977;
+	
+	assign w1064 = ~w1027 & ~w1028;
+	
+	assign w1065 = w977 | w978;
+	
+	assign w1066 = w1064 & w977 & w1045;
+	
+	ym_sr_bit sr607(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1066), .sr_out(l607));
+	
+	assign w1067 = (w1045 & w978) | (~w977 & w1027) | (~w1064 & w1063);
+	
+	assign w1068 = w1067 & l618;
+	
+	ym_sr_bit sr608(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1068), .sr_out(l608));
+	
+	assign w1069 = reg_test0[6] ? reg_col_b6 : l608;
+	
+	ym_sr_bit sr609(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1069), .sr_out(l609));
+	
+	ym_sr_bit sr610(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l609), .sr_out(l610));
+	
+	assign w1070 = reg_test0[6] ? reg_col_b7 : l607;
+	
+	ym_sr_bit sr611(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1070), .sr_out(l611));
+	
+	ym_sr_bit sr612(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l611), .sr_out(l612));
+	
+	assign w1071 = ~(l603 & reg_8c_b4);
+	
+	ym_sr_bit sr613(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1071), .sr_out(l613));
+	
+	assign w1072 = reg_m5 & w1021;
+	
+	assign w1073 = ~reg_m5 & w1021;
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl_col_index(.MCLK(MCLK), .en(w221), .inp(reg_data_l2[3:0]), .val(reg_col_index));
+	
+	ym_slatch #(.DATA_WIDTH(2)) sl_col_pal(.MCLK(MCLK), .en(w221), .inp(reg_data_l2[5:4]), .val(reg_col_pal));
+	
+	ym_slatch sl_col_b6(.MCLK(MCLK), .en(w221), .inp(reg_data_l2[6]), .val(reg_col_b6));
+	
+	ym_slatch sl_col_b7(.MCLK(MCLK), .en(w221), .inp(reg_data_l2[7]), .val(reg_col_b7));
+	
+	ym_sr_bit sr614(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1074), .sr_out(l614));
+	
+	ym_sr_bit sr615(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(i_spa), .sr_out(l615));
+	
+	assign w1074 = ~(w1082 | (l615 & ~reg_8c_b4));
+	
+	ym_sr_bit #(.SR_LENGTH(8)) sr616(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w389), .sr_out(l616));
+	
+	assign w1075 = reg_m5 ? l616 : w389;
+	
+	assign w1076 =
+		(~w1021 ? { color_pal, color_index } : 6'h0) |
+		(w1072 ? vram_address[6:1] : 6'h0) |
+		(w1073 ? vram_address[5:0] : 6'h0);
+	
+	ym_sr_bit_array #(.DATA_WIDTH(6)) sr617(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w1076), .data_out(l617));
+	
+	ym_sr_bit #(.SR_LENGTH(3)) sr618(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1075), .sr_out(l618));
+	
+	assign w1077 = color_index == 4'h0;
+	
+	ym_sr_bit sr619(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1077), .sr_out(l619));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(3)) sr620(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(vram_data[11:9]), .data_out(l620));
+	
+	assign w1078 = reg_m5 ? l104[3:1] : l104[2:0];
+	
+	assign w1079 = reg_m5 ? l104[7:5] : l104[5:3];
+	
+	ym_slatch #(.DATA_WIDTH(9)) sl621(.MCLK(MCLK), .en(w1080), .inp(color_ram_out), .val(l621));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(9)) sr622(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(color_ram_out), .data_out(l622));
+	
+	ym_sr_bit sr623_1(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w178), .sr_out(l623_1));
+	
+	ym_sr_bit sr623_2(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l623_1), .sr_out(l623_2));
+	
+	ym_sr_bit sr623_3(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l623_2), .sr_out(l623_3));
+	
+	assign w1080 = l623_1 & hclk1;
+	
+	assign w1081 = ~(w422 | t37);
+	
+	assign w1082 = l625 & l624;
+	
+	assign w1083 = reg_m5 ? l622[1] : l622[0];
+	assign w1084 = reg_m5 ? l622[2] : l622[1];
+	assign w1085 = reg_m5 ? l622[4] : l622[2];
+	assign w1086 = reg_m5 ? l622[5] : l622[3];
+	assign w1087 = reg_m5 ? l622[7] : l622[4];
+	assign w1088 = reg_m5 ? l622[8] : l622[5];
+	
+	assign w1089 = w1083 & l624 & reg_80_b2;
+	assign w1090 = w1084 & l624 & reg_80_b2;
+	assign w1091 = w1085 & l624 & reg_80_b2;
+	assign w1092 = w1086 & l624 & reg_80_b2;
+	assign w1093 = w1087 & l624 & reg_80_b2;
+	assign w1094 = w1088 & l624 & reg_80_b2;
+	
+	assign w1098 = l622[6] & l624 & reg_m5;
+	assign w1099 = l622[3] & l624 & reg_m5;
+	assign w1100 = l622[0] & l624 & reg_m5;
+	
+	ym_sr_bit_array #(.DATA_WIDTH(3)) sr626(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in({ w1090, w1089, w1100 }), .data_out(l626));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(3)) sr627(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in({ w1092, w1091, w1099 }), .data_out(l627));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(3)) sr628(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in({ w1094, w1093, w1098 }), .data_out(l628));
+	
+	ym_sr_bit sr629(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l610), .sr_out(l629));
+	
+	ym_sr_bit sr630(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l612), .sr_out(l630));
+	
+	assign w1101 = ~(l629 | l630 | ~reg_m5);
+	
+	assign w1102 = ~l630 & l629;
+	
+	wire [7:0] r_col;
+	
+	assign r_col[0] = l626 == 3'h0;
+	assign r_col[1] = l626 == 3'h1;
+	assign r_col[2] = l626 == 3'h2;
+	assign r_col[3] = l626 == 3'h3;
+	assign r_col[4] = l626 == 3'h4;
+	assign r_col[5] = l626 == 3'h5;
+	assign r_col[6] = l626 == 3'h6;
+	assign r_col[7] = l626 == 3'h7;
+	
+	assign b_col[0] = l627 == 3'h0;
+	assign b_col[1] = l627 == 3'h1;
+	assign b_col[2] = l627 == 3'h2;
+	assign b_col[3] = l627 == 3'h3;
+	assign b_col[4] = l627 == 3'h4;
+	assign b_col[5] = l627 == 3'h5;
+	assign b_col[6] = l627 == 3'h6;
+	assign b_col[7] = l627 == 3'h7;
+	
+	assign g_col[0] = l628 == 3'h0;
+	assign g_col[1] = l628 == 3'h1;
+	assign g_col[2] = l628 == 3'h2;
+	assign g_col[3] = l628 == 3'h3;
+	assign g_col[4] = l628 == 3'h4;
+	assign g_col[5] = l628 == 3'h5;
+	assign g_col[6] = l628 == 3'h6;
+	assign g_col[7] = l628 == 3'h7;
+	
+	assign w1103[0][0] = (w1101 & r_col[0]) | (~reg_m5 & r_col[0]) | (~reg_m5 & r_col[1]) | (w1102 & r_col[0]);
+	assign w1103[0][1] = (w1102 & r_col[1]);
+	assign w1103[0][2] = (w1101 & r_col[1]) | (w1102 & r_col[2]);
+	assign w1103[0][3] = (w1102 & r_col[3]);
+	assign w1103[0][4] = (w1101 & r_col[2]) | (w1102 & r_col[4]);
+	assign w1103[0][5] = (~reg_m5 & r_col[2]) | (~reg_m5 & r_col[3]);
+	assign w1103[0][6] = (w1102 & r_col[5]);
+	assign w1103[0][7] = (w1101 & r_col[3]) | (w1102 & r_col[6]);
+	assign w1103[0][8] = (w1102 & r_col[7]) | (l630 & r_col[0]);
+	assign w1103[0][9] = (w1101 & r_col[4]) | (l630 & r_col[1]);
+	assign w1103[0][10] = (l630 & r_col[2]);
+	assign w1103[0][11] = (~reg_m5 & r_col[4]) | (~reg_m5 & r_col[5]);
+	assign w1103[0][12] = (w1101 & r_col[5]) | (l630 & r_col[3]);
+	assign w1103[0][13] = (l630 & r_col[4]);
+	assign w1103[0][14] = (w1101 & r_col[6]) | (l630 & r_col[5]);
+	assign w1103[0][15] = (l630 & r_col[6]);
+	assign w1103[0][16] = (w1101 & r_col[7]) | (~reg_m5 & r_col[6]) | (~reg_m5 & r_col[7]) | (l630 & r_col[7]);
+	
+	assign w1103[1][0] = (w1101 & b_col[0]) | (~reg_m5 & b_col[0]) | (~reg_m5 & b_col[1]) | (w1102 & b_col[0]);
+	assign w1103[1][1] = (w1102 & b_col[1]);
+	assign w1103[1][2] = (w1101 & b_col[1]) | (w1102 & b_col[2]);
+	assign w1103[1][3] = (w1102 & b_col[3]);
+	assign w1103[1][4] = (w1101 & b_col[2]) | (w1102 & b_col[4]);
+	assign w1103[1][5] = (~reg_m5 & b_col[2]) | (~reg_m5 & b_col[3]);
+	assign w1103[1][6] = (w1102 & b_col[5]);
+	assign w1103[1][7] = (w1101 & b_col[3]) | (w1102 & b_col[6]);
+	assign w1103[1][8] = (w1102 & b_col[7]) | (l630 & b_col[0]);
+	assign w1103[1][9] = (w1101 & b_col[4]) | (l630 & b_col[1]);
+	assign w1103[1][10] = (l630 & b_col[2]);
+	assign w1103[1][11] = (~reg_m5 & b_col[4]) | (~reg_m5 & b_col[5]);
+	assign w1103[1][12] = (w1101 & b_col[5]) | (l630 & b_col[3]);
+	assign w1103[1][13] = (l630 & b_col[4]);
+	assign w1103[1][14] = (w1101 & b_col[6]) | (l630 & b_col[5]);
+	assign w1103[1][15] = (l630 & b_col[6]);
+	assign w1103[1][16] = (w1101 & b_col[7]) | (~reg_m5 & b_col[6]) | (~reg_m5 & b_col[7]) | (l630 & b_col[7]);
+	
+	assign w1103[2][0] = (w1101 & g_col[0]) | (~reg_m5 & g_col[0]) | (~reg_m5 & g_col[1]) | (w1102 & g_col[0]);
+	assign w1103[2][1] = (w1102 & g_col[1]);
+	assign w1103[2][2] = (w1101 & g_col[1]) | (w1102 & g_col[2]);
+	assign w1103[2][3] = (w1102 & g_col[3]);
+	assign w1103[2][4] = (w1101 & g_col[2]) | (w1102 & g_col[4]);
+	assign w1103[2][5] = (~reg_m5 & g_col[2]) | (~reg_m5 & g_col[3]);
+	assign w1103[2][6] = (w1102 & g_col[5]);
+	assign w1103[2][7] = (w1101 & g_col[3]) | (w1102 & g_col[6]);
+	assign w1103[2][8] = (w1102 & g_col[7]) | (l630 & g_col[0]);
+	assign w1103[2][9] = (w1101 & g_col[4]) | (l630 & g_col[1]);
+	assign w1103[2][10] = (l630 & g_col[2]);
+	assign w1103[2][11] = (~reg_m5 & g_col[4]) | (~reg_m5 & g_col[5]);
+	assign w1103[2][12] = (w1101 & g_col[5]) | (l630 & g_col[3]);
+	assign w1103[2][13] = (l630 & g_col[4]);
+	assign w1103[2][14] = (w1101 & g_col[6]) | (l630 & g_col[5]);
+	assign w1103[2][15] = (l630 & g_col[6]);
+	assign w1103[2][16] = (w1101 & g_col[7]) | (~reg_m5 & g_col[6]) | (~reg_m5 & g_col[7]) | (l630 & g_col[7]);
+	
+	// color ram
+	
+	wire [5:0] color_ram_index = l617;
+	
+	wire [8:0] color_ram_data_in = { l620, w1079, w1078 };
+	
+	always @(posedge MCLK)
+	begin
+		if (hclk1) // write cycle
+		begin
+			if (l602)
+				color_ram[color_ram_index][5:0] <= color_ram_data_in[5:0];
+			if (l601)
+				color_ram[color_ram_index][8:6] <= color_ram_data_in[8:6];
+			color_ram_out <= color_ram_data_in;
+		end
+		else // read cycle
+		begin
+			color_ram_out <= color_ram[color_ram_index];
+		end
+	end
 	
 	// PSG block
 
