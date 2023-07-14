@@ -2971,13 +2971,13 @@ module ym7101
 	
 	assign w732 = w738 | w94 | w95;
 	
-	ym_sr_bit_en #(.SR_LENGTH(10)) sr388(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w739[0]), .data_out(l388));
+	ym_sr_bit_en #(.SR_LENGTH(10)) sr388(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w739[0]), .data_out(l388));
 	
-	ym_sr_bit_en #(.SR_LENGTH(10)) sr389(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w739[1]), .data_out(l389));
+	ym_sr_bit_en #(.SR_LENGTH(10)) sr389(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w739[1]), .data_out(l389));
 	
-	ym_sr_bit_en #(.SR_LENGTH(10)) sr390(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w739[2]), .data_out(l390));
+	ym_sr_bit_en #(.SR_LENGTH(10)) sr390(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w739[2]), .data_out(l390));
 	
-	ym_sr_bit_en #(.SR_LENGTH(10)) sr391(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w739[3]), .data_out(l391));
+	ym_sr_bit_en #(.SR_LENGTH(10)) sr391(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w739[3]), .data_out(l391));
 	
 	assign w733 = l401 ? l388[9] : l388[8];
 	
@@ -3054,21 +3054,21 @@ module ym7101
 	
 	assign w753 = w94 ? io_data[11] : l382;
 	
-	ym_sr_bit_en #(.SR_LENGTH(20)) sr403(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w752[0]), .data_out(l403));
+	ym_sr_bit_en #(.SR_LENGTH(20)) sr403(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w752[0]), .data_out(l403));
 	
-	ym_sr_bit_en #(.SR_LENGTH(20)) sr404(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w752[1]), .data_out(l404));
+	ym_sr_bit_en #(.SR_LENGTH(20)) sr404(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w752[1]), .data_out(l404));
 	
-	ym_sr_bit_en #(.SR_LENGTH(20)) sr405(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w752[2]), .data_out(l405));
+	ym_sr_bit_en #(.SR_LENGTH(20)) sr405(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w752[2]), .data_out(l405));
 	
-	ym_sr_bit_en #(.SR_LENGTH(20)) sr406(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w752[3]), .data_out(l406));
+	ym_sr_bit_en #(.SR_LENGTH(20)) sr406(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w752[3]), .data_out(l406));
 	
-	ym_sr_bit_en #(.SR_LENGTH(20)) sr407(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w752[4]), .data_out(l407));
+	ym_sr_bit_en #(.SR_LENGTH(20)) sr407(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w752[4]), .data_out(l407));
 	
-	ym_sr_bit_en #(.SR_LENGTH(20)) sr408(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w752[5]), .data_out(l408));
+	ym_sr_bit_en #(.SR_LENGTH(20)) sr408(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w752[5]), .data_out(l408));
 	
-	ym_sr_bit_en #(.SR_LENGTH(20)) sr409(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w752[6]), .data_out(l409));
+	ym_sr_bit_en #(.SR_LENGTH(20)) sr409(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w752[6]), .data_out(l409));
 	
-	ym_sr_bit_en #(.SR_LENGTH(20)) sr410(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en(w732), .data_in(w753), .data_out(l410));
+	ym_sr_bit_en #(.SR_LENGTH(20)) sr410(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .en1(w732), .en2(~w732), .data_in(w753), .data_out(l410));
 	
 	ym_sr_bit sr411(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l147), .sr_out(l411));
 	
@@ -4546,7 +4546,177 @@ module ym7101
 	end
 	
 	// PSG block
+	
+	assign psg_clk1 = cpu_clk0;
+	assign psg_clk2 = ~cpu_clk0;
+	
+	ym_sr_bit sr631(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(reset_comb), .sr_out(l631));
+	ym_sr_bit sr632(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l631), .sr_out(l632));
+	
+	assign w1104 = l631 & ~l632;
+	
+	assign w1105 = ~w1104 & ~l633;
+	
+	ym_cnt_bit cnt649(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .c_in(l633), .reset(w1104), .val(l649));
+	
+	ym_sr_bit sr633(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1105), .sr_out(l633));
+	
+	ym_dlatch_1 dl634(.MCLK(MCLK), .c1(psg_clk1), .inp(l649), .nval(l634));
+	
+	assign psg_hclk1 = l634 & l633;
+	
+	assign psg_hclk2 = ~l634 & l633;
+	
+	ym7101_rs_trig rs43(.MCLK(MCLK), .set(l635), .rst(w111), .q(t43));
+	
+	assign w1106 = ~t43 & ~w111;
+	
+	ym_sr_bit sr635(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1106), .sr_out(l635));
+	
+	ym_sr_bit sr636(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l635), .sr_out(l636));
+	
+	ym_sr_bit sr637(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(reset_comb), .sr_out(l637));
+	
+	ym7101_rs_trig rs44(.MCLK(MCLK), .set(w1142), .rst(l638), .q(t44));
+	
+	ym_sr_bit sr638(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(t44), .sr_out(l638));
+	
+	assign w1107 = ~l638 & ~l637;
+	
+	assign w1108 = w1107 & ~w1110;
+	
+	assign w1109 = w1107 & w1110;
+	
+	assign w1110 = ~l639 & w1111;
+	
+	ym_sr_bit sr639(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(w1111), .sr_out(l639));
+	
+	assign w1111 = l662[1:0] == 2'h3 ? l647 : l648;
+	
+	assign w1112 = reg_test0[9] & reg_test0[11:10] != 2'h0;
+	assign w1113 = reg_test0[9] & reg_test0[11:10] != 2'h1;
+	assign w1114 = reg_test0[9] & reg_test0[11:10] != 2'h2;
+	assign w1115 = reg_test0[9] & reg_test0[11:10] != 2'h3;
+	
+	assign w1116 = w1121 ? l644 : 10'h0;
+	
+	assign w1117 = w1116 + 10'h1;
+	
+	assign w1118 = l640[15] ^ l640[12];
+	
+	ym_sr_bit_en #(.SR_LENGTH(16)) sr640(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .en1(w1109), .en2(w1108),
+		.data_in(~w1119 | ~w1120), .data_out(l640));
+	
+	assign w1119 = l640[14:0] != 15'h0;
+	
+	assign w1120 = ~(w1118 & l662[2]);
+	
+	ym_sr_bit_array #(.DATA_WIDTH(10)) sr641(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .data_in(w1117), .data_out(l641));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(10)) sr642(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .data_in(l641), .data_out(l642));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(10)) sr643(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .data_in(l642), .data_out(l643));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(10)) sr644(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .data_in(l643), .data_out(l644));
+	
+	assign w1121 = ~l651 & ~w1127;
+	
+	assign w1122 = l650[0] & l652[3];
+	assign w1123 = l650[0] & l652[2];
+	assign w1124 = l650[0] & l652[1];
+	assign w1125 = l650[0] & l652[0];
+	
+	ym_cnt_bit cnt645(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .c_in(w1122), .reset(l651), .val(l645));
+	
+	ym_cnt_bit cnt646(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .c_in(w1123), .reset(l651), .val(l646));
+	
+	ym_cnt_bit cnt647(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .c_in(w1124), .reset(l651), .val(l647));
+	
+	ym_cnt_bit cnt648(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .c_in(w1125), .reset(l651), .val(l648));
+	
+	assign w1126 =
+		(w1131 ? l659 : 10'h0) |
+		(w1130 ? l660 : 10'h0) |
+		(w1129 ? l661 : 10'h0) |
+		(w1128 ? { 3'h0, l662[1:0] == 2'h2, l662[1:0] == 2'h1, l662[1:0] == 2'h0, 4'h0 } : 10'h0);
+	
+	assign w1127 = w1126 <= l644;
+	
+	assign w1128 = l650[3] & ~l651;
+	assign w1129 = l650[2] & ~l651;
+	assign w1130 = l650[1] & ~l651;
+	assign w1131 = l650[0] & ~l651;
+	
+	ym_sr_bit sr650_0(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(w1132), .sr_out(l650[0]));
+	
+	ym_sr_bit sr650_1(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(l650[0]), .sr_out(l650[1]));
+	
+	ym_sr_bit sr650_2(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(l650[1]), .sr_out(l650[2]));
+	
+	ym_sr_bit sr650_3(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(l650[2]), .sr_out(l650[3]));
 
+	assign w1132 = l650[2:0] == 3'h0 & ~l651;
+	
+	ym_sr_bit sr651(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(w1132), .sr_out(l651));
+	
+	assign w1133 = ~l651;
+	
+	ym_sr_bit sr652_0(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(w1127), .sr_out(l652[0]));
+	
+	ym_sr_bit sr652_1(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(l652[0]), .sr_out(l652[1]));
+	
+	ym_sr_bit sr652_2(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(l652[1]), .sr_out(l652[2]));
+	
+	ym_sr_bit sr652_3(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(l652[2]), .sr_out(l652[3]));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl653(.MCLK(MCLK), .en(w111), .inp(io_data[7:0]), .val(l653));
+	
+	assign w1134 = w1133 ? l653 : 8'h0;
+	
+	ym_slatch #(.DATA_WIDTH(3)) sl654(.MCLK(MCLK), .en(l635 & w1134[7]), .inp(w1134[6:4]), .val(l654));
+	
+	assign w1135 = l637 | (l636 & l654 == 3'h1);
+	assign w1136 = l637 | (l636 & l654 == 3'h3);
+	assign w1137 = l637 | (l636 & l654 == 3'h4);
+	assign w1138 = l637 | (l636 & l654 == 3'h2);
+	assign w1139 = l637 | (l636 & l654 == 3'h5);
+	assign w1140 = l637 | (l636 & l654 == 3'h0);
+	assign w1141 = l637 | (l636 & l654 == 3'h7);
+	assign w1142 = l637 | (l636 & l654 == 3'h6);
+	
+	assign w1143 = w1133 ? w1134[3:0] : 4'hf;
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl655(.MCLK(MCLK), .en(w1135), .inp(w1143), .val(l655));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl656(.MCLK(MCLK), .en(w1136), .inp(w1143), .val(l656));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl657(.MCLK(MCLK), .en(w1139), .inp(w1143), .val(l657));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl658(.MCLK(MCLK), .en(w1141), .inp(w1143), .val(l658));
+	
+	assign w1144 = w1134[7] | l637;
+	
+	ym_slatch #(.DATA_WIDTH(6)) sl661_1(.MCLK(MCLK), .en(w1137 & ~w1134[7]), .inp(w1134[5:0]), .val(l661[9:4]));
+	ym_slatch #(.DATA_WIDTH(6)) sl661_2(.MCLK(MCLK), .en(w1137 & w1144), .inp(w1134[3:0]), .val(l661[3:0]));
+	
+	ym_slatch #(.DATA_WIDTH(6)) sl660_1(.MCLK(MCLK), .en(w1138 & ~w1134[7]), .inp(w1134[5:0]), .val(l660[9:4]));
+	ym_slatch #(.DATA_WIDTH(6)) sl660_2(.MCLK(MCLK), .en(w1138 & w1144), .inp(w1134[3:0]), .val(l660[3:0]));
+	
+	ym_slatch #(.DATA_WIDTH(6)) sl659_1(.MCLK(MCLK), .en(w1140 & ~w1134[7]), .inp(w1134[5:0]), .val(l659[9:4]));
+	ym_slatch #(.DATA_WIDTH(6)) sl659_2(.MCLK(MCLK), .en(w1140 & w1144), .inp(w1134[3:0]), .val(l659[3:0]));
+	
+	ym_slatch #(.DATA_WIDTH(3)) sl662(.MCLK(MCLK), .en(w1142), .inp(w1134[2:0]), .val(l662));
+	
+	assign w1145 = ~reg_test0[9] & ~l645;
+	assign w1146 = ~reg_test0[9] & ~l646;
+	assign w1147 = ~reg_test0[9] & ~l647;
+	assign w1148 = ~reg_test0[9] & ~l640[14];
+	
+	assign w1149 = w1145 ? 4'hf : l655;
+	assign w1150 = w1145 ? 4'hf : l656;
+	assign w1151 = w1145 ? 4'hf : l657;
+	assign w1152 = w1145 ? 4'hf : l658;
+	
 endmodule
 
 module ym7101_rs_trig
