@@ -431,13 +431,16 @@ module ym_sr_bit_en #(parameter SR_LENGTH = 2)
 	input MCLK,
 	input c1,
 	input c2,
-	input en,
+	input en1,
+	input en2,
 	input data_in,
 	output [SR_LENGTH-1:0] data_out
 	);
 	
 	wire [SR_LENGTH-1:0] sr_out;
-	wire [SR_LENGTH-1:0] sr_in = en ? { sr_out[SR_LENGTH-2:0], data_in } : sr_out;
+	wire [SR_LENGTH-1:0] sr_in =
+		(en1 ? { sr_out[SR_LENGTH-2:0], data_in } : {SR_LENGTH{1'h0}}) |
+		(en2 ? sr_out : {SR_LENGTH{1'h0}});;
 	
 	assign data_out = sr_out;
 	
