@@ -4056,6 +4056,170 @@ module ym7101
 	
 	// VRAM interface block
 	
+	ym_dlatch_1 dl564(.MCLK(MCLK), .c1(hclk1), .inp(l116), .nval(l564));
+	
+	ym_sr_bit sr565(.MCLK(MCLK), .c1(clk1), .c2(clk2), .bit_in(l564), .sr_out(l565));
+	
+	ym_dlatch_1 dl566(.MCLK(MCLK), .c1(clk1), .inp(l565), .nval(l566));
+	
+	ym_dlatch_2 dl567(.MCLK(MCLK), .c2(clk2), .inp(l566), .nval(l567));
+	
+	wire l576_delay = l576; // FIXME
+	
+	assign w985 = (l565[1] & w993 & l579)
+		| (l575 & l576)
+		| (l575 & l576_delay);
+	
+	assign w986 = l568 & l577 & l579;
+	assign w987 = l577 & l584 & l579;
+	
+	assign w988 = (l566 & l587) | l579;
+	assign w989 = (l566 & ~l587) | l578;
+	
+	assign w990 = (w992 & l579) | w576 | reg_test0[5];
+	
+	ym_sr_bit sr568(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w991), .sr_out(l568));
+	
+	assign w991 = w286 | l571;
+	
+	assign w992 = l569 | ~l570;
+	
+	ym_dlatch_2 dl569(.MCLK(MCLK), .c2(hclk2), .inp(l570), .nval(l569));
+	
+	ym_dlatch_1 dl570(.MCLK(MCLK), .c1(hclk1), .inp(w1000), .nval(l570));
+	
+	ym_sr_bit sr571(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w286), .sr_out(l571));
+	
+	assign w993 = ~w992 & (l572 | ~l573);
+	
+	ym_dlatch_2 dl572(.MCLK(MCLK), .c2(hclk2), .inp(l573), .nval(l572));
+	
+	ym_dlatch_1 dl573(.MCLK(MCLK), .c1(hclk1), .inp(l590), .nval(l573));
+	
+	ym_sr_bit sr574(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l109), .sr_out(l574));
+	
+	ym_dlatch_1 dl575(.MCLK(MCLK), .c1(hclk1), .inp(w1001), .nval(l575));
+	
+	ym_sr_bit sr576(.MCLK(MCLK), .c1(clk1), .c2(clk2), .bit_in(~l564), .sr_out(l576));
+	
+	ym_dlatch_1 dl577(.MCLK(MCLK), .c1(clk1), .inp(l576), .nval(l577));
+	
+	ym_dlatch_2 dl578(.MCLK(MCLK), .c2(clk2), .inp(l577), .nval(l578));
+	
+	ym_dlatch_1 dl579(.MCLK(MCLK), .c1(clk1), .inp(~l578), .nval(l579));
+	
+	assign w994 = ~((l116 & ~w265 & ~w263) | (w265 & l581));
+	
+	ym_dlatch_1 dl580(.MCLK(MCLK), .c1(hclk1), .inp(w994), .nval(l580));
+	
+	ym_sr_bit sr581(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l582), .sr_out(l581));
+	
+	assign w995 = l565;
+	assign w996 = l576 & l567; // addr high
+	assign w997 = l578 & l576; // addr low
+	
+	ym_sr_bit sr582(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w195), .sr_out(l582));
+	
+	assign w998 = l577 & l585;
+	
+	ym_sr_bit sr583(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1004), .sr_out(l583));
+	
+	ym_sr_bit sr584(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w999), .sr_out(l584));
+	
+	assign w999 = w288 | l585;
+	
+	ym_sr_bit sr585(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w288), .sr_out(l585));
+	
+	assign w1000 = l585 | l571;
+	
+	ym_sr_bit sr586(.MCLK(MCLK), .c1(clk1), .c2(clk2), .bit_in(w1007), .sr_out(l586));
+	
+	ym_sr_bit sr587(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1008), .sr_out(l587));
+	
+	ym_sr_bit sr588(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l108), .sr_out(l588));
+	
+	ym_sr_bit sr589(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l588), .sr_out(l589));
+	
+	ym_sr_bit sr590(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l574), .sr_out(l590));
+	
+	assign w1001 = l574 | l590 | w1008;
+	
+	assign w1002 = l116 & hclk1;
+	
+	assign w1003 = hclk2 & l580;
+	
+	assign w1004 = l116 & l30;
+	
+	ym_sr_bit sr591(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w265), .sr_out(l591));
+	
+	assign w1005 = hclk1 & l116;
+	
+	assign w1006 = clk1 & (~w109 | hclk2);
+	
+	assign w1007 = w109 & hclk1;
+	
+	assign w1008 = l588 | l589;
+	
+	assign w1009 = reg_test0[5] ? vram_address[16] : l614;
+	
+	assign w1010 = reg_m5 & vram_address[1];
+	
+	assign w1011 = w1010 | (~reg_m5 & vram_address[9]);
+	
+	assign w1013 = reg_8b_m4 ? reg_8b_b5 : vram_address[16];
+	
+	assign w1012 = w109 ? // 128k
+		{ w1013, vram_address[15:10], w1010 } :
+		{ vram_address[15:10], w1011, w1012 };
+	
+	assign w1014 = reg_m5 ? vram_address[9:2] : vram_address[8:1];
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl592(.MCLK(MCLK), .en(w1002), .inp(w1012), .val(l592));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl593(.MCLK(MCLK), .en(w1002), .inp(w1014), .val(l593));
+	
+	assign w1015 =
+		(w997 ? l592 : 8'h0) |
+		(w996 ? l593 : 8'h0) |
+		(w995 ? l594 : 8'h0);
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl594(.MCLK(MCLK), .en(w1003), .inp(w1016), .val(l594));
+	
+	assign w1016 = l591 ? l599 : l595;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl595(.MCLK(MCLK), .en(w1005), .inp(vram_data[7:0]), .val(l595));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl596(.MCLK(MCLK), .en(w1005), .inp(vram_data[15:8]), .val(l596));
+	
+	assign w1017 = l591 ? l598 : l596;
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl597(.MCLK(MCLK), .en(w1003), .inp(w1017), .val(l597));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl598(.MCLK(MCLK), .en(w998), .inp(i_vram_rd), .val(l598));
+	
+	ym_slatch #(.DATA_WIDTH(8)) sl599(.MCLK(MCLK), .en(w998), .inp(i_vram_ad), .val(l599));\
+	
+	assign w1018 = reg_test0[5] ? vram_address[7:0] : w1015;
+	
+	assign w1019 = reg_test0[5] ? vram_address[15:9] : l597;
+	
+	assign SE0 = l586;
+	assign SE1 = ~l586;
+	assign SC = ~w1006;
+	assign RAS1 = ~w989;
+	assign CAS1 = ~w988;
+	assign WE1 = ~w987;
+	assign WE0 = ~w986;
+	assign OE1 = ~w985;
+	
+	assign RD = w990 ? w1019 : 'bz;
+	assign AD = w990 ? w1018 : 'bz;
+	
+	assign YS = w1009;
+	
+	assign SPA = l613 ? 'bz : 1'h0;
+	
+	
 	// Video MUX block
 	
 	// PSG block
