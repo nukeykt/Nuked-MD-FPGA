@@ -198,6 +198,31 @@ module ym7101
 	
 	assign reset_comb = ~(RESET & w100);
 	
+	
+	
+	
+	reg [10:0] vsram[0:39];
+	reg [10:0] vsram_out;
+	reg [10:0] vsram_out_0;
+	reg [10:0] vsram_out_1;
+	
+	reg [20:0] sat[0:79];
+	reg [20:0] sat_out;
+	reg [10:0] sat_out_0;
+	reg [10:0] sat_out_1;
+	reg [10:0] sat_out_2;
+	reg [10:0] sat_out_3;
+	
+	reg [33:0] sprdata[0:19];
+	reg [33:0] sprdata_out;
+	reg [33:0] sprdata_out_0;
+	reg [33:0] sprdata_out_1;
+	
+	reg [55:0] linebuffer[0:39];
+	reg [55:0] linebuffer_out;
+	reg [55:0] linebuffer_out_0;
+	reg [55:0] linebuffer_out_1;
+	
 	// prescaler
 	
 	assign mclk_and1 = dff2 & ~dff1;
@@ -2615,38 +2640,33 @@ module ym7101
 	
 	wire [5:0] vsram_index = l212;
 	
-	wire vsram_w1 = hclk1 & l211;
-	wire vsram_w2 = hclk1 & l210;
-	
 	always @(posedge MCLK)
 	begin
 		if (vsram_index < 6'd40)
 		begin
-			if (vsram_w1)
+			if (hclk1) // write cycle
 			begin
-				vsram_out[7:0] <= l181[7:0];
-				vsram_low[vsram_index] <= l181[7:0];
+				if (l211)
+					vsram[vsram_index][7:0] <= l181[7:0];
+				if (l210)
+					vsram[vsram_index][10:8] <= l181[10:8];
+				vsram_out <= l181;
 			end
-			else
-				vsram_out[7:0] <= vsram_low[vsram_index];
-			if (vsram_w2)
+			else // read cycle
 			begin
-				vsram_out[10:8] <= l181[10:8];
-				vsram_hi[vsram_index] <= l181[10:8];
+				vsram_out <= vsram[vsram_index];
 			end
-			else
-				vsram_out[10:8] <= vsram_hi[vsram_index];
 			if (vsram_index[0])
-				vsram_out_odd <= vsram_out;
+				vsram_out_1 <= vsram_out;
 			else
-				vsram_out_even <= vsram_out;
+				vsram_out_0 <= vsram_out;
 		end
 		else
 		begin
 			if (vsram_index[0])
-				vsram_out <= vsram_out & vsram_out_odd;
+				vsram_out <= vsram_out & vsram_out_1;
 			else
-				vsram_out <= vsram_out & vsram_out_even;
+				vsram_out <= vsram_out & vsram_out_0;
 		end
 	end
 	
@@ -3458,6 +3478,581 @@ module ym7101
 	assign w850 = l513 & ~l512;
 	
 	ym_sr_bit sr514(.MCLK(MCLK), .c1(clk1), .c2(clk2), .bit_in(w850), .sr_out(l514));
+	
+	assign w851 = l472 >= 3'h1;
+	
+	assign w852 = ~(~reg_test_18[7] & ~reg_test_18[6] & w98);
+	assign w853 = ~(~reg_test_18[7] & reg_test_18[6] & w98);
+	assign w854 = ~(reg_test_18[7] & ~reg_test_18[6] & w98);
+	assign w855 = ~(reg_test_18[7] & reg_test_18[6] & w98);
+	
+	assign w856 = ~(w852 & w818);
+	assign w857 = ~(w853 & w818);
+	assign w858 = ~(w854 & w818);
+	assign w859 = ~(w855 & w818);
+	
+	assign w860 = l504 == 3'h0;
+	assign w861 = l504 == 3'h1;
+	assign w862 = l504 == 3'h2;
+	assign w863 = l504 == 3'h3;
+	assign w864 = l504 == 3'h5;
+	assign w865 = l504 == 3'h6;
+	assign w866 = l504 == 3'h7;
+	
+	assign w867 = l472 >= 3'h2;
+	assign w868 = l472 >= 3'h3;
+	assign w869 = l472 >= 3'h4;
+	assign w870 = l472 >= 3'h6;
+	assign w871 = l472 >= 3'h7;
+	
+	assign w872 = clk2 & (w860 | w883);
+	
+	assign w873 = w861 | w877;
+	
+	assign w874 = clk2 & (w873 | w860);
+	
+	assign w875 = clk2 & (w862 | w873);
+	
+	assign w876 = w873 | w877;
+	
+	assign w877 = ~(~reg_test0[13] & l563);
+	
+	assign w878 = clk2 & (w876 | w862);
+	
+	assign w879 = clk2 & (w828 | w876);
+	
+	assign w880 = w864 | w877;
+	
+	assign w881 = clk2 & (w880 | w828);
+	
+	assign w882 = clk2 & (w865 | w880);
+	
+	assign w883 = w866 | w877;
+	
+	assign w884 = clk2 & (w883 | w865);
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl515(.MCLK(MCLK), .en(w872), .inp(w845[7:4]), .val(l515));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl516(.MCLK(MCLK), .en(w874), .inp(w845[3:0]), .val(l516));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl517(.MCLK(MCLK), .en(w875), .inp(w845[7:4]), .val(l517));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl518(.MCLK(MCLK), .en(w878), .inp(w845[3:0]), .val(l518));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl519(.MCLK(MCLK), .en(w879), .inp(w845[7:4]), .val(l519));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl520(.MCLK(MCLK), .en(w881), .inp(w845[3:0]), .val(l520));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl521(.MCLK(MCLK), .en(w882), .inp(w845[7:4]), .val(l521));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl522(.MCLK(MCLK), .en(w884), .inp(w845[3:0]), .val(l522));
+	
+	assign w885 = clk2 & (l562 | l499);
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl523(.MCLK(MCLK), .en(w885), .inp(w845[7:4]), .val(l523));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl524(.MCLK(MCLK), .en(w885), .inp(w845[3:0]), .val(l524));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl525(.MCLK(MCLK), .en(w885), .inp(w845[7:4]), .val(l525));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl526(.MCLK(MCLK), .en(w885), .inp(w845[3:0]), .val(l526));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl527(.MCLK(MCLK), .en(w885), .inp(w845[7:4]), .val(l527));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl528(.MCLK(MCLK), .en(w885), .inp(w845[3:0]), .val(l528));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl529(.MCLK(MCLK), .en(w885), .inp(w845[7:4]), .val(l529));
+	
+	ym_slatch #(.DATA_WIDTH(4)) sl530(.MCLK(MCLK), .en(w885), .inp(w845[3:0]), .val(l530));
+	
+	ym_dlatch_1 dl531(.MCLK(MCLK), .c1(clk1), .inp(w851), .nval(l531));
+	
+	ym_dlatch_1 dl532(.MCLK(MCLK), .c1(clk1), .inp(w867), .nval(l532));
+	
+	ym_dlatch_1 dl533(.MCLK(MCLK), .c1(clk1), .inp(w868), .nval(l533));
+	
+	ym_dlatch_1 dl534(.MCLK(MCLK), .c1(clk1), .inp(w869), .nval(l534));
+	
+	ym_dlatch_1 dl535(.MCLK(MCLK), .c1(clk1), .inp(w827), .nval(l535));
+	
+	ym_dlatch_1 dl536(.MCLK(MCLK), .c1(clk1), .inp(w870), .nval(l536));
+	
+	ym_dlatch_1 dl537(.MCLK(MCLK), .c1(clk1), .inp(w871), .nval(l537));
+	
+	assign w886 = l531 ^ l461;
+	assign w887 = l532 ^ l461;
+	assign w888 = l533 ^ l461;
+	assign w889 = l534 ^ l461;
+	assign w890 = l535 ^ l461;
+	assign w891 = l536 ^ l461;
+	assign w892 = l537 ^ l461;
+	assign w893 = ~l461;
+	
+	assign w894 = w886 & w815;
+	assign w895 = w887 & w815;
+	assign w896 = w888 & w815;
+	assign w897 = w889 & w815;
+	assign w898 = w890 & w815;
+	assign w899 = w891 & w815;
+	assign w900 = w892 & w815;
+	assign w901 = w893 & w815;
+	
+	assign w902 = ~(w856 | (w894 & w942));
+	assign w903 = ~(w856 | (w895 & w943));
+	assign w904 = ~(w857 | (w896 & w944));
+	assign w905 = ~(w857 | (w897 & w945));
+	assign w906 = ~(w858 | (w898 & w946));
+	assign w907 = ~(w858 | (w899 & w947));
+	assign w908 = ~(w859 | (w900 & w948));
+	assign w909 = ~(w859 | (w901 & w949));
+	
+	ym_dlatch_2 dl538(.MCLK(MCLK), .c2(clk2), .inp(w902), .nval(l538));
+	
+	ym_dlatch_2 dl539(.MCLK(MCLK), .c2(clk2), .inp(w903), .nval(l539));
+	
+	ym_dlatch_2 dl540(.MCLK(MCLK), .c2(clk2), .inp(w904), .nval(l540));
+	
+	ym_dlatch_2 dl541(.MCLK(MCLK), .c2(clk2), .inp(w905), .nval(l541));
+	
+	ym_dlatch_2 dl542(.MCLK(MCLK), .c2(clk2), .inp(w906), .nval(l542));
+	
+	ym_dlatch_2 dl543(.MCLK(MCLK), .c2(clk2), .inp(w907), .nval(l543));
+	
+	ym_dlatch_2 dl544(.MCLK(MCLK), .c2(clk2), .inp(w908), .nval(l544));
+	
+	ym_dlatch_2 dl545(.MCLK(MCLK), .c2(clk2), .inp(w909), .nval(l545));
+	
+	assign w910 = l538 & clk1;
+	
+	assign w911 = l539 & clk1;
+	
+	assign w912 = l540 & clk1;
+	
+	assign w913 = l541 & clk1;
+	
+	assign w914 = l542 & clk1;
+	
+	assign w915 = l543 & clk1;
+	
+	assign w916 = l544 & clk1;
+	
+	assign w917 = l545 & clk1;
+	
+	assign w918 = linebuffer_out_index[0] != 4'h0;
+	assign w919 = linebuffer_out_index[1] != 4'h0;
+	assign w920 = linebuffer_out_index[2] != 4'h0;
+	assign w921 = linebuffer_out_index[3] != 4'h0;
+	assign w922 = linebuffer_out_index[4] != 4'h0;
+	assign w923 = linebuffer_out_index[5] != 4'h0;
+	assign w924 = linebuffer_out_index[6] != 4'h0;
+	assign w925 = linebuffer_out_index[7] != 4'h0;
+	
+	assign w926 = w918 & w894 & w934;
+	assign w927 = w919 & w895 & w935;
+	assign w928 = w920 & w896 & w936;
+	assign w929 = w921 & w897 & w937;
+	assign w930 = w922 & w898 & w938;
+	assign w931 = w923 & w899 & w939;
+	assign w932 = w924 & w900 & w940;
+	assign w933 = w925 & w901 & w941;
+	
+	assign w934 = l523 != 4'h0;
+	assign w935 = l524 != 4'h0;
+	assign w936 = l525 != 4'h0;
+	assign w937 = l526 != 4'h0;
+	assign w938 = l527 != 4'h0;
+	assign w939 = l528 != 4'h0;
+	assign w940 = l529 != 4'h0;
+	assign w941 = l530 != 4'h0;
+	
+	assign w942 = w950 ? w934 : ~w918;
+	assign w943 = w950 ? w935 : ~w919;
+	assign w944 = w950 ? w936 : ~w920;
+	assign w945 = w950 ? w937 : ~w921;
+	assign w946 = w950 ? w938 : ~w922;
+	assign w947 = w950 ? w939 : ~w923;
+	assign w948 = w950 ? w940 : ~w924;
+	assign w949 = w950 ? w941 : ~w925;
+	
+	assign w950 = 1'h0;
+	
+	assign w951 = ~w820;
+	
+	assign w952 = reg_test_18[7:6] == 2'h0;
+	assign w953 = reg_test_18[7:6] == 2'h1;
+	assign w954 = reg_test_18[7:6] == 2'h2;
+	assign w955 = reg_test_18[7:6] == 2'h3;
+	
+	assign w956 =
+		(w952 & linebuffer_out_pal[0][0]) |
+		(w953 & linebuffer_out_pal[2][0]) |
+		(w954 & linebuffer_out_pal[4][0]) |
+		(w955 & linebuffer_out_pal[6][0]);
+	
+	assign w957 =
+		(w952 & linebuffer_out_pal[0][1]) |
+		(w953 & linebuffer_out_pal[2][1]) |
+		(w954 & linebuffer_out_pal[4][1]) |
+		(w955 & linebuffer_out_pal[6][1]);
+	
+	assign w958 =
+		(w952 & linebuffer_out_priority[0]) |
+		(w953 & linebuffer_out_priority[2]) |
+		(w954 & linebuffer_out_priority[4]) |
+		(w955 & linebuffer_out_priority[6]);
+	
+	assign w959 =
+		(w952 & linebuffer_out_index[0][0]) |
+		(w953 & linebuffer_out_index[2][0]) |
+		(w954 & linebuffer_out_index[4][0]) |
+		(w955 & linebuffer_out_index[6][0]);
+	
+	assign w960 =
+		(w952 & linebuffer_out_index[0][1]) |
+		(w953 & linebuffer_out_index[2][1]) |
+		(w954 & linebuffer_out_index[4][1]) |
+		(w955 & linebuffer_out_index[6][1]);
+	
+	assign w961 =
+		(w952 & linebuffer_out_index[0][2]) |
+		(w953 & linebuffer_out_index[2][2]) |
+		(w954 & linebuffer_out_index[4][2]) |
+		(w955 & linebuffer_out_index[6][2]);
+	
+	assign w962 =
+		(w952 & linebuffer_out_index[0][3]) |
+		(w953 & linebuffer_out_index[2][3]) |
+		(w954 & linebuffer_out_index[4][3]) |
+		(w955 & linebuffer_out_index[6][3]);
+	
+	assign w963 =
+		(w952 & linebuffer_out_pal[1][0]) |
+		(w953 & linebuffer_out_pal[3][0]) |
+		(w954 & linebuffer_out_pal[5][0]) |
+		(w955 & linebuffer_out_pal[7][0]);
+	
+	assign w964 =
+		(w952 & linebuffer_out_pal[1][1]) |
+		(w953 & linebuffer_out_pal[3][1]) |
+		(w954 & linebuffer_out_pal[5][1]) |
+		(w955 & linebuffer_out_pal[7][1]);
+	
+	assign w965 =
+		(w952 & linebuffer_out_priority[1]) |
+		(w953 & linebuffer_out_priority[3]) |
+		(w954 & linebuffer_out_priority[5]) |
+		(w955 & linebuffer_out_priority[7]);
+	
+	assign w966 =
+		(w952 & linebuffer_out_index[1][0]) |
+		(w953 & linebuffer_out_index[3][0]) |
+		(w954 & linebuffer_out_index[5][0]) |
+		(w955 & linebuffer_out_index[7][0]);
+	
+	assign w967 =
+		(w952 & linebuffer_out_index[1][1]) |
+		(w953 & linebuffer_out_index[3][1]) |
+		(w954 & linebuffer_out_index[5][1]) |
+		(w955 & linebuffer_out_index[7][1]);
+	
+	assign w968 =
+		(w952 & linebuffer_out_index[1][2]) |
+		(w953 & linebuffer_out_index[3][2]) |
+		(w954 & linebuffer_out_index[5][2]) |
+		(w955 & linebuffer_out_index[7][2]);
+	
+	assign w969 =
+		(w952 & linebuffer_out_index[1][3]) |
+		(w953 & linebuffer_out_index[3][3]) |
+		(w954 & linebuffer_out_index[5][3]) |
+		(w955 & linebuffer_out_index[7][3]);
+	
+	wire [7:0] load_val_pal0;
+	wire [7:0] load_val_pal1;
+	wire [7:0] load_val_priority;
+	wire [7:0] load_val_index0;
+	wire [7:0] load_val_index1;
+	wire [7:0] load_val_index2;
+	wire [7:0] load_val_index3;
+	
+	genvar gi;
+	generate
+		for (gi = 0; gi < 8; gi = gi + 1)
+		begin : gl1
+			assign load_val_pal0[gi] = linebuffer_out_pal[gi][0];
+			assign load_val_pal1[gi] = linebuffer_out_pal[gi][1];
+			assign load_val_priority[gi] = linebuffer_out_priority[gi];
+			assign load_val_index0[gi] = linebuffer_out_index[gi][0];
+			assign load_val_index1[gi] = linebuffer_out_index[gi][1];
+			assign load_val_index2[gi] = linebuffer_out_index[gi][2];
+			assign load_val_index3[gi] = linebuffer_out_index[gi][3];
+		end
+	endgenerate
+	
+	ym_dbg_read #(.DATA_WIDTH(8)) sr546(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .prev(1'h0), .load(w951),
+		.load_val(load_val_pal0), .next(spr_pal[0]));
+	
+	ym_dbg_read #(.DATA_WIDTH(8)) sr547(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .prev(1'h0), .load(w951),
+		.load_val(load_val_pal1), .next(spr_pal[1]));
+	
+	ym_dbg_read #(.DATA_WIDTH(8)) sr548(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .prev(1'h0), .load(w951),
+		.load_val(load_val_priority), .next(spr_priority));
+	
+	ym_dbg_read #(.DATA_WIDTH(8)) sr549(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .prev(1'h0), .load(w951),
+		.load_val(load_val_index0), .next(spr_index[0]));
+	
+	ym_dbg_read #(.DATA_WIDTH(8)) sr550(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .prev(1'h0), .load(w951),
+		.load_val(load_val_index1), .next(spr_index[1]));
+	
+	ym_dbg_read #(.DATA_WIDTH(8)) sr551(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .prev(1'h0), .load(w951),
+		.load_val(load_val_index2), .next(spr_index[2]));
+	
+	ym_dbg_read #(.DATA_WIDTH(8)) sr552(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .prev(1'h0), .load(w951),
+		.load_val(load_val_index3), .next(spr_index[3]));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(2)) sr553(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(spr_pal), .data_out(l553));
+	
+	ym_sr_bit sr554(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(spr_priority), .sr_out(l554));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(4)) sr555(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(spr_index), .data_out(l555));
+	
+	assign w970 = reg_m5 ? l553 : spr_pal;
+	
+	assign w971 = reg_m5 ? l554 : spr_priority;
+	
+	assign w972 = reg_m5 ? l555 : spr_index;
+	
+	ym_sr_bit_array #(.DATA_WIDTH(2)) sr556(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w970), .data_out(l556));
+	
+	ym_sr_bit sr557(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w971), .sr_out(l557));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(4)) sr558(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w972), .data_out(l558));
+	
+	assign w973 = l557 & reg_m5;
+	
+	assign w974 = reg_m5 ? l556 ? 2'h1;
+	
+	assign w975 = l556 == 2'h3;
+	
+	assign w976 = l558 != 4'h0;
+	
+	assign w977 = l558 == 4h'e;
+
+	assign w978 = l558 == 4h'f;
+	
+	ym_sr_bit_array #(.DATA_WIDTH(2)) sr559(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w974), .data_out(l559));
+	
+	ym_sr_bit sr560(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w973), .sr_out(l560));
+	
+	ym_sr_bit_array #(.DATA_WIDTH(4)) sr561(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(l558), .data_out(l561));
+	
+	ym_sr_bit sr562(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(w877), .sr_out(l562));
+	
+	ym_dlatch_1 dl563(.MCLK(MCLK), .c1(clk1), .inp(w514), .nval(l563));
+	
+	assign w979 = reg_test0[13] ? io_data[10] : w811;
+	
+	assign w980 = reg_test0[13] ? io_data[9:8] : w812;
+	
+	assign w982 = reg_test0[13] ? io_data[2] : w811;
+	
+	assign w983 = reg_test0[13] ? io_data[1:0] : w812;
+	
+	ym_sr_bit sr600(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(w1020), .sr_out(l600));
+	
+	assign w1020 = w926 | w927 | w928 | w929 | w930 | w931 | w932 | w933;
+	
+	assign w1154 = t41 & l115;
+	
+	// sat cache
+	
+	wire [6:0] sat_index = w695;
+	
+	wire [20:0] sat_data_in;
+	
+	assign sat_data_in[6:0] = l104[6:0];
+	assign sat_data_in[10:7] = l366;
+	assign sat_data_in[20:11] = { l366[1:0], l104 };
+	
+	assign sat_link = sat_out[6:0];
+	assign sat_size = sat_out[10:7];
+	assign sat_ypos = sat_out[20:11];
+	
+	always @(posedge MCLK)
+	begin
+		if (sat_index < 7'd80)
+		begin
+			if (hclk1) // write cycle
+			begin
+				if (w687)
+					sat[sat_index][6:0] <= sat_data_in[7:0];
+				if (w688)
+					sat[sat_index][10:7] <= sat_data_in[10:7];
+				if (w689)
+					sat[sat_index][18:11] <= sat_data_in[18:11];
+				if (w690)
+					sat[sat_index][20:19] <= sat_data_in[20:19];
+				sat_out <= sat_data_in;
+			end
+			else // read cycle
+			begin
+				sat_out <= sat[sat_index];
+			end
+			case (sat_index[1:0])
+				2'h0: sat_out_0 <= sat_out;
+				2'h1: sat_out_1 <= sat_out;
+				2'h2: sat_out_2 <= sat_out;
+				2'h3: sat_out_3 <= sat_out;
+			endcase
+		end
+		else
+		begin
+			case (sat_index[1:0])
+				2'h0: sat_out <= sat_out & sat_out_0;
+				2'h1: sat_out <= sat_out & sat_out_1;
+				2'h2: sat_out <= sat_out & sat_out_2;
+				2'h3: sat_out <= sat_out & sat_out_3;
+			endcase
+		end
+	end
+	
+	// sprdata
+	
+	wire [5:0] sprdata_index = w697;
+	
+	wire [33:0] sprdata_in;
+	
+	assign sprdata_in[10:0] = w774;
+	assign sprdata_in[19:11] = w775;
+	assign sprdata_in[33:20] = { w768, w766, w764, w763, w761, w758 };
+	
+	assign sprdata_pattern_o = sprdata_out[10:0];
+	assign sprdata_hpos_o = sprdata_out[19:11];
+	assign sprdata_hflip_o = sprdata_out[20];
+	assign sprdata_pal_o = sprdata_out[22:21];
+	assign sprdata_priority_o = sprdata_out[23];
+	assign sprdata_xs_o = sprdata_out[25:24];
+	assign sprdata_ys_o = sprdata_out[27:26];
+	assign sprdata_yoffset_o = sprdata_out[33:28];
+	
+	always @(posedge MCLK)
+	begin
+		if (sprdata_index < 5'd20)
+		begin
+			if (hclk1) // write cycle
+			begin
+				if (w712)
+					sprdata[sprdata_index][10:0] <= sprdata_in[10:0];
+				if (w715)
+					sprdata[sprdata_index][19:11] <= sprdata_in[19:11];
+				if (w709)
+					sprdata[sprdata_index][33:20] <= sprdata_in[33:20];
+				sprdata_out <= sprdata_in;
+			end
+			else // read cycle
+			begin
+				sprdata_out <= sprdata[sprdata_index];
+			end
+			if (sprdata_index[0])
+				sprdata_out_1 <= sprdata_out;
+			else
+				sprdata_out_0 <= sprdata_out;
+		end
+		begin
+			if (sprdata_index[0])
+				sprdata_out <= sprdata_out & sprdata_out_1;
+			else
+				sprdata_out <= sprdata_out & sprdata_out_0;
+		end
+	end
+	
+	// linebuffer
+	
+	wire [5:0] linebuffer_index = w695;
+	
+	wire [20:0] linebuffer_data_in;
+	
+	assign linebuffer_data_in[0] = w982;
+	assign linebuffer_data_in[2:1] = w983;
+	assign linebuffer_data_in[6:3] = l523;
+	
+	assign linebuffer_data_in[7] = w979;
+	assign linebuffer_data_in[9:8] = w980;
+	assign linebuffer_data_in[13:10] = l524;
+	
+	assign linebuffer_data_in[14] = w982;
+	assign linebuffer_data_in[16:15] = w983;
+	assign linebuffer_data_in[20:17] = l525;
+	
+	assign linebuffer_data_in[21] = w979;
+	assign linebuffer_data_in[23:22] = w980;
+	assign linebuffer_data_in[27:24] = l526;
+	
+	assign linebuffer_data_in[28] = w982;
+	assign linebuffer_data_in[30:29] = w983;
+	assign linebuffer_data_in[34:31] = l527;
+	
+	assign linebuffer_data_in[35] = w979;
+	assign linebuffer_data_in[37:36] = w980;
+	assign linebuffer_data_in[41:38] = l528;
+	
+	assign linebuffer_data_in[42] = w982;
+	assign linebuffer_data_in[44:43] = w983;
+	assign linebuffer_data_in[48:45] = l529;
+	
+	assign linebuffer_data_in[49] = w979;
+	assign linebuffer_data_in[51:50] = w980;
+	assign linebuffer_data_in[55:52] = l530;
+	
+	generate
+		for (gi = 0; gi < 8; gi = gi + 1)
+		begin
+			assign linebuffer_out_priority[gi] = linebuffer_out[gi*7];
+			assign linebuffer_out_pal[gi] = linebuffer_out[gi*7+2:gi*7+1];
+			assign linebuffer_out_index[gi] = linebuffer_out[gi*7+6:gi*7+3];
+		end
+	endgenerate
+	
+	always @(posedge MCLK)
+	begin
+		if (linebuffer_index < 5'd20)
+		begin
+			if (w817) // write cycle
+			begin
+				if (w910)
+					linebuffer[linebuffer_index][6:0] <= linebuffer_data_in[6:0];
+				if (w910)
+					linebuffer[linebuffer_index][13:7] <= linebuffer_data_in[13:7];
+				if (w910)
+					linebuffer[linebuffer_index][20:14] <= linebuffer_data_in[20:14];
+				if (w910)
+					linebuffer[linebuffer_index][27:21] <= linebuffer_data_in[27:21];
+				if (w910)
+					linebuffer[linebuffer_index][34:28] <= linebuffer_data_in[34:28];
+				if (w910)
+					linebuffer[linebuffer_index][41:35] <= linebuffer_data_in[41:35];
+				if (w910)
+					linebuffer[linebuffer_index][48:42] <= linebuffer_data_in[48:42];
+				if (w910)
+					linebuffer[linebuffer_index][55:49] <= linebuffer_data_in[55:49];
+				linebuffer_out <= linebuffer_data_in;
+			end
+			else // read cycle
+			begin
+				linebuffer_out <= linebuffer[linebuffer_index];
+			end
+			if (linebuffer_index[0])
+				linebuffer_out_1 <= linebuffer_out;
+			else
+				linebuffer_out_0 <= linebuffer_out;
+		end
+		begin
+			if (linebuffer_index[0])
+				linebuffer_out <= linebuffer_out & linebuffer_out_1;
+			else
+				linebuffer_out <= linebuffer_out & linebuffer_out_0;
+		end
+	end
 	
 	// VRAM interface block
 	
