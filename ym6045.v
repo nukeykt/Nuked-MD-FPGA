@@ -72,7 +72,71 @@ module ym6045
 	output VDPM,
 	output IO,
 	output ZV,
-	output INTAK
+	output INTAK,
+	output EDCLK
 	);
+	
+	reg dff1;
+	reg dff2;
+	reg dff3;
+	wire dff4_l2, dff4_cout;
+	wire dff5_l2, dff5_cout;
+	wire dff6_l2, dff6_cout;
+	wire dff7_l2;
+	wire dff8_nq;
+	wire dff9_q;
+	wire w1;
+	wire w2;
+	wire w3;
+	wire w4;
+	wire w5;
+	wire w7;
+	wire w10;
+	wire w11;
+	
+	always @(posedge MCLK)
+	begin
+		if (!sres)
+		begin
+			dff1 <= 1'h0;
+			dff2 <= 1'h0;
+			dff3 <= 1'h0;
+		end
+		else
+		begin
+			if (~w1)
+			begin
+				dff1 <= 1'h1;
+				dff2 <= ~dff9_q;
+				dff3 <= 1'h0;
+			end
+			else
+			begin
+				dff1 <= dff1 ^ w3;
+				dff2 <= ~dff2;
+				dff3 <= dff3 & dff2;
+			end
+		end
+	end
+	
+	assign w1 = ~(~dff1 & ~dff2 & ~dff3);
+	assign w2 = dff3;
+	assign w3 = dff2 & dff3;
+	assign w4 = w2;
+	assign w5 = ~(~dff4_l2 | ~dff5_l2 | ~dff6_l2 | ~dff7_l2);
 
+	ym_scnt_bit dff4(.MCLK(MCLK), .clk(w4), .load(dff9_q), .val(1'h1), .cin(dff9_q), .rst(sres), .outp(dff4_l2), .cout(dff4_cout));
+	ym_scnt_bit dff5(.MCLK(MCLK), .clk(w4), .load(dff9_q), .val(1'h0), .cin(dff4_cout), .rst(sres), .outp(dff5_l2), .cout(dff5_cout));
+	ym_scnt_bit dff6(.MCLK(MCLK), .clk(w4), .load(dff9_q), .val(1'h0), .cin(dff5_cout), .rst(sres), .outp(dff6_l2), .cout(dff6_cout));
+	ym_scnt_bit dff7(.MCLK(MCLK), .clk(w4), .load(dff9_q), .val(1'h0), .cin(dff6_cout), .rst(sres), .outp(dff7_l2));
+	
+	assign EDCLK = w2;
+	
+	assign w7 = dff8_nq;
+	assign w11 = ~(~HSYNC | dff9_q);
+	assign w10 = ~(w11 | (1'h0 & dff9_q));
+	
+	ym_sdffr dff9(.MCLK(MCLK), .clk(w2), .val(w10), .reset(w7), .q(dff9_q));
+	ym_sdffs dff8(.MCLK(MCLK), .clk(w2), .val(w5), .set(sres), .nq(dff8_nq));
+	
 endmodule

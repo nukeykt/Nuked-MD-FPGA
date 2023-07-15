@@ -455,3 +455,160 @@ module ym_sr_bit_en #(parameter SR_LENGTH = 2)
 		);
 
 endmodule
+
+
+module ym_scnt_bit
+	(
+	input MCLK,
+	input clk,
+	input load,
+	input val,
+	input cin,
+	input rst,
+	output outp,
+	output cout
+	);
+	
+	reg l1, l2;
+	
+	assign cout = cin & l2;
+	
+	assign outp = l2;
+	
+	always @(posedge MCLK)
+	begin
+		if (~rst)
+		begin
+			l1 <= 1'h0;
+			l2 <= 1'h0;
+		end
+		else
+		begin
+			if (~clk)
+				l1 <= ~load ? val : (l2 ^ cin);
+			else
+				l2 <= l1;
+		end
+	end
+	
+endmodule
+
+
+module ym_sdff #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input clk,
+	input [DATA_WIDTH-1:0] val,
+	output [DATA_WIDTH-1:0] q,
+	output [DATA_WIDTH-1:0] nq,
+	);
+	
+	reg [DATA_WIDTH-1:0] l1, l2;
+	
+	assign q = l2;
+	assign nq = ~l2;
+	
+	always @(posedge MCLK)
+	begin
+		if (~clk)
+			l1 <= val;
+		else
+			l2 <= l1;
+	end
+	
+endmodule
+
+
+module ym_sdffs #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input clk,
+	input [DATA_WIDTH-1:0] val,
+	input set,
+	output [DATA_WIDTH-1:0] q,
+	output [DATA_WIDTH-1:0] nq,
+	);
+	
+	reg [DATA_WIDTH-1:0] l1, l2;
+	
+	assign q = l2;
+	assign nq = ~l2;
+	
+	always @(posedge MCLK)
+	begin
+		if (~clk)
+			l1 <= val;
+		else if (~set)
+			l1 <= {DATA_WIDTH{1'h1}};
+		if (~set)
+			l2 <= {DATA_WIDTH{1'h1}};
+		else (clk)
+			l2 <= l1;
+	end
+	
+endmodule
+
+
+module ym_sdffr #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input clk,
+	input [DATA_WIDTH-1:0] val,
+	input reset,
+	output [DATA_WIDTH-1:0] q,
+	output [DATA_WIDTH-1:0] nq,
+	);
+	
+	reg [DATA_WIDTH-1:0] l1, l2;
+	
+	assign q = l2;
+	assign nq = ~l2;
+	
+	always @(posedge MCLK)
+	begin
+		if (~reset)
+			l1 <= {DATA_WIDTH{1'h0}};
+		else if (~clk)
+			l1 <= val;
+		if (~reset)
+			l2 <= {DATA_WIDTH{1'h0}};
+		else (clk)
+			l2 <= l1;
+	end
+	
+endmodule
+
+
+module ym_sdffsr #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input clk,
+	input [DATA_WIDTH-1:0] val,
+	input set,
+	input reset,
+	output [DATA_WIDTH-1:0] q,
+	output [DATA_WIDTH-1:0] nq,
+	);
+	
+	reg [DATA_WIDTH-1:0] l1, l2;
+	
+	assign q = (~set & ~reset) ? {DATA_WIDTH{1'h0}} : l2;
+	assign nq = (~set & ~reset) ? {DATA_WIDTH{1'h0}} : ~l2;
+	
+	always @(posedge MCLK)
+	begin
+		if (~reset)
+			l1 <= {DATA_WIDTH{1'h0}};
+		else if (~set)
+			l1 <= {DATA_WIDTH{1'h1}};
+		else if (~clk)
+			l1 <= val;
+		if (~set)
+			l2 <= {DATA_WIDTH{1'h1}};
+		else if (~reset)
+			l2 <= {DATA_WIDTH{1'h0}};
+		else (clk)
+			l2 <= l1;
+	end
+	
+endmodule
