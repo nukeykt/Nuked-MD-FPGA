@@ -612,3 +612,25 @@ module ym_sdffsr #(parameter DATA_WIDTH = 1)
 	end
 	
 endmodule
+
+
+module ym_delaychain #(parameter DELAY_CNT = 1)
+	(
+	input MCLK,
+	input inp,
+	output outp
+	);
+	
+	reg [DELAY_CNT-1:0] dl;
+	
+	always @(posedge MCLK)
+	begin
+		if (DELAY_CNT == 1)
+			dl <= inp;
+		else
+			dl <= { dl[DELAY_CNT-2:0], inp }
+	end
+	
+	assign outp = dl[DELAY_CNT-1];
+	
+endmodule

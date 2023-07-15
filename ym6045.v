@@ -1,3 +1,26 @@
+/*
+ * Copyright (C) 2023 nukeykt
+ *
+ * This file is part of Nuked-MD.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ *  YM6045C(FC1004) emulator.
+ *  Thanks:
+ *      org (ogamespec):
+ *          FC1004 decap and die shot.
+ *      andkorzh, HardWareMan (emu-russia):
+ *          help & support.
+ *
+ */
 module ym6045
 	(
 	input MCLK,
@@ -76,6 +99,8 @@ module ym6045
 	output EDCLK
 	);
 	
+	wire pal_trap = ~1'h0;
+	
 	reg dff1;
 	reg dff2;
 	reg dff3;
@@ -91,9 +116,11 @@ module ym6045
 	wire w4;
 	wire w5;
 	wire w7;
+	wire w9;
 	wire w10;
 	wire w11;
 	
+	// EDCLK
 	always @(posedge MCLK)
 	begin
 		if (!sres)
@@ -138,5 +165,108 @@ module ym6045
 	
 	ym_sdffr dff9(.MCLK(MCLK), .clk(w2), .val(w10), .reset(w7), .q(dff9_q));
 	ym_sdffs dff8(.MCLK(MCLK), .clk(w2), .val(w5), .set(sres), .nq(dff8_nq));
+	
+	// RAM OE
+	assign w9 = sres;
+	
+	assign w279 = ~BGACK_i;
+	assign w302 = ~(w9 & (dff50_nq | dff62_q));
+	assign w299 = ~w302;
+	
+	ym_sdffr dff49(.MCLK(MCLK), .clk(VCLK), .val(w279), .reset(dff51_q), .q(dff49_q), .nq(dff49_nq));
+	ym_sdffr dff50(.MCLK(MCLK), .clk(~VCLK), .val(w322), .reset(w9), .q(dff50_q), .nq(dff50_nq));
+	ym_sdffr dff51(.MCLK(MCLK), .clk(w279), .val(w336), .reset(w299), .q(dff51_q));
+	
+	assign w325 = CAS0 & dff62_q;
+	assign w321 = dff61_nq & OE0;
+	assign w326 = w321 | w325;
+	assign w300 = ~(w326 & (dff49_nq | dff50_q));
+	assign w314 = ~w300;
+	assign NOE = w314;
+	assign EOE = ~(~w314 & M3);
+	
+	assign w322 = dff62_q;
+	
+	assign w342 = dff49_q;
+	
+	ym_sdffr dff61(.MCLK(MCLK), .clk(~VCLK), .val(w342), .reset(dff51_q), .q(dff61_q), .nq(dff61_nq));
+	
+	ym_sdffr dff62(.MCLK(MCLK), .clk(VCLK), .val(dff61_q), .reset(dff51_q), .q(dff62_q));
+	
+	// delays
+	
+	wire d1_out;
+	wire d2_out;
+	wire d3_out;
+	wire d4_out;
+	wire d5_out;
+	wire d6_out;
+	wire d7_out;
+	wire d8_out;
+	
+	ym_delaychain #(DELAY_CNT(1)) d1(.MCLK(MCLK), .inp(M1), .outp(d1_out));
+	ym_delaychain #(DELAY_CNT(1)) d2(.MCLK(MCLK), .inp(w188), .outp(d2_out));
+	ym_delaychain #(DELAY_CNT(7)) d3(.MCLK(MCLK), .inp(w254), .outp(d3_out));
+	ym_delaychain #(DELAY_CNT(1)) d4(.MCLK(MCLK), .inp(w113), .outp(d4_out));
+	ym_delaychain #(DELAY_CNT(2)) d5(.MCLK(MCLK), .inp(w271), .outp(d5_out));
+	ym_delaychain #(DELAY_CNT(6)) d6(.MCLK(MCLK), .inp(w238), .outp(d6_out));
+	ym_delaychain #(DELAY_CNT(6)) d7(.MCLK(MCLK), .inp(w223), .outp(d7_out));
+	ym_delaychain #(DELAY_CNT(1)) d8(.MCLK(MCLK), .inp(M3), .outp(d8_out));
+	
+	// 
+	
+	assign w143 = ~M3 | w220 | ~ZA_i[15];
+	assign w185 = w86 | w220;
+	assign w188 = w185 & w143;
+	ym_sdff dff34(.MCLK(MCLK), .clk(ZCLK), .val(d2_out), .q(dff34_q));
+	assign w182 = w188 & dff34_q;
+	assign w255 = ~(DTACK_i | w79);
+	assign w258 = ~(w255 | w79);
+	assign WAIT_o = ~w258;
+	assign w78 = ~w79 | w182 | ~sres;
+	assign w79 = dff21_q | w182 | ~sres;
+	ym_sdff dff10(.MCLK(MCLK), .clk(VCLK), .val(w78), .q(dff10_q));
+	assign BR = dff10_q;
+	ym_sdff dff28(.MCLK(MCLK), .clk(VCLK), .val(w79), .q(dff28_q));
+	assign w111 = dff28_q | w182;
+	ym_sdff dff22(.MCLK(MCLK), .clk(VCLK), .val(w111), .q(dff22_q));
+	assign w77 = dff22_q | w182;
+	ym_sdff dff18(.MCLK(MCLK), .clk(VCLK), .val(w77), .q(dff18_q));
+	assign w50 = w77 | ZRD_i;
+	assign w51 = dff18_q | ZWR_i;
+	assign w53 = w50 & w51;
+	assign UDS_o = w53 | ZA0_i;
+	assign LDS_o = w53 | ~ZA0_i;
+	assign AS_o = w77;
+	assign w149 = ~(test | pal_trap | w146);
+	assign w76 = ~sres | dff21_q;
+	assign ztov = w76 & M3;
+	assign w106 = w76;
+	assign w175 = ~AS_i;
+	assign w176 = ~BGACK_i;
+	assign w174 = w175 | w176 | w182 | BG;
+	assign w178 = w174 & w79;
+	ym_sdff dff21(.MCLK(MCLK), .clk(~VCLK), .val(w178), .q(dff21_q));
+	assign w146 = w76;
+	assign w268 = ~(test | pal_trap | w146);
+	assign RW_d = w146 | test;
+	assign strobe_dir = ~w268;
+	assign BGACK_o = ~w149;
+	
+	//assign w45 = w46 & ztov;
+	//assign w46 = w45 | BGACK_i;
+	
+	reg w45;
+	
+	always @(posedge MCLK)
+	begin
+		if (~ztov)
+			w45 <= 1'h0;
+		else
+			w45 <= w45 | BGACK_i;
+	end
+	
+	assign w48 = ~w45;
+	
 	
 endmodule
