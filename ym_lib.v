@@ -14,7 +14,8 @@ module ym_sr_bit #(parameter SR_LENGTH = 1)
 	
 	wire [SR_LENGTH-1:0] v2_assign = c2 ? v1 : v2;
 	
-	assign sr_out = v2_assign[SR_LENGTH-1];
+	//assign sr_out = v2_assign[SR_LENGTH-1];
+	assign sr_out = v2[SR_LENGTH-1];
 	
 	always @(posedge MCLK)
 	begin
@@ -109,8 +110,10 @@ module ym_dlatch_1 #(parameter DATA_WIDTH = 1)
 		mem <= mem_assign;
 	end
 	
-	assign val = mem_assign;
-	assign nval = ~mem_assign;
+	//assign val = mem_assign;
+	//assign nval = ~mem_assign;
+	assign val = mem;
+	assign nval = ~mem;
 	
 endmodule
 
@@ -132,8 +135,10 @@ module ym_dlatch_2 #(parameter DATA_WIDTH = 1)
 		mem <= mem_assign;
 	end
 	
-	assign val = mem_assign;
-	assign nval = ~mem_assign;
+	//assign val = mem_assign;
+	//assign nval = ~mem_assign;
+	assign val = mem;
+	assign nval = ~mem;
 	
 endmodule
 
@@ -176,8 +181,10 @@ module ym_slatch #(parameter DATA_WIDTH = 1)
 		mem <= mem_assign;
 	end
 	
-	assign val = mem_assign;
-	assign nval = ~mem_assign;
+	//assign val = mem_assign;
+	//assign nval = ~mem_assign;
+	assign val = mem;
+	assign nval = ~mem;
 	
 endmodule
 
@@ -186,18 +193,14 @@ module ym_rs_trig
 	input MCLK,
 	input set,
 	input rst,
-	output q,
-	output nq
+	output reg q = 1'h0,
+	output reg nq = 1'h1
 	);
-	
-	reg mem = 1'h0;
-	
-	assign q = rst ? 1'h0 : (set ? 1'h1 : mem);
-	assign nq = set ? 1'h0 : (rst ? 1'h1 : ~mem); 
 	
 	always @(posedge MCLK)
 	begin
-		mem <= q;
+		q <= rst ? 1'h0 : (set ? 1'h1 : q);
+		nq <= set ? 1'h0 : (rst ? 1'h1 : ~q); 
 	end
 	
 endmodule
@@ -208,18 +211,14 @@ module ym_rs_trig_sync
 	input set,
 	input rst,
 	input c1,
-	output q,
-	output nq
+	output reg q = 1'h0,
+	output reg nq = 1'h1
 	);
-	
-	reg mem = 1'h0;
-	
-	assign q = (c1 & rst) ? 1'h0 : ((c1 & set) ? 1'h1 : mem);
-	assign nq = (c1 & set) ? 1'h0 : ((c1 & rst) ? 1'h1 : ~mem); 
 	
 	always @(posedge MCLK)
 	begin
-		mem <= q;
+		q <= (c1 & rst) ? 1'h0 : ((c1 & set) ? 1'h1 : q);
+		nq <= (c1 & set) ? 1'h0 : ((c1 & rst) ? 1'h1 : ~q); 
 	end
 	
 endmodule
@@ -354,8 +353,10 @@ module ym_slatch_r #(parameter DATA_WIDTH = 1)
 		mem <= mem_assign;
 	end
 	
-	assign val = mem_assign;
-	assign nval = ~mem_assign;
+	//assign val = mem_assign;
+	//assign nval = ~mem_assign;
+	assign val = mem;
+	assign nval = ~mem;
 	
 endmodule
 

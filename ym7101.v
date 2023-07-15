@@ -7075,18 +7075,14 @@ module ym7101_rs_trig
 	input MCLK,
 	input set,
 	input rst,
-	output q,
-	output nq
+	output reg q = 1'h0,
+	output reg nq = 1'h1
 	);
-	
-	reg mem = 1'h0;
-	
-	assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
-	assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
 	
 	always @(posedge MCLK)
 	begin
-		mem <= q;
+		q <= set ? 1'h1 : (rst ? 1'h0 : q);
+		nq <= rst ? 1'h1 : (set ? 1'h0 : ~q); 
 	end
 	
 endmodule
@@ -7105,7 +7101,8 @@ module ym7101_dff #(parameter DATA_WIDTH = 1)
 	
 	wire [DATA_WIDTH-1:0] l2_assign = rst ? {DATA_WIDTH{1'h0}} : (clk ? l1 : l2);
 	
-	assign outp = l2_assign;
+	//assign outp = l2_assign;
+	assign outp = l2;
 	
 	always @(posedge MCLK)
 	begin
