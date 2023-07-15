@@ -465,7 +465,8 @@ module ym_scnt_bit
 	input val,
 	input cin,
 	input rst,
-	output outp,
+	output q,
+	output nq,
 	output cout
 	);
 	
@@ -473,7 +474,8 @@ module ym_scnt_bit
 	
 	assign cout = cin & l2;
 	
-	assign outp = l2;
+	assign q = l2;
+	assign nq = ~l2;
 	
 	always @(posedge MCLK)
 	begin
