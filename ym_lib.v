@@ -389,7 +389,7 @@ module ym_cnt_bit_rs #(parameter DATA_WIDTH = 1)
 	assign sum = data_out_s + c_in;
 	assign val = data_out_s;
 	assign nval = ~data_out_s;
-	assign data_in = reset1 ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
+	assign data_in = reset ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
 	assign c_out = sum[DATA_WIDTH];
 	
 endmodule
@@ -440,7 +440,7 @@ module ym_sr_bit_en #(parameter SR_LENGTH = 2)
 	wire [SR_LENGTH-1:0] sr_out;
 	wire [SR_LENGTH-1:0] sr_in =
 		(en1 ? { sr_out[SR_LENGTH-2:0], data_in } : {SR_LENGTH{1'h0}}) |
-		(en2 ? sr_out : {SR_LENGTH{1'h0}});;
+		(en2 ? sr_out : {SR_LENGTH{1'h0}});
 	
 	assign data_out = sr_out;
 	
