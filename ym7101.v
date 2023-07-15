@@ -100,7 +100,8 @@ module ym7101
 	output OE0,
 	output CAS0,
 	output RAS0,
-	output [7:0] RA
+	output [7:0] RA,
+	input ext_test_2
 	);
 
 	wire cpu_sel;
@@ -168,8 +169,8 @@ module ym7101
 	wire io_m1_s3;
 	wire io_m1_s4;
 	wire io_m1_s5;
-	wire [23:0] io_address;
-	wire io_dresss_22o;
+	wire [22:0] io_address;
+	wire io_adresss_22o;
 	wire io_oe0;
 	wire w1153;
 	wire io_cas0;
@@ -1222,6 +1223,875 @@ module ym7101
 	wire [1:0] l323;
 	wire w649;
 
+	wire [10:0] w650;
+	wire [10:0] l324;
+	wire l325;
+	wire l326;
+	wire [10:0] l327;
+	wire [10:0] l328;
+	wire w651;
+	wire l329;
+	wire l330;
+	wire l331;
+	wire [10:0] l332;
+	wire l333;
+	wire w652;
+	wire [9:0] w653;
+	wire w654;
+	wire w655;
+	wire w656;
+	wire w657;
+	wire w658;
+	wire w659;
+	wire l334;
+	wire w660;
+	wire l335;
+	wire w661;
+	wire [9:0] w662;
+	wire l336;
+	wire l337;
+	wire l338;
+	wire l339;
+	wire w663;
+	wire w664;
+	wire w665;
+	wire [9:0] w666;
+	wire [9:0] l340;
+	wire [9:0] l341;
+	wire w667;
+	wire w668;
+	wire w669;
+	wire w670;
+	wire w671;
+	wire w672;
+	wire [7:0] l342;
+	wire [9:0] l343;
+	wire [9:0] l344;
+	wire w673;
+	wire w674;
+	wire w675;
+	wire w676;
+	wire w677;
+	wire w678;
+	wire w679;
+	wire [9:0] l345;
+	wire [9:0] l346;
+	wire [9:0] w680;
+	wire l347;
+	wire l348;
+	wire l349;
+	wire l350;
+	wire w681;
+	wire w682;
+	wire [6:0] l351;
+	wire w683;
+	wire l352;
+	wire w684;
+	wire l353;
+	wire l354;
+	wire w685;
+	wire l355;
+	wire l356;
+	wire w686;
+	wire l357;
+	wire l358;
+	wire l359;
+	wire w687;
+	wire w688;
+	wire w689;
+	wire w690;
+	wire w691;
+	wire l360_1;
+	wire [5:0] l360_83;
+	wire l361;
+	wire l362;
+	wire w692;
+	wire w693;
+	wire w694;
+	wire l363;
+	wire l364;
+	wire [6:0] w695;
+	wire [6:0] w696;
+	wire [4:0] l365;
+	wire [6:0] sat_link;
+	wire [3:0] sat_size;
+	wire [9:0] sat_ypos;
+	wire [3:0] l366;
+	wire [4:0] w697;
+	wire l367;
+	wire w698;
+	wire l368;
+	wire l369;
+	wire l370;
+	wire w699;
+	wire w700;
+	wire [4:0] l371;
+	wire l372;
+	wire w701;
+	wire l373;
+	wire w702;
+	wire w703;
+	wire w704;
+	wire w705;
+	wire w706;
+	wire w707;
+	wire w708;
+	wire w709;
+	wire w710;
+	wire w711;
+	wire w712;
+	wire w713;
+	wire l374;
+	wire l375;
+	wire l376;
+	wire w714;
+	wire w715;
+	wire w716;
+	wire l377;
+	wire w717;
+	wire l378;
+	wire w718;
+	wire [3:0] l379;
+	wire [5:0] l380;
+	wire w719;
+	wire w720;
+	wire w721;
+	wire l381;
+	wire t40;
+	wire t41;
+	wire w722;
+	wire w723;
+	wire w724;
+	wire w725;
+	wire w726;
+	wire l382;
+	wire l383;
+	wire w727;
+	wire l384;
+	wire l385;
+	wire w728;
+	wire w729;
+	wire w730;
+	wire yoff;
+	wire [7:0] l386;
+	wire [7:0] l387;
+	wire w731;
+	wire w732;
+	wire [9:0] l388;
+	wire [9:0] l389;
+	wire [9:0] l390;
+	wire [9:0] l391;
+	wire w733;
+	wire w734;
+	wire w735;
+	wire w736;
+	wire w737;
+	wire w738;
+	wire [3:0] w739;
+	wire reg_86_b2;
+	wire reg_86_b5;
+	wire [7:0] reg_at;
+	wire w740;
+	wire w741;
+	wire w742;
+	wire w743;
+	wire l392;
+	wire w744;
+	wire w745;
+	wire w746;
+	wire l393;
+	wire l394;
+	wire w747;
+	wire w748;
+	wire l395;
+	wire w749;
+	wire l396;
+	wire l397;
+	wire w750;
+	wire [7:0] l398;
+	wire [7:0] l399;
+	wire [7:0] l400;
+	wire w751;
+	wire l401;
+	wire l402;
+	wire w752;
+	wire w753;
+	wire [19:0] l403;
+	wire [19:0] l404;
+	wire [19:0] l405;
+	wire [19:0] l406;
+	wire [19:0] l407;
+	wire [19:0] l408;
+	wire [19:0] l409;
+	wire [19:0] l410;
+	wire l411;
+	wire l412;
+	wire w754;
+	wire w755;
+	wire w756;
+	wire [6:0] w757;
+	wire w758;
+	wire w759;
+	wire w760;
+	wire [1:0] w761;
+	wire w763;
+	wire [1:0] w764;
+	wire [1:0] w766;
+	wire [5:0] w768;
+	wire w769;
+	wire [10:0] w770;
+	wire l413;
+	wire [1:0] l414;
+	wire l415;
+	wire [1:0] l416;
+	wire [1:0] l417;
+	wire [5:0] l418;
+	wire [10:0] sprdata_pattern_o;
+	wire [8:0] sprdata_hpos_o;
+	wire sprdata_hflip_o;
+	wire [1:0] sprdata_pal_o;
+	wire sprdata_priority_o;
+	wire [1:0] sprdata_xs_o;
+	wire [1:0] sprdata_ys_o;
+	wire [5:0] sprdata_yoffset_o;
+	wire l419;
+	wire [1:0] l420;
+	wire w771;
+	wire w772;
+	wire l421;
+	wire l422;
+	wire t42;
+	wire l423;
+	wire w773;
+	wire [10:0] w774;
+	wire [10:0] l424;
+	wire [8:0] w775;
+	wire [8:0] l425;
+	wire l426;
+	wire w776;
+	wire w777;
+	wire l427; // nc
+	wire [1:0] w778;
+	wire [3:0] w779;
+	wire [10:0] w780;
+	wire l428;
+	wire w781;
+	wire w782;
+	wire l429;
+	wire l430;
+	wire w783;
+	wire l431;
+	wire w784;
+	wire l432;
+	wire l433;
+	wire [1:0] w785;
+	wire [3:0] w786;
+	wire [3:0] w787;
+	wire [3:0] l434;
+	wire [7:0] l435;
+	wire [7:0] l436;
+	wire [7:0] l437;
+	wire [7:0] w788;
+	wire l438;
+	wire l439;
+	wire l440;
+	wire l441;
+	wire l442;
+	wire l443;
+	wire l444;
+	wire w789;
+	wire w790;
+	wire l445;
+	wire w791;
+	wire w792;
+	wire w793;
+	wire w794;
+	wire w795;
+	wire w796;
+	wire w797;
+	wire w798;
+	wire w799;
+	wire [5:0] w800;
+	wire l446;
+	wire [5:0] l447;
+	wire [5:0] w801;
+	wire [5:0] w802;
+	wire w803;
+	wire l448;
+	wire l449;
+	wire l450;
+	wire l451;
+	wire [1:0] l452;
+	wire [1:0] l453;
+	wire l454;
+	wire l455;
+	wire l456;
+	wire w804;
+	wire w805;
+	wire w806;
+	wire [1:0] l457;
+	wire w807;
+	wire w808;
+	wire [8:0] w809;
+	wire l458;
+	wire w810;
+	wire w811;
+	wire [1:0] w812;
+	wire l459;
+	wire l460;
+	wire w813;
+	wire l461;
+	wire w814;
+	wire l462;
+	wire w815;
+	wire l463;
+	wire w816;
+	wire l464;
+	wire w817;
+	wire w818;
+	wire l465;
+	wire w819;
+	wire l466;
+	wire w820;
+	wire l467;
+	wire l468;
+	wire l469;
+	wire w821;
+	wire l470;
+	wire l471;
+	wire [2:0] l472;
+	wire [2:0] l473;
+	wire w822;
+	wire w823;
+	wire w824;
+	wire [6:0] l474;
+	wire [6:0] l475;
+	wire [5:0] w825;
+	wire w827;
+	wire w828;
+	wire [7:0] l478;
+	wire [7:0] l479;
+	wire [7:0] l480;
+	wire [7:0] l481;
+	wire w829;
+	wire l482;
+	wire l483;
+	wire w830;
+	wire w831;
+	wire w832;
+	wire l484;
+	wire w833;
+	wire l485;
+	wire w834;
+	wire [7:0] l486;
+	wire [7:0] l487;
+	wire [7:0] l488;
+	wire l489;
+	wire l490;
+	wire w835;
+	wire [7:0] l491;
+	wire [7:0] l492;
+	wire [7:0] l493;
+	wire [7:0] l494;
+	wire l495;
+	wire l496;
+	wire l497;
+	wire l498;
+	wire l499;
+	wire l500;
+	wire w836;
+	wire l501;
+	wire w837;
+	wire w838;
+	wire w839;
+	wire w840;
+	wire w841;
+	wire w842;
+	wire [7:0] w843;
+	wire w844;
+	wire [7:0] l502;
+	wire w845;
+	wire [1:0] l503;
+	wire w846;
+	wire [7:0] l504;
+	wire l505;
+	wire l506;
+	wire w847;
+	wire w848;
+	wire l507;
+	wire l508;
+	wire l509;
+	wire l510;
+	wire w849;
+	wire l511;
+	wire l512;
+	wire l513;
+	wire w850;
+	wire l514;
+	wire w851;
+	wire w852;
+	wire w853;
+	wire w854;
+	wire w855;
+	wire w856;
+	wire w857;
+	wire w858;
+	wire w859;
+	wire w860;
+	wire w861;
+	wire w862;
+	wire w863;
+	wire w864;
+	wire w865;
+	wire w866;
+	wire w867;
+	wire w868;
+	wire w869;
+	wire w870;
+	wire w871;
+	wire w872;
+	wire w873;
+	wire w874;
+	wire w875;
+	wire w876;
+	wire w877;
+	wire w878;
+	wire w879;
+	wire w880;
+	wire w881;
+	wire w882;
+	wire w883;
+	wire w884;
+	wire [3:0] l515;
+	wire [3:0] l516;
+	wire [3:0] l517;
+	wire [3:0] l518;
+	wire [3:0] l519;
+	wire [3:0] l520;
+	wire [3:0] l521;
+	wire [3:0] l522;
+	wire w885;
+	wire [3:0] l523;
+	wire [3:0] l524;
+	wire [3:0] l525;
+	wire [3:0] l526;
+	wire [3:0] l527;
+	wire [3:0] l528;
+	wire [3:0] l529;
+	wire [3:0] l530;
+	wire l531;
+	wire l532;
+	wire l533;
+	wire l534;
+	wire l535;
+	wire l536;
+	wire l537;
+	wire w886;
+	wire w887;
+	wire w888;
+	wire w889;
+	wire w890;
+	wire w891;
+	wire w892;
+	wire w893;
+	wire w894;
+	wire w895;
+	wire w896;
+	wire w897;
+	wire w898;
+	wire w899;
+	wire w900;
+	wire w901;
+	wire w902;
+	wire w903;
+	wire w904;
+	wire w905;
+	wire w906;
+	wire w907;
+	wire w908;
+	wire w909;
+	wire l538;
+	wire l539;
+	wire l540;
+	wire l541;
+	wire l542;
+	wire l543;
+	wire l544;
+	wire l545;
+	wire w910;
+	wire w911;
+	wire w912;
+	wire w913;
+	wire w914;
+	wire w915;
+	wire w916;
+	wire w917;
+	wire w918;
+	wire w919;
+	wire w920;
+	wire w921;
+	wire w922;
+	wire w923;
+	wire w924;
+	wire w925;
+	wire w926;
+	wire w927;
+	wire w928;
+	wire w929;
+	wire w930;
+	wire w931;
+	wire w932;
+	wire w933;
+	wire w934;
+	wire w935;
+	wire w936;
+	wire w937;
+	wire w938;
+	wire w939;
+	wire w940;
+	wire w941;
+	wire w942;
+	wire w943;
+	wire w944;
+	wire w945;
+	wire w946;
+	wire w947;
+	wire w948;
+	wire w949;
+	wire w950;
+	wire w951;
+	wire w952;
+	wire w953;
+	wire w954;
+	wire w955;
+	wire w956;
+	wire w957;
+	wire w958;
+	wire w959;
+	wire w960;
+	wire w961;
+	wire w962;
+	wire w963;
+	wire w964;
+	wire w965;
+	wire w966;
+	wire w967;
+	wire w968;
+	wire w969;
+	wire [1:0] l553;
+	wire l554;
+	wire [3:0] l555;
+	wire [1:0]spr_pal;
+	wire spr_priority;
+	wire [3:0] spr_index;
+	wire [1:0] w970;
+	wire w971;
+	wire [3:0] w972;
+	wire [1:0] l556;
+	wire l557;
+	wire [3:0] l558;
+	wire [1:0] l559;
+	wire l560;
+	wire [3:0] l561;
+	wire w973;
+	wire w974;
+	wire w975;
+	wire w976;
+	wire w977;
+	wire w978;
+	wire l562;
+	wire l563;
+	wire w979;
+	wire [1:0] w980;
+	wire w982;
+	wire [1:0] w983;
+	wire l600;
+	wire w1020;
+	wire w1154;
+	
+	wire [1:0] linebuffer_out_pal[0:7];
+	wire linebuffer_out_priority[0:7];
+	wire [3:0] linebuffer_out_index[0:7];
+
+	wire l564;
+	wire l565;
+	wire l566;
+	wire l567;
+	wire w985;
+	wire w986;
+	wire w987;
+	wire w988;
+	wire w989;
+	wire w990;
+	wire l568;
+	wire w991;
+	wire w992;
+	wire l569;
+	wire l570;
+	wire l571;
+	wire w993;
+	wire l572;
+	wire l573;
+	wire l574;
+	wire l575;
+	wire l576;
+	wire l577;
+	wire l578;
+	wire l579;
+	wire w994;
+	wire l580;
+	wire l581;
+	wire w995;
+	wire w996;
+	wire w997;
+	wire l582;
+	wire w998;
+	wire l583;
+	wire l584;
+	wire w999;
+	wire l585;
+	wire w1000;
+	wire l586;
+	wire l587;
+	wire l588;
+	wire l589;
+	wire l590;
+	wire w1001;
+	wire w1002;
+	wire w1003;
+	wire w1004;
+	wire l591;
+	wire w1005;
+	wire w1006;
+	wire w1007;
+	wire w1008;
+	wire w1009;
+	wire w1010;
+	wire w1011;
+	wire [7:0] w1012;
+	wire w1013;
+	wire [7:0] l592;
+	wire [7:0] w1014;
+	wire [7:0] l593;
+	wire [7:0] w1015;
+	wire [7:0] l594;
+	wire [7:0] w1016;
+	wire [7:0] l595;
+	wire [7:0] l596;
+	wire [7:0] w1017;
+	wire [7:0] l597;
+	wire [7:0] l598;
+	wire [7:0] l599;
+	wire [7:0] w1018;
+	wire [7:0] w1019;
+	
+	wire w1021;
+	wire l601;
+	wire l602;
+	wire w1022;
+	wire w1023;
+	wire w1024;
+	wire w1025;
+	wire w1026;
+	wire w1027;
+	wire w1028;
+	wire w1029;
+	wire w1030;
+	wire w1031;
+	wire w1032;
+	wire w1033;
+	wire w1034;
+	wire w1035;
+	wire w1036;
+	wire w1037;
+	wire w1038;
+	wire w1039;
+	wire w1040;
+	wire w1041;
+	wire w1042;
+	wire w1043;
+	wire w1044;
+	wire w1045;
+	wire w1046;
+	wire w1047;
+	wire w1048;
+	wire w1049;
+	wire w1050;
+	wire w1051;
+	wire w1052;
+	wire w1053;
+	wire w1054;
+	wire w1055;
+	wire w1056;
+	wire w1057;
+	wire w1058;
+	wire w1059;
+	wire w1060;
+	wire w1061;
+	wire w1062;
+	wire l603;
+	wire l604;
+	wire l605;
+	wire l606;
+	wire w1063;
+	wire w1064;
+	wire w1065;
+	wire w1066;
+	wire l607;
+	wire w1067;
+	wire w1068;
+	wire l608;
+	wire w1069;
+	wire l609;
+	wire l610;
+	wire w1070;
+	wire l611;
+	wire l612;
+	wire w1071;
+	wire l613;
+	wire w1072;
+	wire w1073;
+	wire [3:0] reg_col_index;
+	wire [1:0] reg_col_pal;
+	wire reg_col_b6;
+	wire reg_col_b7;
+	wire l614;
+	wire l615;
+	wire w1074;
+	wire l616;
+	wire w1075;
+	wire [5:0] w1076;
+	wire [5:0] l617;
+	wire l618;
+	wire w1077;
+	wire l619;
+	wire [2:0] l620;
+	wire w1078;
+	wire w1079;
+	wire [8:0] color_ram_out;
+	wire [8:0] l621;
+	wire [8:0] l622;
+	wire l623_1, l623_2, l623_3;
+	wire w1080;
+	wire w1081;
+	wire l624;
+	wire l625;
+	wire w1082;
+	wire w1083;
+	wire w1084;
+	wire w1085;
+	wire w1086;
+	wire w1087;
+	wire w1088;
+	wire w1089;
+	wire w1090;
+	wire w1091;
+	wire w1092;
+	wire w1093;
+	wire w1094;
+	wire w1095;
+	wire w1096;
+	wire w1097;
+	wire w1098;
+	wire w1099;
+	wire w1100;
+	wire [2:0] l626; // r
+	wire [2:0] l627; // g
+	wire [2:0] l628; // b
+	wire l629;
+	wire l630;
+	wire w1101;
+	wire w1102;
+	wire [16:0] w1103[0:2];
+	
+	wire psg_clk1;
+	wire psg_clk2;
+	wire l631;
+	wire l632;
+	wire w1104;
+	wire w1105;
+	wire l633;
+	wire l634;
+	wire psg_hclk1;
+	wire psg_hclk2;
+	wire t43;
+	wire w1106;
+	wire l635;
+	wire l636;
+	wire l637;
+	wire t44;
+	wire l638;
+	wire w1107;
+	wire w1108;
+	wire w1109;
+	wire w1110;
+	wire l639;
+	wire w1111;
+	wire w1112;
+	wire w1113;
+	wire w1114;
+	wire w1115;
+	wire [9:0] w1116;
+	wire [9:0] w1117;
+	wire w1118;
+	wire [15:0] l640;
+	wire w1119;
+	wire w1120;
+	wire [9:0] l641;
+	wire [9:0] l642;
+	wire [9:0] l643;
+	wire [9:0] l644;
+	wire w1121;
+	wire w1122;
+	wire w1123;
+	wire w1124;
+	wire w1125;
+	wire l645;
+	wire l646;
+	wire l647;
+	wire l648;
+	wire l649;
+	wire w1126;
+	wire w1127;
+	wire w1128;
+	wire w1129;
+	wire w1130;
+	wire w1131;
+	wire [3:0] l650;
+	wire w1132;
+	wire l651;
+	wire w1133;
+	wire [3:0] l652;
+	wire [7:0] l653;
+	wire [7:0] w1134;
+	wire [2:0] l654;
+	wire w1135;
+	wire w1136;
+	wire w1137;
+	wire w1138;
+	wire w1139;
+	wire w1140;
+	wire w1141;
+	wire w1142;
+	wire [3:0] w1143;
+	wire [3:0] l655;
+	wire [3:0] l656;
+	wire [3:0] l657;
+	wire [3:0] l658;
+	wire w1144;
+	wire [9:0] l659;
+	wire [9:0] l660;
+	wire [9:0] l661;
+	wire [2:0] l662;
+	wire w1145;
+	wire w1146;
+	wire w1147;
+	wire w1148;
+	wire [3:0] w1149;
+	wire [3:0] w1150;
+	wire [3:0] w1151;
+	wire [3:0] w1152;
+
 	wire [14:0] reg_test0;
 	wire [11:0] reg_test_18;
 	wire [7:0] reg_hit;
@@ -1271,8 +2141,16 @@ module ym7101
 	
 	assign reset_comb = ~(RESET & w100);
 	
+	wire [16:0] vram_address;
+	wire [15:0] vram_data;
+	wire [7:0] vram_serial;
 	
+	reg [16:0] vram_address_mem;
+	reg [15:0] vram_data_mem;
 	
+	wire [3:0] color_index;
+	wire color_priority;
+	wire [1:0] color_pal;
 	
 	reg [10:0] vsram[0:39];
 	reg [10:0] vsram_out;
@@ -3948,6 +4826,10 @@ module ym7101
 	
 	ym_sr_bit sr370(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w700), .sr_out(l370));
 	
+	wire w699 = reg_m5 & l370 & ~w700;
+	
+	wire w700 = ~(l368 | l429);
+	
 	ym_cnt_bit_rev #(.DATA_WIDTH(5)) cnt371(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .c_in(w703), .dec(w704), .reset(l273), .val(l371));
 	
 	ym_sr_bit sr372(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w360), .sr_out(l372));
@@ -4199,6 +5081,15 @@ module ym7101
 	
 	assign w772 = w771 & l141;
 	
+	ym_cnt_bit cnt421(.MCLK(MCLK), .c1(hclk1), .c2(hclk2),
+		.c_in(l419), .reset(w360), val(l421));
+	
+	ym_sr_bit sr422(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l421), .sr_out(l422));
+	
+	ym7101_rs_trig rs42(.MCLK(MCLK), .set(l372), .rst(l369), .q(t42));
+	
+	ym_sr_bit sr423(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(t42), .sr_out(l423));
+	
 	assign w773 = l423 & l511 & w714;
 	
 	assign w774 =
@@ -4225,7 +5116,7 @@ module ym7101
 	
 	assign w779 = w778 + w786;
 	
-	assign w780 = l424 + w779;
+	assign w780 = l424 + { 7'h0, w779 };
 	
 	ym_sr_bit sr428(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w781), .sr_out(l428));
 	
@@ -4251,7 +5142,7 @@ module ym7101
 	
 	assign w786 = l432 ? w787 : 4'h0;
 	
-	assign w787 = l433 + l434 + w785;
+	assign w787 = l433 + l434 + { 2'h0, w785 };
 	
 	ym_sr_bit_array #(.DATA_WIDTH(4)) sr434(.MCLK(MCLK), .c1(hclk2), .c2(hclk1), .data_in(w786), .data_out(l434));
 	
@@ -4310,7 +5201,7 @@ module ym7101
 	
 	ym_sr_bit_array #(.DATA_WIDTH(6)) sr446(.MCLK(MCLK), .c1(clk1), .c2(clk2), .data_in(w800), .data_out(l446));
 	
-	ym_sr_bit_array #(.DATA_WIDTH(7)) sr447(.MCLK(MCLK), .c1(clk1), .c2(clk2), .data_in(w802), .data_out(l447));
+	ym_sr_bit_array #(.DATA_WIDTH(6)) sr447(.MCLK(MCLK), .c1(clk1), .c2(clk2), .data_in(w802), .data_out(l447));
 	
 	assign w801 = l444 ? l446 : l447;
 	
@@ -4424,7 +5315,7 @@ module ym7101
 	
 	assign w827 = l472 >= 3'h5;
 	
-	assign w828 = l504 = 3'h4;
+	assign w828 = l504 == 3'h4;
 	
 	ym_slatch #(.DATA_WIDTH(8)) sl478(.MCLK(MCLK), .en(w834), .inp(vram_serial), .val(l478));
 	
@@ -4918,9 +5809,9 @@ module ym7101
 	
 	assign w976 = l558 != 4'h0;
 	
-	assign w977 = l558 == 4h'e;
+	assign w977 = l558 == 4'he;
 
-	assign w978 = l558 == 4h'f;
+	assign w978 = l558 == 4'hf;
 	
 	ym_sr_bit_array #(.DATA_WIDTH(2)) sr559(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w974), .data_out(l559));
 	
@@ -5279,7 +6170,7 @@ module ym7101
 	
 	ym_slatch #(.DATA_WIDTH(8)) sl598(.MCLK(MCLK), .en(w998), .inp(i_vram_rd), .val(l598));
 	
-	ym_slatch #(.DATA_WIDTH(8)) sl599(.MCLK(MCLK), .en(w998), .inp(i_vram_ad), .val(l599));\
+	ym_slatch #(.DATA_WIDTH(8)) sl599(.MCLK(MCLK), .en(w998), .inp(i_vram_ad), .val(l599));
 	
 	assign w1018 = reg_test0[5] ? vram_address[7:0] : w1015;
 	
@@ -5482,6 +6373,10 @@ module ym7101
 	assign w1080 = l623_1 & hclk1;
 	
 	assign w1081 = ~(w422 | t37);
+	
+	ym_sr_bit sr624(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1081), .sr_out(l624));
+	
+	ym_sr_bit sr625(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l619), .sr_out(l625));
 	
 	assign w1082 = l625 & l624;
 	
@@ -5793,6 +6688,181 @@ module ym7101
 	assign w1150 = w1145 ? 4'hf : l656;
 	assign w1151 = w1145 ? 4'hf : l657;
 	assign w1152 = w1145 ? 4'hf : l658;
+	
+	// vram bus
+	
+	ym_dlatch_1 #(.DATA_WIDTH(8)) dl_vs(.MCLK(MCLK), .c1(clk1), .inp(SD), .val(vram_serial));
+	
+	wire [15:0] vram_data_val =
+		(w328 ? { l96, w351 } : 16'hffff) &
+		(w327 ? { l98, w352 } : 16'hffff) &
+		(w329 ? { l100, w353 } : 16'hffff) &
+		(w326 ? { l102, w354 } : 16'hffff) &
+		(w183 ? { 5'h1f, l180 } : 16'hffff) &
+		(l330 ? { 5'h1f, l324 } : 16'hffff) &
+		(l583 ? { l598, l599 } : 16'hffff) &
+		(l623_3 ? { 4'hf, l621[8:6], 1'h1, l621[5:3], 1'h1, l521[2:0], 1'h1 } : 16'hffff);
+		
+	wire [15:0] vram_data_pull =
+		(w328 ? 16'hffff : 16'h0) |
+		(w327 ? 16'hffff : 16'h0) |
+		(w329 ? 16'hffff : 16'h0) |
+		(w326 ? 16'hffff : 16'h0) |
+		(w183 ? 16'h07ff : 16'h0) |
+		(l330 ? 16'h07ff : 16'h0) |
+		(l583 ? 16'hffff : 16'h0) |
+		(l623_3 ? 16'heee : 16'h0);
+	
+	assign vram_data = (vram_data_pull & vram_data_val) | (~vram_data_pull & vram_data_mem);
+	
+	wire [16:0] vram_address_val =
+		(w195 ? (reg_sa_high[0], reg_sa_low) : 17'h1ffff) &
+		(w191 ? reg_data_l2[16:0] : 17'h1ffff) &
+		(w275 ? { l35[16:1], ~l35[0] } : 17'h1ffff) &
+		(w257 ? l36 : 17'h1ffff) &
+		(w258 ? l37 : 17'h1ffff) &
+		(w259 ? l38 : 17'h1ffff) &
+		(w260 ? l39 : 17'h1ffff) &
+		(w531 ? { w532[3:1], 14'h3fff } : 17'h1ffff) &
+		(w558 ? { 3'h7, w532[0], w533, w527[4:0], w555[4:0], 1'h0 } : 17'h1ffff) &
+		(w643 ? { reg_hs, w535, 2'h0 } : 17'h1ffff) & // hscroll
+		(l202 ? { reg_wd[5:1], w536, l106[7:4], 2'h0 } : 17'h1ffff) & // window
+		(l196 ? { 12'hffff, w577[2:0], ~l198, 1'h0 } : 17'h1ffff) &
+		(l199 ? { 3'h7, w578, 5'h1f } : 17'h1ffff) &
+		(w566 ? { w579, 14'h3ffff } : 17'h1ffff) &
+		(l218 ? { w580, 5'h1f } : 17'h1ffff) &
+		(w684 ? { 9'h1ff, 2'h0, l351[4:0], 1'h0 } : 17'h1ffff) &
+		(w742 ? { 3'h7, reg_86_b2, w731[7:1], w737, w735, w734, w733, l106[1], 1'h0 } : 17'h1ffff) &
+		(w754 ? { 3'h7, reg_at[6:1], 8'hff} : 17'h1ffff) &
+		(w756 ? { reg_at[7:1], w757[9:3], 3'h4 } : 17'1ffff) &
+		(w755 ? { 9'h1ff, l409[7], l408[7], l407[7], l406[7], l405[7], l404[7], l403[7], 1'h0 } : 17'1ffff) &
+		(l428 ? (w106 ?
+			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'1ffff);
+	
+	wire [16:0] vram_address_pull =
+		(w195 ? 17'h1ffff : 17'h0) |
+		(w191 ? 17'h1ffff : 17'h0) |
+		(w275 ? 17'h1ffff : 17'h0) |
+		(w257 ? 17'h1ffff : 17'h0) |
+		(w258 ? 17'h1ffff : 17'h0) |
+		(w259 ? 17'h1ffff : 17'h0) |
+		(w260 ? 17'h1ffff : 17'h0) |
+		(w531 ? 17'h1c000 : 17'h0) |
+		(w558 ? 17'h03fff : 17'h0) |
+		(w643 ? 17'h1ffff : 17'h0) |
+		(l202 ? 17'h1ffff : 17'h0) | 
+		(l196 ? 17'h0001f : 17'h0) |
+		(l199 ? 17'h03fe0 : 17'h0) |
+		(w566 ? 17'h1c000 : 17'h0) |
+		(l218 ? 17'h1ffe0 : 17'h0) |
+		(w684 ? 17'h000ff : 17'h0) |
+		(w742 ? 17'h03fff : 17'h0) |
+		(w754 ? 17'h03f00 : 17'h0) |
+		(w756 ? 17'h1ffff : 17'h0) |
+		(w755 ? 17'h000ff : 17'h0) |
+		(l428 ? 17'h1ffff : 17'h0);
+	
+	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);
+	
+	always @(posedge MCLK)
+	begin
+		vram_data_mem <= vram_data;
+		vram_address_mem <= vram_address;
+	end
+	
+	// io bus
+	
+	wire vdp_data_dir = ~w151 | ext_test_2;
+	wire vdp_address_dir = ~w267 | ext_test2;
+	
+	assign io_address[19:18] = reg_sa_high[3:2];
+	
+	wire [22:0] io_address_val =
+		(vdp_address_dir ? (CA_i & 23'h73ffff) : 23'h73ffff) &
+		(w267 ? ({ reg_sa_high, reg_sa_low } & 23'h33ffff) : 23'h73ffff);
+	
+	wire [22:0] io_address_pull =
+		(vdp_address_dir ? 23'h73ffff : 23'h0) |
+		(w267 ? 23'h33ffff : 23'h0);
+	
+	reg [22:0] io_address_mem;
+	
+	assign [22:0] io_address_t = (io_address_pull & io_address_val) | (~io_address_pull & io_address_mem);
+	
+	assign io_address[22:20] = io_address_t[22:20];
+	assign io_address[17:0] = io_address_t[17:0];
+	
+	assign CA_o[22] = o_address_22;
+	assign CA_o[21:0] = io_address[21:0];
+	
+	assign CA_d = vdp_address_dir;
+	
+	wire [15:0] io_data_val =
+		(vdp_data_dir ? CD_i : 16'hffff) &
+		(w97 ? { 2'h3, l418[5:3], w770 } : 16'hffff) &
+		(w71 ? { 5'h1f, ~w355[9], ~w355[8], ~l106[0], 8'hff} : 16'hffff) &
+		(w114 ? { 6'h3f, l46, w252, t9, t10, t11, w446, w439, w422, w73, w72 } : 16'hffff) &
+		(w134 ? { l90[7:0], 8'hff } : 16'hffff) &
+		(w142 ? { 8'hff, w347[7:0] } : 16'hffff) &
+		(w160 ? { l93[7:0], l92[7:0] } : 16'hffff) &
+		(w47 ? { 8'hff, 5'h0, w12, w11, 1'h0 } : 16'hffff) &
+		(w87 ? { 8'hff, ~l110, ~w360, ~w379, ~w393, ~w402, ~w417, ~w415, ~w424 } : 16'hffff) &
+		(w89 ? { 2'h3, ~l156, ~w418, ~w419, ~l147, ~l142, ~l141, ~l134, ~l116, ~w394, ~w385, ~w372, ~w356, ~l108, ~l109 } : 16'hffff) &
+		(w95 ? { 4'hf, l410[19], l409[19], l408[19], l407[19], l406[19], l405[19], l404[19], l403[19], l391[9], l390[9], l389[9], l388[9] } : 16'hffff) &
+		(w99 ? { 1'h1, ~w969, ~w968, ~w967, ~w966, ~w965, ~w964, ~w963, 1'h1, ~w962, ~w961, ~w960, ~w959, ~w958, ~w957, ~w956 } : 16'hffff) &
+		(w91 ? { 5'h1f, ~w1094, ~w1093, ~w1098, ~w1092, ~w1091, ~w1099, ~w1090, ~w1089, ~w1100, ~l610, ~l612 } : 16'hffff) &
+		(w93 ? { ~w1149, ~w1150, ~w1151, ~w1152 } : 16'hffff);
+	
+	wire [15:0] io_data_pull =
+		(vdp_data_dir ? 16'hffff : 16'h0) |
+		(w97 ? 16'h3fff : 16'h0) |
+		(w71 ? 16'h0700 : 16'h0) |
+		(w114 ? 16'h03ff : 16'h0) |
+		(w134 ? 16'hff00 : 16'h0) |
+		(w142 ? 16'h00ff : 16'h0) |
+		(w160 ? 16'hffff : 16'h0) |
+		(w47 ? 16'h00ff : 16'h0) |
+		(w87 ? 16'h00ff : 16'h0) |
+		(w89 ? 16'h3fff : 16'h0) |
+		(w95 ? 16'h0fff : 16'h0) |
+		(w99 ? 16'h7f7f : 16'h0) |
+		(w91 ? 16'h07ff : 16'h0) |
+		(w93 ? 16'hffff : 16'h0);
+	
+	reg [15:0] io_data_mem;
+	
+	assign [15:0] io_data = (io_data_pull & io_data_val) | (~io_data_pull & io_data_mem);
+	
+	always @(posedge MCLK)
+	begin
+		io_data_mem <= io_data;
+		io_address_mem <= io_address_t;
+	end
+	
+	// color bus
+	
+	wire [6:0] color_bus;
+	
+	assign color_index = color_bus[3:0];
+	assign color_pal = color_bus[5:4];
+	assign color_priority = color_bus[6];
+	
+	wire [6:0] color_bus_val =
+		(l606 ? { 1h'0, reg_m5 ? reg_col_pal : 2'h1, reg_col_index } : 7'h7f) &
+		(l603 ? { l560, l559, l561 } : 7'h7f) &
+		(l605 ? { l321, l323, l319 } : 7'h7f) &
+		(l604 ? { l274, l272, l270 } : 7'h7f);
+	
+	reg [6:0] color_bus_mem;
+	
+	assign color_bus = (l606 | l603 | l605 | l604) ? color_bus_val : color_bus_mem;
+	
+	always @(posedge MCLK)
+	begin
+		color_bus_mem <= color_bus;
+	end
+	
+	
 	
 endmodule
 
