@@ -3,11 +3,11 @@
 * FM (CMOS/YM3438) - Done
 * Z80 (NMOS) - Done
 * 68000 (NMOS) - Mostly working, needs more testing & bugfixing
-* VDP (YM7101) - In progress
-* Arbiter (Integrated YM6045C) - TBD
-* IO Chip (Integrated YM6046) - TBD
-* TMSS - TBD
-* FC1004 - TBD
+* VDP (YM7101) - Initial implementation done, untested
+* Arbiter (Integrated YM6045C) - Initial implementation done, untested
+* IO Chip (Integrated YM6046) - Initial implementation done, untested
+* TMSS - Initial implementation done, untested
+* FC1004 - In progress
 
 # Extra chips
 * FM (NMOS/YM2612) - TBD, low priority
