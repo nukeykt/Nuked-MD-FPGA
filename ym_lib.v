@@ -502,7 +502,7 @@ module ym_sdff #(parameter DATA_WIDTH = 1)
 	input clk,
 	input [DATA_WIDTH-1:0] val,
 	output [DATA_WIDTH-1:0] q,
-	output [DATA_WIDTH-1:0] nq,
+	output [DATA_WIDTH-1:0] nq
 	);
 	
 	reg [DATA_WIDTH-1:0] l1, l2;
@@ -528,7 +528,7 @@ module ym_sdffs #(parameter DATA_WIDTH = 1)
 	input [DATA_WIDTH-1:0] val,
 	input set,
 	output [DATA_WIDTH-1:0] q,
-	output [DATA_WIDTH-1:0] nq,
+	output [DATA_WIDTH-1:0] nq
 	);
 	
 	reg [DATA_WIDTH-1:0] l1, l2;
@@ -544,7 +544,7 @@ module ym_sdffs #(parameter DATA_WIDTH = 1)
 			l1 <= {DATA_WIDTH{1'h1}};
 		if (~set)
 			l2 <= {DATA_WIDTH{1'h1}};
-		else (clk)
+		else if (clk)
 			l2 <= l1;
 	end
 	
@@ -558,7 +558,7 @@ module ym_sdffr #(parameter DATA_WIDTH = 1)
 	input [DATA_WIDTH-1:0] val,
 	input reset,
 	output [DATA_WIDTH-1:0] q,
-	output [DATA_WIDTH-1:0] nq,
+	output [DATA_WIDTH-1:0] nq
 	);
 	
 	reg [DATA_WIDTH-1:0] l1, l2;
@@ -574,7 +574,7 @@ module ym_sdffr #(parameter DATA_WIDTH = 1)
 			l1 <= val;
 		if (~reset)
 			l2 <= {DATA_WIDTH{1'h0}};
-		else (clk)
+		else if (clk)
 			l2 <= l1;
 	end
 	
@@ -589,7 +589,7 @@ module ym_sdffsr #(parameter DATA_WIDTH = 1)
 	input set,
 	input reset,
 	output [DATA_WIDTH-1:0] q,
-	output [DATA_WIDTH-1:0] nq,
+	output [DATA_WIDTH-1:0] nq
 	);
 	
 	reg [DATA_WIDTH-1:0] l1, l2;
@@ -609,7 +609,7 @@ module ym_sdffsr #(parameter DATA_WIDTH = 1)
 			l2 <= {DATA_WIDTH{1'h1}};
 		else if (~reset)
 			l2 <= {DATA_WIDTH{1'h0}};
-		else (clk)
+		else if (clk)
 			l2 <= l1;
 	end
 	
@@ -630,7 +630,7 @@ module ym_delaychain #(parameter DELAY_CNT = 1)
 		if (DELAY_CNT == 1)
 			dl <= inp;
 		else
-			dl <= { dl[DELAY_CNT-2:0], inp }
+			dl <= { dl[DELAY_CNT-2:0], inp };
 	end
 	
 	assign outp = dl[DELAY_CNT-1];

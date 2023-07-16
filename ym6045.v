@@ -30,9 +30,9 @@ module ym6045
 	input [15:7] ZA_i,
 	input ZA0_i,
 	input [22:7] VA_i,
-	input ZRD,
+	input ZRD_i,
 	input M1,
-	input ZWR,
+	input ZWR_i,
 	input BGACK_i,
 	input BG,
 	input IORQ,
@@ -65,9 +65,9 @@ module ym6045
 	output BGACK_o,
 	output AS_o,
 	output RW_d,
-	output RD_o,
+	output RW_o,
 	output LDS_o,
-	output strobe_d,
+	output strobe_dir,
 	output DTACK_o,
 	output BR,
 	output IA14,
@@ -96,7 +96,13 @@ module ym6045
 	output IO,
 	output ZV,
 	output INTAK,
-	output EDCLK
+	output EDCLK,
+	output vtoz,
+	output w12,
+	output w131,
+	output w142,
+	output w310,
+	output w353
 	);
 	
 	wire pal_trap = ~1'h0;
@@ -119,6 +125,259 @@ module ym6045
 	wire w9;
 	wire w10;
 	wire w11;
+	wire dff10_q;
+	wire w16;
+	wire dff11_q;
+	wire dff12_q, dff12_nq;
+	wire w26;
+	wire w27;
+	wire w31;
+	wire w33;
+	wire w34;
+	wire w35;
+	wire dff13_q;
+	wire w36;
+	wire zbr_nq;
+	wire sres;
+	wire dff15_q, dff15_nq;
+	wire w40;
+	wire w41;
+	wire w42;
+	wire w43;
+	wire dff16_q;
+	wire w44;
+	wire w45;
+	wire w46;
+	wire w48;
+	wire w49;
+	wire dff17_q;
+	wire w50;
+	wire dff18_q;
+	wire w51;
+	wire w53;
+	wire w54;
+	wire vd8;
+	wire w58;
+	wire w59;
+	wire w63;
+	wire w64;
+	wire w65;
+	wire w66;
+	wire w68;
+	wire dff19_q;
+	wire w69;
+	wire w70;
+	wire w71;
+	wire w72;
+	wire dff20_q, dff20_nq;
+	wire w73;
+	wire w74;
+	wire w75;
+	wire w76;
+	wire w77;
+	wire w78;
+	wire w79;
+	wire dff21_q;
+	wire dff22_q;
+	wire mreq_in;
+	wire w83;
+	wire w84;
+	wire w86;
+	wire dff23_q, dff23_nq;
+	wire w90;
+	wire w91;
+	wire w92; // nc
+	wire w94;
+	wire w95;
+	wire w96;
+	wire w97;
+	wire w99;
+	wire w101;
+	wire w102;
+	wire w103;
+	wire dff24_q, dff24_nq;
+	wire dff25_q;
+	wire ztov;
+	wire w106;
+	wire w107;
+	wire w111;
+	wire w112;
+	wire w113;
+	wire w118;
+	wire w119;
+	wire w122;
+	wire w124;
+	wire w126;
+	wire w128;
+	wire w129;
+	wire w130;
+	wire dff26_nq;
+	wire dff27_q;
+	wire w132;
+	wire w133;
+	wire w134;
+	wire dff28_q;
+	wire w136;
+	wire w137;
+	wire w140;
+	wire w143;
+	wire dff29_q;
+	wire w146;
+	wire w149;
+	wire w150;
+	wire test;
+	wire w163;
+	wire w164;
+	wire w166;
+	wire w167;
+	wire dff30_q;
+	wire w168;
+	wire w169;
+	wire w170;
+	wire dff31_q;
+	wire w171;
+	wire w172;
+	wire w173;
+	wire w174;
+	wire w175;
+	wire w176;
+	wire w178;
+	wire w182;
+	wire sres_syncv_q, sres_syncv_nq;
+	wire dff33_q, dff33_nq;
+	wire w183;
+	wire w185;
+	wire w188;
+	wire w194;
+	wire w197;
+	wire w198;
+	wire w199;
+	wire w200;
+	wire w202;
+	wire w204;
+	wire w206;
+	wire w207;
+	wire w208;
+	wire w211;
+	wire w215;
+	wire w220;
+	wire dff34_q;
+	wire w222;
+	wire w223;
+	wire va22_cart;
+	wire dff44_q, dff44_nq;
+	wire w232;
+	wire w234;
+	wire w235;
+	wire w238;
+	wire w248;
+	wire w249;
+	wire w254;
+	wire w255;
+	wire w257;
+	wire w258;
+	wire w266;
+	wire w268;
+	wire w269;
+	wire dff45_q, dff45_nq;
+	wire dff46_q, dff46_nq;
+	wire w271;
+	wire dff47_q, dff47_nq;
+	wire w272;
+	wire w273;
+	wire w274;
+	wire w279;
+	wire w283;
+	wire w286;
+	wire w287;
+	wire w289;
+	wire dff48_nq, dff48_cout;
+	wire w298;
+	wire dff49_q, dff49_nq;
+	wire dff50_q, dff50_nq;
+	wire dff51_q;
+	wire w299;
+	wire w300;
+	wire w301;
+	wire w302;
+	wire dff52_q, dff52_nq;
+	wire w307;
+	wire w308;
+	wire dff53_nq, dff53_cout;
+	wire dff54_nq, dff54_cout;
+	wire dff55_nq, dff55_cout;
+	wire w309;
+	wire w311;
+	wire w314;
+	wire w316;
+	wire w318;
+	wire w320;
+	wire w321;
+	wire w322;
+	wire w325;
+	wire w326;
+	wire nmi_q;
+	wire dff57_q;
+	wire dff58_nq;
+	wire dff59_q;
+	wire w328;
+	wire w331;
+	wire w332;
+	wire w333;
+	wire dff60_q;
+	wire w334;
+	wire w336;
+	wire w337;
+	wire w339;
+	wire dff61_q, dff61_nq;
+	wire w341;
+	wire w342;
+	wire dff62_q;
+	wire w343;
+	wire dff63_q, dff63_nq;
+	wire dff64_nq;
+	wire w344;
+	wire dff65_q, dff65_nq;
+	wire dff66_q, dff66_nq;
+	wire dff67_q, dff67_nq;
+	wire dff68_q, dff68_nq;
+	wire dff69_q, dff69_nq;
+	wire w346;
+	wire w348;
+	wire dff70_q;
+	wire dff71_q, dff71_nq;
+	wire dff72_q, dff72_nq;
+	wire dff73_q;
+	wire dff74_q, dff74_nq;
+	wire w354;
+	wire dff75_nq;
+	wire dff76_q, dff76_nq;
+	wire dff77_nq, dff77_cout;
+	wire w356;
+	wire w362;
+	wire w363;
+	wire w372;
+	wire dff78_nq, dff78_cout;
+	wire w374;
+	wire dff79_nq, dff79_cout;
+	wire dff80_nq, dff80_cout;
+	wire w383;
+	
+	wire fc00;
+	wire fc01;
+	wire fc10;
+	wire fc11;
+	
+	wire va14_in;
+	wire va21_in;
+	wire va22_in;
+	wire va23_in;
+	
+	wire za15_in;
+	
+	wire [8:0] z80bank_q;
+	
+	wire [15:0] va_out;
 	
 	// EDCLK
 	always @(posedge MCLK)
@@ -204,14 +463,14 @@ module ym6045
 	wire d7_out;
 	wire d8_out;
 	
-	ym_delaychain #(DELAY_CNT(1)) d1(.MCLK(MCLK), .inp(M1), .outp(d1_out));
-	ym_delaychain #(DELAY_CNT(1)) d2(.MCLK(MCLK), .inp(w188), .outp(d2_out));
-	ym_delaychain #(DELAY_CNT(7)) d3(.MCLK(MCLK), .inp(w254), .outp(d3_out));
-	ym_delaychain #(DELAY_CNT(1)) d4(.MCLK(MCLK), .inp(w113), .outp(d4_out));
-	ym_delaychain #(DELAY_CNT(2)) d5(.MCLK(MCLK), .inp(w271), .outp(d5_out));
-	ym_delaychain #(DELAY_CNT(6)) d6(.MCLK(MCLK), .inp(w238), .outp(d6_out));
-	ym_delaychain #(DELAY_CNT(6)) d7(.MCLK(MCLK), .inp(w223), .outp(d7_out));
-	ym_delaychain #(DELAY_CNT(1)) d8(.MCLK(MCLK), .inp(M3), .outp(d8_out));
+	ym_delaychain #(.DELAY_CNT(1)) d1(.MCLK(MCLK), .inp(M1), .outp(d1_out));
+	ym_delaychain #(.DELAY_CNT(1)) d2(.MCLK(MCLK), .inp(w188), .outp(d2_out));
+	ym_delaychain #(.DELAY_CNT(7)) d3(.MCLK(MCLK), .inp(w254), .outp(d3_out));
+	ym_delaychain #(.DELAY_CNT(1)) d4(.MCLK(MCLK), .inp(w113), .outp(d4_out));
+	ym_delaychain #(.DELAY_CNT(2)) d5(.MCLK(MCLK), .inp(w271), .outp(d5_out));
+	ym_delaychain #(.DELAY_CNT(6)) d6(.MCLK(MCLK), .inp(w238), .outp(d6_out));
+	ym_delaychain #(.DELAY_CNT(6)) d7(.MCLK(MCLK), .inp(w223), .outp(d7_out));
+	ym_delaychain #(.DELAY_CNT(1)) d8(.MCLK(MCLK), .inp(M3), .outp(d8_out));
 	
 	// 
 	
@@ -270,24 +529,24 @@ module ym6045
 	assign VDPM = ~w68;
 	
 	assign w16 = ~(dff33_nq | w346);
-	ym_sdffr dff60(.MCLK(MCLK), .clk(~w16), .val(dff69_q), .reset(sres_syncv_q), .nq(dff60_nq));
+	ym_sdffr dff60(.MCLK(MCLK), .clk(~w16), .val(dff69_q), .reset(sres_syncv_q), .q(dff60_q));
 	assign w334 = ~(~dff60_q | dff69_nq);
 	
 	assign w337 = ~WRES;
 	
 	ym_sdffr dff68(.MCLK(MCLK), .clk(~w16), .val(dff68_nq), .reset(~sres_syncv_nq), .q(dff68_q), .nq(dff68_nq));
-	ym_sddfr dff71(.MCLK(MCLK), .clk(~dff68_q), .val(dff71_nq), .reset(~sres_syncv_nq), .q(dff71_q), .nq(dff71_nq));
-	ym_sddfr dff72(.MCLK(MCLK), .clk(~dff71_q), .val(dff72_nq), .reset(~sres_syncv_nq), .q(dff72_q), .nq(dff72_nq));
-	ym_sddfr dff76(.MCLK(MCLK), .clk(~dff72_q), .val(dff76_nq), .reset(~sres_syncv_nq), .q(dff76_q), .nq(dff76_nq));
+	ym_sdffr dff71(.MCLK(MCLK), .clk(~dff68_q), .val(dff71_nq), .reset(~sres_syncv_nq), .q(dff71_q), .nq(dff71_nq));
+	ym_sdffr dff72(.MCLK(MCLK), .clk(~dff71_q), .val(dff72_nq), .reset(~sres_syncv_nq), .q(dff72_q), .nq(dff72_nq));
+	ym_sdffr dff76(.MCLK(MCLK), .clk(~dff72_q), .val(dff76_nq), .reset(~sres_syncv_nq), .q(dff76_q), .nq(dff76_nq));
 	assign w362 = w363 | dff76_q;
-	ym_sdffr dff63(.MCLK(MCLK), .clk(~ww362), .val(dff63_nq), .reset(~sres_syncv_nq), .q(dff63_q), .nq(dff63_nq));
+	ym_sdffr dff63(.MCLK(MCLK), .clk(~w362), .val(dff63_nq), .reset(~sres_syncv_nq), .q(dff63_q), .nq(dff63_nq));
 	ym_sdffr dff52(.MCLK(MCLK), .clk(~dff63_q), .val(dff52_nq), .reset(~sres_syncv_nq), .q(dff52_q), .nq(dff52_nq));
 	ym_sdffr dff65(.MCLK(MCLK), .clk(~dff52_q), .val(dff65_nq), .reset(~sres_syncv_nq), .q(dff65_q), .nq(dff65_nq));
 	ym_sdffr dff67(.MCLK(MCLK), .clk(~dff65_q), .val(dff67_nq), .reset(~sres_syncv_nq), .q(dff67_q), .nq(dff67_nq));
-	ym_sdffr dff74(.MCLK(MCLK), .clk(~dff67_q), .val(dff74_nq), .reset(sres_syncv_2), .q(dff74_q), .nq(dff74_nq));
+	ym_sdffr dff74(.MCLK(MCLK), .clk(~dff67_q), .val(dff74_nq), .reset(sres_syncv_q), .q(dff74_q), .nq(dff74_nq));
 	
 	ym_sdffs nmi(.MCLK(MCLK), .clk(dff74_q), .val(va23_in), .set(w332), .q(nmi_q));
-	ym_sdffr dff57(.MCLK(MCLK), .clk(dff74_q), .val(sres_syncv_2), .reset(sres_syncv_q), .q(dff57_q));
+	ym_sdffr dff57(.MCLK(MCLK), .clk(dff74_q), .val(sres_syncv_q), .reset(sres_syncv_q), .q(dff57_q));
 	ym_sdffr dff58(.MCLK(MCLK), .clk(dff74_q), .val(dff57_q), .reset(sres_syncv_q), .nq(dff58_nq));
 	ym_sdffr dff69(.MCLK(MCLK), .clk(dff74_q), .val(w337), .reset(sres_syncv_q), .q(dff69_q), .nq(dff69_nq));
 	assign w328 = ~(dff58_nq | w334);
@@ -304,7 +563,7 @@ module ym6045
 	
 	assign w220 = mreq_in | dff44_nq;
 	
-	assign NMI_o = nmi_q;
+	assign NMI = nmi_q;
 	
 	assign w316 = ~(~M3 | dff70_q);
 	
@@ -364,7 +623,7 @@ module ym6045
 	assign w202 = w208 | ~va22_cart;
 	assign w170 = dff26_nq | d5_out;
 	assign w167 = w170 & w202;
-	assign w211 = ~M3 | AS_i | va23_i;
+	assign w211 = ~M3 | AS_i | va23_in;
 	assign w72 = dff15_nq | w43;
 	assign w132 = w72 | w211;
 	assign w69 = ~(w44 | dff12_nq);
@@ -391,7 +650,7 @@ module ym6045
 	assign w198 = ~(w197 & w101 & w204);
 	assign RAS2 = ~w198;
 	
-	assign w234 = va22_cart | va21 | w211;
+	assign w234 = va22_cart | va21_in | w211;
 	assign va22_cart = ~(va22_in ^ CART);
 	assign w232 = va22_cart | w248 | va21_in;
 	assign w235 = ~(w234 & w232);
@@ -431,7 +690,7 @@ module ym6045
 	assign w70 = w27 & w71;
 	
 	
-	assign w286 = ~(w287 | sre_syncv_nq);
+	assign w286 = ~(w287 | sres_syncv_nq);
 	assign w289 = w286;
 	assign w372 = w289 & 1'h1 & 1'h1;
 	
@@ -452,10 +711,147 @@ module ym6045
 	
 	assign w183 = ~(dff33_q | dff23_q | w356 | ~w223);
 	assign w283 = ~(w183 | w287 | w343);
-	ym_sdffs dff33(.MCLK(MCLK), .clk(VCLK), .val(w383), .set(sres_syncv_q), .q(dff33_q), .nq(dff33_nq));
+	ym_sdffs dff33(.MCLK(MCLK), .clk(VCLK), .val(w283), .set(sres_syncv_q), .q(dff33_q), .nq(dff33_nq));
 	ym_sdffr dff23(.MCLK(MCLK), .clk(~w59), .val(dff33_nq), .reset(dff23_nq), .q(dff23_q), .nq(dff23_nq));
+	
+	
+	assign ZRD_o = AS_i | ~RW_i;
+	
+	assign ZV = ztov;
+	
+	ym_sdff dff13(.MCLK(MCLK), .clk(~VCLK), .val(UDS_i), .q(dff13_q));
+	assign w65 = ~(dff13_q & UDS_i);
+	assign w31 = ~w65;
+	
+	assign sres = SRES;
+	
+	assign ZWR_o = RW_i | AS_i;
+	
+	assign vd8 = VD8_i;
+	
+	assign mreq_in = MREQ_i;
+	
+	assign w95 = ~(UDS_i | RW_i);
+	
+	assign w96 = ~(w95 & w90 & ~w122);
+	
+	assign w97 = ~(w95 & w91 & ~w122);
+	
+	assign w130 = AS_i | w129;
+	assign w103 = ~(dff24_q | RW_i | w130);
+	ym_sdff dff24(.MCLK(MCLK), .clk(VCLK), .val(w103), .q(dff24_q), .nq(dff24_nq));
+	assign FDC = w130;
+	assign FDWR = dff24_nq;
+	
+	assign w94 = w128 | AS_i;
+	assign w75 = ~(w112 & w94);
+	assign IO = ~w75;
+	
+	assign SOUND = w140;
+	
+	assign w126 = w124 | AS_i;
+	assign TIME = w126;
+	
+	assign w131 = ztov | test | pal_trap;
+	
+	assign w137 = ~(w106 | test | pal_trap);
+	
+	assign w142 = ~w137;
+	
+	assign test = test_mode_0;
+	
+	ym_sdffr dff31(.MCLK(MCLK), .clk(w96), .val(vd8), .reset(w328), .q(dff31_q));
+	assign w166 = M3 ? dff31_q : w328;
 	
 	ym_sdff sres_syncv(.MCLK(MCLK), .clk(VCLK), .val(SRES), .q(sres_syncv_q), .nq(sres_syncv_nq));
 	
+	assign RW_o = ZWR_i;
+	
+	assign w118 = w122 | AS_i;
+	assign w133 = ~(w132 & w118 & w130 & w126 & w94 & w134);
+	assign w200 = ~(w133 & w249);
+	assign w222 = ~(w200 | test);
+	assign DTACK_o = ~w222;
+	
+	assign w215 = va21_in | mreq_in;
+	
+	assign w223 = w48 | BGACK_i | ~M3;
+	
+	assign ZRES = w166;
+	
+	assign w336 = WAIT_i;
+	
+	assign w311 = ~(M3 & w328);
+	assign VRES = ~w311;
+	
+	assign w343 = ~(~fc00 | d8_out);
+	assign w363 = ~(~fc01 | d8_out);
+	assign w346 = ~(~fc10 | d8_out);
+	assign w332 = ~(w333 | d8_out);
+	assign w333 = ~(d8_out | sres_syncv_q);
+	
+	assign w353 = w194;
+	
+	assign fc00 = ~FC1 & ~FC0;
+	assign fc01 = ~FC1 & FC0;
+	assign fc10 = FC1 & ~FC0;
+	assign fc11 = FC1 & FC0;
+	
+	assign ZRAM = w136;
+	
+	assign va14_in = VA_i[13];
+	
+	assign va21_in = VA_i[20];
+	
+	assign va22_in = VA_i[21];
+
+	assign va23_in = VA_i[22];
+	
+	assign ZA0_o = w31;
+	
+	assign ZA_o[15:8] = { 1'h0, VA_i[13:7] };
+	
+	assign VZ = vtoz;
+	
+	assign za15_in = ZA_i[15];
+	
+	ym_sdffr #(.DATA_WIDTH(9)) z80bank(.MCLK(MCLK), .clk(w150), .val({ ZD0_i, z80bank_q[8:1] }),
+		.reset(sres_syncv_q), .q(z80bank_q));
+	
+	wire [15:0] va_out_t = M3 ? { w86 ? z80bank_q : 9'h180, ZA_i[14:8] } : { 3'h0, w166, IORQ, mreq_in, w215, ZA_i[15:7] };
+	
+	assign va_out = w86 ? va_out_t : {va_out_t[15:8], 8'h0};
+	
+	assign w91 = VA_i[8:7] == 2'h0;
+	assign w99 = VA_i[8:7] == 2'h1;
+	assign w90 = VA_i[8:7] == 2'h2;
+	assign w92 = VA_i[8:7] == 2'h3;
+	
+	assign w194 = AS_i | LDS_i | UDS_i | VA_i[22:7] != 16'ha140;
+	assign w310 = ~(VA_i[22:7] == 16'hc000 & ~AS_i);
+	
+	assign w119 = ~(M3 & VA_i[22:15] == 8'ha0);
+	
+	assign w128 = ~(M3 & VA_i[22:7] == 16'ha100);
+	
+	assign w122 = ~(M3 & VA_i[22:9] == 14'h2844);
+	
+	assign w129 = ~(M3 & VA_i[22:7] == 16'ha120);
+	
+	assign w124 = ~(M3 & VA_i[22:7] == 16'ha130);
+	
+	assign w136 = ~(ZA_i[15:14] == 2'h0 & ~w220 & M3);
+	
+	assign w140 = ~(ZA_i[15:13] == 3'h2 & ~w220 & M3);
+	
+	assign w150 = ~(M3 & ZA_i[15:8] == 8'h6 & ~ZWR_i & ~w220);
+	
+	assign w86 = ~(ZA_i[15:8] == 8'h7f & M3);
+	
+	assign IA14 = ~(M3 & va14_in);
+	
+	assign VA_o[22:7] = va_out;
+	
+	assign VD8_o = w33;
 	
 endmodule
