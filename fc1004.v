@@ -22,7 +22,7 @@
  *
  */
 
-// 0: input, 1: output
+// 1: input, 0: output
 
 module fc1004
 	(
@@ -180,6 +180,131 @@ module fc1004
 	output [7:0] ZD_o,
 	output [7:0] ZD_d
 	);
+	
+	wire vdp_ys; // w1009
+	wire vdp_vsync,
+	wire vdp_hsync_pull; // ~l136
+	wire vdp_hl;
+	wire vdp_clk1_o;
+	wire vdp_clk0;
+	wire vdp_edclk_o; // mclk_dclk
+	wire vdp_edclk_d; // reg_test1[1]
+	wire [15:0] vdp_cd_o;
+	wire vdp_cd_d; // vdp_data_dir = ~w151 | ext_test_2
+	wire [22:0] vdp_ca_o;
+	wire vdp_ca_d; // vdp_address_dir = ~w267 | ext_test_2
+	wire vdp_br_pull; // ~w42
+	wire vdp_bgack_pull; // ~w64
+	wire vdp_mreq;
+	wire vdp_intak;
+	wire vdp_dtack_pull; // ~w117
+	wire vdp_lwr;
+	wire vdp_oe0;
+	wire vdp_cas0;
+	wire [7:0] vdp_ra;
+	
+	ym7101 vdp(
+		.MCLK(MCLK),
+		.SD(SD),
+		.SE1(SE1),
+		.SE0(SE0),
+		.SC(SC),
+		.RAS1(RAS1),
+		.CAS1(CAS1),
+		.WE1(WE1),
+		.WE0(WE0),
+		.OE1(OE1),
+		.RD_i(RD_i),
+		.RD_o(RD_o),
+		.RD_d(RD_d),
+		.DAC_R(DAC_R),
+		.DAC_G(DAC_G),
+		.DAC_B(DAC_B),
+		.AD_i(AD_i),
+		.AD_o(AD_o),
+		.AD_d(AD_d),
+		.YS(vdp_ys),
+		.SPA_B_i(SPA_B_i),
+		.SPA_B_pull(SPA_B_pull),
+		.VSYNC(vdp_vsync),
+		.CSYNC_i(CSYNC_i),
+		.CSYNC_pull(CSYNC_pull),
+		.HSYNC_i(HSYNC_i),
+		.HSYNC_pull(vdp_hsync_pull),
+		.HL(vdp_hl),
+		.SEL0(M3),
+		.PAL(~NTSC),
+		.RESET(SRES),
+		.CLK1_i(CLK_i),
+		.CLK1_o(vdp_clk1_o);
+		.SBCR(SBCR),
+		.CLK0(vdp_clk0),
+		.EDCLK_i(EDCLK_i),
+		.EDCLK_o(vdp_edclk_o),
+		.EDCLK_d(vdp_edclk_d),
+		.CD_i(VD_i),
+		.CD_o(vdp_cd_o),
+		.CD_d(vdp_cd_d),
+		.CA_i(VA_i),
+		.CA_o(vdp_ca_o),
+		.CA_d(vdp_ca_d),
+		.SOUND(PSG),
+		.INT_pull(INT_pull),
+		.BR_pull(vdp_br_pull),
+		.BGACK_i(BGACK_i),
+		.BGACK_pull(vdp_bgack_pull),
+		.BG(BG),
+		.MREQ(vdp_mreq),
+		.INTAK(vdp_intak),
+		.IPL0_pull(IPL0_pull),
+		.IPL1_pull(IPL1_pull),
+		.IORQ(IORQ),
+		.RD(ZRD_i),
+		.WR(ZWR_i),
+		.M1(M1),
+		.AS(AS_i),
+		.UDS(UDS_i),
+		.LDS(LDS_i),
+		.RW(RW_i),
+		.DTACK_i(DTACK_i),
+		.DTACK_pull(vdp_dtack_pull),
+		.UWR(UWR),
+		.LWR(vdp_lwr),
+		.OE0(vdp_oe0),
+		.CAS0(vdp_cas0),
+		.RAS0(RAS0),
+		.RA(vdp_ra)
+		);
+	
+	wire fm_clk;
+	wire [7:0] fm_data_o;
+	wire fm_data_d;
+	wire fm_test_o;
+	wire fm_test_d; // reg_2c[7]
+	wire fm_cs;
+	wire fm_irq;
+	
+	ym3438 fm
+		(
+		.MCLK(MCLK),
+		.PHI(fm_clk),
+		.DATA_i(ZD_i),
+		.DATA_o(fm_data_o),
+		.DATA_o_z(fm_data_d),
+		.TEST_i(TEST0_i),
+		.TEST_o(fm_test_o),
+		.TEST_o_z(fm_test_d),
+		.IC(ZRES_i),
+		.CS(fm_cs),
+		.WR(ZWR_i),
+		.RD(ZRD_i),
+		.ADDRESS(ZA_i[1:0]),
+		.IRQ(fm_irq),
+		.MOL(MOL),
+		.MOR(MOR)
+		);
+	
+	
 
 	
 endmodule
