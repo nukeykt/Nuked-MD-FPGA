@@ -26,6 +26,7 @@
 
 module fc1004
 	(
+	input MCLK,
 	input [7:0] SD,
 	output SE1,
 	output SE0,
@@ -38,13 +39,14 @@ module fc1004
 	input [7:0] RD_i,
 	output [7:0] RD_o,
 	output RD_d,
-	output [7:0] AD_i,
+	input [7:0] AD_i,
 	output [7:0] AD_o,
-	output [7:0] AD_d,
+	output AD_d,
 	output [7:0] DAC_R,
 	output [7:0] DAC_G,
 	output [7:0] DAC_B,
 	output YS,
+	input SPA_B_i,
 	output SPA_B_pull,
 	output VSYNC,
 	input CSYNC_i,
@@ -59,16 +61,19 @@ module fc1004
 	input FC0,
 	input FC1,
 	input MREQ_i,
-	output MREQ_pull,
+	output MREQ_o,
+	output MREQ_d,
 	output [8:0] MOL, MOR,
 	input SOUND_i,
-	output SOUND_pull,
+	output SOUND_o,
+	output SOUND_d,
 	input ZRES_i,
-	output ZRES_pull,
+	output ZRES_o,
+	output ZRES_d,
 	input ZBAK,
 	output NMI,
 	input ZBR_i,
-	output ZBR_o
+	output ZBR_o,
 	output ZBR_d,
 	input WAIT_i,
 	output WAIT_pull,
@@ -117,7 +122,10 @@ module fc1004
 	input VZ_i,
 	output VZ_o,
 	output VZ_d,
-	output [15:0] ZA_i,
+	input IO_i,
+	output IO_o,
+	output IO_d,
+	input [15:0] ZA_i,
 	output [15:0] ZA_o,
 	output [15:0] ZA_d,
 	input SRES,
@@ -141,7 +149,7 @@ module fc1004
 	output [15:0] PSG,
 	output INT_pull,
 	output BR_pull,
-	output BGACK_i,
+	input BGACK_i,
 	output BGACK_pull,
 	input BG,
 	output IPL1_pull,
@@ -182,7 +190,7 @@ module fc1004
 	);
 	
 	wire vdp_ys; // w1009
-	wire vdp_vsync,
+	wire vdp_vsync;
 	wire vdp_hsync_pull; // ~l136
 	wire vdp_hl;
 	wire vdp_clk1_o;
@@ -198,7 +206,6 @@ module fc1004
 	wire vdp_mreq;
 	wire vdp_intak;
 	wire vdp_dtack_pull; // ~w117
-	wire vdp_lwr;
 	wire vdp_oe0;
 	wire vdp_cas0;
 	wire [7:0] vdp_ra;
@@ -206,7 +213,6 @@ module fc1004
 	wire fm_clk;
 	wire [7:0] fm_data_o;
 	wire fm_data_d;
-	wire fm_test_o;
 	wire fm_test_d; // reg_2c[7]
 	wire fm_cs;
 	wire fm_irq;
@@ -227,6 +233,8 @@ module fc1004
 	wire arb_vz;
 	wire arb_vres;
 	wire arb_vdpm;
+	wire arb_io;
+	wire arb_zv;
 	wire arb_intak;
 	wire arb_edclk;
 	wire arb_vtoz;
@@ -290,7 +298,7 @@ module fc1004
 		.PAL(~NTSC),
 		.RESET(SRES),
 		.CLK1_i(CLK_i),
-		.CLK1_o(vdp_clk1_o);
+		.CLK1_o(vdp_clk1_o),
 		.SBCR(SBCR),
 		.CLK0(vdp_clk0),
 		.EDCLK_i(EDCLK_i),
@@ -310,8 +318,8 @@ module fc1004
 		.BG(BG),
 		.MREQ(vdp_mreq),
 		.INTAK(vdp_intak),
-		.IPL0_pull(IPL0_pull),
 		.IPL1_pull(IPL1_pull),
+		.IPL2_pull(IPL2_pull),
 		.IORQ(IORQ),
 		.RD(ZRD_i),
 		.WR(ZWR_i),
@@ -323,7 +331,7 @@ module fc1004
 		.DTACK_i(DTACK_i),
 		.DTACK_pull(vdp_dtack_pull),
 		.UWR(UWR),
-		.LWR(vdp_lwr),
+		.LWR(LWR_o),
 		.OE0(vdp_oe0),
 		.CAS0(vdp_cas0),
 		.RAS0(RAS0),
@@ -338,7 +346,7 @@ module fc1004
 		.DATA_o(fm_data_o),
 		.DATA_o_z(fm_data_d),
 		.TEST_i(TEST0_i),
-		.TEST_o(fm_test_o),
+		.TEST_o(TEST0_o),
 		.TEST_o_z(fm_test_d),
 		.IC(ZRES_i),
 		.CS(fm_cs),
@@ -351,9 +359,9 @@ module fc1004
 		);
 	
 	
-	assign AS_d = ext_strobe_dir;
-	assign UDS_d = ext_strobe_dir;
-	assign LDS_d = ext_strobe_dir;
+	assign AS_d = arb_strobe_dir;
+	assign UDS_d = arb_strobe_dir;
+	assign LDS_d = arb_strobe_dir;
 	assign WAIT_pull = ~arb_wait_o;
 	assign SOUND_o = arb_sound;
 	
@@ -388,7 +396,7 @@ module fc1004
 		.FC0(FC0),
 		.FC1(FC1),
 		.SRES(SRES),
-		.test_mode_o(tmss_test_0),
+		.test_mode_0(tmss_test_0),
 		.VD8_o(arb_vd8_o),
 		.ZA0_o(arb_za0_o),
 		.ZA_o(arb_za_o),
@@ -399,7 +407,7 @@ module fc1004
 		.BGACK_o(arb_bgack_o),
 		.AS_o(AS_o),
 		.RW_d(RW_d),
-		.RW_o(RD_o),
+		.RW_o(RW_o),
 		.LDS_o(LDS_o),
 		.strobe_dir(arb_strobe_dir),
 		.DTACK_o(arb_dtack_o),
@@ -470,13 +478,13 @@ module fc1004
 		.PORT_C_o(PC_o),
 		.HL(ioc_hl),
 		.FRES(ioc_fres),
-		.BC1(ioc_bc1),
-		.BC2(ioc_bc2),
-		.BC3(ioc_bc3),
-		.BC4(ioc_bc4),
-		.BC5(ioc_bc5),
+		.bc1(ioc_bc1),
+		.bc2(ioc_bc2),
+		.bc3(ioc_bc3),
+		.bc4(ioc_bc4),
+		.bc5(ioc_bc5),
 		.vdata(ioc_vdata),
-		.reg_3e_q(ioc_reg_3d_q),
+		.reg_3e_q(ioc_reg_3e_q),
 		.zdata(ioc_zdata),
 		.ztov_address(ioc_ztov_address)
 		);
@@ -499,7 +507,7 @@ module fc1004
 		.UDS(UDS_i),
 		.RW(RW_i),
 		.VA(VA_i),
-		.SRES(SRES_i),
+		.SRES(SRES),
 		.CE0_i(tmss_ce0_i),
 		.M3(M3),
 		.CART(CART),
@@ -515,5 +523,103 @@ module fc1004
 		.test_4(tmss_test_4),
 		.data_out_en(tmss_data_out_en)
 		);
+	
+	assign ZA_o[0] = arb_za0_o;
+	assign ZA_o[7:1] = VA_i[6:0];
+	assign ZA_o[15:8] = arb_za_o[15:8];
+	
+	assign ZA_d[0] = (tmss_test_1 ^ tmss_test_3) | arb_vz;
+	assign ZA_d[1] = (tmss_test_1 & ~tmss_test_3) | ioc_bc1;
+	assign ZA_d[6:2] = {5{ioc_bc1}};
+	assign ZA_d[7] = (tmss_test_1 & tmss_test_3) | ioc_bc1;
+	assign ZA_d[15:8] = {8{arb_vz}};
+	
+	assign VA_o =
+		(vdp_ca_d ? 23'h0 : vdp_ca_o) |
+		(arb_w131 ? 23'h0 : { 3'h0, arb_va_o[19:7], 7'h0 }) |
+		(arb_w142 ? 23'h0 : { arb_va_o[22:20], 20'h0 }) |
+		(ioc_bc5 ? 23'h0 : { 16'h0, ioc_ztov_address });
+	
+	assign VA_d =
+		((vdp_ca_d & arb_w142) ? 23'h700000 : 23'h0) |
+		((vdp_ca_d & arb_w131) ? 23'hfff80 : 23'h0) |
+		((vdp_ca_d & ioc_bc5) ? 23'h7f : 23'h0);
+	
+	wire colorbus = ~(tmss_test_1 & tmss_test_2 & tmss_test_3);
+	
+	assign ZD_o =
+		(ioc_bc4 ? 8'h0 : ioc_zdata) |
+		(colorbus ? 8'h0 : vdp_ra) |
+		(fm_data_d ? 8'h0 : fm_data_o);
+	
+	assign ZD_d = (ioc_bc4 & colorbus & fm_data_d) ? 8'hff : 8'h0;
+	
+	wire [15:0] ioc_vdata_word = { ioc_vdata[7:1], M3 ? ioc_vdata[0] : ioc_reg_3e_q, ioc_vdata[7:0] };
+	
+	assign VD_o =
+		(vdp_cd_d ? 16'h0 : vdp_cd_o) |
+		(arb_w12 ? 16'h0 : { 8'h0, arb_vd8_o, 7'h0 }) |
+		(ioc_bc2 ? 16'h0 : { 8'h0, ioc_vdata_word[7:0] }) |
+		(ioc_bc3 ? 16'h0 : {ioc_vdata_word[15:8], 8'h0 }) |
+		(tmss_data_out_en ? 16'h0 : tmss_vd_o);
+	
+	assign VD_d = { {7{vdp_cd_d & ioc_bc3 & tmss_data_out_en}}, vdp_cd_d & ioc_bc3 & tmss_data_out_en & arb_w12, {8{vdp_cd_d & ioc_bc2 & tmss_data_out_en}} };
+	
+	assign YS = tmss_test_2 ? arb_w353 : vdp_ys;
+	assign VSYNC = tmss_test_2 ? arb_w310 : vdp_vsync;
+	assign HSYNC_pull = vdp_hsync_pull & ~tmss_test_2;
+	wire cpu_reset = (tmss_test_0 | arb_vres) & tmss_reset;
+	assign HALT_pull = ~cpu_reset;
+	assign RESET_pull = ~cpu_reset;
+	assign MREQ_d = arb_vz;
+	assign SOUND_d = tmss_test_0;
+	assign ZRES_d = tmss_test_0;
+	assign ZBR_o = tmss_test_0 ? vdp_hl : arb_zbr;
+	assign ZBR_d = tmss_test_0 & tmss_test_1;
+	assign CE0 = tmss_test_4 ? tmss_ce0_i : tmss_ce0_o;
+	assign DISK_o = vdp_intak;
+	assign DISK_d = ~tmss_test_2 | tmss_test_0;
+	assign TEST0_d = fm_test_d | tmss_test_3;
+	assign JAP_o = arb_oe0;
+	assign JAP_d = ~(tmss_test_0 & ~tmss_test_2);
+	assign FRES_o = tmss_test_1 ? vdp_mreq : ioc_fres;
+	assign FRES_d = tmss_test_0 & ~tmss_test_1;
+	assign ZV_o = arb_zv;
+	assign ZV_d = tmss_test_0;
+	assign VZ_o = arb_vz;
+	assign VZ_d = tmss_test_0;
+	assign IO_o = arb_io;
+	assign IO_d = tmss_test_0;
+	assign CLK_o = vdp_clk1_o;
+	assign CLK_d = tmss_test_2 | SEL1;
+	assign ZCLK_o = vdp_clk0;
+	assign ZCLK_d = tmss_test_2;
+	assign EDCLK_o = (tmss_test_0 & ~tmss_test_2) ? vdp_edclk_o : arb_edclk;
+	assign EDCLK_d = tmss_test_0 & (tmss_test_2 | ~vdp_edclk_d);
+	wire br = 
+		((tmss_test_0 & tmss_test_2) ? (fm_irq | tmss_test_3) : 1'h1) &
+		(~tmss_test_0 ? arb_br : 1'h1) &
+		(~tmss_test_2 ? ~vdp_br_pull : 1'h1);
+	assign BR_pull = ~br;
+	wire bgack = arb_bgack_o & (tmss_test_2 | ~vdp_bgack_pull);
+	assign BGACK_pull = ~bgack;
+	assign ZRD_d = arb_vz;
+	assign ZWR_d = arb_vz;
+	wire dtack = arb_dtack_o & tmss_dtack & (tmss_test_2 | ~vdp_dtack_pull);
+	assign DTACK_pull = ~dtack;
+	assign CAS0_o = vdp_cas0;
+	assign CAS0_d = tmss_test_2;
+	assign LWR_d = tmss_test_2;
+	
+	assign vdp_hl = tmss_test_1 ? ZBR_i : ioc_hl;
+	assign vdp_intak = tmss_test_0 ? DISK_i : arb_intak;
+	assign arb_oe0 = (~tmss_test_0 & tmss_test_2) ? JAP_i : vdp_oe0;
+	assign vdp_mreq = tmss_test_0 ? FRES_i : arb_vdpm;
+	assign ioc_vz = tmss_test_0 ? VZ_i : arb_vz;
+	assign ioc_zv = tmss_test_0 ? ZV_i : arb_zv;
+	assign ioc_io = tmss_test_0 ? IO_i : arb_io;
+	
+	assign fm_clk = tmss_test_2 ? CLK_i : vdp_clk1_o;
+	assign fm_cs = tmss_test_0 ? SOUND_i : arb_sound;
 	
 endmodule

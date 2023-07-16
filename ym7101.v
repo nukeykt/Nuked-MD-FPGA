@@ -6248,8 +6248,8 @@ module ym7101
 	assign WE0 = ~w986;
 	assign OE1 = ~w985;
 	
-	assign RD_d = w990;
-	assign AD_d = w990;
+	assign RD_d = ~w990;
+	assign AD_d = ~w990;
 	
 	assign RD_o = w1019;
 	assign AD_o = w1018;

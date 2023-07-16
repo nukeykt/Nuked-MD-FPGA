@@ -105,7 +105,7 @@ module ym6045
 	output w353
 	);
 	
-	wire pal_trap = ~1'h0;
+	wire pal_trap = ~1'h1;
 	
 	reg dff1;
 	reg dff2;

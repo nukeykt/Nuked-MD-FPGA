@@ -213,7 +213,7 @@ module ym3438_pg
 	wire [17:0] freq_multi_add2 = ~(
 		({18{multi_sel_3_l_o}} & { 1'h0, freq_l2_o })
 		| ({18{multi_sel_2_l_o}} & { freq_l2_o, 1'h0 })
-		| ({18{multi_sel_1_l_o}} & { freq_l2_o[16:0], 2'h0 })
+		| ({18{multi_sel_1_l_o}} & { freq_l2_o[15:0], 2'h0 })
 		);
 	
 	wire [19:0] freq_multi_add1_l_o;
