@@ -203,6 +203,60 @@ module fc1004
 	wire vdp_cas0;
 	wire [7:0] vdp_ra;
 	
+	wire fm_clk;
+	wire [7:0] fm_data_o;
+	wire fm_data_d;
+	wire fm_test_o;
+	wire fm_test_d; // reg_2c[7]
+	wire fm_cs;
+	wire fm_irq;
+	
+	wire arb_oe0;
+	wire arb_vd8_o;
+	wire arb_za0_o;
+	wire [15:8] arb_za_o;
+	wire [22:7] arb_va_o;
+	wire arb_bgack_o;
+	wire arb_strobe_dir;
+	wire arb_dtack_o;
+	wire arb_br;
+	wire arb_ce0;
+	wire arb_wait_o;
+	wire arb_zbr;
+	wire arb_sound;
+	wire arb_vz;
+	wire arb_vres;
+	wire arb_vdpm;
+	wire arb_intak;
+	wire arb_edclk;
+	wire arb_vtoz;
+	wire arb_w12;
+	wire arb_w131;
+	wire arb_w142;
+	wire arb_w310;
+	wire arb_w353;
+	
+	wire ioc_io;
+	wire ioc_zv;
+	wire ioc_vz;
+	wire ioc_hl;
+	wire ioc_fres;
+	wire ioc_bc1;
+	wire ioc_bc2;
+	wire ioc_bc3;
+	wire ioc_bc4;
+	wire ioc_bc5;
+	wire [7:0] ioc_vdata;
+	wire ioc_reg_3e_q;
+	wire [7:0] ioc_zdata;
+	wire [6:0] ioc_ztov_address;
+	
+	wire tmss_test_0;
+	wire tmss_test_1;
+	wire tmss_test_2;
+	wire tmss_test_3;
+	wire tmss_test_4;
+	
 	ym7101 vdp(
 		.MCLK(MCLK),
 		.SD(SD),
@@ -276,14 +330,6 @@ module fc1004
 		.RA(vdp_ra)
 		);
 	
-	wire fm_clk;
-	wire [7:0] fm_data_o;
-	wire fm_data_d;
-	wire fm_test_o;
-	wire fm_test_d; // reg_2c[7]
-	wire fm_cs;
-	wire fm_irq;
-	
 	ym3438 fm
 		(
 		.MCLK(MCLK),
@@ -305,6 +351,169 @@ module fc1004
 		);
 	
 	
+	assign AS_d = ext_strobe_dir;
+	assign UDS_d = ext_strobe_dir;
+	assign LDS_d = ext_strobe_dir;
+	assign WAIT_pull = ~arb_wait_o;
+	assign SOUND_o = arb_sound;
+	
+	ym6045 arb
+		(
+		.MCLK(MCLK),
+		.VCLK(CLK_i),
+		.ZCLK(ZCLK_i),
+		.VD8_i(VD_i[8]),
+		.ZA_i(ZA_i[15:7]),
+		.ZA0_i(ZA_i[0]),
+		.VA_i(VA_i[22:7]),
+		.ZRD_i(ZRD_i),
+		.M1(M1),
+		.ZWR_i(ZWR_i),
+		.BGACK_i(BGACK_i),
+		.BG(BG),
+		.IORQ(IORQ),
+		.RW_i(RW_i),
+		.UDS_i(UDS_i),
+		.AS_i(AS_i),
+		.DTACK_i(DTACK_i),
+		.LDS_i(LDS_i),
+		.CAS0(CAS0_i),
+		.M3(M3),
+		.WRES(WRES),
+		.CART(CART),
+		.OE0(arb_oe0),
+		.WAIT_i(WAIT_i),
+		.ZBAK(ZBAK),
+		.MREQ_i(MREQ_i),
+		.FC0(FC0),
+		.FC1(FC1),
+		.SRES(SRES),
+		.test_mode_o(tmss_test_0),
+		.VD8_o(arb_vd8_o),
+		.ZA0_o(arb_za0_o),
+		.ZA_o(arb_za_o),
+		.VA_o(arb_va_o),
+		.ZRD_o(ZRD_o),
+		.UDS_o(UDS_o),
+		.ZWR_o(ZWR_o),
+		.BGACK_o(arb_bgack_o),
+		.AS_o(AS_o),
+		.RW_d(RW_d),
+		.RW_o(RD_o),
+		.LDS_o(LDS_o),
+		.strobe_dir(arb_strobe_dir),
+		.DTACK_o(arb_dtack_o),
+		.BR(arb_br),
+		.IA14(IA14),
+		.TIME(TIME),
+		.CE0(arb_ce0),
+		.FDWR(FDWR),
+		.FDC(FDC),
+		.ROM(ROM),
+		.ASEL(ASEL),
+		.EOE(EOE),
+		.NOE(NOE),
+		.RAS2(RAS2),
+		.CAS2(CAS2),
+		.REF(REF),
+		.ZRAM(ZRAM),
+		.WAIT_o(arb_wait_o),
+		.ZBR(arb_zbr),
+		.NMI(NMI),
+		.ZRES(ZRES_o),
+		.SOUND(arb_sound),
+		.VZ(arb_vz),
+		.MREQ_o(MREQ_o),
+		.VRES(arb_vres),
+		.VPA(VPA),
+		.VDPM(arb_vdpm),
+		.IO(arb_io),
+		.ZV(arb_zv),
+		.INTAK(arb_intak),
+		.EDCLK(arb_edclk),
+		.vtoz(arb_vtoz),
+		.w12(arb_w12),
+		.w131(arb_w131),
+		.w142(arb_w142),
+		.w310(arb_w310),
+		.w353(arb_w353)
+		);
+	
+	ym6046 ioc
+		(
+		.MCLK(MCLK),
+		.PORT_A_i(PA_i),
+		.PORT_B_i(PB_i),
+		.PORT_C_i(PC_i),
+		.test(TEST0_i),
+		.M3(M3),
+		.IO(ioc_io),
+		.CAS0(CAS0_i),
+		.SRES(SRES),
+		.VCLK(CLK_i),
+		.NTSC(NTSC),
+		.DISK(DISK_i),
+		.JAP(JAP_i),
+		.ZA_i(ZA_i[7:0]),
+		.ZD_i(ZD_i),
+		.VA_i(VA_i[6:0]),
+		.VD_i(VD_i),
+		.LWR(LWR_i),
+		.t1(tmss_test_1),
+		.ZV(ioc_zv),
+		.VZ(ioc_vz),
+		.PORT_A_d(PA_d),
+		.PORT_B_d(PB_d),
+		.PORT_C_d(PC_d),
+		.PORT_A_o(PA_o),
+		.PORT_B_o(PB_o),
+		.PORT_C_o(PC_o),
+		.HL(ioc_hl),
+		.FRES(ioc_fres),
+		.BC1(ioc_bc1),
+		.BC2(ioc_bc2),
+		.BC3(ioc_bc3),
+		.BC4(ioc_bc4),
+		.BC5(ioc_bc5),
+		.vdata(ioc_vdata),
+		.reg_3e_q(ioc_reg_3d_q),
+		.zdata(ioc_zdata),
+		.ztov_address(ioc_ztov_address)
+		);
+	
+	wire tmss_ce0_i;
+	wire [15:0] tmss_vd_o;
+	wire tmss_dtack;
+	wire tmss_reset;
+	wire tmss_ce0_o;
+	wire tmss_data_out_en;
 
+	tmss tmss_
+		(
+		.MCLK(MCLK),
+		.VD_i(VD_i),
+		.test({ TEST3, TEST2, TEST1 }),
+		.JAP(JAP_i),
+		.AS(AS_i),
+		.LDS(LDS_i),
+		.UDS(UDS_i),
+		.RW(RW_i),
+		.VA(VA_i),
+		.SRES(SRES_i),
+		.CE0_i(tmss_ce0_i),
+		.M3(M3),
+		.CART(CART),
+		.INTAK(vdp_intak),
+		.VD_o(tmss_vd_o),
+		.DTACK(tmss_dtack),
+		.RESET(tmss_reset),
+		.CE0_o(tmss_ce0_o),
+		.test_0(tmss_test_0),
+		.test_1(tmss_test_1),
+		.test_2(tmss_test_2),
+		.test_3(tmss_test_3),
+		.test_4(tmss_test_4),
+		.data_out_en(tmss_data_out_en)
+		);
 	
 endmodule
