@@ -7,7 +7,8 @@
 * Arbiter (Integrated YM6045C) - Initial implementation done, untested
 * IO Chip (Integrated YM6046) - Initial implementation done, untested
 * TMSS - Initial implementation done, untested
-* FC1004 - In progress
+* FC1004 - Initial implementation done, untested
+* VRAM (HLE) - TBD
 
 # Extra chips
 * FM (NMOS/YM2612) - TBD, low priority
@@ -15,3 +16,4 @@
 * IO Chip (Discrete YM6046) - TBD, low priority
 * 68000 (CMOS) - TBD, low priority
 * Z80 (CMOS) - TBD, low priority
+* VRAM - TBD, low priority
