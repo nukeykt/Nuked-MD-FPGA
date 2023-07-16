@@ -457,22 +457,24 @@ module ym_sr_bit_en #(parameter SR_LENGTH = 2)
 endmodule
 
 
-module ym_scnt_bit
+module ym_scnt_bit #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input clk,
 	input load,
-	input val,
+	input [DATA_WIDTH-1:0] val,
 	input cin,
 	input rst,
-	output q,
-	output nq,
+	output [DATA_WIDTH-1:0] q,
+	output [DATA_WIDTH-1:0] nq,
 	output cout
 	);
 	
-	reg l1, l2;
+	reg [DATA_WIDTH-1:0] l1, l2;
 	
-	assign cout = cin & l2;
+	wire [DATA_WIDTH:0] sum = { 1'h0, l2 } + cin;
+	
+	assign cout = sum[DATA_WIDTH];
 	
 	assign q = l2;
 	assign nq = ~l2;
@@ -481,13 +483,13 @@ module ym_scnt_bit
 	begin
 		if (~rst)
 		begin
-			l1 <= 1'h0;
-			l2 <= 1'h0;
+			l1 <= {DATA_WIDTH{1'h0}};
+			l2 <= {DATA_WIDTH{1'h0}};
 		end
 		else
 		begin
 			if (~clk)
-				l1 <= ~load ? val : (l2 ^ cin);
+				l1 <= ~load ? val : sum[DATA_WIDTH-1:0];
 			else
 				l2 <= l1;
 		end
