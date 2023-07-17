@@ -335,7 +335,8 @@ module fc1004
 		.OE0(vdp_oe0),
 		.CAS0(vdp_cas0),
 		.RAS0(RAS0),
-		.RA(vdp_ra)
+		.RA(vdp_ra),
+		.ext_test_2(tmss_test_2)
 		);
 	
 	ym3438 fm
@@ -397,6 +398,8 @@ module fc1004
 		.FC1(FC1),
 		.SRES(SRES),
 		.test_mode_0(tmss_test_0),
+		.ZD0_i(ZD_i[0]),
+		.HSYNC(HSYNC_i),
 		.VD8_o(arb_vd8_o),
 		.ZA0_o(arb_za0_o),
 		.ZA_o(arb_za_o),
@@ -526,7 +529,7 @@ module fc1004
 	
 	assign ZA_o[0] = arb_za0_o;
 	assign ZA_o[7:1] = VA_i[6:0];
-	assign ZA_o[15:8] = arb_za_o[15:8];
+	assign ZA_o[15:8] = arb_vtoz ? 8'h0 : arb_za_o[15:8];
 	
 	assign ZA_d[0] = (tmss_test_1 ^ tmss_test_3) | arb_vz;
 	assign ZA_d[1] = (tmss_test_1 & ~tmss_test_3) | ioc_bc1;
@@ -618,6 +621,7 @@ module fc1004
 	assign ioc_vz = tmss_test_0 ? VZ_i : arb_vz;
 	assign ioc_zv = tmss_test_0 ? ZV_i : arb_zv;
 	assign ioc_io = tmss_test_0 ? IO_i : arb_io;
+	assign tmss_ce0_i = tmss_test_0 ? SEL1 : arb_ce0;
 	
 	assign fm_clk = tmss_test_2 ? CLK_i : vdp_clk1_o;
 	assign fm_cs = tmss_test_0 ? SOUND_i : arb_sound;

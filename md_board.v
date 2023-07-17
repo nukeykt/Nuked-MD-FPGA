@@ -3,13 +3,20 @@ module md_board
 	input MCLK,
 	input ext_reset,
 	
+	// cart
+	input M3,
+	input [15:0] cart_data,
+	output [20:0] cart_address,
+	output cart_cs,
+	output cart_oe,
+	
 	// video
 	output [7:0] V_R, V_G, V_B,
 	output V_HS, V_VS,
 	
 	// audio
-	output A_L,
-	output A_R
+	output [15:0] A_L,
+	output [15:0] A_R
 	
 	);
 	
@@ -39,7 +46,7 @@ module md_board
 	wire CSYNC_pull;
 	wire HSYNC;
 	wire HSYNC_pull;
-	wire M3;
+	//wire M3;
 	wire NTSC;
 	wire VPA;
 	wire ym_HALT_pull;
@@ -336,11 +343,12 @@ module md_board
 		.CAS0_d(CAS0_d),
 		.RAS0(RAS0),
 		.ZD_i(ZD),
-		.ZD_o(ZD_o),
-		.ZD_d(ZD_d0)
+		.ZD_o(ym_ZD_o),
+		.ZD_d(ym_ZD_d)
 		);
 	
 	wire [2:0] IPL;
+	wire BR;
 	wire BERR;
 	wire m68k_RESET_pull;
 	wire m68k_HALT_pull;
@@ -355,6 +363,12 @@ module md_board
 	wire m68k_VA_d2;
 	wire [22:0] m68k_VA_d;
 	wire m68k_S_d;
+	wire m68k_AS_o;
+	wire m68k_LDS_o;
+	wire m68k_UDS_o;
+	
+	wire HALT;
+	wire RESET;
 	
 	m68kcpu m68k
 		(
@@ -367,6 +381,7 @@ module md_board
 		.BERR(BERR),
 		.RESET_i(RESET),
 		.RESET_pull(m68k_RESET_pull),
+		.HALT_i(HALT),
 		.HALT_pull(m68k_HALT_pull),
 		.DATA_i(VD),
 		.DATA_o(m68k_VD_o),
@@ -381,7 +396,8 @@ module md_board
 		.AS(m68k_AS_o),
 		.LDS(m68k_LDS_o),
 		.UDS(m68k_UDS_o),
-		.strobe_z(m68k_S_d)
+		.strobe_z(m68k_S_d),
+		.VPA(VPA)
 		);
 	
 	wire [15:0] z80_ZA_o;
@@ -398,6 +414,7 @@ module md_board
 	wire z80_ZRD_d;
 	wire z80_ZWR_o;
 	wire z80_ZWR_d;
+	wire INT;
 	
 	z80cpu z80
 		(
@@ -414,16 +431,17 @@ module md_board
 		.IORQ(z80_IORQ_o),
 		.IORQ_z(z80_IORQ_d),
 		.RD(z80_ZRD_o),
-		.RD_z(z80_ZRD_z),
+		.RD_z(z80_ZRD_d),
 		.WR(z80_ZWR_o),
-		.WR_z(z80_ZWR_z),
+		.WR_z(z80_ZWR_d),
 		.RFSH(),
 		.HALT(),
 		.WAIT(WAIT),
 		.INT(INT),
 		.NMI(NMI),
 		.BUSRQ(ZBR),
-		.BUSAK(ZBAK)
+		.BUSAK(ZBAK),
+		.RESET(ZRES)
 		);
 	
 	wire [7:0] vram1_AD_o;
@@ -452,7 +470,7 @@ module md_board
 	
 	wire [15:0] ram_68k_o;
 	
-	ram_68k
+	ram_68k ram_68k
 		(
 		.address(ram_68k_address),
 		.byteena({ ~UWR, ~LWR }),
@@ -464,7 +482,7 @@ module md_board
 	
 	wire [7:0] ram_z80_o;
 	
-	ram_z80
+	ram_z80 ram_z80
 		(
 		.address(ZA[12:0]),
 		.clock(MCLK),
@@ -473,6 +491,144 @@ module md_board
 		.q(ram_z80_o)
 		);
 	
+	assign RD =
+		(~ym_RD_d ? ym_RD_o : 8'h0);
 	
+	assign AD =
+		(~ym_AD_d ? ym_AD_o : 8'h0) |
+		(~vram1_AD_d ? vram1_AD_o : 8'h0);
+	
+	assign ZBR = ~ZBR_d ? ZBR_o : 1'h1;
+	
+	assign WAIT = ~ym_WAIT_pull;
+	
+	assign z80_ZA_d = {16{z80_ZA_d2}};
+	
+	assign ZA =
+		(~ym_ZA_d & ym_ZA_o) |
+		(~z80_ZA_d & z80_ZA_o);
+	
+	assign z80_ZD_d = {8{z80_ZD_d2}};
+	wire [7:0] ram_ZD_d = {8{ZRD | ZRAM}};
+	
+	assign ZD =
+		(~ym_ZD_d & ym_ZD_o) |
+		(~z80_ZD_d & z80_ZD_o) |
+		(~ram_ZD_d & ram_z80_o);
+	
+	assign m68k_VA_d = {23{m68k_VA_d2}};
+	
+	assign VA =
+		(~ym_VA_d & ym_VA_o) |
+		(~m68k_VA_d & m68k_VA_o);
+	
+	assign m68k_VD_d = {16{m68k_VD_d2}};
+	wire [15:0] ram_VD_d = {{8{EOE}}, {8{NOE}}};
+	wire [15:0] cart_VD_d = {16{CAS0 | CE0}};
+	
+	assign VD =
+		(~ym_VD_d & ym_VD_o) |
+		(~m68k_VD_d & m68k_VD_o) |
+		(~ram_VD_d & ram_68k_o) |
+		(~cart_VD_d & cart_data);
+	
+	assign DTACK = ~ym_DTACK_pull;
+	
+	assign BGACK = ~ym_BGACK_pull;
+	
+	assign BR = ~ym_BR_pull;
+	
+	assign RESET = ~(ym_RESET_pull | m68k_RESET_pull);
+	assign HALT = ~(ym_HALT_pull | m68k_HALT_pull);
+	
+	assign PA =
+		(~ym_PA_d & ym_PA_o);
+		
+	assign PB =
+		(~ym_PA_d & ym_PA_o);
+		
+	assign PC =
+		(~ym_PA_d & ym_PA_o);
+	
+	assign VCLK = (~VCLK_d & VCLK_o);
+	assign ZCLK = (~ZCLK_d & ZCLK_o);
+	assign EDCLK = (~EDCLK_d & EDCLK_o);
+	
+	assign NTSC = 1'h1;
+	assign JAP = 1'h0;
+	assign DISK = 1'h1;
+	
+	assign AS = ym_AS_d & m68k_S_d ? 1'h1 :
+		(~ym_AS_d & ym_AS_o) |
+		(~m68k_S_d & m68k_AS_o);
+	assign UDS = ym_UDS_d & m68k_S_d ? 1'h1 :
+		(~ym_UDS_d & ym_UDS_o) |
+		(~m68k_S_d & m68k_UDS_o);
+	assign LDS = ym_LDS_d & m68k_S_d ? 1'h1 :
+		(~ym_LDS_d & ym_LDS_o) |
+		(~m68k_S_d & m68k_LDS_o);
+	assign RW = ym_RW_d & m68k_RW_d ? 1'h1 :
+		(~ym_RW_d & ym_RW_o) |
+		(~m68k_RW_d & m68k_RW_o);
+	
+	assign ZRD = ym_ZRD_d & z80_ZRD_d ? 1'h1 :
+		(~ym_ZRD_d & ym_ZRD_o) |
+		(~z80_ZRD_d & z80_ZRD_o);
+	assign ZWR = ym_ZWR_d & z80_ZWR_d ? 1'h1 :
+		(~ym_ZWR_d & ym_ZWR_o) |
+		(~z80_ZWR_d & z80_ZWR_o);
+	assign MREQ = ym_MREQ_d & z80_MREQ_d ? 1'h1 :
+		(~ym_MREQ_d & ym_MREQ_o) |
+		(~z80_MREQ_d & z80_MREQ_o);
+	
+	assign LWR = ~LWR_d & LWR_o;
+	
+	assign CSYNC = ~CSYNC_pull;
+	assign HSYNC = ~HSYNC_pull;
+	assign SPA_B = ~SPA_B_pull;
+	
+	assign FC0 = ~FC_z & FC[0];
+	assign FC1 = ~FC_z & FC[1];
+	
+	assign IPL[0] = 1'h1;
+	assign IPL[1] = ~ym_IPL1_pull;
+	assign IPL[2] = ~ym_IPL2_pull;
+	
+	assign BERR = 1'h1;
+	
+	assign SD = vram1_SD_d ? 8'h0 : vram1_SD_o;
+	
+	assign IORQ = z80_IORQ_d ? 1'h1 : z80_IORQ_o;
+	
+	assign INT = ~ym_INT_pull;
+	
+	assign ZRES = ZRES_d ? 1'h1 : ZRES_o;
+	
+	assign SOUND = ~SOUND_d & SOUND_o;
+	assign VZ = ~VZ_d & VZ_o;
+	assign ZV = ~ZV_d & ZV_o;
+	assign IO = ~IO_d & IO_o;
+	assign CAS0 = ~CAS0_d & CAS0_o;
+	
+	assign V_R = DAC_R;
+	assign V_G = DAC_G;
+	assign V_B = DAC_B;
+	
+	assign V_VS = VSYNC;
+	assign V_HS = HSYNC;
+	
+	assign SRES = ~ext_reset;
+	
+	wire [8:0] MOL_s = MOL - 9'h100;
+	wire [8:0] MOR_s = MOR - 9'h100;
+	
+	assign A_L = {MOL_s,7'h0} + PSG;
+	assign A_R = {MOR_s,7'h0} + PSG;
+	
+	assign cart_address = VA[20:0];
+	assign cart_cs = ~CE0;
+	assign cart_oe = ~CAS0;
+	
+	assign CART = 1'h0;
 
 endmodule

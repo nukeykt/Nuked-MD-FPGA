@@ -32,7 +32,7 @@ module z80cpu
 	output [15:0] ADDRESS,
 	output ADDRESS_z,
 	input [7:0] DATA_i,
-	output DATA_o,
+	output [7:0] DATA_o,
 	output DATA_z,
 	output M1,
 	output MREQ,
