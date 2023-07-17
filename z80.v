@@ -30,12 +30,19 @@ module z80cpu
 	input MCLK,
 	input CLK,
 	output [15:0] ADDRESS,
-	inout [7:0] DATA,
+	output ADDRESS_z,
+	input [7:0] DATA_i,
+	output DATA_o,
+	output DATA_z,
 	output M1,
 	output MREQ,
+	output MREQ_z,
 	output IORQ,
+	output IORQ_z,
 	output RD,
+	output RD_z,
 	output WR,
+	output WR_z,
 	output RFSH,
 	output HALT,
 	input WAIT,
@@ -853,7 +860,9 @@ module z80cpu
 		.nq(w21_i)
 		);
 	
-	assign MREQ = ~w21_i ? 1'h0 : ((~w21 & ~w62) ? 1'h1 : 1'hz);
+	//assign MREQ = ~w21_i ? 1'h0 : ((~w21 & ~w62) ? 1'h1 : 1'hz);
+	assign MREQ = w21_i;
+	assign MREQ_z = w21_i & w62;
 	
 	z80_rs_trig_nor rs22
 		(
@@ -864,7 +873,9 @@ module z80cpu
 		.nq(w22_i)
 		);
 	
-	assign IORQ = ~w22_i ? 1'h0 : ((~w22 & ~w62) ? 1'h1 : 1'hz);
+	//assign IORQ = ~w22_i ? 1'h0 : ((~w22 & ~w62) ? 1'h1 : 1'hz);
+	assign IORQ = w22_i;
+	assign IORQ_z = w22_i & w62;
 		
 	z80_dlatch dl5
 		(
@@ -929,7 +940,9 @@ module z80cpu
 		.nq(w31_i)
 		);
 	
-	assign RD = ~w31_i ? 1'h0 : ((~w31 & ~w62) ? 1'h1 : 1'hz);
+	//assign RD = ~w31_i ? 1'h0 : ((~w31 & ~w62) ? 1'h1 : 1'hz);
+	assign RD = w31_i;
+	assign RD_z = w31_i & w62;
 	
 		
 	z80_dlatch dl9
@@ -952,7 +965,9 @@ module z80cpu
 		.nq(w33_i)
 		);
 	
-	assign WR = ~w33_i ? 1'h0 : ((~w33 & ~w62) ? 1'h1 : 1'hz);
+	//assign WR = ~w33_i ? 1'h0 : ((~w33 & ~w62) ? 1'h1 : 1'hz);
+	assign WR = w33_i;
+	assign WR_z = w33_i & w62;
 		
 	z80_dlatch dl10
 		(
@@ -1762,7 +1777,7 @@ module z80cpu
 	always @(posedge MCLK)
 	begin
 		if (w2)
-			w145 <= ~DATA;
+			w145 <= ~DATA_i;
 		else if (w42)
 			w145 <= w146;
 		else
@@ -3816,7 +3831,8 @@ module z80cpu
 			w526 <= w526;
 	end
 	
-	assign ADDRESS = w323 ? 'bz : ~w526;
+	assign ADDRESS = ~w526;
+	assign ADDRESS_z = w323;
 	
 	always @(posedge MCLK)
 	begin
@@ -3904,7 +3920,8 @@ module z80cpu
 		end
 	end
 	
-	assign DATA = w44 ? 'bz : ~w145;
+	assign DATA_o = ~w145;
+	assign DATA_z = w44;
 	
 	z80_rs_trig_nor haltrs
 		(

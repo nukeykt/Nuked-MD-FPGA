@@ -12,7 +12,7 @@ module vram
 	output [7:0] RD_o,
 	output RD_d,
 	output [7:0] SD_o,
-	output SC_d
+	output SD_d
 	);
 	
 	reg [15:0] addr;

@@ -31,20 +31,28 @@ module m68kcpu
 	input BR,
 	input BGACK,
 	input DTACK,
-	input VPA_TEST,
-	inout [2:0] IPL,
-	inout BERR,
-	inout RESET,
-	inout HALT,
-	inout [15:0] DATA,
+	//input VPA_TEST,
+	input [2:0] IPL,
+	input BERR,
+	input RESET_i,
+	output RESET_pull,
+	input HALT_i,
+	output HALT_pull,
+	input [15:0] DATA_i,
+	output [15:0] DATA_o,
+	output DATA_z,
 	output E_CLK,
 	output BG,
 	output [2:0] FC,
+	output FC_z,
 	output RW,
+	output RW_z,
 	output [22:0] ADDRESS,
+	output ADDRESS_z,
 	output AS,
 	output LDS,
-	output UDS
+	output UDS,
+	output strobe_z
 	);
 	
 	wire w1;
@@ -1640,7 +1648,7 @@ module m68kcpu
 
 	assign w257 = w211 ? w853 : 1'h0;
 	
-	assign w266 = VPA_TEST;
+	assign w266 = 1'h0;//VPA_TEST;
 	
 	wire [12:0] br_fsm_cases;
 	
@@ -1796,10 +1804,10 @@ module m68kcpu
 			
 			o_bg <= w270[0][0];
 			
-			w275[0] <= ~RESET;
+			w275[0] <= ~RESET_i;
 			w275[2] <= w275[1];
 			
-			w276[0] <= ~HALT;
+			w276[0] <= ~HALT_i;
 			w276[2] <= w276[1];
 			
 			w277[1] <= w277[0];
@@ -1902,8 +1910,8 @@ module m68kcpu
 	
 	assign w265 = ~w264 | (~w343[2] & (w435[2] | w292));
 	
-	assign RESET = w336 ? 'bz : 1'h0;
-	assign HALT = w339 ? 'bz : 1'h0;
+	assign RESET_pull = ~w336;
+	assign HALT_pull = ~w339;
 	
 	assign w286 = ~(w292 | w287 | w289 | clk2 | w430 | w435[2]);
 	
@@ -1925,10 +1933,10 @@ module m68kcpu
 	
 	assign w295 = IPL[0];
 	
-	assign IPL[0] = (w297[2] & w298[2] & w266) ? 1'h0 : 'bz;
-	assign IPL[1] = (w295 & w266) ? 1'h0 : 'bz;
-	assign IPL[2] = (w295 & w266) ? 1'h0 : 'bz;
-	assign BERR = (w295 & w266) ? 1'h0 : 'bz;
+	// assign IPL[0] = (w297[2] & w298[2] & w266) ? 1'h0 : 'bz;
+	// assign IPL[1] = (w295 & w266) ? 1'h0 : 'bz;
+	// assign IPL[2] = (w295 & w266) ? 1'h0 : 'bz;
+	// assign BERR = (w295 & w266) ? 1'h0 : 'bz;
 	
 	assign w300 = ~((w296[2] & w296[3]) | (~w296[2] & ~w296[3]));
 	assign w302 = ~((w297[2] & w297[3]) | (~w297[2] & ~w297[3]));
@@ -2029,9 +2037,10 @@ module m68kcpu
 	
 	assign w330 = w567 ? 1'h0 : c2;
 	
-	assign FC[0] = w409 ? 'bz : ~w322;
-	assign FC[1] = w409 ? 'bz : ~w323;
-	assign FC[2] = w409 ? 'bz : ~w324;
+	assign FC[0] = ~w322;
+	assign FC[1] = ~w323;
+	assign FC[2] = ~w324;
+	assign FC_z = w409;
 	
 	assign w331 = ~w323;
 	assign w332 = ~w322;
@@ -5644,10 +5653,11 @@ module m68kcpu
 	always @(posedge MCLK)
 	begin
 		if (clk2)
-			data_l <= DATA;
+			data_l <= DATA_i;
 	end
 	
-	assign DATA = w361 ? ~data_io : 'bz;
+	assign DATA_o = ~data_io;
+	assign DATA_z = ~w361;
 	
 	assign address_mux = w267 ?
 		{ irdbus[23], irdbus[21], irdbus[19], irdbus[17], irdbus[15], irdbus[13], irdbus[11], irdbus[9],
@@ -5655,7 +5665,8 @@ module m68kcpu
 			irdbus[22], irdbus[20], irdbus[18], irdbus[16], irdbus[14], irdbus[12], irdbus[10] }
 			: { w108[7:0], w159[15:1] };
 	
-	assign ADDRESS = w400 ? ~address_mux : 'bz;
+	assign ADDRESS = ~address_mux;
+	assign ADDRESS_z = ~w400;
 	
 	always @(posedge MCLK)
 	begin
@@ -5670,7 +5681,7 @@ module m68kcpu
 			as_l2 <= 1'h1;
 	end
 	
-	assign AS = as_l3 ? 'bz : ~as_l2;
+	assign AS = ~as_l2;
 	
 	always @(posedge MCLK)
 	begin
@@ -5685,7 +5696,7 @@ module m68kcpu
 			uds_l2 <= w413;
 	end
 	
-	assign UDS = uds_l3 ? 'bz : ~uds_l2;
+	assign UDS = ~uds_l2;
 	
 	always @(posedge MCLK)
 	begin
@@ -5700,7 +5711,9 @@ module m68kcpu
 			lds_l2 <= w412;
 	end
 	
-	assign LDS = lds_l3 ? 'bz : ~lds_l2;
+	assign LDS = ~lds_l2;
+	
+	assign strobe_z = lds_l3;
 	
 	always @(posedge MCLK)
 	begin
@@ -5708,7 +5721,9 @@ module m68kcpu
 			rw_l <= w382;
 	end
 	
-	assign RW = (~rw_l) ? 1'h0 : ((rw_l & ~w409) ? 1'h1 : 'bz);
+	//assign RW = (~rw_l) ? 1'h0 : ((rw_l & ~w409) ? 1'h1 : 'bz);
+	assign RW = rw_l;
+	assign RW_z = rw_l & w409; 
 
 	// alu bus & registers logic
 	
