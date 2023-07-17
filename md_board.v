@@ -630,5 +630,11 @@ module md_board
 	assign cart_oe = ~CAS0;
 	
 	assign CART = 1'h0;
+	
+	assign SEL1 = 1'h0;
+	
+	assign TEST1 = 1'h1;
+	assign TEST2 = 1'h1;
+	assign TEST3 = 1'h1;
 
 endmodule

@@ -400,7 +400,7 @@ module ym6045
 			begin
 				dff1 <= dff1 ^ w3;
 				dff2 <= ~dff2;
-				dff3 <= dff3 & dff2;
+				dff3 <= dff3 ^ dff2;
 			end
 		end
 	end

@@ -470,7 +470,7 @@ module ym_scnt_bit #(parameter DATA_WIDTH = 1)
 	output cout
 	);
 	
-	reg [DATA_WIDTH-1:0] l1, l2;
+	reg [DATA_WIDTH-1:0] l1 = {DATA_WIDTH{1'h0}}, l2 = {DATA_WIDTH{1'h0}};
 	
 	wire [DATA_WIDTH:0] sum = { 1'h0, l2 } + cin;
 	
@@ -507,7 +507,7 @@ module ym_sdff #(parameter DATA_WIDTH = 1)
 	output [DATA_WIDTH-1:0] nq
 	);
 	
-	reg [DATA_WIDTH-1:0] l1, l2;
+	reg [DATA_WIDTH-1:0] l1 = {DATA_WIDTH{1'h0}}, l2 = {DATA_WIDTH{1'h0}};
 	
 	assign q = l2;
 	assign nq = ~l2;
@@ -563,7 +563,7 @@ module ym_sdffr #(parameter DATA_WIDTH = 1)
 	output [DATA_WIDTH-1:0] nq
 	);
 	
-	reg [DATA_WIDTH-1:0] l1, l2;
+	reg [DATA_WIDTH-1:0] l1 = {DATA_WIDTH{1'h0}}, l2 = {DATA_WIDTH{1'h0}};
 	
 	assign q = l2;
 	assign nq = ~l2;
@@ -594,7 +594,7 @@ module ym_sdffsr #(parameter DATA_WIDTH = 1)
 	output [DATA_WIDTH-1:0] nq
 	);
 	
-	reg [DATA_WIDTH-1:0] l1, l2;
+	reg [DATA_WIDTH-1:0] l1 = {DATA_WIDTH{1'h0}}, l2 = {DATA_WIDTH{1'h0}};
 	
 	assign q = (~set & ~reset) ? {DATA_WIDTH{1'h0}} : l2;
 	assign nq = (~set & ~reset) ? {DATA_WIDTH{1'h0}} : ~l2;
@@ -625,7 +625,7 @@ module ym_delaychain #(parameter DELAY_CNT = 1)
 	output outp
 	);
 	
-	reg [DELAY_CNT-1:0] dl;
+	reg [DELAY_CNT-1:0] dl = {DELAY_CNT{1'h0}};
 	
 	always @(posedge MCLK)
 	begin

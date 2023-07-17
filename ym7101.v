@@ -134,17 +134,17 @@ module ym7101
 	
 	wire reset_comb;
 	wire mclk_and1;
-	reg prescaler_dff1;
-	reg prescaler_dff2;
-	reg prescaler_dff3;
-	reg prescaler_dff4;
-	reg prescaler_dff5;
-	reg prescaler_dff6;
-	reg prescaler_dff7;
-	reg prescaler_dff8;
-	reg prescaler_dff9;
-	reg prescaler_dff10;
-	reg prescaler_dff11;
+	reg prescaler_dff1 = 1'h0;
+	reg prescaler_dff2 = 1'h0;
+	reg prescaler_dff3 = 1'h0;
+	reg prescaler_dff4 = 1'h0;
+	reg prescaler_dff5 = 1'h0;
+	reg prescaler_dff6 = 1'h0;
+	reg prescaler_dff7 = 1'h0;
+	reg prescaler_dff8 = 1'h0;
+	reg prescaler_dff9 = 1'h0;
+	reg prescaler_dff10 = 1'h0;
+	reg prescaler_dff11 = 1'h0;
 	wire prescaler_dff12_l2;
 	wire prescaler_dff13_l2;
 	wire prescaler_dff14_l2;
@@ -6986,7 +6986,7 @@ module ym7101
 		(vdp_address_dir ? 23'h73ffff : 23'h0) |
 		(w267 ? 23'h33ffff : 23'h0);
 	
-	reg [22:0] io_address_mem;
+	reg [22:0] io_address_mem = 23'h0;
 	
 	wire [22:0] io_address_t = (io_address_pull & io_address_val) | (~io_address_pull & io_address_mem);
 	
@@ -7030,7 +7030,7 @@ module ym7101
 		(w91 ? 16'h07ff : 16'h0) |
 		(w93 ? 16'hffff : 16'h0);
 	
-	reg [15:0] io_data_mem;
+	reg [15:0] io_data_mem = 16'h0;
 	
 	assign io_data = (io_data_pull & io_data_val) | (~io_data_pull & io_data_mem);
 	
@@ -7097,7 +7097,7 @@ module ym7101_dff #(parameter DATA_WIDTH = 1)
 	output [DATA_WIDTH-1:0] outp
 	);
 	
-	reg [DATA_WIDTH-1:0] l1, l2;
+	reg [DATA_WIDTH-1:0] l1 = {DATA_WIDTH{1'h0}}, l2 = {DATA_WIDTH{1'h0}};
 	
 	wire [DATA_WIDTH-1:0] l2_assign = rst ? {DATA_WIDTH{1'h0}} : (clk ? l1 : l2);
 	
