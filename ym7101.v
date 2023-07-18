@@ -2885,7 +2885,7 @@ module ym7101
 	
 	ym_dlatch_2 dl31(.MCLK(MCLK), .c2(hclk2), .inp(l34), .nval(l31));
 	
-	ym_dlatch_2 dl32(.MCLK(MCLK), .c2(clk2), .inp(~w193), .nval(l32));
+	ym_dlatch_2 dl32(.MCLK(MCLK), .c2(clk2), .inp(w193), .nval(l32));
 	
 	ym_sr_bit sr33(.MCLK(MCLK), .c1(clk1), .c2(clk2), .bit_in(l32), .sr_out(l33));
 	

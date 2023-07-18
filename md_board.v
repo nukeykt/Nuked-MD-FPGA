@@ -476,7 +476,7 @@ module md_board
 		.byteena({ ~UWR, ~LWR }),
 		.clock(MCLK),
 		.data(VD),
-		.wren((~UWR | ~LWR) & RAS0),
+		.wren((~UWR | ~LWR) & ~RAS0),
 		.q(ram_68k_o)
 		);
 	
@@ -529,7 +529,7 @@ module md_board
 	assign m68k_VD_d = {16{m68k_VD_d2}};
 	wire [15:0] ram_VD_d = {{8{EOE}}, {8{NOE}}};
 	wire [15:0] cart_VD_d = M3 ?{16{CAS0 | CE0}}
-		: {8'hff, {8{ VA[17] | CAS0 }}};
+		: {8'hff, {8{ VA[17] | CAS0 | CE0 }}};
 	
 	assign VD =
 		(~ym_VD_d & ym_VD_o) |
@@ -627,8 +627,8 @@ module md_board
 	wire [8:0] MOL_s = MOL - 9'h100;
 	wire [8:0] MOR_s = MOR - 9'h100;
 	
-	assign A_L = {MOL_s,7'h0} + PSG;
-	assign A_R = {MOR_s,7'h0} + PSG;
+	assign A_L = {{2{MOL_s[8]}},MOL_s,5'h0} + PSG;
+	assign A_R = {{2{MOR_s[8]}},MOR_s,5'h0} + PSG;
 	
 	assign cart_address = VA[20:0];
 	assign cart_cs = ~CE0;
