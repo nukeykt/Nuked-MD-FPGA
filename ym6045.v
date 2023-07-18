@@ -530,7 +530,7 @@ module ym6045
 	
 	assign w16 = ~(dff33_nq | w346);
 	ym_sdffr dff60(.MCLK(MCLK), .clk(~w16), .val(dff69_q), .reset(sres_syncv_q), .q(dff60_q));
-	assign w334 = ~(~dff60_q | dff69_nq);
+	assign w334 = ~(dff60_q | dff69_nq);
 	
 	assign w337 = ~WRES;
 	

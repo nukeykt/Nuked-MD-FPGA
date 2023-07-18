@@ -476,7 +476,7 @@ module md_board
 		.byteena({ ~UWR, ~LWR }),
 		.clock(MCLK),
 		.data(VD),
-		.wren(~UWR | ~LWR),
+		.wren((~UWR | ~LWR) & RAS0),
 		.q(ram_68k_o)
 		);
 	
@@ -518,13 +518,18 @@ module md_board
 	
 	assign m68k_VA_d = {23{m68k_VA_d2}};
 	
+	assign m3_cart_VA_d = {M3, M3, M3, 20'hfffff};
+	assign m3_cart_VA_o = {1'h1, 1'h0, 1'h1, 20'h0};
+	
 	assign VA =
 		(~ym_VA_d & ym_VA_o) |
-		(~m68k_VA_d & m68k_VA_o);
+		(~m68k_VA_d & m68k_VA_o) |
+		(~m3_cart_VA_d & m3_cart_VA_o);
 	
 	assign m68k_VD_d = {16{m68k_VD_d2}};
 	wire [15:0] ram_VD_d = {{8{EOE}}, {8{NOE}}};
-	wire [15:0] cart_VD_d = {16{CAS0 | CE0}};
+	wire [15:0] cart_VD_d = M3 ?{16{CAS0 | CE0}}
+		: {8'hff, {8{ VA[17] | CAS0 }}};
 	
 	assign VD =
 		(~ym_VD_d & ym_VD_o) |
@@ -587,8 +592,8 @@ module md_board
 	assign HSYNC = ~HSYNC_pull;
 	assign SPA_B = ~SPA_B_pull;
 	
-	assign FC0 = ~FC_z & FC[0];
-	assign FC1 = ~FC_z & FC[1];
+	assign FC0 = FC_z | FC[0];
+	assign FC1 = FC_z | FC[1];
 	
 	assign IPL[0] = 1'h1;
 	assign IPL[1] = ~ym_IPL1_pull;
@@ -636,5 +641,7 @@ module md_board
 	assign TEST1 = 1'h1;
 	assign TEST2 = 1'h1;
 	assign TEST3 = 1'h1;
+	
+	assign WRES = 1'h1;
 
 endmodule
