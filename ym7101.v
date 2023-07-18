@@ -6756,9 +6756,9 @@ module ym7101
 	
 	ym_sr_bit sr650_3(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(l650[2]), .sr_out(l650[3]));
 
-	assign w1132 = l650[2:0] == 3'h0 & ~l651;
+	assign w1132 = l650[2:0] == 3'h0 & ~l637;
 	
-	ym_sr_bit sr651(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(w1132), .sr_out(l651));
+	ym_sr_bit sr651(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(l637), .sr_out(l651));
 	
 	assign w1133 = ~l651;
 	
