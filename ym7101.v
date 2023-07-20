@@ -4675,16 +4675,12 @@ module ym7101
 					vsram[vsram_index][7:0] <= l181[7:0];
 				if (l210)
 					vsram[vsram_index][10:8] <= l181[10:8];
-				vsram_out <= l181;
 			end
-			else // read cycle
-			begin
-				vsram_out <= vsram[vsram_index];
-			end
+			vsram_out <= vsram[vsram_index];
 			if (vsram_index[0])
-				vsram_out_1 <= vsram_out;
+				vsram_out_1 <= vsram[vsram_index];
 			else
-				vsram_out_0 <= vsram_out;
+				vsram_out_0 <= vsram[vsram_index];
 		end
 		else
 		begin
@@ -5934,17 +5930,13 @@ module ym7101
 					sat[sat_index][18:11] <= sat_data_in[18:11];
 				if (w690)
 					sat[sat_index][20:19] <= sat_data_in[20:19];
-				sat_out <= sat_data_in;
 			end
-			else // read cycle
-			begin
-				sat_out <= sat[sat_index];
-			end
+			sat_out <= sat[sat_index];
 			case (sat_index[1:0])
-				2'h0: sat_out_0 <= sat_out;
-				2'h1: sat_out_1 <= sat_out;
-				2'h2: sat_out_2 <= sat_out;
-				2'h3: sat_out_3 <= sat_out;
+				2'h0: sat_out_0 <= sat[sat_index];
+				2'h1: sat_out_1 <= sat[sat_index];
+				2'h2: sat_out_2 <= sat[sat_index];
+				2'h3: sat_out_3 <= sat[sat_index];
 			endcase
 		end
 		else
@@ -5989,16 +5981,12 @@ module ym7101
 					sprdata[sprdata_index][19:11] <= sprdata_in[19:11];
 				if (w709)
 					sprdata[sprdata_index][33:20] <= sprdata_in[33:20];
-				sprdata_out <= sprdata_in;
 			end
-			else // read cycle
-			begin
-				sprdata_out <= sprdata[sprdata_index];
-			end
+			sprdata_out <= sprdata[sprdata_index];
 			if (sprdata_index[0])
-				sprdata_out_1 <= sprdata_out;
+				sprdata_out_1 <= sprdata[sprdata_index];
 			else
-				sprdata_out_0 <= sprdata_out;
+				sprdata_out_0 <= sprdata[sprdata_index];
 		end
 		begin
 			if (sprdata_index[0])
@@ -6077,16 +6065,12 @@ module ym7101
 					linebuffer[linebuffer_index][48:42] <= linebuffer_data_in[48:42];
 				if (w917)
 					linebuffer[linebuffer_index][55:49] <= linebuffer_data_in[55:49];
-				linebuffer_out <= linebuffer_data_in;
 			end
-			else // read cycle
-			begin
-				linebuffer_out <= linebuffer[linebuffer_index];
-			end
+			linebuffer_out <= linebuffer[linebuffer_index];
 			if (linebuffer_index[0])
-				linebuffer_out_1 <= linebuffer_out;
+				linebuffer_out_1 <= linebuffer[linebuffer_index];
 			else
-				linebuffer_out_0 <= linebuffer_out;
+				linebuffer_out_0 <= linebuffer[linebuffer_index];
 		end
 		begin
 			if (linebuffer_index[0])
@@ -6640,12 +6624,8 @@ module ym7101
 				color_ram[color_ram_index][5:0] <= color_ram_data_in[5:0];
 			if (l601)
 				color_ram[color_ram_index][8:6] <= color_ram_data_in[8:6];
-			color_ram_out <= color_ram_data_in;
 		end
-		else // read cycle
-		begin
-			color_ram_out <= color_ram[color_ram_index];
-		end
+		color_ram_out <= color_ram[color_ram_index];
 	end
 	
 	// PSG block

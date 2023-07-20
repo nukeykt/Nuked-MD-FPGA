@@ -51,11 +51,9 @@ module vram
 		.q(mem_o)
 		);
 	
-	assign SD_o =
-		(addr_ser == 2'h0 ? ser[7:0] : 8'h0) |
-		(addr_ser == 2'h1 ? ser[15:8] : 8'h0) |
-		(addr_ser == 2'h1 ? ser[23:16] : 8'h0) |
-		(addr_ser == 2'h2 ? ser[31:24] : 8'h0);
+	reg [7:0] vram_ser;
+	
+	assign SD_o = vram_ser;
 	assign RD_o =
 		(addr[1:0] == 2'h0 ? mem_o[7:0] : 8'h0) |
 		(addr[1:0] == 2'h1 ? mem_o[15:8] : 8'h0) |
@@ -72,6 +70,11 @@ module vram
 		else if (~o_SC & SC)
 		begin
 			addr_ser <= addr_ser + 2'h1;
+			vram_ser <=
+				(addr_ser == 2'h0 ? ser[7:0] : 8'h0) |
+				(addr_ser == 2'h1 ? ser[15:8] : 8'h0) |
+				(addr_ser == 2'h1 ? ser[23:16] : 8'h0) |
+				(addr_ser == 2'h2 ? ser[31:24] : 8'h0);
 		end
 		if (o_RAS & ~RAS)
 		begin
