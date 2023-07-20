@@ -100,7 +100,9 @@ module ym7101
 	output CAS0,
 	output RAS0,
 	output [7:0] RA,
-	input ext_test_2
+	input ext_test_2,
+	output vdp_hclk1,
+	output dbg_reg_disp
 	);
 
 	wire cpu_sel;
@@ -2541,7 +2543,7 @@ module ym7101
 	
 	assign w57 = t7 & ~w60 & reg_ie1;
 	
-	assign w58 = ~w57 & w60 & t8 & reg_ie2;
+	assign w58 = ~w57 & ~w60 & t8 & reg_ie2;
 	
 	ym7101_rs_trig rs7(.MCLK(MCLK), .set(l15), .rst(w55), .q(t7));
 	
@@ -3260,7 +3262,7 @@ module ym7101
 	ym_slatch_r #(.DATA_WIDTH(11)) sl_test1(.MCLK(MCLK), .en(w85), .rst(reset_ext), .inp(io_data[10:0]), .val(reg_test1));
 	
 	ym_slatch #(.DATA_WIDTH(2)) sl_code_01(.MCLK(MCLK), .en(w164), .inp(w350[7:6]), .val(reg_code[1:0]));
-	ym_slatch_r #(.DATA_WIDTH(3)) sl_code_234(.MCLK(MCLK), .en(w168), .rst(w204), .inp(io_data[4:2]), .val(reg_code[4:2]));
+	ym_slatch_r #(.DATA_WIDTH(3)) sl_code_234(.MCLK(MCLK), .en(w168), .rst(w204), .inp(io_data[6:4]), .val(reg_code[4:2]));
 	
 	ym_slatch #(.DATA_WIDTH(8)) sl_addr_1(.MCLK(MCLK), .en(w165), .inp(io_data[7:0]), .val(reg_addr[7:0]));
 	ym_slatch #(.DATA_WIDTH(6)) sl_addr_2(.MCLK(MCLK), .en(w164), .inp(w350[5:0]), .val(reg_addr[13:8]));
@@ -6160,7 +6162,7 @@ module ym7101
 	
 	ym_sr_bit sr582(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w195), .sr_out(l582));
 	
-	assign w998 = l577 & l585;
+	assign w998 = l577 & l579;
 	
 	ym_sr_bit sr583(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1004), .sr_out(l583));
 	
@@ -7071,6 +7073,8 @@ module ym7101
 		color_bus_mem <= color_bus;
 	end
 	
+	assign vdp_hclk1 = hclk1;
+	assign dbg_reg_disp = reg_disp;
 	
 endmodule
 

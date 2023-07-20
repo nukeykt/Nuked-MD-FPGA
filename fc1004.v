@@ -186,7 +186,8 @@ module fc1004
 	output RAS0,
 	input [7:0] ZD_i,
 	output [7:0] ZD_o,
-	output [7:0] ZD_d
+	output [7:0] ZD_d,
+	output vdp_hclk1
 	);
 	
 	wire vdp_ys; // w1009
@@ -336,7 +337,8 @@ module fc1004
 		.CAS0(vdp_cas0),
 		.RAS0(RAS0),
 		.RA(vdp_ra),
-		.ext_test_2(tmss_test_2)
+		.ext_test_2(tmss_test_2),
+		.vdp_hclk1(vdp_hclk1)
 		);
 	
 	ym3438 fm

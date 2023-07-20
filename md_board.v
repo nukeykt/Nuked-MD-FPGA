@@ -16,7 +16,9 @@ module md_board
 	
 	// audio
 	output [15:0] A_L,
-	output [15:0] A_R
+	output [15:0] A_R,
+	
+	output vdp_hclk1
 	
 	);
 	
@@ -344,7 +346,8 @@ module md_board
 		.RAS0(RAS0),
 		.ZD_i(ZD),
 		.ZD_o(ym_ZD_o),
-		.ZD_d(ym_ZD_d)
+		.ZD_d(ym_ZD_d),
+		.vdp_hclk1(vdp_hclk1)
 		);
 	
 	wire [2:0] IPL;
@@ -627,8 +630,8 @@ module md_board
 	wire [8:0] MOL_s = MOL - 9'h100;
 	wire [8:0] MOR_s = MOR - 9'h100;
 	
-	assign A_L = {{2{MOL_s[8]}},MOL_s,5'h0} + PSG;
-	assign A_R = {{2{MOR_s[8]}},MOR_s,5'h0} + PSG;
+	assign A_L = /*{{2{MOL_s[8]}},MOL_s,5'h0} + */PSG;
+	assign A_R = /*{{2{MOR_s[8]}},MOR_s,5'h0} + */PSG;
 	
 	assign cart_address = VA[20:0];
 	assign cart_cs = ~CE0;
