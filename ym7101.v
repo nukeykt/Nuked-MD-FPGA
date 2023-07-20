@@ -2383,7 +2383,7 @@ module ym7101
 	ym_dlatch_2 dl8(.MCLK(MCLK), .c2(clk2), .inp(l7), .nval(l8));
 	
 	assign w6 = ~(l1 | l3);
-	assign w7 = ~(w6 & w256);
+	assign w7 = ~(w6 & w252);
 	
 	assign w8 = l5 & w267;
 	
@@ -2826,7 +2826,7 @@ module ym7101
 	
 	ym_dlatch_1 dl21(.MCLK(MCLK), .c1(clk1), .inp(~l22), .nval(l21));
 	ym_dlatch_2 dl22(.MCLK(MCLK), .c2(clk2), .inp(l23), .nval(l22));
-	ym_dlatch_1 dl23(.MCLK(MCLK), .c1(clk1), .inp(~l24), .nval(l23));
+	ym_dlatch_1 dl23(.MCLK(MCLK), .c1(clk1), .inp(l24), .nval(l23));
 	
 	ym_slatch dl24(.MCLK(MCLK), .en(clk2), .inp(l25), .val(l24));
 	ym_slatch dl25(.MCLK(MCLK), .en(clk1), .inp(t13), .val(l25));
@@ -2983,7 +2983,7 @@ module ym7101
 	
 	assign w261 = w149 | 1'h0;
 	
-	assign w262 = w248 | w300;
+	assign w262 = w248 & w300;
 	
 	assign w263 = w248 & l46;
 	
