@@ -85,7 +85,7 @@ module ym_cnt_bit #(parameter DATA_WIDTH = 1)
 		.data_out(data_out)
 		);
 	
-	assign sum = data_out + c_in;
+	assign sum = { 1'h0, data_out } + c_in;
 	assign val = data_out;
 	assign data_in = reset ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
 	assign c_out = sum[DATA_WIDTH];

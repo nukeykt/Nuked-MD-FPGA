@@ -2484,7 +2484,7 @@ module ym7101
 	
 	assign w42 = ~(dff22_l2 & cpu_sel);
 	
-	wire [6:0] i_sum = w64 + { dff29_l2, dff28_l2, dff27_l2, dff26_l2, dff25_l2, dff24_l2, dff23_l2 };
+	wire [6:0] i_sum = {6'h0, w64} + { dff29_l2, dff28_l2, dff27_l2, dff26_l2, dff25_l2, dff24_l2, dff23_l2 };
 	
 	ym7101_dff dff23(.MCLK(MCLK), .clk(cpu_clk1), .inp(i_sum[0]), .rst(w41), .outp(dff23_l2));
 	ym7101_dff dff24(.MCLK(MCLK), .clk(cpu_clk1), .inp(i_sum[1]), .rst(w41), .outp(dff24_l2));
@@ -3269,7 +3269,7 @@ module ym7101
 	ym_slatch #(.DATA_WIDTH(6)) sl_addr_2(.MCLK(MCLK), .en(w164), .inp(w350[5:0]), .val(reg_addr[13:8]));
 	ym_slatch_r #(.DATA_WIDTH(3)) sl_addr_3(.MCLK(MCLK), .en(w168), .rst(w204), .inp(io_data[2:0]), .val(reg_addr[16:14]));
 	
-	wire [16:0] reg_data_sum = reg_data_l2 + reg_inc + ~reg_m5;
+	wire [16:0] reg_data_sum = reg_data_l2 + { 9'h0, reg_inc } + { 16'h0, ~reg_m5 };
 	wire [16:0] reg_data_mux = w185 ? reg_addr : reg_data_sum;
 	
 	ym7101_dff #(.DATA_WIDTH(14)) reg_data_1(.MCLK(MCLK), .clk(~w181), .inp(reg_data_mux[13:0]),
@@ -6903,7 +6903,7 @@ module ym7101
 	
 	assign vram_data = (vram_data_pull & vram_data_val) | (~vram_data_pull & vram_data_mem);
 	
-	wire [16:0] vram_address_val =
+	/*wire [16:0] vram_address_val =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h1ffff) &
 		(w191 ? reg_data_l2[16:0] : 17'h1ffff) &
 		(w275 ? { l35[16:1], ~l35[0] } : 17'h1ffff) &
@@ -6950,7 +6950,7 @@ module ym7101
 		(w755 ? 17'h000ff : 17'h0) |
 		(l428 ? 17'h1ffff : 17'h0);
 	
-	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);
+	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);*/
 	
 	/*assign vram_data =
 		(w328 ? { l96, w351 } : 16'h0) |
@@ -6960,7 +6960,7 @@ module ym7101
 		(l183 ? { 5'h0, l180 } : 16'h0) |
 		(l330 ? { 5'h0, l324 } : 16'h0) |
 		(l583 ? { l598, l599 } : 16'h0) |
-		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l521[2:0], 1'h0 } : 16'h0);
+		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l521[2:0], 1'h0 } : 16'h0);*/
 		
 	assign vram_address =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h0) |
@@ -6984,7 +6984,7 @@ module ym7101
 		(w756 ? { reg_at[7:1], w757[6:0], 3'h4 } : 17'h0) |
 		(w755 ? { 9'h0, l409[7], l408[7], l407[7], l406[7], l405[7], l404[7], l403[7], 1'h0 } : 17'h0) |
 		(l428 ? (w106 ?
-			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'h0);*/
+			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'h0);
 	
 	always @(posedge MCLK)
 	begin
@@ -7098,14 +7098,18 @@ module ym7101_rs_trig
 	input MCLK,
 	input set,
 	input rst,
-	output reg q = 1'h0,
-	output reg nq = 1'h1
+	output q,
+	output nq
 	);
+	
+	reg mem = 1'h0;
+	
+	assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
+	assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
 	
 	always @(posedge MCLK)
 	begin
-		q <= set ? 1'h1 : (rst ? 1'h0 : q);
-		nq <= rst ? 1'h1 : (set ? 1'h0 : ~q); 
+		mem <= q;
 	end
 	
 endmodule
