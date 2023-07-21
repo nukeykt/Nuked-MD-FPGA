@@ -6518,41 +6518,41 @@ module ym7101
 	assign w1103[0][15] = (l630 & r_col[6]);
 	assign w1103[0][16] = (w1101 & r_col[7]) | (~reg_m5 & r_col[6]) | (~reg_m5 & r_col[7]) | (l630 & r_col[7]);
 	
-	assign w1103[1][0] = (w1101 & b_col[0]) | (~reg_m5 & b_col[0]) | (~reg_m5 & b_col[1]) | (w1102 & b_col[0]);
-	assign w1103[1][1] = (w1102 & b_col[1]);
-	assign w1103[1][2] = (w1101 & b_col[1]) | (w1102 & b_col[2]);
-	assign w1103[1][3] = (w1102 & b_col[3]);
-	assign w1103[1][4] = (w1101 & b_col[2]) | (w1102 & b_col[4]);
-	assign w1103[1][5] = (~reg_m5 & b_col[2]) | (~reg_m5 & b_col[3]);
-	assign w1103[1][6] = (w1102 & b_col[5]);
-	assign w1103[1][7] = (w1101 & b_col[3]) | (w1102 & b_col[6]);
-	assign w1103[1][8] = (w1102 & b_col[7]) | (l630 & b_col[0]);
-	assign w1103[1][9] = (w1101 & b_col[4]) | (l630 & b_col[1]);
-	assign w1103[1][10] = (l630 & b_col[2]);
-	assign w1103[1][11] = (~reg_m5 & b_col[4]) | (~reg_m5 & b_col[5]);
-	assign w1103[1][12] = (w1101 & b_col[5]) | (l630 & b_col[3]);
-	assign w1103[1][13] = (l630 & b_col[4]);
-	assign w1103[1][14] = (w1101 & b_col[6]) | (l630 & b_col[5]);
-	assign w1103[1][15] = (l630 & b_col[6]);
-	assign w1103[1][16] = (w1101 & b_col[7]) | (~reg_m5 & b_col[6]) | (~reg_m5 & b_col[7]) | (l630 & b_col[7]);
+	assign w1103[1][0] = (w1101 & g_col[0]) | (~reg_m5 & g_col[0]) | (~reg_m5 & g_col[1]) | (w1102 & g_col[0]);
+	assign w1103[1][1] = (w1102 & g_col[1]);
+	assign w1103[1][2] = (w1101 & g_col[1]) | (w1102 & g_col[2]);
+	assign w1103[1][3] = (w1102 & g_col[3]);
+	assign w1103[1][4] = (w1101 & g_col[2]) | (w1102 & g_col[4]);
+	assign w1103[1][5] = (~reg_m5 & g_col[2]) | (~reg_m5 & g_col[3]);
+	assign w1103[1][6] = (w1102 & g_col[5]);
+	assign w1103[1][7] = (w1101 & g_col[3]) | (w1102 & g_col[6]);
+	assign w1103[1][8] = (w1102 & g_col[7]) | (l630 & g_col[0]);
+	assign w1103[1][9] = (w1101 & g_col[4]) | (l630 & g_col[1]);
+	assign w1103[1][10] = (l630 & g_col[2]);
+	assign w1103[1][11] = (~reg_m5 & g_col[4]) | (~reg_m5 & g_col[5]);
+	assign w1103[1][12] = (w1101 & g_col[5]) | (l630 & g_col[3]);
+	assign w1103[1][13] = (l630 & g_col[4]);
+	assign w1103[1][14] = (w1101 & g_col[6]) | (l630 & g_col[5]);
+	assign w1103[1][15] = (l630 & g_col[6]);
+	assign w1103[1][16] = (w1101 & g_col[7]) | (~reg_m5 & g_col[6]) | (~reg_m5 & g_col[7]) | (l630 & g_col[7]);
 	
-	assign w1103[2][0] = (w1101 & g_col[0]) | (~reg_m5 & g_col[0]) | (~reg_m5 & g_col[1]) | (w1102 & g_col[0]);
-	assign w1103[2][1] = (w1102 & g_col[1]);
-	assign w1103[2][2] = (w1101 & g_col[1]) | (w1102 & g_col[2]);
-	assign w1103[2][3] = (w1102 & g_col[3]);
-	assign w1103[2][4] = (w1101 & g_col[2]) | (w1102 & g_col[4]);
-	assign w1103[2][5] = (~reg_m5 & g_col[2]) | (~reg_m5 & g_col[3]);
-	assign w1103[2][6] = (w1102 & g_col[5]);
-	assign w1103[2][7] = (w1101 & g_col[3]) | (w1102 & g_col[6]);
-	assign w1103[2][8] = (w1102 & g_col[7]) | (l630 & g_col[0]);
-	assign w1103[2][9] = (w1101 & g_col[4]) | (l630 & g_col[1]);
-	assign w1103[2][10] = (l630 & g_col[2]);
-	assign w1103[2][11] = (~reg_m5 & g_col[4]) | (~reg_m5 & g_col[5]);
-	assign w1103[2][12] = (w1101 & g_col[5]) | (l630 & g_col[3]);
-	assign w1103[2][13] = (l630 & g_col[4]);
-	assign w1103[2][14] = (w1101 & g_col[6]) | (l630 & g_col[5]);
-	assign w1103[2][15] = (l630 & g_col[6]);
-	assign w1103[2][16] = (w1101 & g_col[7]) | (~reg_m5 & g_col[6]) | (~reg_m5 & g_col[7]) | (l630 & g_col[7]);
+	assign w1103[2][0] = (w1101 & b_col[0]) | (~reg_m5 & b_col[0]) | (~reg_m5 & b_col[1]) | (w1102 & b_col[0]);
+	assign w1103[2][1] = (w1102 & b_col[1]);
+	assign w1103[2][2] = (w1101 & b_col[1]) | (w1102 & b_col[2]);
+	assign w1103[2][3] = (w1102 & b_col[3]);
+	assign w1103[2][4] = (w1101 & b_col[2]) | (w1102 & b_col[4]);
+	assign w1103[2][5] = (~reg_m5 & b_col[2]) | (~reg_m5 & b_col[3]);
+	assign w1103[2][6] = (w1102 & b_col[5]);
+	assign w1103[2][7] = (w1101 & b_col[3]) | (w1102 & b_col[6]);
+	assign w1103[2][8] = (w1102 & b_col[7]) | (l630 & b_col[0]);
+	assign w1103[2][9] = (w1101 & b_col[4]) | (l630 & b_col[1]);
+	assign w1103[2][10] = (l630 & b_col[2]);
+	assign w1103[2][11] = (~reg_m5 & b_col[4]) | (~reg_m5 & b_col[5]);
+	assign w1103[2][12] = (w1101 & b_col[5]) | (l630 & b_col[3]);
+	assign w1103[2][13] = (l630 & b_col[4]);
+	assign w1103[2][14] = (w1101 & b_col[6]) | (l630 & b_col[5]);
+	assign w1103[2][15] = (l630 & b_col[6]);
+	assign w1103[2][16] = (w1101 & b_col[7]) | (~reg_m5 & b_col[6]) | (~reg_m5 & b_col[7]) | (l630 & b_col[7]);
 	
 	assign DAC_R =
 		(w1103[0][0] ? 8'd0 : 8'd0) |
@@ -6881,7 +6881,7 @@ module ym7101
 	
 	ym_dlatch_1 #(.DATA_WIDTH(8)) dl_vs(.MCLK(MCLK), .c1(clk1), .inp(SD), .val(vram_serial));
 	
-	wire [15:0] vram_data_val =
+	/*wire [15:0] vram_data_val =
 		(w328 ? { l96, w351 } : 16'hffff) &
 		(w327 ? { l98, w352 } : 16'hffff) &
 		(w329 ? { l100, w353 } : 16'hffff) &
@@ -6901,9 +6901,9 @@ module ym7101
 		(l583 ? 16'hffff : 16'h0) |
 		(l623_3 ? 16'heee : 16'h0);
 	
-	assign vram_data = (vram_data_pull & vram_data_val) | (~vram_data_pull & vram_data_mem);
+	assign vram_data = (vram_data_pull & vram_data_val) | (~vram_data_pull & vram_data_mem);*/
 	
-	wire [16:0] vram_address_val =
+	/*wire [16:0] vram_address_val =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h1ffff) &
 		(w191 ? reg_data_l2[16:0] : 17'h1ffff) &
 		(w275 ? { l35[16:1], ~l35[0] } : 17'h1ffff) &
@@ -6950,9 +6950,9 @@ module ym7101
 		(w755 ? 17'h000ff : 17'h0) |
 		(l428 ? 17'h1ffff : 17'h0);
 	
-	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);
+	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);*/
 	
-	/*assign vram_data =
+	assign vram_data =
 		(w328 ? { l96, w351 } : 16'h0) |
 		(w327 ? { l98, w352 } : 16'h0) |
 		(w329 ? { l100, w353 } : 16'h0) |
@@ -6960,9 +6960,9 @@ module ym7101
 		(l183 ? { 5'h0, l180 } : 16'h0) |
 		(l330 ? { 5'h0, l324 } : 16'h0) |
 		(l583 ? { l598, l599 } : 16'h0) |
-		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l521[2:0], 1'h0 } : 16'h0);*/
+		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l521[2:0], 1'h0 } : 16'h0);
 		
-	/*assign vram_address =
+	assign vram_address =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h0) |
 		(w191 ? reg_data_l2[16:0] : 17'h0) |
 		(w275 ? { l35[16:1], ~l35[0] } : 17'h0) |
@@ -6984,7 +6984,7 @@ module ym7101
 		(w756 ? { reg_at[7:1], w757[6:0], 3'h4 } : 17'h0) |
 		(w755 ? { 9'h0, l409[7], l408[7], l407[7], l406[7], l405[7], l404[7], l403[7], 1'h0 } : 17'h0) |
 		(l428 ? (w106 ?
-			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'h0);*/
+			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'h0);
 	
 	always @(posedge MCLK)
 	begin
