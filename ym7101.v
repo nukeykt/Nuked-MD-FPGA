@@ -2506,7 +2506,7 @@ module ym7101
 	
 	ym7101_rs_trig rs5(.MCLK(MCLK), .set(w46), .rst(l9), .q(t5));
 	
-	assign w48 = t6 & reg_m5;
+	assign w48 = t5 & reg_m5;
 	
 	ym_sr_bit sr9(.MCLK(MCLK), .c1(clk1), .c2(clk2), .bit_in(w48), .sr_out(l9));
 	ym_dlatch_1 dl10(.MCLK(MCLK), .c1(clk1), .inp(l9), .nval(l10));
@@ -2870,7 +2870,7 @@ module ym7101
 	
 	assign w198 = w199 | w200 | w203;
 	
-	assign w199 = w246 & reg_code[4];
+	assign w199 = w245 & reg_code[4];
 	
 	assign w200 = ~((reg_code[4] | reg_code[1] | reg_code[0]) | w194 | ~w154);
 	
