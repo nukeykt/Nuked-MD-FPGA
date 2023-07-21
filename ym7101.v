@@ -2276,6 +2276,7 @@ module ym7101
 	assign clk1 = ~mclk_dclk & dclk_l;
 	assign clk2 = mclk_dclk & ~dclk_l;
 	
+	
 	// hclk1, hclk2 (half clock)
 	
 	wire reset_l1_o;
@@ -3157,7 +3158,7 @@ module ym7101
 	
 	assign w331 = w330 ? l52 : w311;
 	
-	assign w332 = w315 | ~reg_m5;
+	assign w332 = w311 ^ w313;
 	
 	assign w333 = cpu_sel | io_address[0];
 	
@@ -3401,7 +3402,7 @@ module ym7101
 	
 	assign w370 = ~l113 & l121 & reg_80_b0;
 	
-	ym_sr_bit sr113(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w121), .sr_out(l113));
+	ym_sr_bit sr113(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l121), .sr_out(l113));
 	
 	ym_sr_bit sr114(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w491), .sr_out(l114));
 	
@@ -3599,7 +3600,7 @@ module ym7101
 	
 	ym_sr_bit sr156(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w484), .sr_out(l156));
 	
-	assign w420 = l151 & l663;
+	assign w420 = l151 ^ l663;
 	
 	assign w421 = w427 ? l160 : l157;
 	
@@ -3622,7 +3623,7 @@ module ym7101
 	ym_cnt_bit cnt160(.MCLK(MCLK), .c1(hclk1), .c2(hclk2),
 		.c_in(w426), .reset(reset_comb), .val(l160));
 	
-	assign w426 = w420 & ~l61;
+	assign w426 = w420 & ~l161;
 	
 	ym_sr_bit sr161(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w420), .sr_out(l161));
 	
@@ -3643,7 +3644,7 @@ module ym7101
 	
 	assign w434 = cpu_pal & ~w446;
 	
-	assign w435 = ~cpu_pal ^ w446;
+	assign w435 = (~cpu_pal) ^ w446;
 	
 	assign w436 = (~reg_test1[2] & l115 & ~w437) | (reg_test1[2] & ~cpu_bg);
 	
@@ -4592,7 +4593,7 @@ module ym7101
 	
 	assign w641 = { w632[2], ~w632[1], w632[0] };
 	
-	assign w642 = w419 | (reg_test1[6] & cpu_pen);
+	assign w642 = w419 | (reg_test1[7] & cpu_pen);
 	
 	ym_sr_bit sr314(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w642), .sr_out(l314));
 	
@@ -4708,9 +4709,9 @@ module ym7101
 	
 	assign w651 = hclk1 & l326;
 	
-	ym_sr_bit sr329(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w326), .sr_out(l329));
+	ym_sr_bit sr329(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l326), .sr_out(l329));
 	
-	ym_sr_bit sr330(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w329), .sr_out(l330));
+	ym_sr_bit sr330(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l329), .sr_out(l330));
 	
 	ym_sr_bit sr331(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l134), .sr_out(l331));
 	
@@ -6885,7 +6886,7 @@ module ym7101
 		(w327 ? { l98, w352 } : 16'hffff) &
 		(w329 ? { l100, w353 } : 16'hffff) &
 		(w326 ? { l102, w354 } : 16'hffff) &
-		(w183 ? { 5'h1f, l180 } : 16'hffff) &
+		(l183 ? { 5'h1f, l180 } : 16'hffff) &
 		(l330 ? { 5'h1f, l324 } : 16'hffff) &
 		(l583 ? { l598, l599 } : 16'hffff) &
 		(l623_3 ? { 4'hf, l621[8:6], 1'h1, l621[5:3], 1'h1, l521[2:0], 1'h1 } : 16'hffff);
@@ -6895,7 +6896,7 @@ module ym7101
 		(w327 ? 16'hffff : 16'h0) |
 		(w329 ? 16'hffff : 16'h0) |
 		(w326 ? 16'hffff : 16'h0) |
-		(w183 ? 16'h07ff : 16'h0) |
+		(l183 ? 16'h07ff : 16'h0) |
 		(l330 ? 16'h07ff : 16'h0) |
 		(l583 ? 16'hffff : 16'h0) |
 		(l623_3 ? 16'heee : 16'h0);
@@ -6950,6 +6951,40 @@ module ym7101
 		(l428 ? 17'h1ffff : 17'h0);
 	
 	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);
+	
+	/*assign vram_data =
+		(w328 ? { l96, w351 } : 16'h0) |
+		(w327 ? { l98, w352 } : 16'h0) |
+		(w329 ? { l100, w353 } : 16'h0) |
+		(w326 ? { l102, w354 } : 16'h0) |
+		(l183 ? { 5'h0, l180 } : 16'h0) |
+		(l330 ? { 5'h0, l324 } : 16'h0) |
+		(l583 ? { l598, l599 } : 16'h0) |
+		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l521[2:0], 1'h0 } : 16'h0);
+		
+	assign vram_address =
+		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h0) |
+		(w191 ? reg_data_l2[16:0] : 17'h0) |
+		(w275 ? { l35[16:1], ~l35[0] } : 17'h0) |
+		(w257 ? l36 : 17'h0) |
+		(w258 ? l37 : 17'h0) |
+		(w259 ? l38 : 17'h0) |
+		(w260 ? l39 : 17'h0) |
+		(w531 ? { w532[3:1], 14'h0 } : 17'h0) |
+		(w558 ? { 3'h0, w532[0], w533, w527[4:0], w555[4:0], 1'h0 } : 17'h0) |
+		(w643 ? { reg_hs, w535, 2'h0 } : 17'h0) | // hscroll
+		(l202 ? { reg_wd[5:1], w536, l106[7:4], 2'h0 } : 17'h0) | // window
+		(l196 ? { 12'h0, w577[2:0], ~l198, 1'h0 } : 17'h0) |
+		(l199 ? { 3'h0, w578, 5'h0 } : 17'h0) |
+		(w566 ? { w579, 14'h0 } : 17'h0) |
+		(l218 ? { w580, 5'h0 } : 17'h0) |
+		(w684 ? { 9'h0, 2'h0, l351[4:0], 1'h0 } : 17'h0) |
+		(w742 ? { 3'h0, reg_86_b2, w731[7:1], w737, w735, w734, w733, l106[1], 1'h0 } : 17'h0) |
+		(w754 ? { 3'h0, reg_at[6:1], 8'h0} : 17'h0) |
+		(w756 ? { reg_at[7:1], w757[6:0], 3'h4 } : 17'h0) |
+		(w755 ? { 9'h0, l409[7], l408[7], l407[7], l406[7], l405[7], l404[7], l403[7], 1'h0 } : 17'h0) |
+		(l428 ? (w106 ?
+			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'h0);*/
 	
 	always @(posedge MCLK)
 	begin

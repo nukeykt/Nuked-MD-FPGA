@@ -251,7 +251,7 @@ module ym_cnt_bit_load #(parameter DATA_WIDTH = 1)
 	
 	wire [DATA_WIDTH-1:0] base_val = load ? load_val : data_out;
 	
-	assign sum = base_val + c_in;
+	assign sum = {1'h0, base_val} + c_in;
 	assign data_in = reset ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
 	assign val = data_out;
 	assign c_out = sum[DATA_WIDTH];
