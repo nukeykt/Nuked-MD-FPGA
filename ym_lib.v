@@ -85,7 +85,7 @@ module ym_cnt_bit #(parameter DATA_WIDTH = 1)
 		.data_out(data_out)
 		);
 	
-	assign sum = { 1'h0, data_out } + c_in;
+	assign sum = { 1'h0, data_out } + {{DATA_WIDTH{1'h0}}, c_in};
 	assign val = data_out;
 	assign data_in = reset ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
 	assign c_out = sum[DATA_WIDTH];
@@ -251,7 +251,7 @@ module ym_cnt_bit_load #(parameter DATA_WIDTH = 1)
 	
 	wire [DATA_WIDTH-1:0] base_val = load ? load_val : data_out;
 	
-	assign sum = {1'h0, base_val} + c_in;
+	assign sum = {1'h0, base_val} + {{DATA_WIDTH{1'h0}},c_in};
 	assign data_in = reset ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
 	assign val = data_out;
 	assign c_out = sum[DATA_WIDTH];
@@ -387,7 +387,7 @@ module ym_cnt_bit_rs #(parameter DATA_WIDTH = 1)
 		.data_out(data_out)
 		);
 	
-	assign sum = data_out_s + c_in;
+	assign sum = {1'h0,data_out_s} + {{DATA_WIDTH{1'h0}}, c_in};
 	assign val = data_out_s;
 	assign nval = ~data_out_s;
 	assign data_in = reset ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
@@ -420,7 +420,7 @@ module ym_cnt_bit_rev #(parameter DATA_WIDTH = 1)
 		.data_out(data_out)
 		);
 	
-	assign sum = data_out + {DATA_WIDTH{dec}} + c_in;
+	assign sum = { 1'h0, data_out } + {1'h0, {DATA_WIDTH{dec}}} + {{DATA_WIDTH{1'h0}}, c_in};
 	assign val = data_out;
 	assign data_in = reset ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
 	assign c_out = sum[DATA_WIDTH];
@@ -472,7 +472,7 @@ module ym_scnt_bit #(parameter DATA_WIDTH = 1)
 	
 	reg [DATA_WIDTH-1:0] l1 = {DATA_WIDTH{1'h0}}, l2 = {DATA_WIDTH{1'h0}};
 	
-	wire [DATA_WIDTH:0] sum = { 1'h0, l2 } + cin;
+	wire [DATA_WIDTH:0] sum = { 1'h0, l2 } + {{DATA_WIDTH{1'h0}}, cin};
 	
 	assign cout = sum[DATA_WIDTH];
 	

@@ -3060,7 +3060,7 @@ module ym7101
 	assign w293 = w290 & l51 == 2'h0;
 	assign w294 = w290 & l51 == 2'h1;
 	
-	assign w295 = l51 == { l54, l53 };
+	assign w295 = l54 == l51[1] & l53 == l51[0]; //l51 == { l54, l53 };
 	
 	assign w296 = l49 & w305;
 	assign w297 = l49 & ~w305;
@@ -6903,7 +6903,7 @@ module ym7101
 	
 	assign vram_data = (vram_data_pull & vram_data_val) | (~vram_data_pull & vram_data_mem);
 	
-	/*wire [16:0] vram_address_val =
+	wire [16:0] vram_address_val =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h1ffff) &
 		(w191 ? reg_data_l2[16:0] : 17'h1ffff) &
 		(w275 ? { l35[16:1], ~l35[0] } : 17'h1ffff) &
@@ -6950,7 +6950,7 @@ module ym7101
 		(w755 ? 17'h000ff : 17'h0) |
 		(l428 ? 17'h1ffff : 17'h0);
 	
-	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);*/
+	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);
 	
 	/*assign vram_data =
 		(w328 ? { l96, w351 } : 16'h0) |
@@ -6962,7 +6962,7 @@ module ym7101
 		(l583 ? { l598, l599 } : 16'h0) |
 		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l521[2:0], 1'h0 } : 16'h0);*/
 		
-	assign vram_address =
+	/*assign vram_address =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h0) |
 		(w191 ? reg_data_l2[16:0] : 17'h0) |
 		(w275 ? { l35[16:1], ~l35[0] } : 17'h0) |
@@ -6984,7 +6984,7 @@ module ym7101
 		(w756 ? { reg_at[7:1], w757[6:0], 3'h4 } : 17'h0) |
 		(w755 ? { 9'h0, l409[7], l408[7], l407[7], l406[7], l405[7], l404[7], l403[7], 1'h0 } : 17'h0) |
 		(l428 ? (w106 ?
-			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'h0);
+			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'h0);*/
 	
 	always @(posedge MCLK)
 	begin
