@@ -4725,7 +4725,7 @@ module ym7101
 	
 	assign w654 = ~w106 & reg_m5;
 	
-	assign w655 = reg_m5 & l332[7:0] == 7'h7f;
+	assign w655 = reg_m5 & l332[6:0] == 7'h7f;
 	
 	assign w656 = reg_m5 & ~l332[8];
 	
@@ -4743,7 +4743,7 @@ module ym7101
 	
 	assign w661 = l335 & clk2;
 	
-	assign w662 = 1'h1 + w653 + l340;
+	assign w662 = 10'h1 + w653 + l340;
 	
 	ym_sr_bit sr336(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(~l332[10]), .sr_out(l336));
 	
@@ -4771,7 +4771,7 @@ module ym7101
 	
 	assign w668 = ~(w663 & w673);
 	
-	assign w669 = ~(~l338 & w574);
+	assign w669 = ~(~l338 & w674);
 	
 	assign w670 = ~(w664 & w673 & w674);
 	
@@ -4832,7 +4832,7 @@ module ym7101
 	
 	assign w685 = reset_comb | l115 | (~l355 & l356);
 	
-	ym_sr_bit sr355(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w686), .sr_out(l355));
+	ym_sr_bit sr355(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l356), .sr_out(l355));
 	
 	ym_sr_bit sr356(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w162), .sr_out(l356));
 	
