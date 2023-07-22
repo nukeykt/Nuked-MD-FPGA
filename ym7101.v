@@ -5989,6 +5989,7 @@ module ym7101
 			else
 				sprdata_out_0 <= sprdata[sprdata_index];
 		end
+		else
 		begin
 			if (sprdata_index[0])
 				sprdata_out <= sprdata_out & sprdata_out_1;
@@ -6046,7 +6047,7 @@ module ym7101
 	
 	always @(posedge MCLK)
 	begin
-		if (linebuffer_index < 5'd20)
+		if (linebuffer_index < 6'd40)
 		begin
 			if (w817) // write cycle
 			begin
@@ -6073,6 +6074,7 @@ module ym7101
 			else
 				linebuffer_out_0 <= linebuffer[linebuffer_index];
 		end
+		else
 		begin
 			if (linebuffer_index[0])
 				linebuffer_out <= linebuffer_out & linebuffer_out_1;
