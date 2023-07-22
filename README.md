@@ -19,6 +19,9 @@ Nuked-MD-FPGA currently targets NMOS 68k, NMOS Z80 and FC1004. No real mega driv
 ![image](chips.png)
 
 ## Progress
+
+![image](progress.jpg)
+
 See [Progress.md](Progress.md)
 
 ## References
