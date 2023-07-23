@@ -2591,7 +2591,7 @@ module ym7101
 
 	assign w72 = w65 ? w252 : cpu_pal;
 	
-	assign w73 = w64 ? l46 : dff3_l2;
+	assign w73 = w65 ? l46 : dff3_l2;
 	
 	assign w74 = reg_test_18[11:8] == 4'hf;
 	assign w75 = reg_test_18[11:8] == 4'h8;
@@ -3383,7 +3383,7 @@ module ym7101
 	
 	assign w362 = ~(w361 | reg_test1[3]);
 	
-	assign w363 = w362 | (reg_test1[3] & ~INTAK);
+	assign w363 = w362 | (reg_test1[3] & ~cpu_intak);
 	
 	assign w364 = w88 ? io_data[8:0] : { 4'he, ~w365, w368, w367, w366, w365 };
 	
