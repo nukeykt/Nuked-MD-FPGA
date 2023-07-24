@@ -344,7 +344,7 @@ module ym6046
 	
 	assign io_access = ~(zaccess | IO | CAS0);
 
-	assign byte_sel = M3 & ZA_i[0];
+	assign byte_sel = M3 & ~ZA_i[0];
 	
 	assign arb_w1 = ~(io_access & M3) & (ZV | ~CAS0) & (VZ | CAS0);
 	assign arb_w2 = (ZV | CAS0) & (VZ | ~CAS0);

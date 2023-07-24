@@ -2214,6 +2214,7 @@ module ym7101
 	assign mclk_cpu_clk1 = ~mclk_clk3;
 	
 	assign mclk_dclk = (reg_rs0 | reg_test1[0]) ? EDCLK_i : (reg_rs1 ? mclk_clk1 : mclk_clk2);
+	//assign mclk_dclk = reg_rs1 ? mclk_clk1 : mclk_clk2;
 	
 	always @(posedge MCLK)
 	begin

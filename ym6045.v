@@ -379,6 +379,8 @@ module ym6045
 	
 	wire [15:0] va_out;
 	
+	reg edclk_buf;
+	
 	// EDCLK
 	always @(posedge MCLK)
 	begin
@@ -403,6 +405,8 @@ module ym6045
 				dff3 <= dff3 ^ dff2;
 			end
 		end
+		
+		edclk_buf <= w2;
 	end
 	
 	assign w1 = ~(~dff1 & ~dff2 & ~dff3);
@@ -416,7 +420,7 @@ module ym6045
 	ym_scnt_bit dff6(.MCLK(MCLK), .clk(w4), .load(dff9_q), .val(1'h0), .cin(dff5_cout), .rst(sres), .nq(dff6_nq), .cout(dff6_cout));
 	ym_scnt_bit dff7(.MCLK(MCLK), .clk(w4), .load(dff9_q), .val(1'h0), .cin(dff6_cout), .rst(sres), .nq(dff7_nq));
 	
-	assign EDCLK = w2;
+	assign EDCLK = edclk_buf;
 	
 	assign w7 = dff8_nq;
 	assign w11 = ~(~HSYNC | dff9_q);

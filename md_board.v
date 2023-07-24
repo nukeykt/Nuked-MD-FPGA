@@ -552,13 +552,13 @@ module md_board
 	assign HALT = ~(ym_HALT_pull | m68k_HALT_pull);
 	
 	assign PA =
-		(~ym_PA_d & ym_PA_o);
+		(~ym_PA_d & ym_PA_o) | (ym_PA_d & 7'h7f);
 		
 	assign PB =
-		(~ym_PA_d & ym_PA_o);
+		(~ym_PB_d & ym_PB_o) | (ym_PB_d & 7'h7f);
 		
 	assign PC =
-		(~ym_PA_d & ym_PA_o);
+		(~ym_PC_d & ym_PC_o) | (ym_PC_d & 7'h7f);
 	
 	assign VCLK = (~VCLK_d & VCLK_o);
 	assign ZCLK = (~ZCLK_d & ZCLK_o);
