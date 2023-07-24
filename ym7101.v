@@ -4412,24 +4412,24 @@ module ym7101
 		(w606_sel[7] ? { l239[0], l240[0], l263[0], l264[0] } : 4'h0 );
 	
 	wire [3:0] w607_m5_1 =
-		(w606_sel[7] : l261[3:0] : 4'h0) |
-		(w606_sel[6] : l261[7:4] : 4'h0) |
-		(w606_sel[5] : l262[3:0] : 4'h0) |
-		(w606_sel[4] : l262[7:4] : 4'h0) |
-		(w606_sel[3] : l263[3:0] : 4'h0) |
-		(w606_sel[2] : l263[7:4] : 4'h0) |
-		(w606_sel[1] : l265[3:0] : 4'h0) |
-		(w606_sel[0] : l265[7:4] : 4'h0);
+		(w606_sel[7] ? l261[3:0] : 4'h0) |
+		(w606_sel[6] ? l261[7:4] : 4'h0) |
+		(w606_sel[5] ? l262[3:0] : 4'h0) |
+		(w606_sel[4] ? l262[7:4] : 4'h0) |
+		(w606_sel[3] ? l263[3:0] : 4'h0) |
+		(w606_sel[2] ? l263[7:4] : 4'h0) |
+		(w606_sel[1] ? l265[3:0] : 4'h0) |
+		(w606_sel[0] ? l265[7:4] : 4'h0);
 	
 	wire [3:0] w607_m5_2 =
-		(w606_sel[7] : l237[3:0] : 4'h0) |
-		(w606_sel[6] : l237[7:4] : 4'h0) |
-		(w606_sel[5] : l238[3:0] : 4'h0) |
-		(w606_sel[4] : l238[7:4] : 4'h0) |
-		(w606_sel[3] : l239[3:0] : 4'h0) |
-		(w606_sel[2] : l239[7:4] : 4'h0) |
-		(w606_sel[1] : l240[3:0] : 4'h0) |
-		(w606_sel[0] : l240[7:4] : 4'h0);
+		(w606_sel[7] ? l237[3:0] : 4'h0) |
+		(w606_sel[6] ? l237[7:4] : 4'h0) |
+		(w606_sel[5] ? l238[3:0] : 4'h0) |
+		(w606_sel[4] ? l238[7:4] : 4'h0) |
+		(w606_sel[3] ? l239[3:0] : 4'h0) |
+		(w606_sel[2] ? l239[7:4] : 4'h0) |
+		(w606_sel[1] ? l240[3:0] : 4'h0) |
+		(w606_sel[0] ? l240[7:4] : 4'h0);
 	
 	assign w607 =
 		(~reg_m5 ? w607_m4 : 4'h0) |
@@ -4491,11 +4491,11 @@ module ym7101
 	
 	ym_dlatch_1 dl283(.MCLK(MCLK), .c1(clk1), .inp(w640), .nval(l283));
 	
-	ym_sr_bit sr284(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l251), .sr_out(l284));
+	ym_sr_bit sr284(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l283), .sr_out(l284));
 	
-	ym_sr_bit sr285(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l252), .sr_out(l285));
+	ym_sr_bit sr285(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l284), .sr_out(l285));
 	
-	ym_sr_bit sr286(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l253), .sr_out(l286));
+	ym_sr_bit sr286(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l285), .sr_out(l286));
 	
 	assign w619 = l283 & clk2;
 	assign w620 = l284 & clk2;
@@ -4535,13 +4535,13 @@ module ym7101
 	
 	ym_dlatch_1 dl298(.MCLK(MCLK), .c1(clk1), .inp(w639), .nval(l298));
 	
-	ym_sr_bit sr299(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l251), .sr_out(l299));
+	ym_sr_bit sr299(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l298), .sr_out(l299));
 	
-	ym_sr_bit sr300(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l252), .sr_out(l300));
+	ym_sr_bit sr300(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l299), .sr_out(l300));
 	
-	ym_sr_bit sr301(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l253), .sr_out(l301));
+	ym_sr_bit sr301(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l300), .sr_out(l301));
 	
-	ym_sr_bit sr302(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l254), .sr_out(l302));
+	ym_sr_bit sr302(.MCLK(MCLK), .c1(clk2), .c2(clk1), .bit_in(l301), .sr_out(l302));
 	
 	assign w627 = l298 & clk2;
 	
@@ -4625,24 +4625,24 @@ module ym7101
 	assign w641_sel[7] = w641 == 3'h7;
 	
 	wire [3:0] w647_1 =
-		(w641_sel[7] : l307[3:0] : 4'h0) |
-		(w641_sel[6] : l307[7:4] : 4'h0) |
-		(w641_sel[5] : l308[3:0] : 4'h0) |
-		(w641_sel[4] : l308[7:4] : 4'h0) |
-		(w641_sel[3] : l309[3:0] : 4'h0) |
-		(w641_sel[2] : l309[7:4] : 4'h0) |
-		(w641_sel[1] : l310[3:0] : 4'h0) |
-		(w641_sel[0] : l310[7:4] : 4'h0);
+		(w641_sel[7] ? l307[3:0] : 4'h0) |
+		(w641_sel[6] ? l307[7:4] : 4'h0) |
+		(w641_sel[5] ? l308[3:0] : 4'h0) |
+		(w641_sel[4] ? l308[7:4] : 4'h0) |
+		(w641_sel[3] ? l309[3:0] : 4'h0) |
+		(w641_sel[2] ? l309[7:4] : 4'h0) |
+		(w641_sel[1] ? l310[3:0] : 4'h0) |
+		(w641_sel[0] ? l310[7:4] : 4'h0);
 	
 	wire [3:0] w647_2 =
-		(w641_sel[7] : l287[3:0] : 4'h0) |
-		(w641_sel[6] : l287[7:4] : 4'h0) |
-		(w641_sel[5] : l288[3:0] : 4'h0) |
-		(w641_sel[4] : l288[7:4] : 4'h0) |
-		(w641_sel[3] : l289[3:0] : 4'h0) |
-		(w641_sel[2] : l289[7:4] : 4'h0) |
-		(w641_sel[1] : l290[3:0] : 4'h0) |
-		(w641_sel[0] : l290[7:4] : 4'h0);
+		(w641_sel[7] ? l287[3:0] : 4'h0) |
+		(w641_sel[6] ? l287[7:4] : 4'h0) |
+		(w641_sel[5] ? l288[3:0] : 4'h0) |
+		(w641_sel[4] ? l288[7:4] : 4'h0) |
+		(w641_sel[3] ? l289[3:0] : 4'h0) |
+		(w641_sel[2] ? l289[7:4] : 4'h0) |
+		(w641_sel[1] ? l290[3:0] : 4'h0) |
+		(w641_sel[0] ? l290[7:4] : 4'h0);
 	
 	assign w647 =
 		(l311[3] ? w647_1 : 4'h0) |
@@ -7092,18 +7092,19 @@ module ym7101_rs_trig
 	input MCLK,
 	input set,
 	input rst,
-	output q,
-	output nq
+	output reg q = 1'h0,
+	output reg nq = 1'h1
 	);
 	
-	reg mem = 1'h0;
+	//reg mem = 1'h0;
 	
-	assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
-	assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
+	// assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
+	// assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
 	
 	always @(posedge MCLK)
 	begin
-		mem <= q;
+		q <= set ? 1'h1 : (rst ? 1'h0 : q);
+		nq <= rst ? 1'h1 : (set ? 1'h0 : nq);
 	end
 	
 endmodule

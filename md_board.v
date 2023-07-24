@@ -18,6 +18,11 @@ module md_board
 	output [15:0] A_L,
 	output [15:0] A_R,
 	
+	//
+	input [6:0] PA_i,
+	output [6:0] PA_o,
+	output [6:0] PA_d,
+	
 	output vdp_hclk1,
 	output vdp_de
 	
@@ -103,9 +108,9 @@ module md_board
 	wire [6:0] PB;
 	wire [6:0] ym_PB_o;
 	wire [6:0] ym_PB_d;
-	wire [6:0] PA;
-	wire [6:0] ym_PA_o;
-	wire [6:0] ym_PA_d;
+	//wire [6:0] PA;
+	//wire [6:0] ym_PA_o;
+	//wire [6:0] ym_PA_d;
 	wire JAP;
 	wire ym_JAP_o;
 	wire ym_JAP_d;
@@ -268,9 +273,9 @@ module md_board
 		.PB_i(PB),
 		.PB_o(ym_PB_o),
 		.PB_d(ym_PB_d),
-		.PA_i(PA),
-		.PA_o(ym_PA_o),
-		.PA_d(ym_PA_d),
+		.PA_i(PA_i),
+		.PA_o(PA_o),
+		.PA_d(PA_d),
 		.JAP_i(JAP),
 		.JAP_o(ym_JAP_o),
 		.JAP_d(ym_JAP_d),
@@ -551,8 +556,8 @@ module md_board
 	assign RESET = ~(ym_RESET_pull | m68k_RESET_pull);
 	assign HALT = ~(ym_HALT_pull | m68k_HALT_pull);
 	
-	assign PA =
-		(~ym_PA_d & ym_PA_o) | (ym_PA_d & 7'h7f);
+	//assign PA =
+	//	(~ym_PA_d & ym_PA_o) | (ym_PA_d & 7'h7f);
 		
 	assign PB =
 		(~ym_PB_d & ym_PB_o) | (ym_PB_d & 7'h7f);
@@ -632,8 +637,8 @@ module md_board
 	wire [8:0] MOL_s = MOL - 9'h100;
 	wire [8:0] MOR_s = MOR - 9'h100;
 	
-	assign A_L = {{2{MOL_s[8]}},MOL_s,5'h0} + PSG;
-	assign A_R = {{2{MOR_s[8]}},MOR_s,5'h0} + PSG;
+	assign A_L = {MOL_s[8], MOL_s,6'h0} + PSG;
+	assign A_R = {MOR_s[8], MOR_s,6'h0} + PSG;
 	
 	assign cart_address = VA[20:0];
 	assign cart_cs = ~CE0;
