@@ -565,7 +565,7 @@ module fc1004
 	
 	assign VD_o =
 		(vdp_cd_d ? 16'h0 : vdp_cd_o) |
-		(arb_w12 ? 16'h0 : { 8'h0, arb_vd8_o, 7'h0 }) |
+		(arb_w12 ? 16'h0 : { 7'h0, arb_vd8_o, 8'h0 }) |
 		(ioc_bc2 ? 16'h0 : { 8'h0, ioc_vdata_word[7:0] }) |
 		(ioc_bc3 ? 16'h0 : {ioc_vdata_word[15:8], 8'h0 }) |
 		(tmss_data_out_en ? 16'h0 : tmss_vd_o);
