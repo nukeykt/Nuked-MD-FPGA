@@ -480,7 +480,7 @@ module ym6045
 	ym_sdff dff34(.MCLK(MCLK), .clk(ZCLK), .val(d2_out), .q(dff34_q));
 	assign w182 = w188 & dff34_q;
 	assign w255 = ~(DTACK_i | w79);
-	assign w258 = ~(w255 | w79);
+	assign w258 = ~(w255 | pal_trap | w182);
 	assign WAIT_o = ~w258;
 	assign w78 = ~w79 | w182 | ~sres;
 	assign w79 = dff21_q | w182 | ~sres;
@@ -712,7 +712,7 @@ module ym6045
 	assign w183 = ~(dff33_q | dff23_q | w356 | ~w223);
 	assign w283 = ~(w183 | w287 | w343);
 	ym_sdffs dff33(.MCLK(MCLK), .clk(VCLK), .val(w283), .set(sres_syncv_q), .q(dff33_q), .nq(dff33_nq));
-	ym_sdffr dff23(.MCLK(MCLK), .clk(~w59), .val(dff33_nq), .reset(dff23_nq), .q(dff23_q), .nq(dff23_nq));
+	ym_sdffr dff23(.MCLK(MCLK), .clk(~w59), .val(dff33_nq), .reset(dff33_nq), .q(dff23_q), .nq(dff23_nq));
 	
 	
 	assign ZRD_o = AS_i | ~RW_i;
@@ -844,7 +844,7 @@ module ym6045
 	
 	assign w140 = ~(ZA_i[15:13] == 3'h2 & ~w220 & M3);
 	
-	assign w150 = ~(M3 & ZA_i[15:8] == 8'h6 & ~ZWR_i & ~w220);
+	assign w150 = ~(M3 & ZA_i[15:8] == 8'h60 & ~ZWR_i & ~w220);
 	
 	assign w86 = ~(ZA_i[15:8] == 8'h7f & M3);
 	

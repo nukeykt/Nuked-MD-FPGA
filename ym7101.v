@@ -102,6 +102,7 @@ module ym7101
 	output [7:0] RA,
 	input ext_test_2,
 	output vdp_hclk1,
+	output vdp_de,
 	output dbg_reg_disp
 	);
 
@@ -7080,6 +7081,8 @@ module ym7101
 	
 	assign vdp_hclk1 = hclk1;
 	assign dbg_reg_disp = reg_disp;
+	
+	ym_sr_bit sr_de(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l624), .sr_out(vdp_de));
 	
 endmodule
 

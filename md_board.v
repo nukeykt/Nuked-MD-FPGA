@@ -18,7 +18,8 @@ module md_board
 	output [15:0] A_L,
 	output [15:0] A_R,
 	
-	output vdp_hclk1
+	output vdp_hclk1,
+	output vdp_de
 	
 	);
 	
@@ -347,7 +348,8 @@ module md_board
 		.ZD_i(ZD),
 		.ZD_o(ym_ZD_o),
 		.ZD_d(ym_ZD_d),
-		.vdp_hclk1(vdp_hclk1)
+		.vdp_hclk1(vdp_hclk1),
+		.vdp_de(vdp_de)
 		);
 	
 	wire [2:0] IPL;
@@ -563,7 +565,7 @@ module md_board
 	assign EDCLK = (~EDCLK_d & EDCLK_o);
 	
 	assign NTSC = 1'h1;
-	assign JAP = 1'h0;
+	assign JAP = 1'h1;
 	assign DISK = 1'h1;
 	
 	assign AS = ym_AS_d & m68k_S_d ? 1'h1 :
