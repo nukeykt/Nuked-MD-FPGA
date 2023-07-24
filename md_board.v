@@ -532,7 +532,7 @@ module md_board
 		(~m3_cart_VA_d & m3_cart_VA_o);
 	
 	assign m68k_VD_d = {16{m68k_VD_d2}};
-	wire [15:0] ram_VD_d = {{8{EOE}}, {8{NOE}}};
+	wire [15:0] ram_VD_d = {{8{EOE|RAS0}}, {8{NOE|RAS0}}};
 	wire [15:0] cart_VD_d = M3 ?{16{CAS0 | CE0}}
 		: {8'hff, {8{ VA[17] | CAS0 | CE0 }}};
 	
