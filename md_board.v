@@ -653,5 +653,7 @@ module md_board
 	assign TEST3 = 1'h1;
 	
 	assign WRES = 1'h1;
+	
+	assign FRES = FRES_d ? 1'h1 : FRES_o;
 
 endmodule

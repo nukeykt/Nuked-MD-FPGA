@@ -4231,7 +4231,7 @@ module ym7101
 	
 	assign w576 = l217 ? w355[3:0] : w522[3:0];
 	
-	assign w577 = w583 ? 4'hf : w576;
+	assign w577 = w583 ? ~w576 : w576;
 	
 	assign w578 = w106 ? { l219, w577[3] } : { l220[0], l219 };
 	
@@ -4418,8 +4418,8 @@ module ym7101
 		(w606_sel[4] ? l262[7:4] : 4'h0) |
 		(w606_sel[3] ? l263[3:0] : 4'h0) |
 		(w606_sel[2] ? l263[7:4] : 4'h0) |
-		(w606_sel[1] ? l265[3:0] : 4'h0) |
-		(w606_sel[0] ? l265[7:4] : 4'h0);
+		(w606_sel[1] ? l264[3:0] : 4'h0) |
+		(w606_sel[0] ? l264[7:4] : 4'h0);
 	
 	wire [3:0] w607_m5_2 =
 		(w606_sel[7] ? l237[3:0] : 4'h0) |
@@ -4519,7 +4519,7 @@ module ym7101
 	
 	ym_sr_bit_array #(.DATA_WIDTH(6)) sr293(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(vram_address[6:1]), .data_out(l293));
 	
-	assign w624 = w623 & l106[3];
+	assign w624 = w623 ^ l106[3];
 	
 	assign w625 = reg_vscr ? l106[8:4] : 5'h0;
 	
