@@ -3,13 +3,14 @@
 module MD_Run();
 
     reg CLK;
+    reg extreset;
 
     always #8 CLK = ~CLK;
 
     md_board md
         (
             .MCLK(CLK),
-            .ext_reset(0),
+            .ext_reset(extreset),
         
             // cart
             .M3(0),
@@ -22,7 +23,11 @@ module MD_Run();
         $dumpfile("md.vcd");
         $dumpvars(0, MD_Run);
 
-        CLK = 1'b0;
+        CLK <= 1'b0;
+        
+        extreset <= 1'b1; 
+        repeat (256) @ (posedge CLK);
+        extreset <= 1'b0;
 
         repeat (256) @ (posedge CLK);
         $finish;
