@@ -4894,7 +4894,7 @@ module ym7101
 	
 	assign w700 = ~(l368 | l429);
 	
-	ym_cnt_bit_rev #(.DATA_WIDTH(5)) cnt371(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .c_in(w703), .dec(w704), .reset(l273), .val(l371));
+	ym_cnt_bit_rev #(.DATA_WIDTH(5)) cnt371(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .c_in(w703), .dec(w704), .reset(l373), .val(l371));
 	
 	ym_sr_bit sr372(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w360), .sr_out(l372));
 	
@@ -4956,9 +4956,9 @@ module ym7101
 	
 	ym_sr_bit sr381(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l115), .sr_out(l381));
 	
-	ym7101_rs_trig rs40(.MCLK(MCLK), .set(w721), .rst(w381), .q(t40));
+	ym7101_rs_trig rs40(.MCLK(MCLK), .set(w721), .rst(l381), .q(t40));
 	
-	ym7101_rs_trig rs41(.MCLK(MCLK), .set(l385), .rst(w381), .q(t41));
+	ym7101_rs_trig rs41(.MCLK(MCLK), .set(l385), .rst(l381), .q(t41));
 	
 	assign w722 = l387[4] & (l379[1] | l379[0]);
 	
@@ -4980,7 +4980,7 @@ module ym7101
 	
 	ym_sr_bit sr385(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w720), .sr_out(l385));
 	
-	assign w728 = l387[4] ? 4'hf : l380[3:0];
+	assign w728 = l387[4] ? ~l380[3:0] : l380[3:0];
 	
 	assign w729 = w106 ? { w730, w728[3] } : { l380[5], w730 };
 	
@@ -5916,9 +5916,9 @@ module ym7101
 				if (w688)
 					sat[sat_index][10:7] <= sat_data_in[10:7];
 				if (w689)
-					sat[sat_index][18:11] <= sat_data_in[18:11];
-				if (w690)
 					sat[sat_index][20:19] <= sat_data_in[20:19];
+				if (w690)
+					sat[sat_index][18:11] <= sat_data_in[18:11];
 			end
 			sat_out <= sat[sat_index];
 			case (sat_index[1:0])
@@ -5941,7 +5941,7 @@ module ym7101
 	
 	// sprdata
 	
-	wire [5:0] sprdata_index = w697;
+	wire [4:0] sprdata_index = w697;
 	
 	wire [33:0] sprdata_in;
 	
@@ -6952,7 +6952,7 @@ module ym7101
 		(l183 ? { 5'h0, l180 } : 16'h0) |
 		(l330 ? { 5'h0, l324 } : 16'h0) |
 		(l583 ? { l598, l599 } : 16'h0) |
-		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l521[2:0], 1'h0 } : 16'h0);
+		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l621[2:0], 1'h0 } : 16'h0);
 		
 	assign vram_address =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h0) |
