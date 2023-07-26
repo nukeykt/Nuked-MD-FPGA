@@ -1,6 +1,6 @@
 // ym3438, ym7101, fc1004 common cells
 
-module ym_sr_bit #(parameter SR_LENGTH = 1)
+/*module ym_sr_bit #(parameter SR_LENGTH = 1)
 	(
 	input MCLK,
 	input c1,
@@ -28,8 +28,36 @@ module ym_sr_bit #(parameter SR_LENGTH = 1)
 		end
 		v2 <= v2_assign;
 	end
+endmodule*/
 
-
+module ym_sr_bit #(parameter SR_LENGTH = 1)
+	(
+	input MCLK,
+	input c1,
+	input c2,
+	input bit_in,
+	output sr_out
+	);
+	
+	reg [SR_LENGTH-1:0] v1 = 0;
+	reg [SR_LENGTH-1:0] v2 = 0;
+	
+	assign sr_out = v2[SR_LENGTH-1];
+	
+	always @(*)
+	begin
+		if (c1)
+		begin
+			if (SR_LENGTH == 1)
+				v1 <= bit_in;
+			else
+				v1 <= { v2[SR_LENGTH-2:0], bit_in };
+		end
+		if (c2)
+		begin
+			v2 <= v1;
+		end
+	end
 endmodule
 
 module ym_sr_bit_array #(parameter SR_LENGTH = 1, DATA_WIDTH = 1)
@@ -92,7 +120,7 @@ module ym_cnt_bit #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym_dlatch_1 #(parameter DATA_WIDTH = 1)
+/*module ym_dlatch_1 #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input c1,
@@ -115,9 +143,31 @@ module ym_dlatch_1 #(parameter DATA_WIDTH = 1)
 	assign val = mem;
 	assign nval = ~mem;
 	
+endmodule*/
+
+module ym_dlatch_1 #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input c1,
+	input [DATA_WIDTH-1:0] inp,
+	output [DATA_WIDTH-1:0] val,
+	output [DATA_WIDTH-1:0] nval
+	);
+	
+	reg [DATA_WIDTH-1:0] mem = {DATA_WIDTH{1'h0}};
+	
+	always @(*)
+	begin
+		if (c1)
+			mem <= inp;
+	end
+
+	assign val = mem;
+	assign nval = ~mem;
+	
 endmodule
 
-module ym_dlatch_2 #(parameter DATA_WIDTH = 1)
+/*module ym_dlatch_2 #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input c2,
@@ -137,6 +187,28 @@ module ym_dlatch_2 #(parameter DATA_WIDTH = 1)
 	
 	//assign val = mem_assign;
 	//assign nval = ~mem_assign;
+	assign val = mem;
+	assign nval = ~mem;
+	
+endmodule*/
+
+module ym_dlatch_2 #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input c2,
+	input [DATA_WIDTH-1:0] inp,
+	output [DATA_WIDTH-1:0] val,
+	output [DATA_WIDTH-1:0] nval
+	);
+	
+	reg [DATA_WIDTH-1:0] mem = {DATA_WIDTH{1'h0}};
+	
+	always @(*)
+	begin
+		if (c2)
+			mem <= inp;
+	end
+	
 	assign val = mem;
 	assign nval = ~mem;
 	
@@ -163,7 +235,7 @@ module ym_edge_detect
 	assign outp = ~(prev_out | ~inp);
 endmodule
 
-module ym_slatch #(parameter DATA_WIDTH = 1)
+/*module ym_slatch #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input en,
@@ -186,9 +258,31 @@ module ym_slatch #(parameter DATA_WIDTH = 1)
 	assign val = mem;
 	assign nval = ~mem;
 	
+endmodule*/
+
+module ym_slatch #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input en,
+	input [DATA_WIDTH-1:0] inp,
+	output [DATA_WIDTH-1:0] val,
+	output [DATA_WIDTH-1:0] nval
+	);
+	
+	reg [DATA_WIDTH-1:0] mem = {DATA_WIDTH{1'h0}};
+	
+	always @(*)
+	begin
+		if (en)
+			mem <= inp;
+	end
+	
+	assign val = mem;
+	assign nval = ~mem;
+	
 endmodule
 
-module ym_slatch_t #(parameter DATA_WIDTH = 1)
+/*module ym_slatch_t #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input en,
@@ -209,9 +303,31 @@ module ym_slatch_t #(parameter DATA_WIDTH = 1)
 	assign val = mem_assign;
 	assign nval = ~mem_assign;
 	
+endmodule*/
+
+module ym_slatch_t #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input en,
+	input [DATA_WIDTH-1:0] inp,
+	output [DATA_WIDTH-1:0] val,
+	output [DATA_WIDTH-1:0] nval
+	);
+	
+	reg [DATA_WIDTH-1:0] mem = {DATA_WIDTH{1'h0}};
+	
+	always @(*)
+	begin
+		if (en)
+			mem <= inp;
+	end
+	
+	assign val = mem;
+	assign nval = ~mem;
+	
 endmodule
 
-module ym_rs_trig
+/*module ym_rs_trig
 	(
 	input MCLK,
 	input set,
@@ -226,9 +342,23 @@ module ym_rs_trig
 		nq <= set ? 1'h0 : (rst ? 1'h1 : ~q); 
 	end
 	
+endmodule*/
+
+module ym_rs_trig
+	(
+	input MCLK,
+	input set,
+	input rst,
+	output q,
+	output nq
+	);
+	
+	assign q = ~(rst | nq);
+	assign nq = ~(set | q);
+	
 endmodule
 
-module ym_rs_trig_sync
+/*module ym_rs_trig_sync
 	(
 	input MCLK,
 	input set,
@@ -243,6 +373,21 @@ module ym_rs_trig_sync
 		q <= (c1 & rst) ? 1'h0 : ((c1 & set) ? 1'h1 : q);
 		nq <= (c1 & set) ? 1'h0 : ((c1 & rst) ? 1'h1 : ~q); 
 	end
+	
+endmodule*/
+
+module ym_rs_trig_sync
+	(
+	input MCLK,
+	input set,
+	input rst,
+	input c1,
+	output q,
+	output nq
+	);
+	
+	assign q = ~((c1 & rst) | nq);
+	assign nq = ~((c1 & set) | q);
 	
 endmodule
 
@@ -357,7 +502,7 @@ module ym_dbg_read_eg #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym_slatch_r #(parameter DATA_WIDTH = 1)
+/*module ym_slatch_r #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input en,
@@ -378,6 +523,31 @@ module ym_slatch_r #(parameter DATA_WIDTH = 1)
 	
 	//assign val = mem_assign;
 	//assign nval = ~mem_assign;
+	assign val = mem;
+	assign nval = ~mem;
+	
+endmodule*/
+
+module ym_slatch_r #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input en,
+	input rst,
+	input [DATA_WIDTH-1:0] inp,
+	output [DATA_WIDTH-1:0] val,
+	output [DATA_WIDTH-1:0] nval
+	);
+	
+	reg [DATA_WIDTH-1:0] mem = {DATA_WIDTH{1'h0}};
+	
+	always @(*)
+	begin
+		if (rst)
+			mem <= {DATA_WIDTH{1'h0}};
+		else if (en)
+			mem <= inp;
+	end
+
 	assign val = mem;
 	assign nval = ~mem;
 	

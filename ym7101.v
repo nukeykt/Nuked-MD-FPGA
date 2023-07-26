@@ -102,8 +102,7 @@ module ym7101
 	output [7:0] RA,
 	input ext_test_2,
 	output vdp_hclk1,
-	output vdp_de,
-	output dbg_reg_disp
+	output vdp_intfield
 	);
 
 	wire cpu_sel;
@@ -2268,7 +2267,7 @@ module ym7101
 	
 	// clk1, clk2
 	
-	/*
+	
 	reg dclk_l;
 	
 	always @(posedge MCLK)
@@ -2278,8 +2277,8 @@ module ym7101
 	
 	assign clk1 = ~mclk_dclk & dclk_l;
 	assign clk2 = mclk_dclk & ~dclk_l;
-	*/
-	reg dclk_l;
+	
+	/*reg dclk_l;
 	reg tclk1_l;
 	reg tclk2_l;
 	
@@ -2294,7 +2293,7 @@ module ym7101
 	end
 	
 	assign clk1 = tclk1 | tclk1_l;
-	assign clk2 = tclk2 | tclk2_l;
+	assign clk2 = tclk2 | tclk2_l;*/
 	
 	
 	// hclk1, hclk2 (half clock)
@@ -7099,13 +7098,12 @@ module ym7101
 	end
 	
 	assign vdp_hclk1 = hclk1;
-	assign dbg_reg_disp = reg_disp;
 	
-	ym_sr_bit sr_de(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l624), .sr_out(vdp_de));
+	assign vdp_intfield = w446;
 	
 endmodule
 
-module ym7101_rs_trig
+/*module ym7101_rs_trig
 	(
 	input MCLK,
 	input set,
@@ -7125,9 +7123,9 @@ module ym7101_rs_trig
 		nq <= rst ? 1'h1 : (set ? 1'h0 : nq);
 	end
 	
-endmodule
+endmodule*/
 
-/*module ym7101_rs_trig
+module ym7101_rs_trig
 	(
 	input MCLK,
 	input set,
@@ -7138,18 +7136,13 @@ endmodule
 	
 	reg mem = 1'h0;
 	
-	assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
-	assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
+	assign q = set | ~nq;
+	assign nq = rst | ~q; 
 	
-	always @(posedge MCLK)
-	begin
-		mem <= q;
-	end
-	
-endmodule*/
+endmodule
 
 
-module ym7101_dff #(parameter DATA_WIDTH = 1)
+/*module ym7101_dff #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input clk,
@@ -7177,6 +7170,38 @@ module ym7101_dff #(parameter DATA_WIDTH = 1)
 				l1 <= inp;
 		end
 		l2 <= l2_assign;
+	end
+	
+endmodule*/
+
+module ym7101_dff #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input clk,
+	input [DATA_WIDTH-1:0] inp,
+	input rst,
+	output [DATA_WIDTH-1:0] outp
+	);
+	
+	reg [DATA_WIDTH-1:0] l1 = {DATA_WIDTH{1'h0}}, l2 = {DATA_WIDTH{1'h0}};
+	
+	//assign outp = l2_assign;
+	assign outp = l2;
+	
+	always @(*)
+	begin
+		if (rst)
+		begin
+			l1 <= {DATA_WIDTH{1'h0}};
+			l2 <= {DATA_WIDTH{1'h0}};
+		end
+		else
+		begin
+			if (~clk)
+				l1 <= inp;
+			else
+				l2 <= l1;
+		end
 	end
 	
 endmodule
