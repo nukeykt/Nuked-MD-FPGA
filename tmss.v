@@ -88,7 +88,7 @@ module tmss
 	ym_sdffr dff1(.MCLK(MCLK), .clk(w40), .val(w3), .reset(SRES), .q(dff1_q));
 	ym_sdffs dff2(.MCLK(MCLK), .clk(w10), .val(dff1_q), .set(SRES), .nq(dff2_nq));
 	
-	assign w3 = l1 == 16'h5345 & l2 == 4741;
+	assign w3 = l1 == 16'h5345 & l2 == 16'h4741;
 	
 	assign RESET = ~(JAP & dff2_nq) | test_4;
 	

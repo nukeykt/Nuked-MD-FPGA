@@ -7127,6 +7127,27 @@ module ym7101_rs_trig
 	
 endmodule
 
+/*module ym7101_rs_trig
+	(
+	input MCLK,
+	input set,
+	input rst,
+	output q,
+	output nq
+	);
+	
+	reg mem = 1'h0;
+	
+	assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
+	assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
+	
+	always @(posedge MCLK)
+	begin
+		mem <= q;
+	end
+	
+endmodule*/
+
 
 module ym7101_dff #(parameter DATA_WIDTH = 1)
 	(

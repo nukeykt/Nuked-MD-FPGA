@@ -501,12 +501,22 @@ module md_board
 		.q(ram_z80_o)
 		);
 	
+	reg [7:0] RD_mem;
+	reg [7:0] AD_mem;
+	
 	assign RD =
-		(~ym_RD_d ? ym_RD_o : 8'h0);
+		(~ym_RD_d ? ym_RD_o : RD_mem);
 	
 	assign AD =
 		(~ym_AD_d ? ym_AD_o : 8'h0) |
-		(~vram1_AD_d ? vram1_AD_o : 8'h0);
+		(~vram1_AD_d ? vram1_AD_o : 8'h0) |
+		((ym_AD_d & vram1_AD_d) ? AD_mem : 8'h0);
+	
+	always @(posedge MCLK)
+	begin
+		RD_mem <= RD;
+		AD_mem <= AD;
+	end
 	
 	assign ZBR = ~ZBR_d ? ZBR_o : 1'h1;
 	
