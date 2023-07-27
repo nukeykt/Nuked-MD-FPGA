@@ -6297,7 +6297,7 @@ module ym7101
 	
 	assign w1038 = w1032 & w1024;
 	
-	assign w1039 = w1026 & w1033;
+	assign w1039 = w1025 & w1033;
 	
 	assign w1040 = w1032 & w1033 & w1026;
 	
