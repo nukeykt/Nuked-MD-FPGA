@@ -403,7 +403,7 @@ module ym3438(
 	//assign MOR = ch_pan[0] ? ch_out : 9'h100;
 	//assign MOL = ch_pan[1] ? ch_out : 9'h100;
 	
-	always @(negedge PHI)
+	always @(posedge PHI)
 	begin
 		MOR <= ch_pan[0] ? ch_out : 9'h100;
 		MOL <= ch_pan[1] ? ch_out : 9'h100;
