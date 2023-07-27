@@ -60,6 +60,28 @@ module ym_sr_bit #(parameter SR_LENGTH = 1)
 	end
 endmodule
 
+module ym_sr_bit2 #(parameter SR_LENGTH = 1)
+	(
+	input MCLK,
+	input c1,
+	input c2,
+	input bit_in,
+	output sr_out
+	);
+	
+	reg [SR_LENGTH-1:0] v2 = 0;
+	
+	assign sr_out = v2[SR_LENGTH-1];
+	
+	always @(posedge c2)
+	begin
+		if (SR_LENGTH == 1)
+			v2 <= bit_in;
+		else
+			v2 <= { v2[SR_LENGTH-2:0], bit_in };
+	end
+endmodule
+
 module ym_sr_bit_array #(parameter SR_LENGTH = 1, DATA_WIDTH = 1)
 	(
 	input MCLK,
@@ -117,6 +139,37 @@ module ym_cnt_bit #(parameter DATA_WIDTH = 1)
 	assign val = data_out;
 	assign data_in = reset ? {DATA_WIDTH{1'h0}} : sum[DATA_WIDTH-1:0];
 	assign c_out = sum[DATA_WIDTH];
+	
+endmodule
+
+module ym_cnt_bit2
+	(
+	input MCLK,
+	input c1,
+	input c2,
+	input c_in,
+	input reset,
+	output val,
+	output c_out
+	);
+	
+	wire data_in;
+	wire data_out;
+	wire [1:0] sum;
+	
+	ym_sr_bit2 mem
+		(
+		.MCLK(MCLK),
+		.c1(c1),
+		.c2(c2),
+		.bit_in(data_in),
+		.sr_out(data_out)
+		);
+	
+	assign sum = { 1'h0, data_out } + {1'h0, c_in};
+	assign val = data_out;
+	assign data_in = reset ? 1'h0 : sum[0];
+	assign c_out = sum[1];
 	
 endmodule
 

@@ -24,7 +24,7 @@ module md_board
 	output [6:0] PA_d,
 	
 	output vdp_hclk1,
-	output vdp_de
+	output vdp_intfield
 	
 	);
 	
@@ -354,7 +354,7 @@ module md_board
 		.ZD_o(ym_ZD_o),
 		.ZD_d(ym_ZD_d),
 		.vdp_hclk1(vdp_hclk1),
-		.vdp_de(vdp_de)
+		.vdp_intfield(vdp_intfield)
 		);
 	
 	wire [2:0] IPL;
