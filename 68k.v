@@ -4605,7 +4605,7 @@ module m68kcpu
 			alu_io <= 16'hffff;
 		else if (w597[11])
 		begin
-			alu_io <= { w606, 1'h0, w607, 2'h0, w609, w610, w611, 3'h0, w760, w753, w754, w752, w751 };
+			alu_io <= { w606, 1'h0, w607, 2'h0, w609, w610, w611, 3'h0, w750, w753, w754, w752, w751 };
 		end
 		else if (w180)
 		begin
