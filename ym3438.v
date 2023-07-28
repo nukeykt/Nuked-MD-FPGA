@@ -402,11 +402,13 @@ module ym3438(
 	
 	//assign MOR = ch_pan[0] ? ch_out : 9'h100;
 	//assign MOL = ch_pan[1] ? ch_out : 9'h100;
+	wire [8:0] MOR_ = ch_pan[0] ? ch_out : 9'h100;
+	wire [8:0] MOL_ = ch_pan[1] ? ch_out : 9'h100;
 	
 	always @(negedge c1)
 	begin
-		MOR <= ch_pan[0] ? ch_out : 9'h100;
-		MOL <= ch_pan[1] ? ch_out : 9'h100;
+		MOR <= MOR_;
+		MOL <= MOL_;
 	end
 	
 	//assign d_c1 = c1;

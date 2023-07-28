@@ -551,11 +551,19 @@ module md_board
 	wire [15:0] cart_VD_d = M3 ?{16{CAS0 | CE0}}
 		: {8'hff, {8{ VA[17] | CAS0 | CE0 }}};
 	
+	reg [15:0] VD_mem;
+	
 	assign VD =
 		(~ym_VD_d & ym_VD_o) |
 		(~m68k_VD_d & m68k_VD_o) |
 		(~ram_VD_d & ram_68k_o) |
-		(~cart_VD_d & cart_data);
+		(~cart_VD_d & cart_data) |
+		((ym_VD_d & m68k_VD_d & ram_VD_d & cart_VD_d) & VD_mem);
+	
+	always @(posedge MCLK)
+	begin
+		VD_mem <= VD;
+	end
 	
 	assign DTACK = ~ym_DTACK_pull;
 	
