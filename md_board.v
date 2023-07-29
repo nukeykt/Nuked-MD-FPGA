@@ -9,6 +9,11 @@ module md_board
 	output [20:0] cart_address,
 	output cart_cs,
 	output cart_oe,
+	output cart_lwr,
+	output cart_uwr,
+	output cart_time,
+	input pal,
+	input jap,
 	
 	// video
 	output [7:0] V_R, V_G, V_B,
@@ -587,8 +592,8 @@ module md_board
 	assign ZCLK = (~ZCLK_d & ZCLK_o);
 	assign EDCLK = (~EDCLK_d & EDCLK_o);
 	
-	assign NTSC = 1'h1;
-	assign JAP = 1'h1;
+	assign NTSC = ~pal;
+	assign JAP = ~jap;
 	assign DISK = 1'h1;
 	
 	assign AS = ym_AS_d & m68k_S_d ? 1'h1 :
@@ -661,6 +666,9 @@ module md_board
 	assign cart_address = VA[20:0];
 	assign cart_cs = ~CE0;
 	assign cart_oe = ~CAS0;
+	assign cart_lwr = ~LWR;
+	assign cart_uwr = ~UWR;
+	assign cart_time = ~TIME;
 	
 	assign CART = 1'h0;
 	

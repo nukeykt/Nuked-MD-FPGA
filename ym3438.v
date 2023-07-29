@@ -35,7 +35,7 @@ module ym3438(
 	input IC, CS, WR, RD,
 	input [1:0] ADDRESS,
 	output IRQ,
-	output reg [8:0] MOL, MOR
+	output [8:0] MOL, MOR
 	//output d_c1,
 	//output d_c2,
 	//output [9:0] MOL_2612, MOR_2612
@@ -400,15 +400,18 @@ module ym3438(
 		.ch_pan_2612(ch_pan_2612)
 		);
 	
+	reg [8:0] ch_out_l;
+	reg [1:0] ch_pan_l;
+	
 	//assign MOR = ch_pan[0] ? ch_out : 9'h100;
 	//assign MOL = ch_pan[1] ? ch_out : 9'h100;
-	wire [8:0] MOR_ = ch_pan[0] ? ch_out : 9'h100;
-	wire [8:0] MOL_ = ch_pan[1] ? ch_out : 9'h100;
+	assign MOR = ch_pan_l[0] ? ch_out_l : 9'h100;
+	assign MOL = ch_pan_l[1] ? ch_out_l : 9'h100;
 	
 	always @(negedge c1)
 	begin
-		MOR <= MOR_;
-		MOL <= MOL_;
+		ch_out_l <= ch_out;
+		ch_pan_l <= ch_pan;
 	end
 	
 	//assign d_c1 = c1;
