@@ -9,7 +9,7 @@ module vram
 	input SE,
 	input [7:0] AD,
 	input [7:0] RD_i,
-	output [7:0] RD_o,
+	output reg [7:0] RD_o,
 	output RD_d,
 	output [7:0] SD_o,
 	output SD_d
@@ -24,6 +24,7 @@ module vram
 	reg o_RAS;
 	reg o_cas;
 	reg o_SC;
+	reg o_valid;
 	
 	wire cas = ~RAS & ~CAS;
 	wire wr = ~RAS & ~CAS & ~WE;
@@ -38,7 +39,7 @@ module vram
 	assign mem_be[2] = addr[1:0] == 2'h2;
 	assign mem_be[3] = addr[1:0] == 2'h3;
 	
-	assign RD_d = ~rd;
+	assign RD_d = ~o_valid;
 	assign SD_d = SE;
 
 	vram_ip mem
@@ -54,11 +55,6 @@ module vram
 	reg [7:0] vram_ser;
 	
 	assign SD_o = vram_ser;
-	assign RD_o =
-		(addr[1:0] == 2'h0 ? mem_o[7:0] : 8'h0) |
-		(addr[1:0] == 2'h1 ? mem_o[15:8] : 8'h0) |
-		(addr[1:0] == 2'h2 ? mem_o[23:16] : 8'h0) |
-		(addr[1:0] == 2'h3 ? mem_o[31:24] : 8'h0);
 	
 	always @(posedge MCLK)
 	begin
@@ -84,6 +80,25 @@ module vram
 		if (~o_cas & cas)
 		begin
 			addr[7:0] <= AD;
+		end
+		if (dt & !o_OE & OE)
+		begin
+			addr_ser <= addr[1:0];
+			ser <= mem_o;
+		end
+		
+		if (rd)
+		begin
+			RD_o <=
+				(addr[1:0] == 2'h0 ? mem_o[7:0] : 8'h0) |
+				(addr[1:0] == 2'h1 ? mem_o[15:8] : 8'h0) |
+				(addr[1:0] == 2'h2 ? mem_o[23:16] : 8'h0) |
+				(addr[1:0] == 2'h3 ? mem_o[31:24] : 8'h0);
+			o_valid <= 1'h1;
+		end
+		else if (CAS | OE)
+		begin
+			o_valid <= 1'h0;
 		end
 		
 		o_OE <= OE;

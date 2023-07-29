@@ -3808,7 +3808,7 @@ module m68kcpu
 	assign a2_pla[43] = (w530 & 16'hf100) == 16'h7100;
 	assign a2_pla[44] = (w530 & 16'hf038) == 16'h8008 & ~a2_pla[45];
 	assign a2_pla[45] = (w530 & 16'h01c0) == 16'h0100;
-	assign a2_pla[46] = (w530 & 16'h81be) == 16'h813a;
+	assign a2_pla[46] = (w530 & 16'h81be) == 16'h813a & ~a2_pla[51];
 	assign a2_pla[47] = (w530 & 16'h817e) == 16'h813a & ~a2_pla[51];
 	assign a2_pla[48] = (w530 & 16'h81bc) == 16'h813c & ~a2_pla[51];
 	assign a2_pla[49] = (w530 & 16'h817c) == 16'h813c & ~a2_pla[51];
@@ -4605,7 +4605,7 @@ module m68kcpu
 			alu_io <= 16'hffff;
 		else if (w597[11])
 		begin
-			alu_io <= { w606, 1'h0, w607, 2'h0, w609, w610, w611, 3'h0, w760, w753, w754, w752, w751 };
+			alu_io <= { w606, 1'h0, w607, 2'h0, w609, w610, w611, 3'h0, w750, w753, w754, w752, w751 };
 		end
 		else if (w180)
 		begin

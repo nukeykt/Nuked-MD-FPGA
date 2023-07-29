@@ -74,7 +74,7 @@ module ym7101
 	input [22:0] CA_i,
 	output [22:0] CA_o,
 	output CA_d,
-	output [15:0] SOUND,
+	output reg [15:0] SOUND,
 	output INT_pull,
 	output BR_pull,
 	input BGACK_i,
@@ -102,8 +102,7 @@ module ym7101
 	output [7:0] RA,
 	input ext_test_2,
 	output vdp_hclk1,
-	output vdp_de,
-	output dbg_reg_disp
+	output vdp_intfield
 	);
 
 	wire cpu_sel;
@@ -2268,6 +2267,7 @@ module ym7101
 	
 	// clk1, clk2
 	
+	
 	reg dclk_l;
 	
 	always @(posedge MCLK)
@@ -2277,6 +2277,23 @@ module ym7101
 	
 	assign clk1 = ~mclk_dclk & dclk_l;
 	assign clk2 = mclk_dclk & ~dclk_l;
+	
+	/*reg dclk_l;
+	reg tclk1_l;
+	reg tclk2_l;
+	
+	wire tclk1 = ~mclk_dclk & dclk_l;
+	wire tclk2 = mclk_dclk & ~dclk_l;
+	
+	always @(posedge MCLK)
+	begin
+		dclk_l <= mclk_dclk;
+		tclk1_l <= tclk1;
+		tclk2_l <= tclk2;
+	end
+	
+	assign clk1 = tclk1 | tclk1_l;
+	assign clk2 = tclk2 | tclk2_l;*/
 	
 	
 	// hclk1, hclk2 (half clock)
@@ -4231,7 +4248,7 @@ module ym7101
 	
 	assign w576 = l217 ? w355[3:0] : w522[3:0];
 	
-	assign w577 = w583 ? 4'hf : w576;
+	assign w577 = w583 ? ~w576 : w576;
 	
 	assign w578 = w106 ? { l219, w577[3] } : { l220[0], l219 };
 	
@@ -4418,8 +4435,8 @@ module ym7101
 		(w606_sel[4] ? l262[7:4] : 4'h0) |
 		(w606_sel[3] ? l263[3:0] : 4'h0) |
 		(w606_sel[2] ? l263[7:4] : 4'h0) |
-		(w606_sel[1] ? l265[3:0] : 4'h0) |
-		(w606_sel[0] ? l265[7:4] : 4'h0);
+		(w606_sel[1] ? l264[3:0] : 4'h0) |
+		(w606_sel[0] ? l264[7:4] : 4'h0);
 	
 	wire [3:0] w607_m5_2 =
 		(w606_sel[7] ? l237[3:0] : 4'h0) |
@@ -4519,7 +4536,7 @@ module ym7101
 	
 	ym_sr_bit_array #(.DATA_WIDTH(6)) sr293(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(vram_address[6:1]), .data_out(l293));
 	
-	assign w624 = w623 & l106[3];
+	assign w624 = w623 ^ l106[3];
 	
 	assign w625 = reg_vscr ? l106[8:4] : 5'h0;
 	
@@ -4864,7 +4881,7 @@ module ym7101
 	assign w692 = l358 | l363 | l364 | l361;
 	
 	assign w693 = w741 & w283;
-	assign w694 = w742 & w284;
+	assign w694 = w741 & w284;
 	
 	ym_sr_bit sr363(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w693), .sr_out(l363));
 	
@@ -4894,7 +4911,7 @@ module ym7101
 	
 	assign w700 = ~(l368 | l429);
 	
-	ym_cnt_bit_rev #(.DATA_WIDTH(5)) cnt371(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .c_in(w703), .dec(w704), .reset(l273), .val(l371));
+	ym_cnt_bit_rev #(.DATA_WIDTH(5)) cnt371(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .c_in(w703), .dec(w704), .reset(l373), .val(l371));
 	
 	ym_sr_bit sr372(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w360), .sr_out(l372));
 	
@@ -4956,9 +4973,9 @@ module ym7101
 	
 	ym_sr_bit sr381(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l115), .sr_out(l381));
 	
-	ym7101_rs_trig rs40(.MCLK(MCLK), .set(w721), .rst(w381), .q(t40));
+	ym7101_rs_trig rs40(.MCLK(MCLK), .set(w721), .rst(l381), .q(t40));
 	
-	ym7101_rs_trig rs41(.MCLK(MCLK), .set(l385), .rst(w381), .q(t41));
+	ym7101_rs_trig rs41(.MCLK(MCLK), .set(l385), .rst(l381), .q(t41));
 	
 	assign w722 = l387[4] & (l379[1] | l379[0]);
 	
@@ -4980,7 +4997,7 @@ module ym7101
 	
 	ym_sr_bit sr385(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w720), .sr_out(l385));
 	
-	assign w728 = l387[4] ? 4'hf : l380[3:0];
+	assign w728 = l387[4] ? ~l380[3:0] : l380[3:0];
 	
 	assign w729 = w106 ? { w730, w728[3] } : { l380[5], w730 };
 	
@@ -5166,7 +5183,7 @@ module ym7101
 	
 	assign w775 =
 		(w759 ? io_data[8:0] : 9'h0) |
-		(w760 ? { l386[0], l435 } : 9'h0);
+		(w760 ? { l386[0], l436 } : 9'h0);
 	
 	ym_slatch #(.DATA_WIDTH(9)) sl425(.MCLK(MCLK), .en(w769), .inp(sprdata_hpos_o), .val(l425));
 	
@@ -5916,9 +5933,9 @@ module ym7101
 				if (w688)
 					sat[sat_index][10:7] <= sat_data_in[10:7];
 				if (w689)
-					sat[sat_index][18:11] <= sat_data_in[18:11];
-				if (w690)
 					sat[sat_index][20:19] <= sat_data_in[20:19];
+				if (w690)
+					sat[sat_index][18:11] <= sat_data_in[18:11];
 			end
 			sat_out <= sat[sat_index];
 			case (sat_index[1:0])
@@ -5941,7 +5958,7 @@ module ym7101
 	
 	// sprdata
 	
-	wire [5:0] sprdata_index = w697;
+	wire [4:0] sprdata_index = w697;
 	
 	wire [33:0] sprdata_in;
 	
@@ -6280,7 +6297,7 @@ module ym7101
 	
 	assign w1038 = w1032 & w1024;
 	
-	assign w1039 = w1026 & w1033;
+	assign w1039 = w1025 & w1033;
 	
 	assign w1040 = w1032 & w1033 & w1026;
 	
@@ -6626,16 +6643,16 @@ module ym7101
 	assign psg_clk1 = cpu_clk0;
 	assign psg_clk2 = ~cpu_clk0;
 	
-	ym_sr_bit sr631(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(reset_comb), .sr_out(l631));
-	ym_sr_bit sr632(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l631), .sr_out(l632));
+	ym_sr_bit2 sr631(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(reset_comb), .sr_out(l631));
+	ym_sr_bit2 sr632(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l631), .sr_out(l632));
 	
 	assign w1104 = l631 & ~l632;
 	
 	assign w1105 = ~w1104 & ~l633;
 	
-	ym_cnt_bit cnt649(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .c_in(l633), .reset(w1104), .val(l649));
+	ym_cnt_bit2 cnt649(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .c_in(l633), .reset(w1104), .val(l649));
 	
-	ym_sr_bit sr633(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1105), .sr_out(l633));
+	ym_sr_bit2 sr633(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1105), .sr_out(l633));
 	
 	ym_dlatch_1 dl634(.MCLK(MCLK), .c1(psg_clk1), .inp(l649), .nval(l634));
 	
@@ -6647,9 +6664,9 @@ module ym7101
 	
 	assign w1106 = ~t43 & ~w111;
 	
-	ym_sr_bit sr635(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1106), .sr_out(l635));
+	ym_sr_bit2 sr635(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1106), .sr_out(l635));
 	
-	ym_sr_bit sr636(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l635), .sr_out(l636));
+	ym_sr_bit2 sr636(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l635), .sr_out(l636));
 	
 	ym_sr_bit sr637(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(reset_comb), .sr_out(l637));
 	
@@ -6795,85 +6812,90 @@ module ym7101
 	
 	wire [15:0] psg_val[0:3];
 	
-	assign psg_val[0] = w1112 ? -16'd2168 : (
-		(w1149 == 4'h0 ? 16'd2048 : 16'd0) |
-		(w1149 == 4'h1 ? 16'd1581 : 16'd0) |
-		(w1149 == 4'h2 ? 16'd1273 : 16'd0) |
-		(w1149 == 4'h3 ? 16'd0993 : 16'd0) |
-		(w1149 == 4'h4 ? 16'd0782 : 16'd0) |
-		(w1149 == 4'h5 ? 16'd0593 : 16'd0) |
-		(w1149 == 4'h6 ? 16'd0468 : 16'd0) |
-		(w1149 == 4'h7 ? 16'd0356 : 16'd0) |
-		(w1149 == 4'h8 ? 16'd0270 : 16'd0) |
-		(w1149 == 4'h9 ? 16'd0196 : 16'd0) |
-		(w1149 == 4'ha ? 16'd0147 : 16'd0) |
-		(w1149 == 4'hb ? 16'd0104 : 16'd0) |
-		(w1149 == 4'hc ? 16'd0069 : 16'd0) |
-		(w1149 == 4'hd ? 16'd0038 : 16'd0) |
-		(w1149 == 4'he ? 16'd0018 : 16'd0) |
+	assign psg_val[0] = w1112 ? -16'd1270 : (
+		(w1149 == 4'h0 ? 16'd1200 : 16'd0) |
+		(w1149 == 4'h1 ? 16'd0926 : 16'd0) |
+		(w1149 == 4'h2 ? 16'd0746 : 16'd0) |
+		(w1149 == 4'h3 ? 16'd0582 : 16'd0) |
+		(w1149 == 4'h4 ? 16'd0458 : 16'd0) |
+		(w1149 == 4'h5 ? 16'd0348 : 16'd0) |
+		(w1149 == 4'h6 ? 16'd0274 : 16'd0) |
+		(w1149 == 4'h7 ? 16'd0208 : 16'd0) |
+		(w1149 == 4'h8 ? 16'd0158 : 16'd0) |
+		(w1149 == 4'h9 ? 16'd0115 : 16'd0) |
+		(w1149 == 4'ha ? 16'd0086 : 16'd0) |
+		(w1149 == 4'hb ? 16'd0061 : 16'd0) |
+		(w1149 == 4'hc ? 16'd0040 : 16'd0) |
+		(w1149 == 4'hd ? 16'd0022 : 16'd0) |
+		(w1149 == 4'he ? 16'd0010 : 16'd0) |
 		(w1149 == 4'hf ? 16'd0000 : 16'd0));
 	
-	assign psg_val[1] = w1113 ? -16'd2168 : (
-		(w1150 == 4'h0 ? 16'd2048 : 16'd0) |
-		(w1150 == 4'h1 ? 16'd1581 : 16'd0) |
-		(w1150 == 4'h2 ? 16'd1273 : 16'd0) |
-		(w1150 == 4'h3 ? 16'd0993 : 16'd0) |
-		(w1150 == 4'h4 ? 16'd0782 : 16'd0) |
-		(w1150 == 4'h5 ? 16'd0593 : 16'd0) |
-		(w1150 == 4'h6 ? 16'd0468 : 16'd0) |
-		(w1150 == 4'h7 ? 16'd0356 : 16'd0) |
-		(w1150 == 4'h8 ? 16'd0270 : 16'd0) |
-		(w1150 == 4'h9 ? 16'd0196 : 16'd0) |
-		(w1150 == 4'ha ? 16'd0147 : 16'd0) |
-		(w1150 == 4'hb ? 16'd0104 : 16'd0) |
-		(w1150 == 4'hc ? 16'd0069 : 16'd0) |
-		(w1150 == 4'hd ? 16'd0038 : 16'd0) |
-		(w1150 == 4'he ? 16'd0018 : 16'd0) |
+	assign psg_val[1] = w1113 ? -16'd1270 : (
+		(w1150 == 4'h0 ? 16'd1200 : 16'd0) |
+		(w1150 == 4'h1 ? 16'd0926 : 16'd0) |
+		(w1150 == 4'h2 ? 16'd0746 : 16'd0) |
+		(w1150 == 4'h3 ? 16'd0582 : 16'd0) |
+		(w1150 == 4'h4 ? 16'd0458 : 16'd0) |
+		(w1150 == 4'h5 ? 16'd0348 : 16'd0) |
+		(w1150 == 4'h6 ? 16'd0274 : 16'd0) |
+		(w1150 == 4'h7 ? 16'd0208 : 16'd0) |
+		(w1150 == 4'h8 ? 16'd0158 : 16'd0) |
+		(w1150 == 4'h9 ? 16'd0115 : 16'd0) |
+		(w1150 == 4'ha ? 16'd0086 : 16'd0) |
+		(w1150 == 4'hb ? 16'd0061 : 16'd0) |
+		(w1150 == 4'hc ? 16'd0040 : 16'd0) |
+		(w1150 == 4'hd ? 16'd0022 : 16'd0) |
+		(w1150 == 4'he ? 16'd0010 : 16'd0) |
 		(w1150 == 4'hf ? 16'd0000 : 16'd0));
 	
-	assign psg_val[2] = w1114 ? -16'd2168 : (
-		(w1151 == 4'h0 ? 16'd2048 : 16'd0) |
-		(w1151 == 4'h1 ? 16'd1581 : 16'd0) |
-		(w1151 == 4'h2 ? 16'd1273 : 16'd0) |
-		(w1151 == 4'h3 ? 16'd0993 : 16'd0) |
-		(w1151 == 4'h4 ? 16'd0782 : 16'd0) |
-		(w1151 == 4'h5 ? 16'd0593 : 16'd0) |
-		(w1151 == 4'h6 ? 16'd0468 : 16'd0) |
-		(w1151 == 4'h7 ? 16'd0356 : 16'd0) |
-		(w1151 == 4'h8 ? 16'd0270 : 16'd0) |
-		(w1151 == 4'h9 ? 16'd0196 : 16'd0) |
-		(w1151 == 4'ha ? 16'd0147 : 16'd0) |
-		(w1151 == 4'hb ? 16'd0104 : 16'd0) |
-		(w1151 == 4'hc ? 16'd0069 : 16'd0) |
-		(w1151 == 4'hd ? 16'd0038 : 16'd0) |
-		(w1151 == 4'he ? 16'd0018 : 16'd0) |
+	assign psg_val[2] = w1114 ? -16'd1270 : (
+		(w1151 == 4'h0 ? 16'd1200 : 16'd0) |
+		(w1151 == 4'h1 ? 16'd0926 : 16'd0) |
+		(w1151 == 4'h2 ? 16'd0746 : 16'd0) |
+		(w1151 == 4'h3 ? 16'd0582 : 16'd0) |
+		(w1151 == 4'h4 ? 16'd0458 : 16'd0) |
+		(w1151 == 4'h5 ? 16'd0348 : 16'd0) |
+		(w1151 == 4'h6 ? 16'd0274 : 16'd0) |
+		(w1151 == 4'h7 ? 16'd0208 : 16'd0) |
+		(w1151 == 4'h8 ? 16'd0158 : 16'd0) |
+		(w1151 == 4'h9 ? 16'd0115 : 16'd0) |
+		(w1151 == 4'ha ? 16'd0086 : 16'd0) |
+		(w1151 == 4'hb ? 16'd0061 : 16'd0) |
+		(w1151 == 4'hc ? 16'd0040 : 16'd0) |
+		(w1151 == 4'hd ? 16'd0022 : 16'd0) |
+		(w1151 == 4'he ? 16'd0010 : 16'd0) |
 		(w1151 == 4'hf ? 16'd0000 : 16'd0));
 	
-	assign psg_val[3] = w1115 ? -16'd2168 : (
-		(w1152 == 4'h0 ? 16'd2048 : 16'd0) |
-		(w1152 == 4'h1 ? 16'd1581 : 16'd0) |
-		(w1152 == 4'h2 ? 16'd1273 : 16'd0) |
-		(w1152 == 4'h3 ? 16'd0993 : 16'd0) |
-		(w1152 == 4'h4 ? 16'd0782 : 16'd0) |
-		(w1152 == 4'h5 ? 16'd0593 : 16'd0) |
-		(w1152 == 4'h6 ? 16'd0468 : 16'd0) |
-		(w1152 == 4'h7 ? 16'd0356 : 16'd0) |
-		(w1152 == 4'h8 ? 16'd0270 : 16'd0) |
-		(w1152 == 4'h9 ? 16'd0196 : 16'd0) |
-		(w1152 == 4'ha ? 16'd0147 : 16'd0) |
-		(w1152 == 4'hb ? 16'd0104 : 16'd0) |
-		(w1152 == 4'hc ? 16'd0069 : 16'd0) |
-		(w1152 == 4'hd ? 16'd0038 : 16'd0) |
-		(w1152 == 4'he ? 16'd0018 : 16'd0) |
+	assign psg_val[3] = w1115 ? -16'd1270 : (
+		(w1152 == 4'h0 ? 16'd1200 : 16'd0) |
+		(w1152 == 4'h1 ? 16'd0926 : 16'd0) |
+		(w1152 == 4'h2 ? 16'd0746 : 16'd0) |
+		(w1152 == 4'h3 ? 16'd0582 : 16'd0) |
+		(w1152 == 4'h4 ? 16'd0458 : 16'd0) |
+		(w1152 == 4'h5 ? 16'd0348 : 16'd0) |
+		(w1152 == 4'h6 ? 16'd0274 : 16'd0) |
+		(w1152 == 4'h7 ? 16'd0208 : 16'd0) |
+		(w1152 == 4'h8 ? 16'd0158 : 16'd0) |
+		(w1152 == 4'h9 ? 16'd0115 : 16'd0) |
+		(w1152 == 4'ha ? 16'd0086 : 16'd0) |
+		(w1152 == 4'hb ? 16'd0061 : 16'd0) |
+		(w1152 == 4'hc ? 16'd0040 : 16'd0) |
+		(w1152 == 4'hd ? 16'd0022 : 16'd0) |
+		(w1152 == 4'he ? 16'd0010 : 16'd0) |
 		(w1152 == 4'hf ? 16'd0000 : 16'd0));
 	
-	assign SOUND = psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
+	//assign SOUND = psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
+	
+	always @(posedge psg_hclk1)
+	begin
+		SOUND <= psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
+	end
 	
 	// vram bus
 	
 	ym_dlatch_1 #(.DATA_WIDTH(8)) dl_vs(.MCLK(MCLK), .c1(clk1), .inp(SD), .val(vram_serial));
 	
-	/*wire [15:0] vram_data_val =
+	wire [15:0] vram_data_val =
 		(w328 ? { l96, w351 } : 16'hffff) &
 		(w327 ? { l98, w352 } : 16'hffff) &
 		(w329 ? { l100, w353 } : 16'hffff) &
@@ -6881,7 +6903,7 @@ module ym7101
 		(l183 ? { 5'h1f, l180 } : 16'hffff) &
 		(l330 ? { 5'h1f, l324 } : 16'hffff) &
 		(l583 ? { l598, l599 } : 16'hffff) &
-		(l623_3 ? { 4'hf, l621[8:6], 1'h1, l621[5:3], 1'h1, l521[2:0], 1'h1 } : 16'hffff);
+		(l623_3 ? { 4'hf, l621[8:6], 1'h1, l621[5:3], 1'h1, l621[2:0], 1'h1 } : 16'hffff);
 		
 	wire [15:0] vram_data_pull =
 		(w328 ? 16'hffff : 16'h0) |
@@ -6893,9 +6915,9 @@ module ym7101
 		(l583 ? 16'hffff : 16'h0) |
 		(l623_3 ? 16'heee : 16'h0);
 	
-	assign vram_data = (vram_data_pull & vram_data_val) | (~vram_data_pull & vram_data_mem);*/
+	assign vram_data = (vram_data_pull & vram_data_val) | (~vram_data_pull & vram_data_mem);
 	
-	/*wire [16:0] vram_address_val =
+	wire [16:0] vram_address_val =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h1ffff) &
 		(w191 ? reg_data_l2[16:0] : 17'h1ffff) &
 		(w275 ? { l35[16:1], ~l35[0] } : 17'h1ffff) &
@@ -6942,9 +6964,9 @@ module ym7101
 		(w755 ? 17'h000ff : 17'h0) |
 		(l428 ? 17'h1ffff : 17'h0);
 	
-	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);*/
+	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);
 	
-	assign vram_data =
+	/*assign vram_data =
 		(w328 ? { l96, w351 } : 16'h0) |
 		(w327 ? { l98, w352 } : 16'h0) |
 		(w329 ? { l100, w353 } : 16'h0) |
@@ -6952,9 +6974,9 @@ module ym7101
 		(l183 ? { 5'h0, l180 } : 16'h0) |
 		(l330 ? { 5'h0, l324 } : 16'h0) |
 		(l583 ? { l598, l599 } : 16'h0) |
-		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l521[2:0], 1'h0 } : 16'h0);
+		(l623_3 ? { 4'h0, l621[8:6], 1'h0, l621[5:3], 1'h0, l621[2:0], 1'h0 } : 16'h0);*/
 		
-	assign vram_address =
+	/*assign vram_address =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h0) |
 		(w191 ? reg_data_l2[16:0] : 17'h0) |
 		(w275 ? { l35[16:1], ~l35[0] } : 17'h0) |
@@ -6976,7 +6998,7 @@ module ym7101
 		(w756 ? { reg_at[7:1], w757[6:0], 3'h4 } : 17'h0) |
 		(w755 ? { 9'h0, l409[7], l408[7], l407[7], l406[7], l405[7], l404[7], l403[7], 1'h0 } : 17'h0) |
 		(l428 ? (w106 ?
-			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'h0);
+			{ w780, l418[3], l418[2:0], 2'h0 } : { reg_86_b5, w780, l418[2:0], 2'h0 }) : 17'h0);*/
 	
 	always @(posedge MCLK)
 	begin
@@ -7081,13 +7103,12 @@ module ym7101
 	end
 	
 	assign vdp_hclk1 = hclk1;
-	assign dbg_reg_disp = reg_disp;
 	
-	ym_sr_bit sr_de(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(l624), .sr_out(vdp_de));
+	assign vdp_intfield = w446;
 	
 endmodule
 
-module ym7101_rs_trig
+/*module ym7101_rs_trig
 	(
 	input MCLK,
 	input set,
@@ -7107,10 +7128,26 @@ module ym7101_rs_trig
 		nq <= rst ? 1'h1 : (set ? 1'h0 : nq);
 	end
 	
+endmodule*/
+
+module ym7101_rs_trig
+	(
+	input MCLK,
+	input set,
+	input rst,
+	output q,
+	output nq
+	);
+	
+	reg mem = 1'h0;
+	
+	assign q = set | ~nq;
+	assign nq = rst | ~q; 
+	
 endmodule
 
 
-module ym7101_dff #(parameter DATA_WIDTH = 1)
+/*module ym7101_dff #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input clk,
@@ -7138,6 +7175,61 @@ module ym7101_dff #(parameter DATA_WIDTH = 1)
 				l1 <= inp;
 		end
 		l2 <= l2_assign;
+	end
+	
+endmodule*/
+
+/*module ym7101_dff #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input clk,
+	input [DATA_WIDTH-1:0] inp,
+	input rst,
+	output [DATA_WIDTH-1:0] outp
+	);
+	
+	reg [DATA_WIDTH-1:0] l1 = {DATA_WIDTH{1'h0}}, l2 = {DATA_WIDTH{1'h0}};
+	
+	//assign outp = l2_assign;
+	assign outp = l2;
+	
+	always @(*)
+	begin
+		if (rst)
+		begin
+			l1 <= {DATA_WIDTH{1'h0}};
+			l2 <= {DATA_WIDTH{1'h0}};
+		end
+		else
+		begin
+			if (~clk)
+				l1 <= inp;
+			else
+				l2 <= l1;
+		end
+	end
+	
+endmodule*/
+
+module ym7101_dff #(parameter DATA_WIDTH = 1)
+	(
+	input MCLK,
+	input clk,
+	input [DATA_WIDTH-1:0] inp,
+	input rst,
+	output [DATA_WIDTH-1:0] outp
+	);
+	
+	reg [DATA_WIDTH-1:0] l2 = {DATA_WIDTH{1'h0}};
+
+	assign outp = l2;
+	
+	always @(posedge clk or posedge rst)
+	begin
+		if (rst)
+			l2 <= {DATA_WIDTH{1'h0}};
+		else
+			l2 <= inp;
 	end
 	
 endmodule

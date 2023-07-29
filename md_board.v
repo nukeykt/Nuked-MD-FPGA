@@ -9,6 +9,11 @@ module md_board
 	output [20:0] cart_address,
 	output cart_cs,
 	output cart_oe,
+	output cart_lwr,
+	output cart_uwr,
+	output cart_time,
+	input pal,
+	input jap,
 	
 	// video
 	output [7:0] V_R, V_G, V_B,
@@ -24,7 +29,7 @@ module md_board
 	output [6:0] PA_d,
 	
 	output vdp_hclk1,
-	output vdp_de
+	output vdp_intfield
 	
 	);
 	
@@ -354,7 +359,7 @@ module md_board
 		.ZD_o(ym_ZD_o),
 		.ZD_d(ym_ZD_d),
 		.vdp_hclk1(vdp_hclk1),
-		.vdp_de(vdp_de)
+		.vdp_intfield(vdp_intfield)
 		);
 	
 	wire [2:0] IPL;
@@ -501,12 +506,22 @@ module md_board
 		.q(ram_z80_o)
 		);
 	
+	reg [7:0] RD_mem;
+	reg [7:0] AD_mem;
+	
 	assign RD =
-		(~ym_RD_d ? ym_RD_o : 8'h0);
+		(~ym_RD_d ? ym_RD_o : RD_mem);
 	
 	assign AD =
 		(~ym_AD_d ? ym_AD_o : 8'h0) |
-		(~vram1_AD_d ? vram1_AD_o : 8'h0);
+		(~vram1_AD_d ? vram1_AD_o : 8'h0) |
+		((ym_AD_d & vram1_AD_d) ? AD_mem : 8'h0);
+	
+	always @(posedge MCLK)
+	begin
+		RD_mem <= RD;
+		AD_mem <= AD;
+	end
 	
 	assign ZBR = ~ZBR_d ? ZBR_o : 1'h1;
 	
@@ -541,11 +556,19 @@ module md_board
 	wire [15:0] cart_VD_d = M3 ?{16{CAS0 | CE0}}
 		: {8'hff, {8{ VA[17] | CAS0 | CE0 }}};
 	
+	reg [15:0] VD_mem;
+	
 	assign VD =
 		(~ym_VD_d & ym_VD_o) |
 		(~m68k_VD_d & m68k_VD_o) |
 		(~ram_VD_d & ram_68k_o) |
-		(~cart_VD_d & cart_data);
+		(~cart_VD_d & cart_data) |
+		((ym_VD_d & m68k_VD_d & ram_VD_d & cart_VD_d) & VD_mem);
+	
+	always @(posedge MCLK)
+	begin
+		VD_mem <= VD;
+	end
 	
 	assign DTACK = ~ym_DTACK_pull;
 	
@@ -569,8 +592,8 @@ module md_board
 	assign ZCLK = (~ZCLK_d & ZCLK_o);
 	assign EDCLK = (~EDCLK_d & EDCLK_o);
 	
-	assign NTSC = 1'h1;
-	assign JAP = 1'h1;
+	assign NTSC = ~pal;
+	assign JAP = ~jap;
 	assign DISK = 1'h1;
 	
 	assign AS = ym_AS_d & m68k_S_d ? 1'h1 :
@@ -643,6 +666,9 @@ module md_board
 	assign cart_address = VA[20:0];
 	assign cart_cs = ~CE0;
 	assign cart_oe = ~CAS0;
+	assign cart_lwr = ~LWR;
+	assign cart_uwr = ~UWR;
+	assign cart_time = ~TIME;
 	
 	assign CART = 1'h0;
 	
@@ -653,5 +679,7 @@ module md_board
 	assign TEST3 = 1'h1;
 	
 	assign WRES = 1'h1;
+	
+	assign FRES = FRES_d ? 1'h1 : FRES_o;
 
 endmodule

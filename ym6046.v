@@ -315,21 +315,21 @@ module ym6046
 	assign zwrite0 = zwrite_sel | address[0];
 	assign zwrite1 = zwrite_sel | ~address[0];
 	
-	assign read_rx_data_a = ~(vread_high & address[3:0] == 3'h0);
-	assign read_rx_data_b = ~(vread_high & address[3:0] == 3'h3);
-	assign read_rx_data_c = ~(vread_high & address[3:0] == 3'h6);
-	assign write_p_data_a = ~(vwrite_low & address[3:0] == 3'h1);
-	assign write_p_data_b = ~(vwrite_low & address[3:0] == 3'h2);
-	assign write_p_data_c = ~(vwrite_low & address[3:0] == 3'h3);
-	assign write_p_control_a = ~(vwrite_low & address[3:0] == 3'h4);
-	assign write_p_control_b = ~(vwrite_low & address[3:0] == 3'h5);
-	assign write_p_control_c = ~(vwrite_low & address[3:0] == 3'h6);
-	assign write_tx_data_a = ~(vwrite_low & address[3:0] == 3'h7);
-	assign write_s_control_a = ~(vwrite_high & address[3:0] == 3'h1);
-	assign write_tx_data_b = ~(vwrite_high & address[3:0] == 3'h2);
-	assign write_s_control_b = ~(vwrite_high & address[3:0] == 3'h4);
-	assign write_tx_data_c = ~(vwrite_high & address[3:0] == 3'h5);
-	assign write_s_control_c = ~(vwrite_high & address[3:0] == 3'h6);
+	assign read_rx_data_a = ~(vread_high & address[2:0] == 3'h0);
+	assign read_rx_data_b = ~(vread_high & address[2:0] == 3'h3);
+	assign read_rx_data_c = ~(vread_high & address[2:0] == 3'h6);
+	assign write_p_data_a = ~(vwrite_low & address[2:0] == 3'h1);
+	assign write_p_data_b = ~(vwrite_low & address[2:0] == 3'h2);
+	assign write_p_data_c = ~(vwrite_low & address[2:0] == 3'h3);
+	assign write_p_control_a = ~(vwrite_low & address[2:0] == 3'h4);
+	assign write_p_control_b = ~(vwrite_low & address[2:0] == 3'h5);
+	assign write_p_control_c = ~(vwrite_low & address[2:0] == 3'h6);
+	assign write_tx_data_a = ~(vwrite_low & address[2:0] == 3'h7);
+	assign write_s_control_a = ~(vwrite_high & address[2:0] == 3'h1);
+	assign write_tx_data_b = ~(vwrite_high & address[2:0] == 3'h2);
+	assign write_s_control_b = ~(vwrite_high & address[2:0] == 3'h4);
+	assign write_tx_data_c = ~(vwrite_high & address[2:0] == 3'h5);
+	assign write_s_control_c = ~(vwrite_high & address[2:0] == 3'h7);
 	
 	ym_sdffr reg_3e(.MCLK(MCLK), .clk(zwrite0), .val(data_bus[4]), .reset(reset), .q(reg_3e_q));
 	ym_sdffs #(.DATA_WIDTH(8)) reg_3f(.MCLK(MCLK), .clk(zwrite1), .val(data_bus), .set(reset), .q(reg_3f_q));
