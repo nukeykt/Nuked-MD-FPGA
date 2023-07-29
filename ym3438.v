@@ -376,8 +376,8 @@ module ym3438(
 		);
 
 	wire [8:0] ch_out;
-	wire [1:0] ch_pan;
-	wire [1:0] ch_pan_2612;
+	wire dac_out_enable;
+	wire dac_out_enable_2612;
 	
 	ym3438_ch ch
 		(
@@ -393,25 +393,26 @@ module ym3438(
 		.fsm_dac_load(fsm_dac_load),
 		.fsm_dac_out_sel(fsm_dac_out_sel),
 		.fsm_dac_ch6(fsm_dac_ch6),
-		.pan(pan),
 		.ch_dbg(ch_dbg),
 		.ch_out(ch_out),
-		.ch_pan(ch_pan),
-		.ch_pan_2612(ch_pan_2612)
+		.dac_out_enable(dac_out_enable),
+		.dac_out_enable_2612(dac_out_enable_2612)
 		);
 	
 	reg [8:0] ch_out_l;
 	reg [1:0] ch_pan_l;
+	reg dac_out_enable_l;
 	
 	//assign MOR = ch_pan[0] ? ch_out : 9'h100;
 	//assign MOL = ch_pan[1] ? ch_out : 9'h100;
-	assign MOR = ch_pan_l[0] ? ch_out_l : 9'h100;
-	assign MOL = ch_pan_l[1] ? ch_out_l : 9'h100;
+	assign MOR = (ch_pan_l[0] & dac_out_enable_l) ? ch_out_l : 9'h100;
+	assign MOL = (ch_pan_l[1] & dac_out_enable_l) ? ch_out_l : 9'h100;
 	
 	always @(negedge c1)
 	begin
 		ch_out_l <= ch_out;
-		ch_pan_l <= ch_pan;
+		ch_pan_l <= pan;
+		dac_out_enable_l <= dac_out_enable;
 	end
 	
 	//assign d_c1 = c1;
