@@ -1,4 +1,7 @@
 # Nuked-MD-FPGA
+
+![nukedmd_logo](nukedmd_logo.png)
+
 Cycle accurate Mega Drive emulator. Verilog version of [Nuked MD](https://github.com/nukeykt/Nuked-MD).
 The goal of this project is to emulate Sega Mega Drive chipset accurately as possible using decapped chips photos.
 
