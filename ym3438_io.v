@@ -198,9 +198,9 @@ module ym3438_io
 		.nval(timer_b_status_sl_out)
 		);
 	
-	bufif1(data_o[0], timer_a_status_sl_out, read_status);
-	bufif1(data_o[1], timer_b_status_sl_out, read_status);
-	bufif1(data_o[7], ~busy_state_o, read_status);
+	assign data_o =
+		(read_status ? { ~busy_state_o, 6'h0, timer_b_status_sl_out, timer_a_status_sl_out } : 8'h0) |
+		(read_debug ? debug_data : 8'h0);
 	
 	assign irq = ~(timer_a_status_sl_out | timer_b_status_sl_out);
 	
@@ -208,15 +208,6 @@ module ym3438_io
 	wire [15:0] debug_data_w;
 	wire [6:0] debug_data1_1;
 	wire [6:0] debug_data1_2;
-	
-	bufif1(data_o[0], debug_data[0], read_debug);
-	bufif1(data_o[1], debug_data[1], read_debug);
-	bufif1(data_o[2], debug_data[2], read_debug);
-	bufif1(data_o[3], debug_data[3], read_debug);
-	bufif1(data_o[4], debug_data[4], read_debug);
-	bufif1(data_o[5], debug_data[5], read_debug);
-	bufif1(data_o[6], debug_data[6], read_debug);
-	bufif1(data_o[7], debug_data[7], read_debug);
 	
 	assign debug_data = reg_21[7] ? debug_data_w[15:8] : debug_data_w[7:0];
 	
