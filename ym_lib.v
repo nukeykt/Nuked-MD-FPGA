@@ -267,7 +267,7 @@ module ym_dlatch_2 #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym_edge_detect
+/*module ym_edge_detect
 	(
 	input MCLK,
 	input c1,
@@ -285,6 +285,24 @@ module ym_edge_detect
 		.val(prev_out),
 		.nval()
 		);
+	assign outp = ~(prev_out | ~inp);
+endmodule*/
+
+module ym_edge_detect
+	(
+	input MCLK,
+	input c1,
+	input inp,
+	output outp
+	);
+	
+	reg prev_out;
+	
+	always @(posedge c1)
+	begin
+		prev_out <= inp;
+	end
+	
 	assign outp = ~(prev_out | ~inp);
 endmodule
 
