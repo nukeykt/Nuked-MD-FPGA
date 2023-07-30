@@ -3648,7 +3648,7 @@ module ym7101
 	
 	assign w427 = reg_m5 & reg_80_b3;
 	
-	assign w428 = w87 ? io_data[8:0] :
+	assign w428 = w86 ? io_data[8:0] :
 		{ 2'h3, ~w431, w429, ~w107, w433, ~cpu_pal, w434, w435 };
 	
 	assign w429 = w430 | w431;
