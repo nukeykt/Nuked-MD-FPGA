@@ -498,7 +498,7 @@ module ym3438_reg_ctrl
 		.outp(load_ed_o)
 		);
 
-	ym_slatch #(.DATA_WIDTH(2)) pan_lock
+	ym_slatch2 #(.DATA_WIDTH(2)) pan_lock
 		(
 		.MCLK(MCLK),
 		.en(load_ed_o),

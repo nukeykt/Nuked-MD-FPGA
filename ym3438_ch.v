@@ -94,7 +94,7 @@ module ym3438_ch
 	
 	wire [8:0] ch_value_lock_o;
 
-	ym_slatch #(.DATA_WIDTH(9)) ch_value_lock
+	ym_slatch2 #(.DATA_WIDTH(9)) ch_value_lock
 		(
 		.MCLK(MCLK),
 		.en(~ch_lock),
