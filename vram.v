@@ -17,8 +17,8 @@ module vram
 	
 	reg [15:0] addr;
 	reg dt;
-	reg [1:0] addr_ser;
-	reg [31:0] ser;
+	reg [7:0] addr_ser;
+	reg [2047:0] ser;
 	
 	reg o_OE;
 	reg o_RAS;
@@ -30,27 +30,40 @@ module vram
 	wire wr = ~RAS & ~CAS & ~WE;
 	wire rd = ~RAS & ~CAS & ~OE & ~dt;
 	
-	wire [13:0] mem_addr = addr[15:2];
-	wire [3:0] mem_be;
-	wire [31:0] mem_o;
+	wire [13:0] mem_addr = addr[15:8];
+	wire [31:0] mem_be;
+	wire [2047:0] mem_o;
 	
-	assign mem_be[0] = addr[1:0] == 2'h0;
-	assign mem_be[1] = addr[1:0] == 2'h1;
-	assign mem_be[2] = addr[1:0] == 2'h2;
-	assign mem_be[3] = addr[1:0] == 2'h3;
+	wire [7:0] slice_s[0:255];
+	wire [7:0] slice_p[0:255];
+	
+	genvar i;
+	generate
+		for (i = 0; i < 32; i = i + 1)
+		begin : l1
+			assign mem_be[i] = addr[4:0] == i;
+		end
+		for (i = 0; i < 8; i = i + 1)
+		begin : l2
+			vram_ip mem
+				(
+				.clock(MCLK),
+				.address(mem_addr),
+				.byteena(mem_be),
+				.data({32{RD_i}}),
+				.wren(wr & (addr[7:5] == i)),
+				.q(mem_o[(256*(i+1)-1):(256*i)])
+				);
+		end
+		for (i = 0; i < 256; i = i + 1)
+		begin : l3
+			assign slice_p[i] = mem_o[(8*(i+1)-1):(8*i)];
+			assign slice_s[i] = ser[(8*(i+1)-1):(8*i)]; 
+		end
+	endgenerate
 	
 	assign RD_d = ~o_valid;
 	assign SD_d = SE;
-
-	vram_ip mem
-		(
-		.clock(MCLK),
-		.address(mem_addr),
-		.byteena(mem_be),
-		.data({RD_i, RD_i, RD_i, RD_i}),
-		.wren(wr),
-		.q(mem_o)
-		);
 	
 	reg [7:0] vram_ser;
 	
@@ -60,17 +73,13 @@ module vram
 	begin
 		if (dt & !o_OE & OE)
 		begin
-			addr_ser <= addr[1:0];
+			addr_ser <= addr[7:0];
 			ser <= mem_o;
 		end
 		else if (~o_SC & SC)
 		begin
-			addr_ser <= addr_ser + 2'h1;
-			vram_ser <=
-				(addr_ser == 2'h0 ? ser[7:0] : 8'h0) |
-				(addr_ser == 2'h1 ? ser[15:8] : 8'h0) |
-				(addr_ser == 2'h2 ? ser[23:16] : 8'h0) |
-				(addr_ser == 2'h3 ? ser[31:24] : 8'h0);
+			addr_ser <= addr_ser + 8'h1;
+			vram_ser <= slice_s[addr_ser];
 		end
 		if (o_RAS & ~RAS)
 		begin
@@ -83,17 +92,13 @@ module vram
 		end
 		if (dt & !o_OE & OE)
 		begin
-			addr_ser <= addr[1:0];
+			addr_ser <= addr[7:0];
 			ser <= mem_o;
 		end
 		
 		if (rd)
 		begin
-			RD_o <=
-				(addr[1:0] == 2'h0 ? mem_o[7:0] : 8'h0) |
-				(addr[1:0] == 2'h1 ? mem_o[15:8] : 8'h0) |
-				(addr[1:0] == 2'h2 ? mem_o[23:16] : 8'h0) |
-				(addr[1:0] == 2'h3 ? mem_o[31:24] : 8'h0);
+			RD_o <= slice_p[addr[7:0]];
 			o_valid <= 1'h1;
 		end
 		else if (CAS | OE)
