@@ -199,7 +199,7 @@ module ym3438_io
 		);
 	
 	assign data_o =
-		(read_status ? { ~busy_state_o, 6'h0, timer_b_status_sl_out, timer_a_status_sl_out } : 8'h0) |
+		(read_status ? { ~busy_state_o, 5'h0, timer_b_status_sl_out, timer_a_status_sl_out } : 8'h0) |
 		(read_debug ? debug_data : 8'h0);
 	
 	assign irq = ~(timer_a_status_sl_out | timer_b_status_sl_out);

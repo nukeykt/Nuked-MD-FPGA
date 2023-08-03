@@ -215,6 +215,7 @@ module fc1004
 	wire fm_clk;
 	wire [7:0] fm_data_o;
 	wire fm_data_d;
+	wire fm_data_d2;
 	wire fm_test_d; // reg_2c[7]
 	wire fm_cs;
 	wire fm_irq;
@@ -554,12 +555,14 @@ module fc1004
 	
 	wire colorbus = ~(tmss_test_1 & tmss_test_2 & tmss_test_3);
 	
+	assign fm_data_d2 = fm_data_d | tmss_test_3;
+	
 	assign ZD_o =
 		(ioc_bc4 ? 8'h0 : ioc_zdata) |
 		(colorbus ? 8'h0 : vdp_ra) |
-		(fm_data_d ? 8'h0 : fm_data_o);
+		(fm_data_d2 ? 8'h0 : fm_data_o);
 	
-	assign ZD_d = (ioc_bc4 & colorbus & fm_data_d) ? 8'hff : 8'h0;
+	assign ZD_d = (ioc_bc4 & colorbus & fm_data_d2) ? 8'hff : 8'h0;
 	
 	wire [15:0] ioc_vdata_word = { ioc_vdata[7:1], M3 ? ioc_vdata[0] : ioc_reg_3e_q, ioc_vdata[7:0] };
 	
