@@ -24,10 +24,13 @@ module md_board
 	output [15:0] A_L,
 	output [15:0] A_R,
 	
-	//
+	// input
 	input [6:0] PA_i,
 	output [6:0] PA_o,
 	output [6:0] PA_d,
+	input [6:0] PB_i,
+	output [6:0] PB_o,
+	output [6:0] PB_d,
 	
 	output vdp_hclk1,
 	output vdp_intfield
@@ -111,9 +114,9 @@ module md_board
 	wire [6:0] PC;
 	wire [6:0] ym_PC_o;
 	wire [6:0] ym_PC_d;
-	wire [6:0] PB;
-	wire [6:0] ym_PB_o;
-	wire [6:0] ym_PB_d;
+	//wire [6:0] PB;
+	//wire [6:0] ym_PB_o;
+	//wire [6:0] ym_PB_d;
 	//wire [6:0] PA;
 	//wire [6:0] ym_PA_o;
 	//wire [6:0] ym_PA_d;
@@ -276,9 +279,9 @@ module md_board
 		.PC_i(PC),
 		.PC_o(ym_PC_o),
 		.PC_d(ym_PC_d),
-		.PB_i(PB),
-		.PB_o(ym_PB_o),
-		.PB_d(ym_PB_d),
+		.PB_i(PB_i),
+		.PB_o(PB_o),
+		.PB_d(PB_d),
 		.PA_i(PA_i),
 		.PA_o(PA_o),
 		.PA_d(PA_d),
@@ -583,8 +586,8 @@ module md_board
 	//assign PA =
 	//	(~ym_PA_d & ym_PA_o) | (ym_PA_d & 7'h7f);
 		
-	assign PB =
-		(~ym_PB_d & ym_PB_o) | (ym_PB_d & 7'h7f);
+	//assign PB =
+	//	(~ym_PB_d & ym_PB_o) | (ym_PB_d & 7'h7f);
 		
 	assign PC =
 		(~ym_PC_d & ym_PC_o) | (ym_PC_d & 7'h7f);
