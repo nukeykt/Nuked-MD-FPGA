@@ -12,6 +12,7 @@ module md_board
 	output cart_lwr,
 	output cart_uwr,
 	output cart_time,
+	output cart_cas2,
 	output [15:0] cart_data_wr,
 	input pal,
 	input jap,
@@ -674,6 +675,7 @@ module md_board
 	assign cart_uwr = ~UWR;
 	assign cart_time = ~TIME;
 	assign cart_data_wr = VD;
+	assign cart_cas2 = ~CAS2;
 	
 	assign CART = 1'h0;
 	
