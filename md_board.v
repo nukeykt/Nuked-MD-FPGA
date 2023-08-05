@@ -553,8 +553,8 @@ module md_board
 	
 	assign m68k_VA_d = {23{m68k_VA_d2}};
 	
-	assign m3_cart_VA_d = {M3, M3, M3, 20'hfffff};
-	assign m3_cart_VA_o = {1'h1, 1'h0, 1'h1, 20'h0};
+	wire [22:0] m3_cart_VA_d = {M3, M3, M3, 20'hfffff};
+	wire [22:0] m3_cart_VA_o = {1'h1, 1'h0, 1'h1, 20'h0};
 	
 	assign VA =
 		(~ym_VA_d & ym_VA_o) |
