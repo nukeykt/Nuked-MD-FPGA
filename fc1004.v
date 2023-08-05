@@ -64,6 +64,7 @@ module fc1004
 	output MREQ_o,
 	output MREQ_d,
 	output [8:0] MOL, MOR,
+	output [9:0] MOL_2612, MOR_2612,
 	input SOUND_i,
 	output SOUND_o,
 	output SOUND_d,
@@ -361,7 +362,9 @@ module fc1004
 		.ADDRESS(ZA_i[1:0]),
 		.IRQ(fm_irq),
 		.MOL(MOL),
-		.MOR(MOR)
+		.MOR(MOR),
+		.MOL_2612(MOL_2612),
+		.MOR_2612(MOR_2612)
 		);
 	
 	

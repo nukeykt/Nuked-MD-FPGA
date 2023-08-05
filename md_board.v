@@ -24,6 +24,8 @@ module md_board
 	// audio
 	output [15:0] A_L,
 	output [15:0] A_R,
+	output [17:0] A_L_2612,
+	output [17:0] A_R_2612,
 	
 	// input
 	input [6:0] PA_i,
@@ -75,6 +77,7 @@ module md_board
 	wire ym_MREQ_o;
 	wire ym_MREQ_d;
 	wire [8:0] MOL, MOR;
+	wire [9:0] MOL_2612, MOR_2612;
 	wire SOUND;
 	wire SOUND_o;
 	wire SOUND_d;
@@ -240,6 +243,8 @@ module md_board
 		.MREQ_d(ym_MREQ_d),
 		.MOL(MOL),
 		.MOR(MOR),
+		.MOL_2612(MOL_2612),
+		.MOR_2612(MOR_2612),
 		.SOUND_i(SOUND),
 		.SOUND_o(SOUND_o),
 		.SOUND_d(SOUND_d),
@@ -667,6 +672,9 @@ module md_board
 	
 	assign A_L = {MOL_s[8], MOL_s,6'h0} + PSG;
 	assign A_R = {MOR_s[8], MOR_s,6'h0} + PSG;
+	
+	assign A_L_2612 = {MOL_2612[9], MOL_2612,7'h0} + {{2{MOL_2612[9]}}, MOL_2612,6'h0} + {2'h0, PSG};
+	assign A_R_2612 = {MOR_2612[9], MOR_2612,7'h0} + {{2{MOR_2612[9]}}, MOR_2612,6'h0} + {2'h0, PSG};
 	
 	assign cart_address = VA[20:0];
 	assign cart_cs = ~CE0;
