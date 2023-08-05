@@ -49,7 +49,8 @@ module tmss
 	output test_2,
 	output test_3,
 	output test_4,
-	output data_out_en
+	output data_out_en,
+	output no_tmss_flag
 	);
 	
 `ifndef NO_TMSS
@@ -110,12 +111,17 @@ module tmss
 	assign VD_o = w28 ? w20 : tmss_rom[VA[9:0]];
 	
 	assign data_out_en = (w41 & w28) | test_4;
+	
+	assign no_tmss_flag = 1'h0;
+	
 `else
 	assign VD_o = 16'h0;
 	assign DTACK = 1'h1;
 	assign RESET = 1'h1;
 	assign CE0_o = CE0_i;
 	assign data_out_en = 1'h1;
+	
+	assign no_tmss_flag = 1'h1;
 `endif
 	
 	

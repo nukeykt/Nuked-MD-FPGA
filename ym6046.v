@@ -61,7 +61,8 @@ module ym6046
 	output [7:0] vdata,
 	output reg_3e_q,
 	output [7:0] zdata,
-	output [6:0] ztov_address
+	output [6:0] ztov_address,
+	input no_tmss_flag
 	);
 	
 	wire reset;
@@ -250,7 +251,7 @@ module ym6046
 	wire [2:0] dir_b = JAP ? 2'h3 : PORT_B_d[6:5];
 	
 	wire [7:0] rd_0 = { JAP, test ? { uart_clk, uart_clk2_c, uart_clk1_c, uart_clk2_b, uart_clk1_b, uart_clk2_a, uart_clk1_a } :
-		{ pal, DISK, 5'h1 } };
+		{ pal, DISK, 4'h0, ~no_tmss_flag } };
 	
 	wire [7:0] rd_1 = M3 ? { p_data_q_a[7], PORT_A_i } : { PORT_B_i[1:0], dir_a[0] & PORT_A_i[5], PORT_A_i[4], PORT_A_i[3:0] };
 	

@@ -269,6 +269,8 @@ module fc1004
 	wire tmss_test_3;
 	wire tmss_test_4;
 	
+	wire no_tmss_flag;
+	
 	ym7101 vdp(
 		.MCLK(MCLK),
 		.SD(SD),
@@ -497,7 +499,8 @@ module fc1004
 		.vdata(ioc_vdata),
 		.reg_3e_q(ioc_reg_3e_q),
 		.zdata(ioc_zdata),
-		.ztov_address(ioc_ztov_address)
+		.ztov_address(ioc_ztov_address),
+		.no_tmss_flag(no_tmss_flag)
 		);
 	
 	wire tmss_ce0_i;
@@ -532,7 +535,8 @@ module fc1004
 		.test_2(tmss_test_2),
 		.test_3(tmss_test_3),
 		.test_4(tmss_test_4),
-		.data_out_en(tmss_data_out_en)
+		.data_out_en(tmss_data_out_en),
+		.no_tmss_flag(no_tmss_flag)
 		);
 	
 	assign ZA_o[0] = arb_za0_o;
