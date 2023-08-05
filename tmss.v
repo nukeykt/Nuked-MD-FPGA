@@ -22,6 +22,8 @@
  *
  */
 
+//`define NO_TMSS
+
 module tmss
 	(
 	input MCLK,
@@ -50,6 +52,7 @@ module tmss
 	output data_out_en
 	);
 	
+`ifndef NO_TMSS
 	reg [15:0] tmss_rom[0:1023];
 	
 	initial
@@ -73,17 +76,6 @@ module tmss
 	wire w39;
 	wire [15:0] l2;
 	wire [15:0] w20;
-	wire w50;
-	wire w51;
-	wire w53;
-	wire w54;
-	wire w55;
-	wire w56;
-	wire w52;
-	wire w57;
-	wire w58;
-	wire w59;
-	wire w62;
 	
 	ym_sdffr dff1(.MCLK(MCLK), .clk(w40), .val(w3), .reset(SRES), .q(dff1_q));
 	ym_sdffs dff2(.MCLK(MCLK), .clk(w10), .val(dff1_q), .set(SRES), .nq(dff2_nq));
@@ -118,6 +110,26 @@ module tmss
 	assign VD_o = w28 ? w20 : tmss_rom[VA[9:0]];
 	
 	assign data_out_en = (w41 & w28) | test_4;
+`else
+	assign VD_o = 16'h0;
+	assign DTACK = 1'h1;
+	assign RESET = 1'h1;
+	assign CE0_o = CE0_i;
+	assign data_out_en = 1'h1;
+`endif
+	
+	
+	wire w50;
+	wire w51;
+	wire w53;
+	wire w54;
+	wire w55;
+	wire w56;
+	wire w52;
+	wire w57;
+	wire w58;
+	wire w59;
+	wire w62;
 	
 	assign w50 = test[2:0] == 3'h0;
 	assign w51 = test[2:0] == 3'h1;
