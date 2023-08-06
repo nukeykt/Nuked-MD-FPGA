@@ -1,6 +1,7 @@
 module md_board
 	(
 	input MCLK,
+	input MCLK2,
 	input ext_reset,
 	
 	// cart
@@ -139,7 +140,7 @@ module md_board
 	wire IO;
 	wire IO_o;
 	wire IO_d;
-	wire [15:0] ZA;
+	reg [15:0] ZA;
 	wire [15:0] ym_ZA_o;
 	wire [15:0] ym_ZA_d;
 	wire SRES;
@@ -154,10 +155,10 @@ module md_board
 	wire EDCLK;
 	wire EDCLK_o;
 	wire EDCLK_d;
-	wire [15:0] VD;
+	reg [15:0] VD;
 	wire [15:0] ym_VD_o;
 	wire [15:0] ym_VD_d;
-	wire [22:0] VA;
+	reg [22:0] VA;
 	wire [22:0] ym_VA_o;
 	wire [22:0] ym_VA_d;
 	wire [15:0] PSG;
@@ -198,7 +199,7 @@ module md_board
 	wire CAS0_o;
 	wire CAS0_d;
 	wire RAS0;
-	wire [7:0] ZD;
+	reg [7:0] ZD;
 	wire [7:0] ym_ZD_o;
 	wire [7:0] ym_ZD_d;
 	
@@ -539,45 +540,41 @@ module md_board
 	
 	assign z80_ZA_d = {16{z80_ZA_d2}};
 	
-	assign ZA =
-		(~ym_ZA_d & ym_ZA_o) |
-		(~z80_ZA_d & z80_ZA_o);
-	
 	assign z80_ZD_d = {8{z80_ZD_d2}};
 	wire [7:0] ram_ZD_d = {8{ZRD | ZRAM}};
-	
-	assign ZD =
-		(~ym_ZD_d & ym_ZD_o) |
-		(~z80_ZD_d & z80_ZD_o) |
-		(~ram_ZD_d & ram_z80_o);
 	
 	assign m68k_VA_d = {23{m68k_VA_d2}};
 	
 	wire [22:0] m3_cart_VA_d = {M3, M3, M3, 20'hfffff};
 	wire [22:0] m3_cart_VA_o = {1'h1, 1'h0, 1'h1, 20'h0};
 	
-	assign VA =
-		(~ym_VA_d & ym_VA_o) |
-		(~m68k_VA_d & m68k_VA_o) |
-		(~m3_cart_VA_d & m3_cart_VA_o);
-	
 	assign m68k_VD_d = {16{m68k_VD_d2}};
 	wire [15:0] ram_VD_d = {{8{EOE|RAS0}}, {8{NOE|RAS0}}};
 	wire [15:0] cart_VD_d = M3 ?{16{CAS0 | CE0}}
 		: {8'hff, {8{ VA[17] | CAS0 | CE0 }}};
 	
-	reg [15:0] VD_mem;
-	
-	assign VD =
-		(~ym_VD_d & ym_VD_o) |
-		(~m68k_VD_d & m68k_VD_o) |
-		(~ram_VD_d & ram_68k_o) |
-		(~cart_VD_d & cart_data) |
-		((ym_VD_d & m68k_VD_d & ram_VD_d & cart_VD_d) & VD_mem);
-	
-	always @(posedge MCLK)
+	always @(posedge MCLK2)
 	begin
-		VD_mem <= VD;
+		VD <= 
+			(~ym_VD_d & ym_VD_o) |
+			(~m68k_VD_d & m68k_VD_o) |
+			(~ram_VD_d & ram_68k_o) |
+			(~cart_VD_d & cart_data) |
+			((ym_VD_d & m68k_VD_d & ram_VD_d & cart_VD_d) & VD);
+	
+		VA <=
+			(~ym_VA_d & ym_VA_o) |
+			(~m68k_VA_d & m68k_VA_o) |
+			(~m3_cart_VA_d & m3_cart_VA_o);
+	
+		ZD <=
+			(~ym_ZD_d & ym_ZD_o) |
+			(~z80_ZD_d & z80_ZD_o) |
+			(~ram_ZD_d & ram_z80_o);
+	
+		ZA <=
+			(~ym_ZA_d & ym_ZA_o) |
+			(~z80_ZA_d & z80_ZA_o);
 	end
 	
 	assign DTACK = ~ym_DTACK_pull;
