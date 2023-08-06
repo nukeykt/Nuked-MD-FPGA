@@ -33,7 +33,7 @@ module ym3438_detune
 		);
 	
 	wire dt_1_2_3 = dt_sr_o[0] | dt_sr_o[1];
-	wire dt_3 = dt_sr_o[1] & dt_sr_o[1];
+	wire dt_3 = dt_sr_o[0] & dt_sr_o[1];
 	
 	wire [6:0] dt_sum;
 	assign dt_sum[6:2] = 1'h1 + { dt_1_2_3, 1'h0, dt_sr_o[1], dt_3 } + { 1'h0, kcode[4:2] };
