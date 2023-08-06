@@ -27,6 +27,9 @@ module md_board
 	output [15:0] A_R,
 	output [17:0] A_L_2612,
 	output [17:0] A_R_2612,
+	output [8:0] MOL, MOR, // ym3438 linear, unsigned
+	output [9:0] MOL_2612, MOR_2612, // ym2612 dac emulation, signed
+	output [15:0] PSG,
 	
 	// input
 	input [6:0] PA_i,
@@ -77,8 +80,6 @@ module md_board
 	wire MREQ;
 	wire ym_MREQ_o;
 	wire ym_MREQ_d;
-	wire [8:0] MOL, MOR;
-	wire [9:0] MOL_2612, MOR_2612;
 	wire SOUND;
 	wire SOUND_o;
 	wire SOUND_d;
@@ -161,7 +162,6 @@ module md_board
 	reg [22:0] VA;
 	wire [22:0] ym_VA_o;
 	wire [22:0] ym_VA_d;
-	wire [15:0] PSG;
 	wire ym_INT_pull;
 	wire ym_BR_pull;
 	wire BGACK;
