@@ -75,7 +75,7 @@ module ym3438_lfo
 		.data_out(lfo_cnt_sr_out)
 		);
 	
-	wire [6:0] lfo_cnt_sum = lfo_cnt_sr_out + lfo_subcnt_of;
+	wire [6:0] lfo_cnt_sum = lfo_cnt_sr_out + { 6'h0, lfo_subcnt_of };
 	
 	assign lfo_cnt_sr_in = lfo[3] ? lfo_cnt_sum : 7'h00;
 	

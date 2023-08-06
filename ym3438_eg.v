@@ -267,7 +267,7 @@ module ym3438_eg
 		.nval(rate_ks_add_l_o)
 		);
 	
-	wire [6:0] rate_sum = { rate_l_o, 1'h1 } + { 1'h1, rate_ks_add_l_o } + 1'h1;
+	wire [6:0] rate_sum = { rate_l_o, 1'h1 } + { 1'h1, rate_ks_add_l_o } + 7'h1;
 	
 	wire [6:0] rate_sum_l_o;
 	
@@ -738,7 +738,7 @@ module ym3438_eg
 		.nval(eg_level_comb_o)
 		);
 		
-	wire [9:0] eg_level_sum = eg_add_l_o + eg_level_comb_o + 1'h1;
+	wire [9:0] eg_level_sum = eg_add_l_o + eg_level_comb_o + 10'h1;
 	
 	ym_dlatch_2 #(.DATA_WIDTH(10)) eg_level_sum_l
 		(
@@ -848,7 +848,7 @@ module ym3438_eg
 		.nval(eg_lfo_mux_l_o)
 		);
 	
-	wire [10:0] eg_level_lfo = { 3'h0, eg_lfo_mux_l_o } + eg_level_out_test;
+	wire [10:0] eg_level_lfo = { 4'h0, eg_lfo_mux_l_o } + { 1'h0, eg_level_out_test };
 	//wire [10:0] eg_level_lfo = eg_level_out_test;
 	wire [10:0] eg_level_lfo_l_o;
 	
@@ -886,7 +886,7 @@ module ym3438_eg
 		.nval(tl_add_l_o)
 		);
 	
-	wire [10:0] eg_level_tl = eg_level_lfo_l_o[9:0] + { tl_add_l_o, 3'h0 } + 10'h8;
+	wire [10:0] eg_level_tl = { 1'h0, eg_level_lfo_l_o[9:0] } + { 1'h0, tl_add_l_o, 3'h0 } + 11'h8;
 	//wire [10:0] eg_level_tl = eg_level_lfo_l_o[9:0];
 	
 	wire eg_level_of = eg_level_tl[10] & eg_level_lfo_l_o[10];
