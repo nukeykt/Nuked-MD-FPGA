@@ -7,6 +7,7 @@ module md_board
 	// cart
 	input M3,
 	input [15:0] cart_data,
+	input cart_data_en,
 	output [20:0] cart_address,
 	output cart_cs,
 	output cart_oe,
@@ -554,8 +555,10 @@ module md_board
 	
 	assign m68k_VD_d = {16{m68k_VD_d2}};
 	wire [15:0] ram_VD_d = {{8{EOE|RAS0}}, {8{NOE|RAS0}}};
-	wire [15:0] cart_VD_d = M3 ?{16{CAS0 | CE0}}
-		: {8'hff, {8{ VA[17] | CAS0 | CE0 }}};
+	//wire [15:0] cart_VD_d = M3 ?{16{CAS0 | CE0}}
+	//	: {8'hff, {8{ VA[17] | CAS0 | CE0 }}};
+	wire [15:0] cart_VD_d = M3 ? {16{~cart_data_en}}
+		: {8'hff, {8{~cart_data_en}}};
 	
 	always @(posedge MCLK2)
 	begin
