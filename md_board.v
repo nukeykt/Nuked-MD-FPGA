@@ -20,7 +20,7 @@ module md_board
 	
 	// video
 	output [7:0] V_R, V_G, V_B,
-	output V_HS, V_VS,
+	output V_HS, V_VS, V_CS,
 	
 	// audio
 	output [15:0] A_L,
@@ -40,7 +40,9 @@ module md_board
 	output [6:0] PB_d,
 	
 	output vdp_hclk1,
-	output vdp_intfield
+	output vdp_intfield,
+	output vdp_de_h,
+	output vdp_de_v
 	
 	);
 	
@@ -370,7 +372,9 @@ module md_board
 		.ZD_o(ym_ZD_o),
 		.ZD_d(ym_ZD_d),
 		.vdp_hclk1(vdp_hclk1),
-		.vdp_intfield(vdp_intfield)
+		.vdp_intfield(vdp_intfield),
+		.vdp_de_h(vdp_de_h),
+		.vdp_de_v(vdp_de_v)
 		);
 	
 	wire [2:0] IPL;
@@ -661,6 +665,7 @@ module md_board
 	
 	assign V_VS = VSYNC;
 	assign V_HS = HSYNC;
+	assign V_CS = CSYNC;
 	
 	assign SRES = ~ext_reset;
 	

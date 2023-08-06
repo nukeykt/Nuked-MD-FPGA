@@ -102,7 +102,9 @@ module ym7101
 	output [7:0] RA,
 	input ext_test_2,
 	output vdp_hclk1,
-	output vdp_intfield
+	output vdp_intfield,
+	output vdp_de_h,
+	output vdp_de_v
 	);
 
 	wire cpu_sel;
@@ -7121,6 +7123,21 @@ module ym7101
 	assign vdp_hclk1 = hclk1;
 	
 	assign vdp_intfield = w446;
+	
+	wire [1:0] vdp_de_1 = { t38, t29 };
+	wire [1:0] vdp_de_delay_m5;
+	
+	ym_sr_bit_array #(.SR_LENGTH(8), .DATA_WIDTH(2)) vdp_de_delay_m5_sr(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(vdp_de_1), .data_out(vdp_de_delay_m5));
+	
+	wire [1:0] vdp_de_2 = reg_m5 ? vdp_de_delay_m5 : vdp_de_1;
+	wire [1:0] vdp_de_3;
+	
+	ym_sr_bit_array #(.SR_LENGTH(7), .DATA_WIDTH(2)) vdp_de_delay_sr(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(vdp_de_2), .data_out(vdp_de_3));
+	
+	assign vdp_de_h = vdp_de_3[0];
+	assign vdp_de_v = vdp_de_3[1];
+	
+	
 	
 endmodule
 
