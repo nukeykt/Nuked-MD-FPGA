@@ -247,15 +247,15 @@ module ym6046
 	assign ra_sel[14] = read_address == 4'he;
 	assign ra_sel[15] = read_address == 4'hf;
 	
-	wire [2:0] dir_a = JAP ? 2'h3 : PORT_A_d[6:5];
-	wire [2:0] dir_b = JAP ? 2'h3 : PORT_B_d[6:5];
+	wire [1:0] dir_a = JAP ? 2'h3 : PORT_A_d[6:5];
+	wire [1:0] dir_b = JAP ? 2'h3 : PORT_B_d[6:5];
 	
 	wire [7:0] rd_0 = { JAP, test ? { uart_clk, uart_clk2_c, uart_clk1_c, uart_clk2_b, uart_clk1_b, uart_clk2_a, uart_clk1_a } :
 		{ pal, DISK, 4'h0, ~no_tmss_flag } };
 	
 	wire [7:0] rd_1 = M3 ? { p_data_q_a[7], PORT_A_i } : { PORT_B_i[1:0], dir_a[0] & PORT_A_i[5], PORT_A_i[4], PORT_A_i[3:0] };
 	
-	wire [7:0] rd_2 = M3 ? { p_data_q_b[7], PORT_B_i } : { dir_b[1] & PORT_B_i[6], dir_a[0] & PORT_A_i[6], 2'h1, dir_b[0] & PORT_B_i[5], PORT_B_i[4:2] };
+	wire [7:0] rd_2 = M3 ? { p_data_q_b[7], PORT_B_i } : { dir_b[1] & PORT_B_i[6], dir_a[1] & PORT_A_i[6], 2'h1, dir_b[0] & PORT_B_i[5], PORT_B_i[4:2] };
 	
 	wire [7:0] rd_3 = { p_data_q_c[7], PORT_C_i };
 	
