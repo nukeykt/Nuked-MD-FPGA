@@ -301,7 +301,7 @@ module ym6046
 		(ra_sel[14] ? rd_14 : 8'h0) |
 		(ra_sel[15] ? rd_15 : 8'h0);
 	
-	assign vread = CAS0 & IO;
+	assign vread = CAS0 | IO;
 	assign vwrite = LWR | IO;
 	assign vsel = ~(M3 & address[7:4] == 4'h0);
 	assign vread_high = ~vsel & address[3] & ~vread;
