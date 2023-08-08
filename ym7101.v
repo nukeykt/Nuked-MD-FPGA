@@ -7188,20 +7188,19 @@ module ym7101_rs_trig
 	input MCLK,
 	input set,
 	input rst,
-	output q,
-	output nq
+	output reg q = 1'h0,
+	output reg nq = 1'h1
 	);
 	
-	reg mem = 1'h0;
+	//reg mem = 1'h0;
 	
-	assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
-	assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
+	//assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
+	//assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
 	
 	always @(posedge MCLK)
 	begin
-		mem <= q;
-		//q <= set ? 1'h1 : (rst ? 1'h0 : q);
-		//nq <= rst ? 1'h1 : (set ? 1'h0 : nq);
+		q <= set ? 1'h1 : (rst ? 1'h0 : q);
+		nq <= rst ? 1'h1 : (set ? 1'h0 : ~q);
 	end
 	
 endmodule
