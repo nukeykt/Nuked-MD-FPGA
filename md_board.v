@@ -8,7 +8,7 @@ module md_board
 	input M3,
 	input [15:0] cart_data,
 	input cart_data_en,
-	output [20:0] cart_address,
+	output [22:0] cart_address,
 	output cart_cs,
 	output cart_oe,
 	output cart_lwr,
@@ -681,7 +681,7 @@ module md_board
 	assign A_L_2612 = {MOL_2612[9], MOL_2612,7'h0} + {{2{MOL_2612[9]}}, MOL_2612,6'h0} + {2'h0, PSG};
 	assign A_R_2612 = {MOR_2612[9], MOR_2612,7'h0} + {{2{MOR_2612[9]}}, MOR_2612,6'h0} + {2'h0, PSG};
 	
-	assign cart_address = VA[20:0];
+	assign cart_address = VA[22:0];
 	assign cart_cs = ~CE0;
 	assign cart_oe = ~CAS0;
 	assign cart_lwr = ~LWR;
