@@ -7183,29 +7183,30 @@ module ym7101
 	
 endmodule
 
-/*module ym7101_rs_trig
+module ym7101_rs_trig
 	(
 	input MCLK,
 	input set,
 	input rst,
-	output reg q = 1'h0,
-	output reg nq = 1'h1
+	output q,
+	output nq
 	);
 	
-	//reg mem = 1'h0;
+	reg mem = 1'h0;
 	
-	// assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
-	// assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
+	assign q = set ? 1'h1 : (rst ? 1'h0 : mem);
+	assign nq = rst ? 1'h1 : (set ? 1'h0 : ~mem); 
 	
 	always @(posedge MCLK)
 	begin
-		q <= set ? 1'h1 : (rst ? 1'h0 : q);
-		nq <= rst ? 1'h1 : (set ? 1'h0 : nq);
+		mem <= q;
+		//q <= set ? 1'h1 : (rst ? 1'h0 : q);
+		//nq <= rst ? 1'h1 : (set ? 1'h0 : nq);
 	end
 	
-endmodule*/
+endmodule
 
-module ym7101_rs_trig
+/*module ym7101_rs_trig
 	(
 	input MCLK,
 	input set,
@@ -7219,7 +7220,7 @@ module ym7101_rs_trig
 	assign q = set | ~nq;
 	assign nq = rst | ~q; 
 	
-endmodule
+endmodule*/
 
 
 /*module ym7101_dff #(parameter DATA_WIDTH = 1)
@@ -7254,7 +7255,7 @@ endmodule
 	
 endmodule*/
 
-/*module ym7101_dff #(parameter DATA_WIDTH = 1)
+module ym7101_dff #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input clk,
@@ -7284,9 +7285,9 @@ endmodule*/
 		end
 	end
 	
-endmodule*/
+endmodule
 
-module ym7101_dff #(parameter DATA_WIDTH = 1)
+/*module ym7101_dff #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input clk,
@@ -7307,4 +7308,4 @@ module ym7101_dff #(parameter DATA_WIDTH = 1)
 			l2 <= inp;
 	end
 	
-endmodule
+endmodule*/
