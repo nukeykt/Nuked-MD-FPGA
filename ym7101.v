@@ -138,17 +138,30 @@ module ym7101
 	
 	wire reset_comb;
 	wire mclk_and1;
-	reg prescaler_dff1 = 1'h0;
-	reg prescaler_dff2 = 1'h0;
-	reg prescaler_dff3 = 1'h0;
-	reg prescaler_dff4 = 1'h0;
-	reg prescaler_dff5 = 1'h0;
-	reg prescaler_dff6 = 1'h0;
-	reg prescaler_dff7 = 1'h0;
-	reg prescaler_dff8 = 1'h0;
-	reg prescaler_dff9 = 1'h0;
-	reg prescaler_dff10 = 1'h0;
-	reg prescaler_dff11 = 1'h0;
+	//reg prescaler_dff1 = 1'h0;
+	//reg prescaler_dff2 = 1'h0;
+	//reg prescaler_dff3 = 1'h0;
+	//reg prescaler_dff4 = 1'h0;
+	//reg prescaler_dff5 = 1'h0;
+	//reg prescaler_dff6 = 1'h0;
+	//reg prescaler_dff7 = 1'h0;
+	//reg prescaler_dff8 = 1'h0;
+	//reg prescaler_dff9 = 1'h0;
+	//reg prescaler_dff10 = 1'h0;
+	//reg prescaler_dff11 = 1'h0;
+	
+	wire prescaler_dff1_l2;
+	wire prescaler_dff2_l2;
+	wire prescaler_dff3_l2;
+	wire prescaler_dff4_l2;
+	wire prescaler_dff5_l2;
+	wire prescaler_dff6_l2;
+	wire prescaler_dff7_l2;
+	wire prescaler_dff8_l2;
+	wire prescaler_dff9_l2;
+	wire prescaler_dff10_l2;
+	wire prescaler_dff11_l2;
+	
 	wire prescaler_dff12_l2;
 	wire prescaler_dff13_l2;
 	wire prescaler_dff14_l2;
@@ -2196,13 +2209,13 @@ module ym7101
 	
 	// prescaler
 	
-	assign mclk_and1 = prescaler_dff2 & ~prescaler_dff1;
+	assign mclk_and1 = prescaler_dff2_l2 & ~prescaler_dff1_l2;
 	
-	assign mclk_clk1 = prescaler_dff4;
+	assign mclk_clk1 = prescaler_dff4_l2;
 	
-	assign mclk_clk2 = prescaler_dff7;
+	assign mclk_clk2 = prescaler_dff7_l2;
 	
-	assign mclk_clk3 = ~prescaler_dff11;
+	assign mclk_clk3 = ~prescaler_dff11_l2;
 	
 	assign mclk_clk4 = prescaler_dff13_l2 | prescaler_dff14_l2;
 	
@@ -2212,10 +2225,12 @@ module ym7101
 	
 	assign mclk_cpu_clk0 = reg_test1[0] ? CLK1_i : mclk_clk5;
 	
-	assign mclk_cpu_clk1 = ~mclk_clk3;
-	
 	assign mclk_dclk = (reg_rs0 | reg_test1[0]) ? EDCLK_i : (reg_rs1 ? mclk_clk1 : mclk_clk2);
 	//assign mclk_dclk = reg_rs1 ? mclk_clk1 : mclk_clk2;
+	
+	/*
+	
+	assign mclk_cpu_clk1 = ~mclk_clk3;
 	
 	always @(posedge MCLK)
 	begin
@@ -2248,7 +2263,32 @@ module ym7101
 			prescaler_dff10 <= ~(prescaler_dff8 & prescaler_dff9);
 			prescaler_dff11 <= prescaler_dff10;
 		end
+	end*/
+	
+	reg mclk_clk3_l;
+	
+	assign mclk_cpu_clk1 = ~(mclk_clk3 | mclk_clk3_l);
+	
+	reg MCLK_e;
+	
+	always @(posedge MCLK)
+	begin
+		mclk_clk3_l <= mclk_clk3;
+		MCLK_e <= ~MCLK_e;
 	end
+	
+	ym7101_dff prescaler_dff1(.MCLK(MCLK), .clk(MCLK_e), .inp(reset_comb), .rst(1'h0), .outp(prescaler_dff1_l2));
+	ym7101_dff prescaler_dff2(.MCLK(MCLK), .clk(MCLK_e), .inp(prescaler_dff1_l2), .rst(1'h0), .outp(prescaler_dff2_l2));
+	ym7101_dff prescaler_dff3(.MCLK(MCLK), .clk(MCLK_e), .inp(prescaler_dff4_l2), .rst(mclk_and1), .outp(prescaler_dff3_l2));
+	ym7101_dff prescaler_dff4(.MCLK(MCLK), .clk(MCLK_e), .inp(~prescaler_dff3_l2), .rst(mclk_and1), .outp(prescaler_dff4_l2));
+	ym7101_dff prescaler_dff5(.MCLK(MCLK), .clk(MCLK_e), .inp(prescaler_dff7_l2), .rst(mclk_and1), .outp(prescaler_dff5_l2));
+	ym7101_dff prescaler_dff6(.MCLK(MCLK), .clk(MCLK_e), .inp(prescaler_dff5_l2), .rst(mclk_and1), .outp(prescaler_dff6_l2));
+	ym7101_dff prescaler_dff7(.MCLK(MCLK), .clk(MCLK_e), .inp(~(prescaler_dff5_l2 & prescaler_dff6_l2)), .rst(mclk_and1), .outp(prescaler_dff7_l2));
+	ym7101_dff prescaler_dff8(.MCLK(MCLK), .clk(MCLK_e), .inp(prescaler_dff11_l2), .rst(mclk_and1), .outp(prescaler_dff8_l2));
+	ym7101_dff prescaler_dff9(.MCLK(MCLK), .clk(MCLK_e), .inp(prescaler_dff8_l2), .rst(mclk_and1), .outp(prescaler_dff9_l2));
+	ym7101_dff prescaler_dff10(.MCLK(MCLK), .clk(MCLK_e), .inp(~(prescaler_dff8_l2 & prescaler_dff9_l2)), .rst(mclk_and1), .outp(prescaler_dff10_l2));
+	ym7101_dff prescaler_dff11(.MCLK(MCLK), .clk(MCLK_e), .inp(prescaler_dff10_l2), .rst(mclk_and1), .outp(prescaler_dff11_l2));
+	
 	ym7101_dff prescaler_dff12(.MCLK(MCLK), .clk(mclk_clk1), .inp(~(prescaler_dff12_l2 | prescaler_dff13_l2)), .rst(mclk_and1), .outp(prescaler_dff12_l2));
 	ym7101_dff prescaler_dff13(.MCLK(MCLK), .clk(mclk_clk1), .inp(prescaler_dff12_l2), .rst(mclk_and1), .outp(prescaler_dff13_l2));
 	ym7101_dff prescaler_dff14(.MCLK(MCLK), .clk(~mclk_clk1), .inp(prescaler_dff13_l2), .rst(mclk_and1), .outp(prescaler_dff14_l2));
@@ -2271,10 +2311,12 @@ module ym7101
 	
 	
 	reg dclk_l;
+	reg dclk_l2;
 	
 	always @(posedge MCLK)
 	begin
-		dclk_l <= mclk_dclk;
+		dclk_l <= dclk_l2;
+		dclk_l2 <= mclk_dclk;
 	end
 	
 	assign clk1 = ~mclk_dclk & dclk_l;

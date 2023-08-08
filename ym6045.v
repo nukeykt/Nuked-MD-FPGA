@@ -107,9 +107,14 @@ module ym6045
 	
 	wire pal_trap = ~1'h1;
 	
-	reg dff1;
-	reg dff2;
-	reg dff3;
+	//reg dff1;
+	//reg dff2;
+	//reg dff3;
+	
+	wire dff1_nq;
+	wire dff2_q, dff2_nq;
+	wire dff3_q, dff3_nq;
+	
 	wire dff4_nq, dff4_cout;
 	wire dff5_nq, dff5_cout;
 	wire dff6_nq, dff6_cout;
@@ -382,7 +387,7 @@ module ym6045
 	reg edclk_buf;
 	
 	// EDCLK
-	always @(posedge MCLK)
+	/*always @(posedge MCLK)
 	begin
 		if (!sres)
 		begin
@@ -407,11 +412,26 @@ module ym6045
 		end
 		
 		edclk_buf <= w2;
+	end*/
+	
+	reg MCLK_e;
+	
+	ym_scnt_bit dff1(.MCLK(MCLK), .clk(MCLK_e), .load(w1), .val(1'h1), .cin(w3), .rst(sres), .nq(dff1_nq));
+	ym_scnt_bit dff2(.MCLK(MCLK), .clk(MCLK_e), .load(w1), .val(~dff9_q), .cin(1'h1), .rst(sres), .q(dff2_q), .nq(dff2_nq));
+	ym_scnt_bit dff3(.MCLK(MCLK), .clk(MCLK_e), .load(w1), .val(1'h0), .cin(dff2_q), .rst(sres), .q(dff3_q), .nq(dff3_nq));
+	
+	always @(posedge MCLK)
+	begin
+		edclk_buf <= w2;
+		MCLK_e <= ~MCLK_e;
 	end
 	
-	assign w1 = ~(~dff1 & ~dff2 & ~dff3);
-	assign w2 = dff3;
-	assign w3 = dff2 & dff3;
+	//assign w1 = ~(~dff1 & ~dff2 & ~dff3);
+	//assign w2 = dff3;
+	//assign w3 = dff2 & dff3;
+	assign w1 = ~(dff1_nq & dff2_nq & dff3_nq);
+	assign w2 = dff3_q;
+	assign w3 = dff2_q & dff3_q;
 	assign w4 = w2;
 	assign w5 = ~(dff4_nq | dff5_nq | dff6_nq | dff7_nq);
 

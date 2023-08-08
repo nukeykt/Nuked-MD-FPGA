@@ -74,13 +74,14 @@ module md_board
 	wire HSYNC;
 	wire HSYNC_pull;
 	//wire M3;
+	reg _M3;
 	wire NTSC;
 	wire VPA;
 	wire ym_HALT_pull;
 	wire ym_RESET_pull;
 	wire FC0;
 	wire FC1;
-	wire MREQ;
+	reg MREQ;
 	wire ym_MREQ_o;
 	wire ym_MREQ_d;
 	wire SOUND;
@@ -167,32 +168,32 @@ module md_board
 	wire [22:0] ym_VA_d;
 	wire ym_INT_pull;
 	wire ym_BR_pull;
-	wire BGACK;
+	reg BGACK;
 	wire ym_BGACK_pull;
 	wire BG;
 	wire ym_IPL1_pull;
 	wire ym_IPL2_pull;
-	wire IORQ;
-	wire ZRD;
+	reg IORQ;
+	reg ZRD;
 	wire ym_ZRD_o;
 	wire ym_ZRD_d;
-	wire ZWR;
+	reg ZWR;
 	wire ym_ZWR_o;
 	wire ym_ZWR_d;
 	wire M1;
-	wire AS;
+	reg AS;
 	wire ym_AS_o;
 	wire ym_AS_d;
-	wire UDS;
+	reg UDS;
 	wire ym_UDS_o;
 	wire ym_UDS_d;
-	wire LDS;
+	reg LDS;
 	wire ym_LDS_o;
 	wire ym_LDS_d;
-	wire RW;
+	reg RW;
 	wire ym_RW_o;
 	wire ym_RW_d;
-	wire DTACK;
+	reg DTACK;
 	wire ym_DTACK_pull;
 	wire UWR;
 	wire LWR;
@@ -208,7 +209,7 @@ module md_board
 	
 	fc1004 ym
 		(
-		.MCLK(MCLK),
+		.MCLK(MCLK2),
 		.SD(SD),
 		.SE1(SE1),
 		.SE0(SE0),
@@ -235,7 +236,7 @@ module md_board
 		.CSYNC_pull(CSYNC_pull),
 		.HSYNC_i(HSYNC),
 		.HSYNC_pull(HSYNC_pull),
-		.M3(M3),
+		.M3(_M3),
 		.NTSC(NTSC),
 		.VPA(VPA),
 		.HALT_pull(ym_HALT_pull),
@@ -379,7 +380,7 @@ module md_board
 		);
 	
 	wire [2:0] IPL;
-	wire BR;
+	reg BR;
 	wire BERR;
 	wire m68k_RESET_pull;
 	wire m68k_HALT_pull;
@@ -403,7 +404,7 @@ module md_board
 	
 	m68kcpu m68k
 		(
-		.MCLK(MCLK),
+		.MCLK(MCLK2),
 		.CLK(VCLK),
 		.BR(BR),
 		.BGACK(BGACK),
@@ -449,7 +450,7 @@ module md_board
 	
 	z80cpu z80
 		(
-		.MCLK(MCLK),
+		.MCLK(MCLK2),
 		.CLK(ZCLK),
 		.ADDRESS(z80_ZA_o),
 		.ADDRESS_z(z80_ZA_d2),
@@ -482,7 +483,7 @@ module md_board
 	
 	vram vram1
 		(
-		.MCLK(MCLK),
+		.MCLK(MCLK2),
 		.RAS(RAS1),
 		.CAS(CAS1),
 		.WE(WE0),
@@ -505,7 +506,7 @@ module md_board
 		(
 		.address(ram_68k_address),
 		.byteena({ ~UWR, ~LWR }),
-		.clock(MCLK),
+		.clock(MCLK2),
 		.data(VD),
 		.wren((~UWR | ~LWR) & ~RAS0),
 		.q(ram_68k_o)
@@ -516,7 +517,7 @@ module md_board
 	ram_z80 ram_z80
 		(
 		.address(ZA[12:0]),
-		.clock(MCLK),
+		.clock(MCLK2),
 		.data(ZD),
 		.wren(~ZRAM & ~ZWR),
 		.q(ram_z80_o)
@@ -533,7 +534,7 @@ module md_board
 		(~vram1_AD_d ? vram1_AD_o : 8'h0) |
 		((ym_AD_d & vram1_AD_d) ? AD_mem : 8'h0);
 	
-	always @(posedge MCLK)
+	always @(posedge MCLK2)
 	begin
 		RD_mem <= RD;
 		AD_mem <= AD;
@@ -550,14 +551,14 @@ module md_board
 	
 	assign m68k_VA_d = {23{m68k_VA_d2}};
 	
-	wire [22:0] m3_cart_VA_d = {M3, M3, M3, 20'hfffff};
+	wire [22:0] m3_cart_VA_d = {_M3, _M3, _M3, 20'hfffff};
 	wire [22:0] m3_cart_VA_o = {1'h1, 1'h0, 1'h1, 20'h0};
 	
 	assign m68k_VD_d = {16{m68k_VD_d2}};
 	wire [15:0] ram_VD_d = {{8{EOE|RAS0}}, {8{NOE|RAS0}}};
 	//wire [15:0] cart_VD_d = M3 ?{16{CAS0 | CE0}}
 	//	: {8'hff, {8{ VA[17] | CAS0 | CE0 }}};
-	wire [15:0] cart_VD_d = M3 ? {16{~cart_data_en}}
+	wire [15:0] cart_VD_d = _M3 ? {16{~cart_data_en}}
 		: {8'hff, {8{~cart_data_en}}};
 	
 	always @(posedge MCLK2)
@@ -582,13 +583,39 @@ module md_board
 		ZA <=
 			(~ym_ZA_d & ym_ZA_o) |
 			(~z80_ZA_d & z80_ZA_o);
+	
+		DTACK <= ~ym_DTACK_pull;
+	
+		BGACK <= ~ym_BGACK_pull;
+	
+		BR <= ~ym_BR_pull;
+		
+		AS <= ym_AS_d & m68k_S_d ? 1'h1 :
+			(~ym_AS_d & ym_AS_o) |
+			(~m68k_S_d & m68k_AS_o);
+		UDS <= ym_UDS_d & m68k_S_d ? 1'h1 :
+			(~ym_UDS_d & ym_UDS_o) |
+			(~m68k_S_d & m68k_UDS_o);
+		LDS <= ym_LDS_d & m68k_S_d ? 1'h1 :
+			(~ym_LDS_d & ym_LDS_o) |
+			(~m68k_S_d & m68k_LDS_o);
+		RW <= ym_RW_d & m68k_RW_d ? 1'h1 :
+			(~ym_RW_d & ym_RW_o) |
+			(~m68k_RW_d & m68k_RW_o);
+		
+		_M3 <= M3;
+	
+		ZRD <= ym_ZRD_d & z80_ZRD_d ? 1'h1 :
+			(~ym_ZRD_d & ym_ZRD_o) |
+			(~z80_ZRD_d & z80_ZRD_o);
+		ZWR <= ym_ZWR_d & z80_ZWR_d ? 1'h1 :
+			(~ym_ZWR_d & ym_ZWR_o) |
+			(~z80_ZWR_d & z80_ZWR_o);
+		MREQ <= ym_MREQ_d & z80_MREQ_d ? 1'h1 :
+			(~ym_MREQ_d & ym_MREQ_o) |
+			(~z80_MREQ_d & z80_MREQ_o);
+		IORQ <= z80_IORQ_d ? 1'h1 : z80_IORQ_o;
 	end
-	
-	assign DTACK = ~ym_DTACK_pull;
-	
-	assign BGACK = ~ym_BGACK_pull;
-	
-	assign BR = ~ym_BR_pull;
 	
 	assign RESET = ~(ym_RESET_pull | m68k_RESET_pull);
 	assign HALT = ~(ym_HALT_pull | m68k_HALT_pull);
@@ -610,29 +637,6 @@ module md_board
 	assign JAP = ~jap;
 	assign DISK = 1'h1;
 	
-	assign AS = ym_AS_d & m68k_S_d ? 1'h1 :
-		(~ym_AS_d & ym_AS_o) |
-		(~m68k_S_d & m68k_AS_o);
-	assign UDS = ym_UDS_d & m68k_S_d ? 1'h1 :
-		(~ym_UDS_d & ym_UDS_o) |
-		(~m68k_S_d & m68k_UDS_o);
-	assign LDS = ym_LDS_d & m68k_S_d ? 1'h1 :
-		(~ym_LDS_d & ym_LDS_o) |
-		(~m68k_S_d & m68k_LDS_o);
-	assign RW = ym_RW_d & m68k_RW_d ? 1'h1 :
-		(~ym_RW_d & ym_RW_o) |
-		(~m68k_RW_d & m68k_RW_o);
-	
-	assign ZRD = ym_ZRD_d & z80_ZRD_d ? 1'h1 :
-		(~ym_ZRD_d & ym_ZRD_o) |
-		(~z80_ZRD_d & z80_ZRD_o);
-	assign ZWR = ym_ZWR_d & z80_ZWR_d ? 1'h1 :
-		(~ym_ZWR_d & ym_ZWR_o) |
-		(~z80_ZWR_d & z80_ZWR_o);
-	assign MREQ = ym_MREQ_d & z80_MREQ_d ? 1'h1 :
-		(~ym_MREQ_d & ym_MREQ_o) |
-		(~z80_MREQ_d & z80_MREQ_o);
-	
 	assign LWR = ~LWR_d & LWR_o;
 	
 	assign CSYNC = ~CSYNC_pull;
@@ -649,8 +653,6 @@ module md_board
 	assign BERR = 1'h1;
 	
 	assign SD = vram1_SD_d ? 8'h0 : vram1_SD_o;
-	
-	assign IORQ = z80_IORQ_d ? 1'h1 : z80_IORQ_o;
 	
 	assign INT = ~ym_INT_pull;
 	
