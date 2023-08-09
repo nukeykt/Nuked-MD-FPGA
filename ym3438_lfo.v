@@ -102,7 +102,7 @@ module ym3438_lfo
 	
 	wire [6:0] lfo_cnt_lock;
 	
-	ym_slatch2 #(.DATA_WIDTH(7)) lfo_cnt_l
+	ym_slatch #(.DATA_WIDTH(7)) lfo_cnt_l
 		(
 		.MCLK(MCLK),
 		.en(lfo_cnt_load),

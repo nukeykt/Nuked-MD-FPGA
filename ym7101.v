@@ -74,7 +74,7 @@ module ym7101
 	input [22:0] CA_i,
 	output [22:0] CA_o,
 	output CA_d,
-	output reg [15:0] SOUND,
+	output [15:0] SOUND,
 	output INT_pull,
 	output BR_pull,
 	input BGACK_i,
@@ -6687,16 +6687,16 @@ module ym7101
 	assign psg_clk1 = cpu_clk0;
 	assign psg_clk2 = ~cpu_clk0;
 	
-	ym_sr_bit2 sr631(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(reset_comb), .sr_out(l631));
-	ym_sr_bit2 sr632(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l631), .sr_out(l632));
+	ym_sr_bit sr631(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(reset_comb), .sr_out(l631));
+	ym_sr_bit sr632(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l631), .sr_out(l632));
 	
 	assign w1104 = l631 & ~l632;
 	
 	assign w1105 = ~w1104 & ~l633;
 	
-	ym_cnt_bit2 cnt649(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .c_in(l633), .reset(w1104), .val(l649));
+	ym_cnt_bit cnt649(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .c_in(l633), .reset(w1104), .val(l649));
 	
-	ym_sr_bit2 sr633(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1105), .sr_out(l633));
+	ym_sr_bit sr633(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1105), .sr_out(l633));
 	
 	ym_dlatch_1 dl634(.MCLK(MCLK), .c1(psg_clk1), .inp(l649), .nval(l634));
 	
@@ -6708,9 +6708,9 @@ module ym7101
 	
 	assign w1106 = ~t43 & ~w111;
 	
-	ym_sr_bit2 sr635(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1106), .sr_out(l635));
+	ym_sr_bit sr635(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(w1106), .sr_out(l635));
 	
-	ym_sr_bit2 sr636(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l635), .sr_out(l636));
+	ym_sr_bit sr636(.MCLK(MCLK), .c1(psg_clk1), .c2(psg_clk2), .bit_in(l635), .sr_out(l636));
 	
 	ym_sr_bit sr637(.MCLK(MCLK), .c1(psg_hclk1), .c2(psg_hclk2), .bit_in(reset_comb), .sr_out(l637));
 	
@@ -6928,12 +6928,12 @@ module ym7101
 		(w1152 == 4'he ? 16'd0010 : 16'd0) |
 		(w1152 == 4'hf ? 16'd0000 : 16'd0));
 	
-	//assign SOUND = psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
+	assign SOUND = psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
 	
-	always @(posedge psg_hclk1)
-	begin
-		SOUND <= psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
-	end
+	//always @(posedge psg_hclk1)
+	//begin
+	//	SOUND <= psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
+	//end
 	
 	// vram bus
 	
@@ -7222,7 +7222,7 @@ endmodule
 endmodule*/
 
 
-/*module ym7101_dff #(parameter DATA_WIDTH = 1)
+module ym7101_dff #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input clk,
@@ -7235,8 +7235,8 @@ endmodule*/
 	
 	wire [DATA_WIDTH-1:0] l2_assign = rst ? {DATA_WIDTH{1'h0}} : (clk ? l1 : l2);
 	
-	//assign outp = l2_assign;
-	assign outp = l2;
+	assign outp = l2_assign;
+	//assign outp = l2;
 	
 	always @(posedge MCLK)
 	begin
@@ -7252,9 +7252,9 @@ endmodule*/
 		l2 <= l2_assign;
 	end
 	
-endmodule*/
+endmodule
 
-module ym7101_dff #(parameter DATA_WIDTH = 1)
+/*module ym7101_dff #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input clk,
@@ -7284,7 +7284,7 @@ module ym7101_dff #(parameter DATA_WIDTH = 1)
 		end
 	end
 	
-endmodule
+endmodule*/
 
 /*module ym7101_dff #(parameter DATA_WIDTH = 1)
 	(

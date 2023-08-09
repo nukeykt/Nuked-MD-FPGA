@@ -60,7 +60,7 @@ endmodule
 	end
 endmodule*/
 
-module ym_sr_bit2 #(parameter SR_LENGTH = 1)
+/*module ym_sr_bit2 #(parameter SR_LENGTH = 1)
 	(
 	input MCLK,
 	input c1,
@@ -80,7 +80,7 @@ module ym_sr_bit2 #(parameter SR_LENGTH = 1)
 		else
 			v2 <= { v2[SR_LENGTH-2:0], bit_in };
 	end
-endmodule
+endmodule*/
 
 module ym_sr_bit_array #(parameter SR_LENGTH = 1, DATA_WIDTH = 1)
 	(
@@ -142,7 +142,7 @@ module ym_cnt_bit #(parameter DATA_WIDTH = 1)
 	
 endmodule
 
-module ym_cnt_bit2
+/*module ym_cnt_bit2
 	(
 	input MCLK,
 	input c1,
@@ -171,7 +171,7 @@ module ym_cnt_bit2
 	assign data_in = reset ? 1'h0 : sum[0];
 	assign c_out = sum[1];
 	
-endmodule
+endmodule*/
 
 module ym_dlatch_1 #(parameter DATA_WIDTH = 1)
 	(
@@ -267,7 +267,7 @@ endmodule
 	
 endmodule*/
 
-/*module ym_edge_detect
+module ym_edge_detect
 	(
 	input MCLK,
 	input c1,
@@ -286,9 +286,9 @@ endmodule*/
 		.nval()
 		);
 	assign outp = ~(prev_out | ~inp);
-endmodule*/
+endmodule
 
-module ym_edge_detect
+/*module ym_edge_detect
 	(
 	input MCLK,
 	input c1,
@@ -304,7 +304,7 @@ module ym_edge_detect
 	end
 	
 	assign outp = ~(prev_out | ~inp);
-endmodule
+endmodule*/
 
 module ym_slatch #(parameter DATA_WIDTH = 1)
 	(
@@ -353,7 +353,7 @@ endmodule
 	
 endmodule*/
 
-module ym_slatch2 #(parameter DATA_WIDTH = 1)
+/*module ym_slatch2 #(parameter DATA_WIDTH = 1)
 	(
 	input MCLK,
 	input en,
@@ -376,7 +376,7 @@ module ym_slatch2 #(parameter DATA_WIDTH = 1)
 	assign val = mem;
 	assign nval = ~mem;
 	
-endmodule
+endmodule*/
 
 module ym_slatch_t #(parameter DATA_WIDTH = 1)
 	(

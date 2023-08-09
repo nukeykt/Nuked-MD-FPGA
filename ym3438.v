@@ -399,32 +399,32 @@ module ym3438(
 		.dac_out_enable_2612(dac_out_enable_2612)
 		);
 	
-	reg [8:0] ch_out_l;
-	reg [1:0] ch_pan_l;
-	reg dac_out_enable_l;
-	reg dac_out_enable_2612_l;
+	//reg [8:0] ch_out_l;
+	//reg [1:0] ch_pan_l;
+	//reg dac_out_enable_l;
+	//reg dac_out_enable_2612_l;
 	
 	//assign MOR = ch_pan[0] ? ch_out : 9'h100;
 	//assign MOL = ch_pan[1] ? ch_out : 9'h100;
-	assign MOR = (ch_pan_l[0] & dac_out_enable_l) ? ch_out_l : 9'h100;
-	assign MOL = (ch_pan_l[1] & dac_out_enable_l) ? ch_out_l : 9'h100;
+	assign MOR = (pan[0] & dac_out_enable) ? ch_out : 9'h100;
+	assign MOL = (pan[1] & dac_out_enable) ? ch_out : 9'h100;
 	
 	//assign d_c1 = c1;
 	//assign d_c2 = c2;
 	
-	wire DAC_2612_sign = ~ch_out_l[8];
-	wire [9:0] DAC_2612_matrix_out = DAC_2612_sign ? { 2'h3, ch_out_l[7:0] } : ({ 2'h0, ch_out_l[7:0] } + 10'h1);
+	wire DAC_2612_sign = ~ch_out[8];
+	wire [9:0] DAC_2612_matrix_out = DAC_2612_sign ? { 2'h3, ch_out[7:0] } : ({ 2'h0, ch_out[7:0] } + 10'h1);
 	wire [9:0] DAC_2612_silent = DAC_2612_sign ? 10'h3ff : 10'h1;
 	
-	assign MOR_2612 = (ch_pan_l[0] & dac_out_enable_2612_l) ? DAC_2612_matrix_out : DAC_2612_silent;
-	assign MOL_2612 = (ch_pan_l[1] & dac_out_enable_2612_l) ? DAC_2612_matrix_out : DAC_2612_silent;
+	assign MOR_2612 = (pan[0] & dac_out_enable_2612) ? DAC_2612_matrix_out : DAC_2612_silent;
+	assign MOL_2612 = (pan[1] & dac_out_enable_2612) ? DAC_2612_matrix_out : DAC_2612_silent;
 	
-	always @(negedge c1)
-	begin
-		ch_out_l <= ch_out;
-		ch_pan_l <= pan;
-		dac_out_enable_l <= dac_out_enable;
-		dac_out_enable_2612_l <= dac_out_enable_2612;
-	end
+	//always @(negedge c1)
+	//begin
+	//	ch_out_l <= ch_out;
+	//	ch_pan_l <= pan;
+	//	dac_out_enable_l <= dac_out_enable;
+	//	dac_out_enable_2612_l <= dac_out_enable_2612;
+	//end
 	
 endmodule

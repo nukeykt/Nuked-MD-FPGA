@@ -195,7 +195,7 @@ module ym3438_eg
 	
 	wire [1:0] eg_cnt_low_o;
 		
-	ym_slatch2 #(.DATA_WIDTH(2)) eg_cnt_low
+	ym_slatch #(.DATA_WIDTH(2)) eg_cnt_low
 		(
 		.MCLK(MCLK),
 		.en(eg_cnt_ed_o),
@@ -217,7 +217,7 @@ module ym3438_eg
 	
 	wire [3:0] eg_cnt_shift_o;
 		
-	ym_slatch2 #(.DATA_WIDTH(4)) eg_cnt_shift
+	ym_slatch #(.DATA_WIDTH(4)) eg_cnt_shift
 		(
 		.MCLK(MCLK),
 		.en(eg_cnt_ed_o),

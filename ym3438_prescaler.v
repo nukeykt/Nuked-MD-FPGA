@@ -14,7 +14,7 @@ module ym3438_prescaler(
 	
 	wire ic_latch_out;
 	
-	ym_sr_bit2 #(.SR_LENGTH(12)) ic_latch(
+	ym_sr_bit #(.SR_LENGTH(12)) ic_latch(
 		.MCLK(MCLK),
 		.bit_in(nIC),
 		.sr_out(ic_latch_out),
@@ -26,7 +26,7 @@ module ym3438_prescaler(
 	
 	wire fsm_res_latch_out;
 	
-	ym_sr_bit2 #(.SR_LENGTH(4)) fsm_res_latch(
+	ym_sr_bit #(.SR_LENGTH(4)) fsm_res_latch(
 		.MCLK(MCLK),
 		.bit_in(fsm_reset_and),
 		.sr_out(fsm_res_latch_out),
@@ -45,7 +45,7 @@ module ym3438_prescaler(
 		for (i = 0; i < 6; i=i+1)
 		begin : l1
 	
-			ym_sr_bit2 clkgen_sr(
+			ym_sr_bit clkgen_sr(
 				.MCLK(MCLK),
 				.bit_in(clkgen_sr_in[i]),
 				.sr_out(clkgen_sr_out[i]),
@@ -64,7 +64,7 @@ module ym3438_prescaler(
 	wire c1_in = clkgen_sr_out[0] | clkgen_sr_out[5];
 	wire c2_in = clkgen_sr_out[2] | clkgen_sr_out[3];
 	
-	ym_sr_bit2 c1_sr(
+	ym_sr_bit c1_sr(
 		.MCLK(MCLK),
 		.bit_in(c1_in),
 		.sr_out(c1),
@@ -72,7 +72,7 @@ module ym3438_prescaler(
 		.c2(pc2)
 		);
 	
-	ym_sr_bit2 c2_sr(
+	ym_sr_bit c2_sr(
 		.MCLK(MCLK),
 		.bit_in(c2_in),
 		.sr_out(c2),
