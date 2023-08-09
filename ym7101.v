@@ -74,7 +74,7 @@ module ym7101
 	input [22:0] CA_i,
 	output [22:0] CA_o,
 	output CA_d,
-	output [15:0] SOUND,
+	output reg [15:0] SOUND,
 	output INT_pull,
 	output BR_pull,
 	input BGACK_i,
@@ -6928,12 +6928,12 @@ module ym7101
 		(w1152 == 4'he ? 16'd0010 : 16'd0) |
 		(w1152 == 4'hf ? 16'd0000 : 16'd0));
 	
-	assign SOUND = psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
+	//assign SOUND = psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
 	
-	//always @(posedge psg_hclk1)
-	//begin
-	//	SOUND <= psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
-	//end
+	always @(posedge psg_hclk1)
+	begin
+		SOUND <= psg_val[0] + psg_val[1] + psg_val[2] + psg_val[3];
+	end
 	
 	// vram bus
 	
