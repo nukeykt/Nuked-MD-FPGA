@@ -104,7 +104,10 @@ module ym7101
 	output vdp_hclk1,
 	output vdp_intfield,
 	output vdp_de_h,
-	output vdp_de_v
+	output vdp_de_v,
+	output vdp_m5, // md mode
+	output vdp_rs1, // h32/h40
+	output vdp_m2 // v28/v30
 	);
 
 	wire cpu_sel;
@@ -7179,6 +7182,9 @@ module ym7101
 	assign vdp_de_h = vdp_de_3[0];
 	assign vdp_de_v = vdp_de_3[1];
 	
+	assign vdp_m5 = reg_m5;
+	assign vdp_rs1 = reg_rs1;
+	assign vdp_m2 = w108;
 	
 	
 endmodule

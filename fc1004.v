@@ -191,7 +191,10 @@ module fc1004
 	output vdp_hclk1,
 	output vdp_intfield,
 	output vdp_de_h,
-	output vdp_de_v
+	output vdp_de_v,
+	output vdp_m5, // md mode
+	output vdp_rs1, // h32/h40
+	output vdp_m2 // v28/v30
 	);
 	
 	wire vdp_ys; // w1009
@@ -348,7 +351,10 @@ module fc1004
 		.vdp_hclk1(vdp_hclk1),
 		.vdp_intfield(vdp_intfield),
 		.vdp_de_h(vdp_de_h),
-		.vdp_de_v(vdp_de_v)
+		.vdp_de_v(vdp_de_v),
+		.vdp_m5(vdp_m5),
+		.vdp_rs1(vdp_rs1),
+		.vdp_m2(vdp_m2)
 		);
 	
 	ym3438 fm

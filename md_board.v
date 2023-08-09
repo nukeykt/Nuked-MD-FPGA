@@ -3,6 +3,7 @@ module md_board
 	input MCLK,
 	input MCLK2,
 	input ext_reset,
+	input reset_button,
 	
 	// cart
 	input M3,
@@ -16,6 +17,7 @@ module md_board
 	output cart_time,
 	output cart_cas2,
 	output [15:0] cart_data_wr,
+	input cart_m3_pause,
 	input pal,
 	input jap,
 	
@@ -43,7 +45,10 @@ module md_board
 	output vdp_hclk1,
 	output vdp_intfield,
 	output vdp_de_h,
-	output vdp_de_v
+	output vdp_de_v,
+	output vdp_m5, // md mode
+	output vdp_rs1, // h32/h40
+	output vdp_m2 // v28/v30
 	
 	);
 	
@@ -376,7 +381,10 @@ module md_board
 		.vdp_hclk1(vdp_hclk1),
 		.vdp_intfield(vdp_intfield),
 		.vdp_de_h(vdp_de_h),
-		.vdp_de_v(vdp_de_v)
+		.vdp_de_v(vdp_de_v),
+		.vdp_m5(vdp_m5),
+		.vdp_rs1(vdp_rs1),
+		.vdp_m2(vdp_m2)
 		);
 	
 	wire [2:0] IPL;
@@ -552,7 +560,7 @@ module md_board
 	assign m68k_VA_d = {23{m68k_VA_d2}};
 	
 	wire [22:0] m3_cart_VA_d = {_M3, _M3, _M3, 20'hfffff};
-	wire [22:0] m3_cart_VA_o = {1'h1, 1'h0, 1'h1, 20'h0};
+	wire [22:0] m3_cart_VA_o = {~cart_m3_pause, 1'h0, 1'h1, 20'h0};
 	
 	assign m68k_VD_d = {16{m68k_VD_d2}};
 	wire [15:0] ram_VD_d = {{8{EOE|RAS0}}, {8{NOE|RAS0}}};
@@ -700,7 +708,7 @@ module md_board
 	assign TEST2 = 1'h1;
 	assign TEST3 = 1'h1;
 	
-	assign WRES = 1'h1;
+	assign WRES = ~reset_button;
 	
 	assign FRES = FRES_d ? 1'h1 : FRES_o;
 
