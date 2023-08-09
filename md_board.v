@@ -18,6 +18,7 @@ module md_board
 	output cart_cas2,
 	output [15:0] cart_data_wr,
 	input cart_m3_pause,
+	input ext_dtack,
 	input pal,
 	input jap,
 	
@@ -592,7 +593,7 @@ module md_board
 			(~ym_ZA_d & ym_ZA_o) |
 			(~z80_ZA_d & z80_ZA_o);
 	
-		DTACK <= ~ym_DTACK_pull;
+		DTACK <= ~ym_DTACK_pull & ~ext_dtack;
 	
 		BGACK <= ~ym_BGACK_pull;
 	
