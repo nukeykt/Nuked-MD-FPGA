@@ -24,6 +24,7 @@
 module ym6045
 	(
 	input MCLK,
+	input MCLK_e,
 	input VCLK,
 	input ZCLK,
 	input VD8_i,
@@ -414,8 +415,6 @@ module ym6045
 		edclk_buf <= w2;
 	end*/
 	
-	reg MCLK_e;
-	
 	ym_scnt_bit dff1(.MCLK(MCLK), .clk(MCLK_e), .load(w1), .val(1'h1), .cin(w3), .rst(sres), .nq(dff1_nq));
 	ym_scnt_bit dff2(.MCLK(MCLK), .clk(MCLK_e), .load(w1), .val(~dff9_q), .cin(1'h1), .rst(sres), .q(dff2_q), .nq(dff2_nq));
 	ym_scnt_bit dff3(.MCLK(MCLK), .clk(MCLK_e), .load(w1), .val(1'h0), .cin(dff2_q), .rst(sres), .q(dff3_q), .nq(dff3_nq));
@@ -423,7 +422,6 @@ module ym6045
 	always @(posedge MCLK)
 	begin
 		edclk_buf <= w2;
-		MCLK_e <= ~MCLK_e;
 	end
 	
 	//assign w1 = ~(~dff1 & ~dff2 & ~dff3);

@@ -28,6 +28,7 @@
 
 module ym7101
 	(
+	input MCLK,
 	input [7:0] SD,
 	output SE1,
 	output SE0,
@@ -64,7 +65,7 @@ module ym7101
 	//output CLK1_d,
 	output SBCR,
 	output CLK0,
-	input MCLK,
+	input MCLK_e,
 	input EDCLK_i,
 	output EDCLK_o,
 	output EDCLK_d,
@@ -2274,12 +2275,9 @@ module ym7101
 	
 	assign mclk_cpu_clk1 = ~(mclk_clk3 | mclk_clk3_l);
 	
-	reg MCLK_e;
-	
 	always @(posedge MCLK)
 	begin
 		mclk_clk3_l <= mclk_clk3;
-		MCLK_e <= ~MCLK_e;
 	end
 	
 	ym7101_dff prescaler_dff1(.MCLK(MCLK), .clk(MCLK_e), .inp(reset_comb), .rst(1'h0), .outp(prescaler_dff1_l2));

@@ -27,6 +27,7 @@
 module fc1004
 	(
 	input MCLK,
+	input MCLK_e,
 	input [7:0] SD,
 	output SE1,
 	output SE0,
@@ -281,6 +282,7 @@ module fc1004
 	
 	ym7101 vdp(
 		.MCLK(MCLK),
+		.MCLK_e(MCLK_e),
 		.SD(SD),
 		.SE1(SE1),
 		.SE0(SE0),
@@ -395,6 +397,7 @@ module fc1004
 	ym6045 arb
 		(
 		.MCLK(MCLK),
+		.MCLK_e(MCLK_e),
 		.VCLK(CLK_i),
 		.ZCLK(ZCLK_i),
 		.VD8_i(VD_i[8]),

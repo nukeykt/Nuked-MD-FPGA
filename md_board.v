@@ -51,7 +51,7 @@ module md_board
 	output vdp_rs1, // h32/h40
 	output vdp_m2, // v28/v30
 	output vdp_lcb,
-	output vdp_psg_hclk1,
+	output vdp_psg_clk1,
 	output fm_clk1
 	
 	);
@@ -216,9 +216,17 @@ module md_board
 	wire [7:0] ym_ZD_o;
 	wire [7:0] ym_ZD_d;
 	
+	reg MCLK_e;
+	
+	always @(posedge MCLK2)
+	begin
+		MCLK_e <= ~MCLK_e;
+	end
+	
 	fc1004 ym
 		(
 		.MCLK(MCLK2),
+		.MCLK_e(MCLK_e),
 		.SD(SD),
 		.SE1(SE1),
 		.SE0(SE0),
