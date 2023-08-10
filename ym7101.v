@@ -2317,11 +2317,15 @@ module ym7101
 	
 	reg dclk_l;
 	reg dclk_l2;
+	reg dclk_l3;
+	reg dclk_l4;
 	
 	always @(posedge MCLK)
 	begin
 		dclk_l <= dclk_l2;
-		dclk_l2 <= mclk_dclk;
+		dclk_l2 <= dclk_l3;
+		dclk_l3 <= dclk_l4;
+		dclk_l4 <= mclk_dclk;
 	end
 	
 	assign clk1 = ~mclk_dclk & dclk_l;
