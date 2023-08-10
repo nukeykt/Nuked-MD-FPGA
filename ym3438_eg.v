@@ -237,7 +237,7 @@ module ym3438_eg
 		.sr_out(rate_nz_sr_o)
 		);
 	
-	wire [4:0] rate_l_o;
+	wire [4:0] rate_l_o; // ~eg_rate
 	
 	ym_dlatch_1 #(.DATA_WIDTH(5)) rate_l
 		(
@@ -256,7 +256,7 @@ module ym3438_eg
 	assign rate_ks_add[3] = ((ks == 2'h2) & kcode[4]) | ((ks == 2'h3) & kcode[3]);
 	assign rate_ks_add[4] = ((ks == 2'h3) & kcode[4]);
 	
-	wire [4:0] rate_ks_add_l_o;
+	wire [4:0] rate_ks_add_l_o; // ~eg_ksv
 	
 	ym_dlatch_1 #(.DATA_WIDTH(5)) rate_ks_add_l
 		(
@@ -267,9 +267,9 @@ module ym3438_eg
 		.nval(rate_ks_add_l_o)
 		);
 	
-	wire [6:0] rate_sum = { rate_l_o, 1'h1 } + { 1'h1, rate_ks_add_l_o } + 7'h1;
+	wire [6:0] rate_sum = { 1'h0, rate_l_o, 1'h1 } + { 2'h1, rate_ks_add_l_o } + 7'h1;
 	
-	wire [6:0] rate_sum_l_o;
+	wire [6:0] rate_sum_l_o; // eg_rate2
 	
 	ym_dlatch_2 #(.DATA_WIDTH(7)) rate_sum_l
 		(
@@ -293,7 +293,7 @@ module ym3438_eg
 	
 	wire step_comb = ~(step_12 | step_13 | step_14);
 	
-	wire step_low_l_o;
+	wire step_low_l_o; // eg_inc1
 	
 	ym_dlatch_1 step_low_l
 		(
@@ -310,7 +310,7 @@ module ym3438_eg
 	wire rate_sum_14 = rate_sum_clamp[5:2] != 4'hd;
 	wire rate_sum_15 = rate_sum_clamp[5:2] != 4'hf;
 	
-	wire rate_not_max_sr_o;
+	wire rate_not_max_sr_o; // ~eg_maxrate[1]
 	
 	ym_sr_bit rate_not_max_sr
 		(
@@ -321,10 +321,10 @@ module ym3438_eg
 		.sr_out(rate_not_max_sr_o)
 		);
 	
-	wire rate_12_l_o;
-	wire rate_13_l_o;
-	wire rate_14_l_o;
-	wire rate_15_l_o;
+	wire rate_12_l_o; // eg_rate12
+	wire rate_13_l_o; // eg_rate13
+	wire rate_14_l_o; // eg_rate14
+	wire rate_15_l_o; // eg_rate15
 	
 	ym_dlatch_1 rate_12_l
 		(
@@ -363,12 +363,12 @@ module ym3438_eg
 		);
 	
 	wire rate_hi_sel = ~(
-		(eg_cnt_low_o[0] & rate_sum_clamp[1])
+		(~eg_cnt_low_o[0] & rate_sum_clamp[1])
 		| (eg_cnt_low_o == 2'h0 & rate_sum_clamp[1:0] == 2'h1)
 		| (eg_cnt_low_o == 2'h1 & rate_sum_clamp[1:0] == 2'h3)
 		);
 	
-	wire rate_hi_sel_l_o;
+	wire rate_hi_sel_l_o; // eg_inc2
 	
 	ym_dlatch_1 rate_hi_sel_l
 		(
@@ -558,8 +558,8 @@ module ym3438_eg
 		.sr_out(kon_sr_o)
 		);
 	
-	wire okon_sr1_o;
-	wire okon_sr_o;
+	wire okon_sr1_o; // okon2
+	wire okon_sr_o; // okon
 	
 	ym_sr_bit #(.SR_LENGTH(22)) okon_sr1
 		(
