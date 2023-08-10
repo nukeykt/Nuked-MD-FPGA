@@ -1,6 +1,6 @@
 module md_board
 	(
-	input MCLK,
+	// input MCLK,
 	input MCLK2,
 	input ext_reset,
 	input reset_button,
@@ -49,7 +49,10 @@ module md_board
 	output vdp_de_v,
 	output vdp_m5, // md mode
 	output vdp_rs1, // h32/h40
-	output vdp_m2 // v28/v30
+	output vdp_m2, // v28/v30
+	output vdp_lcb,
+	output vdp_psg_hclk1,
+	output fm_clk1
 	
 	);
 	
@@ -385,7 +388,10 @@ module md_board
 		.vdp_de_v(vdp_de_v),
 		.vdp_m5(vdp_m5),
 		.vdp_rs1(vdp_rs1),
-		.vdp_m2(vdp_m2)
+		.vdp_m2(vdp_m2),
+		.vdp_lcb(vdp_lcb),
+		.vdp_psg_clk1(vdp_psg_clk1),
+		.fm_clk1(fm_clk1)
 		);
 	
 	wire [2:0] IPL;

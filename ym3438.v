@@ -38,7 +38,8 @@ module ym3438(
 	output [8:0] MOL, MOR,
 	//output d_c1,
 	//output d_c2,
-	output [9:0] MOL_2612, MOR_2612
+	output [9:0] MOL_2612, MOR_2612,
+	output fm_clk1
 	);
 	
 	wire c1, c2;
@@ -419,12 +420,14 @@ module ym3438(
 	assign MOR_2612 = (ch_pan_l[0] & dac_out_enable_2612_l) ? DAC_2612_matrix_out : DAC_2612_silent;
 	assign MOL_2612 = (ch_pan_l[1] & dac_out_enable_2612_l) ? DAC_2612_matrix_out : DAC_2612_silent;
 	
-	always @(negedge c1)
+	always @(posedge MCLK)
 	begin
 		ch_out_l <= ch_out;
 		ch_pan_l <= pan;
 		dac_out_enable_l <= dac_out_enable;
 		dac_out_enable_2612_l <= dac_out_enable_2612;
 	end
+	
+	assign fm_clk1 = c1;
 	
 endmodule

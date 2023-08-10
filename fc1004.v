@@ -194,7 +194,10 @@ module fc1004
 	output vdp_de_v,
 	output vdp_m5, // md mode
 	output vdp_rs1, // h32/h40
-	output vdp_m2 // v28/v30
+	output vdp_m2, // v28/v30
+	output vdp_lcb,
+	output vdp_psg_clk1,
+	output fm_clk1
 	);
 	
 	wire vdp_ys; // w1009
@@ -354,7 +357,9 @@ module fc1004
 		.vdp_de_v(vdp_de_v),
 		.vdp_m5(vdp_m5),
 		.vdp_rs1(vdp_rs1),
-		.vdp_m2(vdp_m2)
+		.vdp_m2(vdp_m2),
+		.vdp_lcb(vdp_lcb),
+		.vdp_psg_clk1(vdp_psg_clk1)
 		);
 	
 	ym3438 fm
@@ -376,7 +381,8 @@ module fc1004
 		.MOL(MOL),
 		.MOR(MOR),
 		.MOL_2612(MOL_2612),
-		.MOR_2612(MOR_2612)
+		.MOR_2612(MOR_2612),
+		.fm_clk1(fm_clk1)
 		);
 	
 	
