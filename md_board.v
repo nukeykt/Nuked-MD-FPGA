@@ -5,6 +5,17 @@ module md_board
 	input ext_reset,
 	input reset_button,
 	
+	// 68k/z80 ram
+	output [14:0] ram_68k_address,
+	output [1:0] ram_68k_byteena,
+	output [15:0] ram_68k_data,
+	output ram_68k_wren,
+	input [15:0] ram_68k_o,
+	output [12:0] ram_z80_address,
+	output [7:0] ram_z80_data,
+	output ram_z80_wren,
+	input [7:0] ram_z80_o,
+	
 	// cart
 	input M3,
 	input [15:0] cart_data,
@@ -522,30 +533,39 @@ module md_board
 		.SD_d(vram1_SD_d)
 		);
 	
-	wire [14:0] ram_68k_address = { VA[14], IA14, VA[12:0] };
+	assign ram_68k_address = { VA[14], IA14, VA[12:0] };
+	assign ram_68k_byteena = { ~UWR, ~LWR };
+	assign ram_68k_data = VD;
+	assign ram_68k_wren = (~UWR | ~LWR) & ~RAS0;
 	
-	wire [15:0] ram_68k_o;
+	assign ram_z80_address = ZA[12:0];
+	assign ram_z80_data = ZD;
+	assign ram_z80_wren = ~ZRAM & ~ZWR;
 	
-	ram_68k ram_68k
-		(
-		.address(ram_68k_address),
-		.byteena({ ~UWR, ~LWR }),
-		.clock(MCLK2),
-		.data(VD),
-		.wren((~UWR | ~LWR) & ~RAS0),
-		.q(ram_68k_o)
-		);
-	
-	wire [7:0] ram_z80_o;
-	
-	ram_z80 ram_z80
-		(
-		.address(ZA[12:0]),
-		.clock(MCLK2),
-		.data(ZD),
-		.wren(~ZRAM & ~ZWR),
-		.q(ram_z80_o)
-		);
+	//wire [14:0] ram_68k_address = { VA[14], IA14, VA[12:0] };
+	//
+	//wire [15:0] ram_68k_o;
+	//
+	//ram_68k ram_68k
+	//	(
+	//	.address(ram_68k_address),
+	//	.byteena({ ~UWR, ~LWR }),
+	//	.clock(MCLK2),
+	//	.data(VD),
+	//	.wren((~UWR | ~LWR) & ~RAS0),
+	//	.q(ram_68k_o)
+	//	);
+	//
+	//wire [7:0] ram_z80_o;
+	//
+	//ram_z80 ram_z80
+	//	(
+	//	.address(ZA[12:0]),
+	//	.clock(MCLK2),
+	//	.data(ZD),
+	//	.wren(~ZRAM & ~ZWR),
+	//	.q(ram_z80_o)
+	//	);
 	
 	reg [7:0] RD_mem;
 	reg [7:0] AD_mem;
