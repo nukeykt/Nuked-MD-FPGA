@@ -17,6 +17,7 @@ module md_board
 	output cart_time,
 	output cart_cas2,
 	output [15:0] cart_data_wr,
+	output cart_dma, // BGACK
 	input cart_m3_pause,
 	input ext_dtack,
 	input pal,
@@ -714,6 +715,7 @@ module md_board
 	assign cart_time = ~TIME;
 	assign cart_data_wr = VD;
 	assign cart_cas2 = ~CAS2;
+	assign cart_dma = ~BGACK;
 	
 	assign CART = 1'h0;
 	
