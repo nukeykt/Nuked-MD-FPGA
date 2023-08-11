@@ -85,7 +85,7 @@ module tmss
 	
 	assign RESET = ~(JAP & dff2_nq) | test_4;
 	
-	assign w10 = ~(~AS & VA[22:20] == 3'h3);
+	assign w10 = ~(~AS & VA[22:20] == 3'h6);
 	
 	assign w15 = ~AS & ~LDS & VA[22:1] == 22'h285000 & ~UDS;
 	assign w23 = ~AS & ~LDS & VA == 23'h50a080;
