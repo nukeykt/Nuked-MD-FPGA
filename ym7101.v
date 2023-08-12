@@ -193,7 +193,7 @@ module ym7101
 	wire io_m1_s3;
 	wire io_m1_s4;
 	wire io_m1_s5;
-	wire [22:0] io_address;
+	reg [22:0] io_address;
 	wire io_address_22o;
 	wire io_oe0;
 	wire w1153;
@@ -204,7 +204,7 @@ module ym7101
 	wire io_wr;
 	wire io_ipl1;
 	wire io_ipl2;
-	wire [15:0] io_data;
+	reg [15:0] io_data;
 	wire w1;
 	wire dff1_l2;
 	wire dff2_l2;
@@ -2177,12 +2177,12 @@ module ym7101
 	
 	assign reset_comb = ~(RESET & w100);
 	
-	wire [16:0] vram_address;
-	wire [15:0] vram_data;
+	reg [16:0] vram_address;
+	reg [15:0] vram_data;
 	wire [7:0] vram_serial;
 	
-	reg [16:0] vram_address_mem;
-	reg [15:0] vram_data_mem;
+	//reg [16:0] vram_address_mem;
+	//reg [15:0] vram_data_mem;
 	
 	wire [3:0] color_index;
 	wire color_priority;
@@ -6966,8 +6966,6 @@ module ym7101
 		(l583 ? 16'hffff : 16'h0) |
 		(l623_3 ? 16'heee : 16'h0);
 	
-	assign vram_data = (vram_data_pull & vram_data_val) | (~vram_data_pull & vram_data_mem);
-	
 	wire [16:0] vram_address_val =
 		(w195 ? { reg_sa_high[0], reg_sa_low } : 17'h1ffff) &
 		(w191 ? reg_data_l2[16:0] : 17'h1ffff) &
@@ -7015,8 +7013,6 @@ module ym7101
 		(w755 ? 17'h000ff : 17'h0) |
 		(l428 ? 17'h1ffff : 17'h0);
 	
-	assign vram_address = (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address_mem);
-	
 	/*assign vram_data =
 		(w328 ? { l96, w351 } : 16'h0) |
 		(w327 ? { l98, w352 } : 16'h0) |
@@ -7053,16 +7049,14 @@ module ym7101
 	
 	always @(posedge MCLK)
 	begin
-		vram_data_mem <= vram_data;
-		vram_address_mem <= vram_address;
+		vram_data <= (vram_data_pull & vram_data_val) | (~vram_data_pull & vram_data);	
+		vram_address <= (vram_address_pull & vram_address_val) | (~vram_address_pull & vram_address);
 	end
 	
 	// io bus
 	
 	wire vdp_data_dir = ~w151 | ext_test_2;
 	wire vdp_address_dir = ~w267 | ext_test_2;
-	
-	assign io_address[19:18] = reg_sa_high[3:2];
 	
 	wire [22:0] io_address_val =
 		(vdp_address_dir ? (CA_i & 23'h73ffff) : 23'h73ffff) &
@@ -7072,12 +7066,9 @@ module ym7101
 		(vdp_address_dir ? 23'h73ffff : 23'h0) |
 		(w267 ? 23'h33ffff : 23'h0);
 	
-	reg [22:0] io_address_mem = 23'h0;
+	//reg [22:0] io_address_mem = 23'h0;
 	
-	wire [22:0] io_address_t = (io_address_pull & io_address_val) | (~io_address_pull & io_address_mem);
-	
-	assign io_address[22:20] = io_address_t[22:20];
-	assign io_address[17:0] = io_address_t[17:0];
+	wire [22:0] io_address_t = (io_address_pull & io_address_val) | (~io_address_pull & io_address);
 	
 	assign CA_o[22] = io_address_22o;
 	assign CA_o[21:0] = io_address[21:0];
@@ -7116,9 +7107,7 @@ module ym7101
 		(w91 ? 16'h07ff : 16'h0) |
 		(w93 ? 16'hffff : 16'h0);
 	
-	reg [15:0] io_data_mem = 16'h0;
-	
-	assign io_data = (io_data_pull & io_data_val) | (~io_data_pull & io_data_mem);
+	//reg [15:0] io_data_mem = 16'h0;
 	
 	/*assign io_data =
 		(vdp_data_dir ? CD_i : 16'h0) |
@@ -7142,8 +7131,10 @@ module ym7101
 	
 	always @(posedge MCLK)
 	begin
-		io_data_mem <= io_data;
-		io_address_mem <= io_address_t;
+		io_data <= (io_data_pull & io_data_val) | (~io_data_pull & io_data);
+		io_address[22:20] <= io_address_t[22:20];
+		io_address[19:18] <= reg_sa_high[3:2];
+		io_address[17:0] <= io_address_t[17:0];
 	end
 	
 	// color bus
