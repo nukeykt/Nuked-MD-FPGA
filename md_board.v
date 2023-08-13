@@ -617,16 +617,19 @@ module md_board
 		VA <=
 			(~ym_VA_d & ym_VA_o) |
 			(~m68k_VA_d & m68k_VA_o) |
-			(~m3_cart_VA_d & m3_cart_VA_o);
+			(~m3_cart_VA_d & m3_cart_VA_o) |
+			((ym_VA_d & m68k_VA_d & m3_cart_VA_d) & VA);
 	
 		ZD <=
 			(~ym_ZD_d & ym_ZD_o) |
 			(~z80_ZD_d & z80_ZD_o) |
-			(~ram_ZD_d & ram_z80_o);
+			(~ram_ZD_d & ram_z80_o) |
+			((ym_ZD_d & z80_ZD_d & z80_ZD_d) & 8'hff);
 	
 		ZA <=
 			(~ym_ZA_d & ym_ZA_o) |
-			(~z80_ZA_d & z80_ZA_o);
+			(~z80_ZA_d & z80_ZA_o) |
+			((ym_ZA_d & z80_ZA_d) & ZA);
 	
 		DTACK <= ~ym_DTACK_pull & ~ext_dtack;
 	
