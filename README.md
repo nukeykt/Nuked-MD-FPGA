@@ -29,6 +29,9 @@ Nuked-MD-FPGA currently targets NMOS 68k, NMOS Z80 and FC1004. No real mega driv
 
 See [Progress.md](Progress.md)
 
+### Audio samples
+https://drive.google.com/drive/folders/1RtqB4Rn1jMeVNzONG2wVgWdD4ZHzARxy?usp=sharing
+
 ## References
 * https://github.com/emu-russia/SEGAChips (andkorzh, org, nukeykt)
 * https://www.grafik-feti.de/ftp/Die-Shots/Archiv/2D/Die-Shots/GamingConsoles/SEGA_Genesis_MegaDrive/MD1/VDP/ (Fritzchens Fritz)
