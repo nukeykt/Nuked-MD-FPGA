@@ -624,7 +624,7 @@ module md_board
 			(~ym_ZD_d & ym_ZD_o) |
 			(~z80_ZD_d & z80_ZD_o) |
 			(~ram_ZD_d & ram_z80_o) |
-			((ym_ZD_d & z80_ZD_d & z80_ZD_d) & 8'hff);
+			((ym_ZD_d & z80_ZD_d & ram_ZD_d) & 8'hff);
 	
 		ZA <=
 			(~ym_ZA_d & ym_ZA_o) |
