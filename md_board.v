@@ -1,3 +1,6 @@
+//`define M68K_CHEAT
+
+
 module md_board
 	(
 	// input MCLK,
@@ -33,6 +36,12 @@ module md_board
 	input ext_dtack,
 	input pal,
 	input jap,
+
+`ifdef M68K_CHEAT
+	output [22:0] m68k_addr,
+	output [15:0] m68k_bus_do,
+	input [15:0] m68k_di,
+`endif
 	
 	// video
 	output [7:0] V_R, V_G, V_B,
@@ -450,7 +459,11 @@ module md_board
 		.RESET_pull(m68k_RESET_pull),
 		.HALT_i(HALT),
 		.HALT_pull(m68k_HALT_pull),
+`ifndef M68K_CHEAT
 		.DATA_i(VD),
+`else
+		.DATA_i(m68k_di),
+`endif
 		.DATA_o(m68k_VD_o),
 		.DATA_z(m68k_VD_d2),
 		.BG(BG),
@@ -466,6 +479,11 @@ module md_board
 		.strobe_z(m68k_S_d),
 		.VPA(VPA)
 		);
+
+`ifdef M68K_CHEAT
+	assign m68k_addr = m68k_VA_o;
+	assign m68k_bus_do = VD;
+`endif
 	
 	wire [15:0] z80_ZA_o;
 	wire z80_ZA_d2;
