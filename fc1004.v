@@ -198,7 +198,8 @@ module fc1004
 	output vdp_m2, // v28/v30
 	output vdp_lcb,
 	output vdp_psg_clk1,
-	output fm_clk1
+	output fm_clk1,
+	output [2:0] DAC_ch_index
 	);
 	
 	wire vdp_ys; // w1009
@@ -384,7 +385,8 @@ module fc1004
 		.MOR(MOR),
 		.MOL_2612(MOL_2612),
 		.MOR_2612(MOR_2612),
-		.fm_clk1(fm_clk1)
+		.fm_clk1(fm_clk1),
+		.DAC_ch_index(DAC_ch_index)
 		);
 	
 	

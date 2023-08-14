@@ -39,7 +39,8 @@ module ym3438(
 	//output d_c1,
 	//output d_c2,
 	output [9:0] MOL_2612, MOR_2612,
-	output fm_clk1
+	output fm_clk1,
+	output [2:0] DAC_ch_index
 	);
 	
 	wire c1, c2;
@@ -188,6 +189,8 @@ module ym3438(
 	
 	wire [1:0] pan;
 	
+	wire [2:0] dac_index;
+	
 	ym3438_reg_ctrl reg_ctrl(
 		.MCLK(MCLK),
 		.c1(c1),
@@ -234,7 +237,8 @@ module ym3438(
 		.pan_o(pan),
 		.timer_a_status(timer_a_status),
 		.timer_b_status(timer_b_status),
-		.connect(connect)
+		.connect(connect),
+		.dac_index(dac_index)
 		);
 	
 	wire [11:0] fnum_lfo;
@@ -404,6 +408,7 @@ module ym3438(
 	reg [1:0] ch_pan_l;
 	reg dac_out_enable_l;
 	reg dac_out_enable_2612_l;
+	reg [2:0] dac_index_l;
 	
 	//assign MOR = ch_pan[0] ? ch_out : 9'h100;
 	//assign MOL = ch_pan[1] ? ch_out : 9'h100;
@@ -420,12 +425,15 @@ module ym3438(
 	assign MOR_2612 = (ch_pan_l[0] & dac_out_enable_2612_l) ? DAC_2612_matrix_out : DAC_2612_silent;
 	assign MOL_2612 = (ch_pan_l[1] & dac_out_enable_2612_l) ? DAC_2612_matrix_out : DAC_2612_silent;
 	
+	assign DAC_ch_index = dac_index_l;
+	
 	always @(posedge MCLK)
 	begin
 		ch_out_l <= ch_out;
 		ch_pan_l <= pan;
 		dac_out_enable_l <= dac_out_enable;
 		dac_out_enable_2612_l <= dac_out_enable_2612;
+		dac_index_l <= dac_index;
 	end
 	
 	assign fm_clk1 = c1;

@@ -55,6 +55,7 @@ module md_board
 	output [8:0] MOL, MOR, // ym3438 linear, unsigned
 	output [9:0] MOL_2612, MOR_2612, // ym2612 dac emulation, signed
 	output [15:0] PSG,
+	output [2:0] DAC_ch_index,
 	
 	// input
 	input [6:0] PA_i,
@@ -420,7 +421,8 @@ module md_board
 		.vdp_m2(vdp_m2),
 		.vdp_lcb(vdp_lcb),
 		.vdp_psg_clk1(vdp_psg_clk1),
-		.fm_clk1(fm_clk1)
+		.fm_clk1(fm_clk1),
+		.DAC_ch_index(DAC_ch_index)
 		);
 	
 	wire [2:0] IPL;

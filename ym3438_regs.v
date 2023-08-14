@@ -45,7 +45,8 @@ module ym3438_reg_ctrl
 	output kon_csm,
 	output mode_csm,
 	output timer_a_status,
-	output timer_b_status
+	output timer_b_status,
+	output [2:0] dac_index
 	);
 	
 	wire fm_addr_write = (data[7:4] != 0) & write_addr_en;
@@ -506,6 +507,21 @@ module ym3438_reg_ctrl
 		.val(pan_o),
 		.nval()
 		);
+		
+	// EXTRA start
+	
+	wire [2:0] dac_index_i = fsm_dac_out_sel ? reg_cnt[2:0] : (reg_cnt[2:0] + 3'h1);
+
+	ym_slatch #(.DATA_WIDTH(3)) dac_index_lock
+		(
+		.MCLK(MCLK),
+		.en(load_ed_o),
+		.inp(dac_index_i),
+		.val(dac_index),
+		.nval()
+		);
+	
+	// EXTRA end
 		
 	wire reg_21_wr;
 	
