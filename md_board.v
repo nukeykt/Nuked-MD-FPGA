@@ -56,6 +56,7 @@ module md_board
 	output [9:0] MOL_2612, MOR_2612, // ym2612 dac emulation, signed
 	output [15:0] PSG,
 	output [2:0] DAC_ch_index,
+	output fm_sel23,
 	
 	// input
 	input [6:0] PA_i,
@@ -424,6 +425,8 @@ module md_board
 		.fm_clk1(fm_clk1),
 		.DAC_ch_index(DAC_ch_index)
 		);
+	
+	assign fm_sel23 = TEST0_o;
 	
 	wire [2:0] IPL;
 	reg BR;

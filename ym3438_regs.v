@@ -510,7 +510,7 @@ module ym3438_reg_ctrl
 		
 	// EXTRA start
 	
-	wire [2:0] dac_index_i = fsm_dac_out_sel ? reg_cnt[2:0] : (reg_cnt[2:0] + 3'h1);
+	wire [2:0] dac_index_i = reg_cnt[1:0] + (reg_cnt[2] ? 3'h3 : 3'h0) + { 2'h0, ~fsm_dac_out_sel };
 
 	ym_slatch #(.DATA_WIDTH(3)) dac_index_lock
 		(
