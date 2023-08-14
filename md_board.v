@@ -58,6 +58,11 @@ module md_board
 	input ext_dtack,
 	input pal,
 	input jap,
+	
+	// tmss
+	input tmss_enable,
+	input [15:0] tmss_data,
+	output [9:0] tmss_address,
 
 `ifdef M68K_CHEAT
 	output [22:0] m68k_addr,
@@ -445,7 +450,10 @@ module md_board
 		.vdp_lcb(vdp_lcb),
 		.vdp_psg_clk1(vdp_psg_clk1),
 		.fm_clk1(fm_clk1),
-		.DAC_ch_index(DAC_ch_index)
+		.DAC_ch_index(DAC_ch_index),
+		.tmss_enable(tmss_enable),
+		.tmss_data(tmss_data),
+		.tmss_address(tmss_address)
 		);
 	
 	assign fm_sel23 = TEST0_o;

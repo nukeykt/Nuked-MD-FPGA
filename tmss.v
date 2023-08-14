@@ -22,8 +22,6 @@
  *
  */
 
-//`define NO_TMSS
-
 module tmss
 	(
 	input MCLK,
@@ -50,16 +48,10 @@ module tmss
 	output test_3,
 	output test_4,
 	output data_out_en,
-	output no_tmss_flag
+	input tmss_enable,
+	input [15:0] tmss_data,
+	output [9:0] tmss_address
 	);
-	
-`ifndef NO_TMSS
-	reg [15:0] tmss_rom[0:1023];
-	
-	initial
-	begin
-		$readmemh("tmss_rom.txt", tmss_rom);
-	end
 	
 	wire dff1_q;
 	wire dff2_nq;
@@ -77,54 +69,6 @@ module tmss
 	wire w39;
 	wire [15:0] l2;
 	wire [15:0] w20;
-	
-	ym_sdffr dff1(.MCLK(MCLK), .clk(w40), .val(w3), .reset(SRES), .q(dff1_q));
-	ym_sdffs dff2(.MCLK(MCLK), .clk(w10), .val(dff1_q), .set(SRES), .nq(dff2_nq));
-	
-	assign w3 = l1 == 16'h5345 & l2 == 16'h4741;
-	
-	assign RESET = ~(JAP & dff2_nq) | test_4;
-	
-	assign w10 = ~(~AS & VA[22:20] == 3'h6);
-	
-	assign w15 = ~AS & ~LDS & VA[22:1] == 22'h285000 & ~UDS;
-	assign w23 = ~AS & ~LDS & VA == 23'h50a080;
-	
-	assign DTACK = ~((w15 | w23) & INTAK) | test_4;
-	
-	assign w40 = ~(~RW & w15);
-	assign w41 = ~(RW & w15);
-	
-	ym_sdffr dff3(.MCLK(MCLK), .clk(~w23 | RW), .val(VD_i[0]), .reset(SRES), .q(dff3_q));
-	//ym_sdffs dff3(.MCLK(MCLK), .clk(~w23 | RW), .val(VD_i[0]), .set(SRES), .q(dff3_q));
-	
-	assign w31 = CART | ~M3;
-	assign w28 = dff3_q | w31 | CE0_i;
-	assign CE0_o = ~(dff3_q | w31) | CE0_i;
-	
-	assign w38 = ~VA[0] & ~RW & w15;
-	ym_slatch #(.DATA_WIDTH(16)) sl1(.MCLK(MCLK), .en(w38), .inp(VD_i), .val(l1));
-	assign w39 = VA[0] & ~RW & w15;
-	ym_slatch #(.DATA_WIDTH(16)) sl2(.MCLK(MCLK), .en(w39), .inp(VD_i), .val(l2));
-	
-	assign w20 = VA[0] ? l2 : l1;
-	assign VD_o = w28 ? w20 : tmss_rom[VA[9:0]];
-	
-	assign data_out_en = (w41 & w28) | test_4;
-	
-	assign no_tmss_flag = 1'h0;
-	
-`else
-	assign VD_o = 16'h0;
-	assign DTACK = 1'h1;
-	assign RESET = 1'h1;
-	assign CE0_o = CE0_i;
-	assign data_out_en = 1'h1;
-	
-	assign no_tmss_flag = 1'h1;
-`endif
-	
-	
 	wire w50;
 	wire w51;
 	wire w53;
@@ -136,6 +80,44 @@ module tmss
 	wire w58;
 	wire w59;
 	wire w62;
+	
+	ym_sdffr dff1(.MCLK(MCLK), .clk(w40), .val(w3), .reset(SRES), .q(dff1_q));
+	ym_sdffs dff2(.MCLK(MCLK), .clk(w10), .val(dff1_q), .set(SRES), .nq(dff2_nq));
+	
+	assign w3 = l1 == 16'h5345 & l2 == 16'h4741;
+	
+	assign RESET = tmss_enable ? (~(JAP & dff2_nq) | test_4) : 1'h1;
+	
+	assign w10 = ~(~AS & VA[22:20] == 3'h6);
+	
+	assign w15 = ~AS & ~LDS & VA[22:1] == 22'h285000 & ~UDS;
+	assign w23 = ~AS & ~LDS & VA == 23'h50a080;
+	
+	assign DTACK = tmss_enable ? (~((w15 | w23) & INTAK) | test_4) : 1'h1;
+	
+	assign w40 = ~(~RW & w15);
+	assign w41 = ~(RW & w15);
+	
+	ym_sdffr dff3(.MCLK(MCLK), .clk(~w23 | RW), .val(VD_i[0]), .reset(SRES), .q(dff3_q));
+	//ym_sdffs dff3(.MCLK(MCLK), .clk(~w23 | RW), .val(VD_i[0]), .set(SRES), .q(dff3_q));
+	
+	assign w31 = CART | ~M3;
+	assign w28 = dff3_q | w31 | CE0_i;
+	assign CE0_o = tmss_enable ? (~(dff3_q | w31) | CE0_i) : CE0_i;
+	
+	assign w38 = ~VA[0] & ~RW & w15;
+	ym_slatch #(.DATA_WIDTH(16)) sl1(.MCLK(MCLK), .en(w38), .inp(VD_i), .val(l1));
+	assign w39 = VA[0] & ~RW & w15;
+	ym_slatch #(.DATA_WIDTH(16)) sl2(.MCLK(MCLK), .en(w39), .inp(VD_i), .val(l2));
+	
+	assign w20 = VA[0] ? l2 : l1;
+	assign VD_o = tmss_enable ? (w28 ? w20 : tmss_data) : 16'h0;
+	
+	assign tmss_address = VA[9:0];
+	
+	assign data_out_en = tmss_enable ? (w41 & w28) | test_4 : 1'h1;
+	
+	assign no_tmss_flag = 1'h0;
 	
 	assign w50 = test[2:0] == 3'h0;
 	assign w51 = test[2:0] == 3'h1;

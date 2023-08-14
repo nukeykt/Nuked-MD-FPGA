@@ -199,7 +199,10 @@ module fc1004
 	output vdp_lcb,
 	output vdp_psg_clk1,
 	output fm_clk1,
-	output [2:0] DAC_ch_index
+	output [2:0] DAC_ch_index,
+	input tmss_enable,
+	input [15:0] tmss_data,
+	output [9:0] tmss_address
 	);
 	
 	wire vdp_ys; // w1009
@@ -521,7 +524,7 @@ module fc1004
 		.reg_3e_q(ioc_reg_3e_q),
 		.zdata(ioc_zdata),
 		.ztov_address(ioc_ztov_address),
-		.no_tmss_flag(no_tmss_flag)
+		.tmss_enable(tmss_enable)
 		);
 	
 	wire tmss_ce0_i;
@@ -557,7 +560,9 @@ module fc1004
 		.test_3(tmss_test_3),
 		.test_4(tmss_test_4),
 		.data_out_en(tmss_data_out_en),
-		.no_tmss_flag(no_tmss_flag)
+		.tmss_enable(tmss_enable),
+		.tmss_data(tmss_data),
+		.tmss_address(tmss_address)
 		);
 	
 	assign ZA_o[0] = arb_za0_o;
