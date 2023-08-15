@@ -117,8 +117,6 @@ module tmss
 	
 	assign data_out_en = tmss_enable ? (w41 & w28) | test_4 : 1'h1;
 	
-	assign no_tmss_flag = 1'h0;
-	
 	assign w50 = test[2:0] == 3'h0;
 	assign w51 = test[2:0] == 3'h1;
 	assign w53 = test[2:0] == 3'h2;

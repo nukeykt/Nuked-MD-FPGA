@@ -30,7 +30,7 @@ module vram
 	wire wr = ~RAS & ~CAS & ~WE;
 	wire rd = ~RAS & ~CAS & ~OE & ~dt;
 	
-	wire [13:0] mem_addr = addr[15:8];
+	wire [7:0] mem_addr = addr[15:8];
 	wire [31:0] mem_be;
 	wire [2047:0] mem_o;
 	
