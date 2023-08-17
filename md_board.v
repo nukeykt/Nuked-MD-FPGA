@@ -21,7 +21,7 @@
  */
 
 //`define M68K_CHEAT
-
+//`define Z80_CHEAT
 
 module md_board
 	(
@@ -67,7 +67,13 @@ module md_board
 `ifdef M68K_CHEAT
 	output [22:0] m68k_addr,
 	output [15:0] m68k_bus_do,
-	input [15:0] m68k_di,
+	input [15:0]  m68k_di,
+`endif
+
+`ifdef Z80_CHEAT
+	output [15:0] z80_addr,
+	output  [7:0] z80_bus_do,
+	input   [7:0] z80_di,
 `endif
 	
 	// video
@@ -542,7 +548,11 @@ module md_board
 		.CLK(ZCLK),
 		.ADDRESS(z80_ZA_o),
 		.ADDRESS_z(z80_ZA_d2),
+`ifndef Z80_CHEAT
 		.DATA_i(ZD),
+`else
+		.DATA_i(z80_di),
+`endif
 		.DATA_o(z80_ZD_o),
 		.DATA_z(z80_ZD_d2),
 		.M1(M1),
@@ -564,6 +574,11 @@ module md_board
 		.RESET(ZRES)
 		);
 	
+`ifdef Z80_CHEAT
+	assign z80_addr = z80_ZA_o;
+	assign z80_bus_do = ZD;
+`endif
+
 	wire [7:0] vram1_AD_o;
 	wire vram1_AD_d;
 	wire [7:0] vram1_SD_o;
