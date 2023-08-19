@@ -110,7 +110,8 @@ module ym7101
 	output vdp_rs1, // h32/h40
 	output vdp_m2, // v28/v30
 	output vdp_lcb,
-	output vdp_psg_clk1
+	output vdp_psg_clk1,
+	output vdp_hsync2
 	);
 
 	wire cpu_sel;
@@ -7183,6 +7184,16 @@ module ym7101
 	assign vdp_lcb = reg_lcb;
 	
 	assign vdp_psg_clk1 = psg_hclk1;
+	
+	wire vdp_hsync2_delay1;
+	ym_sr_bit #(.SR_LENGTH(2)) vdp_hsync2_delay1_sr(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(t33), .sr_out(vdp_hsync2_delay1));
+	wire vdp_hsync2_delay2;
+	ym_sr_bit #(.SR_LENGTH(7)) vdp_hsync2_delay2_sr(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(vdp_hsync2_delay1), .sr_out(vdp_hsync2_delay2));
+	wire vdp_hsync2_1 = reg_m5 ? vdp_hsync2_delay2 : vdp_hsync2_delay1;
+	wire vdp_hsync2_delay3;
+	ym_sr_bit vdp_hsync2_delay3_sr(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(vdp_hsync2_1), .sr_out(vdp_hsync2_delay3));
+	
+	assign vdp_hsync2 = vdp_hsync2_delay3;
 	
 	
 endmodule

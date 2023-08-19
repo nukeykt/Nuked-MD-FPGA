@@ -202,7 +202,8 @@ module fc1004
 	output [2:0] DAC_ch_index,
 	input tmss_enable,
 	input [15:0] tmss_data,
-	output [9:0] tmss_address
+	output [9:0] tmss_address,
+	output vdp_hsync2
 	);
 	
 	wire vdp_ys; // w1009
@@ -365,7 +366,8 @@ module fc1004
 		.vdp_rs1(vdp_rs1),
 		.vdp_m2(vdp_m2),
 		.vdp_lcb(vdp_lcb),
-		.vdp_psg_clk1(vdp_psg_clk1)
+		.vdp_psg_clk1(vdp_psg_clk1),
+		.vdp_hsync2(vdp_hsync2)
 		);
 	
 	ym3438 fm

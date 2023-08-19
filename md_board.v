@@ -108,7 +108,8 @@ module md_board
 	output vdp_m2, // v28/v30
 	output vdp_lcb,
 	output vdp_psg_clk1,
-	output fm_clk1
+	output fm_clk1,
+	output vdp_hsync2
 	
 	);
 	
@@ -459,7 +460,8 @@ module md_board
 		.DAC_ch_index(DAC_ch_index),
 		.tmss_enable(tmss_enable),
 		.tmss_data(tmss_data),
-		.tmss_address(tmss_address)
+		.tmss_address(tmss_address),
+		.vdp_hsync2(vdp_hsync2)
 		);
 	
 	assign fm_sel23 = TEST0_o;
