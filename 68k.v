@@ -570,8 +570,10 @@ module m68kcpu
 	wire w527;
 	//reg [67:0] w528;
 	reg [67:0] w529;
-	reg [271:0] ucode[0:33];
-	reg [271:0] ncode[0:83];
+	//reg [271:0] ucode[0:33];
+	//reg [271:0] ncode[0:83];
+	(* ramstyle = "M10K" *) reg [271:0] ucode[0:63];
+	(* ramstyle = "M10K" *) reg [271:0] ncode[0:255];
 	reg [15:0] w530;
 	wire [170:0] a0_pla;
 	reg [164:20] a0_pla_mem;
@@ -3199,7 +3201,7 @@ module m68kcpu
 //		end
 //	end
 
-	reg [6:0] ncode_addr = 7'h0;
+	reg [7:0] ncode_addr = 8'h0;
 	reg [5:0] ucode_addr = 6'h0;
 	
 	wire [9:0] code_addr = { w504, w503, w490, w489, w501, w502, w495, w500, w505, w506 };
@@ -3269,7 +3271,7 @@ module m68kcpu
 	
 	always @(posedge MCLK)
 	begin
-		case (code_addr[9:4])
+		/*case (code_addr[9:4])
 			6'b000000: ucode_addr <= 6'd33;
 			6'b000010: ucode_addr <= 6'd32;
 			6'b000100: ucode_addr <= 6'd31;
@@ -3395,7 +3397,10 @@ module m68kcpu
 			8'b11110000: ncode_addr <= 7'd1; 8'b11110001: ncode_addr <= 7'd1; 8'b11110010: ncode_addr <= 7'd1; 8'b11110011: ncode_addr <= 7'd1;
 			8'b11111000: ncode_addr <= 7'd0; 8'b11111001: ncode_addr <= 7'd0; 8'b11111010: ncode_addr <= 7'd0; 8'b11111011: ncode_addr <= 7'd0;
 			default: ncode_addr <= 7'd0;
-		endcase
+		endcase*/
+		
+		ucode_addr <= code_addr[9:4];
+		ncode_addr <= code_addr[9:2];
 		
 		if (c3)
 		begin
