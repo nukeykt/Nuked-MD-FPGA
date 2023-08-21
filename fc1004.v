@@ -203,7 +203,8 @@ module fc1004
 	input tmss_enable,
 	input [15:0] tmss_data,
 	output [9:0] tmss_address,
-	output vdp_hsync2
+	output vdp_hsync2,
+	input ym2612_status_enable
 	);
 	
 	wire vdp_ys; // w1009
@@ -391,7 +392,8 @@ module fc1004
 		.MOL_2612(MOL_2612),
 		.MOR_2612(MOR_2612),
 		.fm_clk1(fm_clk1),
-		.DAC_ch_index(DAC_ch_index)
+		.DAC_ch_index(DAC_ch_index),
+		.ym2612_status_enable(ym2612_status_enable)
 		);
 	
 	

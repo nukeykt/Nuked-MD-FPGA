@@ -24,11 +24,12 @@ module ym3438_io
 	output bank,
 	output [7:0] data_o,
 	output io_dir,
-	output irq
+	output irq,
+	input ym2612_status_enable
 	);
 	
 	
-	wire read_en = ~RD & IC & ~CS;
+	wire read_en = (~RD & IC & ~CS) & (~ym2612_status_enable | address == 2'h0);
 	wire write_addr = (~WR & ~CS & ~address[0]) | ~IC;
 	wire write_data = ~WR & ~CS & address[0] & IC;
 	
@@ -198,9 +199,24 @@ module ym3438_io
 		.nval(timer_b_status_sl_out)
 		);
 	
-	assign data_o =
-		(read_status ? { ~busy_state_o, 5'h0, timer_b_status_sl_out, timer_a_status_sl_out } : 8'h0) |
-		(read_debug ? debug_data : 8'h0);
+	reg [7:0] data_o_r;
+	reg [25:0] status_time;
+	
+	always @(posedge MCLK)
+	begin
+		if (read_status)
+			data_o_r <= { ~busy_state_o, 5'h0, timer_b_status_sl_out, timer_a_status_sl_out };
+		if (read_debug)
+			data_o_r <= debug_data;
+
+		if (read_status | read_debug)
+			status_time <= 26'd40000000;
+		else if (status_time)
+			status_time <= status_time - 1;
+		else
+			data_o_r <= 8'h0;
+	end
+	assign data_o = data_o_r;
 	
 	assign irq = ~(timer_a_status_sl_out | timer_b_status_sl_out);
 	

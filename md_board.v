@@ -109,7 +109,8 @@ module md_board
 	output vdp_lcb,
 	output vdp_psg_clk1,
 	output fm_clk1,
-	output vdp_hsync2
+	output vdp_hsync2,
+	input ym2612_status_enable
 	
 	);
 	
@@ -461,7 +462,8 @@ module md_board
 		.tmss_enable(tmss_enable),
 		.tmss_data(tmss_data),
 		.tmss_address(tmss_address),
-		.vdp_hsync2(vdp_hsync2)
+		.vdp_hsync2(vdp_hsync2),
+		.ym2612_status_enable(ym2612_status_enable)
 		);
 	
 	assign fm_sel23 = TEST0_o;

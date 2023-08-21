@@ -40,7 +40,8 @@ module ym3438(
 	//output d_c2,
 	output [9:0] MOL_2612, MOR_2612,
 	output fm_clk1,
-	output [2:0] DAC_ch_index
+	output [2:0] DAC_ch_index,
+	input ym2612_status_enable
 	);
 	
 	wire c1, c2;
@@ -146,7 +147,8 @@ module ym3438(
 		.bank(bank),
 		.data_o(DATA_o),
 		.io_dir(DATA_o_z),
-		.irq(IRQ)
+		.irq(IRQ),
+		.ym2612_status_enable(ym2612_status_enable)
 		);
 		
 	wire [3:0] reg_lfo;
