@@ -22,6 +22,7 @@
 
 //`define M68K_CHEAT
 //`define Z80_CHEAT
+//`define EXT_CLOCKS
 
 module md_board
 	(
@@ -29,6 +30,8 @@ module md_board
 	input MCLK2,
 	input ext_reset,
 	input reset_button,
+	input ext_vres,
+	input ext_zres,
 	
 	// 68k/z80 ram
 	output [14:0] ram_68k_address,
@@ -74,6 +77,13 @@ module md_board
 	output [15:0] z80_addr,
 	output  [7:0] z80_bus_do,
 	input   [7:0] z80_di,
+`endif
+
+`ifdef EXT_CLOCKS
+	output ext_VCLK_o,
+	output ext_ZCLK_o,
+	input ext_VCLK_i,
+	input ext_ZCLK_i,
 `endif
 	
 	// video
@@ -491,10 +501,19 @@ module md_board
 	wire HALT;
 	wire RESET;
 	
+`ifdef EXT_CLOCKS
+	assign ext_VCLK_o = VCLK;
+	assign ext_ZCLK_o = ZCLK;
+`endif
+	
 	m68kcpu m68k
 		(
 		.MCLK(MCLK2),
+`ifndef EXT_CLOCKS
 		.CLK(VCLK),
+`else
+		.CLK(ext_VCLK_i),
+`endif
 		.BR(BR),
 		.BGACK(BGACK),
 		.DTACK(DTACK),
@@ -549,7 +568,11 @@ module md_board
 	z80cpu z80
 		(
 		.MCLK(MCLK2),
+`ifndef EXT_CLOCKS
 		.CLK(ZCLK),
+`else
+		.CLK(ext_ZCLK_i),
+`endif
 		.ADDRESS(z80_ZA_o),
 		.ADDRESS_z(z80_ZA_d2),
 `ifndef Z80_CHEAT
@@ -736,7 +759,7 @@ module md_board
 		IORQ <= z80_IORQ_d ? 1'h1 : z80_IORQ_o;
 	end
 	
-	assign RESET = ~(ym_RESET_pull | m68k_RESET_pull);
+	assign RESET = ~(ym_RESET_pull | m68k_RESET_pull | ext_vres);
 	assign HALT = ~(ym_HALT_pull | m68k_HALT_pull);
 	
 	//assign PA =
@@ -775,7 +798,7 @@ module md_board
 	
 	assign INT = ~ym_INT_pull;
 	
-	assign ZRES = ZRES_d ? 1'h1 : ZRES_o;
+	assign ZRES = (ZRES_d ? 1'h1 : ZRES_o) & ~ext_zres;
 	
 	assign SOUND = ~SOUND_d & SOUND_o;
 	assign VZ = ~VZ_d & VZ_o;
