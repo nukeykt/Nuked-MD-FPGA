@@ -760,7 +760,7 @@ module md_board
 	end
 	
 	assign RESET = ~(ym_RESET_pull | m68k_RESET_pull | ext_vres);
-	assign HALT = ~(ym_HALT_pull | m68k_HALT_pull);
+	assign HALT = ~(ym_HALT_pull | m68k_HALT_pull | ext_vres);
 	
 	//assign PA =
 	//	(~ym_PA_d & ym_PA_o) | (ym_PA_d & 7'h7f);
