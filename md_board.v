@@ -689,6 +689,7 @@ module md_board
 	
 	reg [7:0] RD_mem;
 	reg [7:0] AD_mem;
+	reg [7:0] SD_mem;
 	
 `ifndef VRAM_128K
 	assign RD =
@@ -709,6 +710,7 @@ module md_board
 	begin
 		RD_mem <= RD;
 		AD_mem <= AD;
+		SD_mem <= SD;
 	end
 	
 	assign ZBR = ~ZBR_d ? ZBR_o : 1'h1;
@@ -827,11 +829,13 @@ module md_board
 	assign BERR = 1'h1;
 	
 `ifndef VRAM_128K
-	assign SD = vram1_SD_d ? 8'h0 : vram1_SD_o;
+	assign SD =
+		vram1_SD_d ? SD_mem : vram1_SD_o;
 `else
 	assign SD =
 		(~vram1_SD_d ? vram1_SD_o : 8'h0) |
-		(~vram2_SD_d ? vram2_SD_o : 8'h0);
+		(~vram2_SD_d ? vram2_SD_o : 8'h0) |
+		((vram1_SD_d & vram2_SD_d) ? SD_mem : 8'h0);
 `endif
 	
 	assign INT = ~ym_INT_pull;
