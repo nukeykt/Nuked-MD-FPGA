@@ -839,6 +839,7 @@ module md_board
 	
 	assign SEL1 = 1'h0;
 	
+	assign TEST0 = TEST0_d ? 1'h1 : TEST0_o;
 	assign TEST1 = 1'h1;
 	assign TEST2 = 1'h1;
 	assign TEST3 = 1'h1;
