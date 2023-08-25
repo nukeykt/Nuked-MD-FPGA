@@ -23,6 +23,7 @@
 //`define M68K_CHEAT
 //`define Z80_CHEAT
 //`define EXT_CLOCKS
+//`define VRAM_128K
 
 module md_board
 	(
@@ -627,6 +628,30 @@ module md_board
 		.SD_o(vram1_SD_o),
 		.SD_d(vram1_SD_d)
 		);
+
+`ifdef VRAM_128K
+	wire [7:0] vram2_RD_o;
+	wire vram2_RD_d;
+	wire [7:0] vram2_SD_o;
+	wire vram2_SD_d;
+	
+	vram vram2
+		(
+		.MCLK(MCLK2),
+		.RAS(RAS1),
+		.CAS(CAS1),
+		.WE(WE1),
+		.OE(OE1),
+		.SC(SC),
+		.SE(SE1),
+		.AD(AD),
+		.RD_i(RD),
+		.RD_o(vram2_RD_o),
+		.RD_d(vram2_RD_d),
+		.SD_o(vram2_SD_o),
+		.SD_d(vram2_SD_d)
+		);
+`endif
 	
 	assign ram_68k_address = { VA[14], IA14, VA[12:0] };
 	assign ram_68k_byteena = { ~UWR, ~LWR };
@@ -665,8 +690,15 @@ module md_board
 	reg [7:0] RD_mem;
 	reg [7:0] AD_mem;
 	
+`ifndef VRAM_128K
 	assign RD =
 		(~ym_RD_d ? ym_RD_o : RD_mem);
+`else
+	assign RD =
+		(~ym_RD_d ? ym_RD_o : 8'h0) |
+		(~vram2_RD_d ? vram2_RD_o : 8'h0) |
+		((ym_RD_d & vram2_RD_d) ? RD_mem : 8'h0);
+`endif
 	
 	assign AD =
 		(~ym_AD_d ? ym_AD_o : 8'h0) |
@@ -794,7 +826,13 @@ module md_board
 	
 	assign BERR = 1'h1;
 	
+`ifndef VRAM_128K
 	assign SD = vram1_SD_d ? 8'h0 : vram1_SD_o;
+`else
+	assign SD =
+		(~vram1_SD_d ? vram1_SD_o : 8'h0) |
+		(~vram2_SD_d ? vram2_SD_o : 8'h0);
+`endif
 	
 	assign INT = ~ym_INT_pull;
 	
