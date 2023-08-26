@@ -109,6 +109,9 @@ module md_board
 	input [6:0] PB_i,
 	output [6:0] PB_o,
 	output [6:0] PB_d,
+	input [6:0] PC_i,
+	output [6:0] PC_o,
+	output [6:0] PC_d,
 	
 	output vdp_hclk1,
 	output vdp_intfield,
@@ -199,9 +202,9 @@ module md_board
 	wire TEST1;
 	wire TEST2;
 	wire TEST3;
-	wire [6:0] PC;
-	wire [6:0] ym_PC_o;
-	wire [6:0] ym_PC_d;
+	//wire [6:0] PC;
+	//wire [6:0] ym_PC_o;
+	//wire [6:0] ym_PC_d;
 	//wire [6:0] PB;
 	//wire [6:0] ym_PB_o;
 	//wire [6:0] ym_PB_d;
@@ -373,9 +376,9 @@ module md_board
 		.TEST1(TEST1),
 		.TEST2(TEST2),
 		.TEST3(TEST3),
-		.PC_i(PC),
-		.PC_o(ym_PC_o),
-		.PC_d(ym_PC_d),
+		.PC_i(PC_i),
+		.PC_o(PC_o),
+		.PC_d(PC_d),
 		.PB_i(PB_i),
 		.PB_o(PB_o),
 		.PB_d(PB_d),
@@ -802,8 +805,8 @@ module md_board
 	//assign PB =
 	//	(~ym_PB_d & ym_PB_o) | (ym_PB_d & 7'h7f);
 		
-	assign PC =
-		(~ym_PC_d & ym_PC_o) | (ym_PC_d & 7'h7f);
+	//assign PC =
+	//	(~ym_PC_d & ym_PC_o) | (ym_PC_d & 7'h7f);
 	
 	assign VCLK = (~VCLK_d & VCLK_o);
 	assign ZCLK = (~ZCLK_d & ZCLK_o);
