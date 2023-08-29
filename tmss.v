@@ -117,12 +117,12 @@ module tmss
 	
 	assign data_out_en = tmss_enable ? (w41 & w28) | test_4 : 1'h1;
 	
-	assign w50 = test[2:0] == 3'h0;
-	assign w51 = test[2:0] == 3'h1;
-	assign w53 = test[2:0] == 3'h2;
-	assign w54 = test[2:0] == 3'h3;
-	assign w55 = test[2:0] == 3'h4;
-	assign w56 = test[2:0] == 3'h7;
+	assign w50 = test[2:0] != 3'h0;
+	assign w51 = test[2:0] != 3'h1;
+	assign w53 = test[2:0] != 3'h2;
+	assign w54 = test[2:0] != 3'h3;
+	assign w55 = test[2:0] != 3'h4;
+	assign w56 = test[2:0] != 3'h7;
 	
 	assign w52 = w50 ^ w56;
 	assign w57 = w51 ^ w56;
