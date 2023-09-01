@@ -122,9 +122,14 @@ module md_board
 	output vdp_m2, // v28/v30
 	output vdp_lcb,
 	output vdp_psg_clk1,
+	input  vdp_cramdot_dis,
 	output fm_clk1,
 	output vdp_hsync2,
-	input ym2612_status_enable
+	input ym2612_status_enable,
+	input dma_68k_req,
+	input dma_z80_req,
+	output dma_z80_ack,
+	output res_z80
 	
 	);
 	
@@ -471,6 +476,7 @@ module md_board
 		.vdp_m2(vdp_m2),
 		.vdp_lcb(vdp_lcb),
 		.vdp_psg_clk1(vdp_psg_clk1),
+		.vdp_cramdot_dis(vdp_cramdot_dis),
 		.fm_clk1(fm_clk1),
 		.DAC_ch_index(DAC_ch_index),
 		.tmss_enable(tmss_enable),
@@ -716,7 +722,7 @@ module md_board
 		SD_mem <= SD;
 	end
 	
-	assign ZBR = ~ZBR_d ? ZBR_o : 1'h1;
+	assign ZBR = (ZBR_d | ZBR_o) & ~dma_z80_req;
 	
 	assign WAIT = ~ym_WAIT_pull;
 	
@@ -767,7 +773,7 @@ module md_board
 	
 		BGACK <= ~ym_BGACK_pull;
 	
-		BR <= ~ym_BR_pull;
+		BR <= ~ym_BR_pull & ~dma_68k_req;
 		
 		AS <= ym_AS_d & m68k_S_d ? 1'h1 :
 			(~ym_AS_d & ym_AS_o) |
@@ -879,6 +885,9 @@ module md_board
 	assign cart_data_wr = VD;
 	assign cart_cas2 = ~CAS2;
 	assign cart_dma = ~BGACK;
+	
+	assign dma_z80_ack = ~ZBAK;
+	assign res_z80 = ~ZRES;
 	
 	assign CART = 1'h0;
 	

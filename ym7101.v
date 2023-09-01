@@ -111,7 +111,8 @@ module ym7101
 	output vdp_m2, // v28/v30
 	output vdp_lcb,
 	output vdp_psg_clk1,
-	output vdp_hsync2
+	output vdp_hsync2,
+	input  vdp_cramdot_dis
 	);
 
 	wire cpu_sel;
@@ -1998,8 +1999,8 @@ module ym7101
 	wire w1074;
 	wire l616;
 	wire w1075;
-	wire [5:0] w1076;
-	wire [5:0] l617;
+	wire [5:0] w1076, w1076_dp;
+	wire [5:0] l617, l617_dp;
 	wire l618;
 	wire w1077;
 	wire l619;
@@ -2213,6 +2214,7 @@ module ym7101
 	
 	reg [8:0] color_ram[0:63];
 	reg [8:0] color_ram_out;
+	reg [8:0] color_ram_out_dp;
 	
 	// prescaler
 	
@@ -6465,6 +6467,9 @@ module ym7101
 		(w1073 ? { 1'h0, vram_address[4:0] } : 6'h0);
 	
 	ym_sr_bit_array #(.DATA_WIDTH(6)) sr617(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w1076), .data_out(l617));
+
+	assign w1076_dp = { color_pal, color_index };
+	ym_sr_bit_array #(.DATA_WIDTH(6)) sr617_dp(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w1076_dp), .data_out(l617_dp));
 	
 	ym_sr_bit #(.SR_LENGTH(3)) sr618(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w1075), .sr_out(l618));
 	
@@ -6480,7 +6485,7 @@ module ym7101
 	
 	ym_slatch #(.DATA_WIDTH(9)) sl621(.MCLK(MCLK), .en(w1080), .inp(color_ram_out), .val(l621));
 	
-	ym_sr_bit_array #(.DATA_WIDTH(9)) sr622(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(color_ram_out), .data_out(l622));
+	ym_sr_bit_array #(.DATA_WIDTH(9)) sr622(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(vdp_cramdot_dis ? color_ram_out_dp : color_ram_out), .data_out(l622));
 	
 	ym_sr_bit sr623_1(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w178), .sr_out(l623_1));
 	
@@ -6749,6 +6754,8 @@ module ym7101
 		end
 		color_ram_out <= color_ram[color_ram_index];
 	end
+	
+	always @(posedge MCLK) color_ram_out_dp <= color_ram[l617_dp];
 	
 	// PSG block
 	

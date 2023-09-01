@@ -198,6 +198,7 @@ module fc1004
 	output vdp_m2, // v28/v30
 	output vdp_lcb,
 	output vdp_psg_clk1,
+	input  vdp_cramdot_dis,
 	output fm_clk1,
 	output [2:0] DAC_ch_index,
 	input tmss_enable,
@@ -368,7 +369,8 @@ module fc1004
 		.vdp_m2(vdp_m2),
 		.vdp_lcb(vdp_lcb),
 		.vdp_psg_clk1(vdp_psg_clk1),
-		.vdp_hsync2(vdp_hsync2)
+		.vdp_hsync2(vdp_hsync2),
+		.vdp_cramdot_dis(vdp_cramdot_dis)
 		);
 	
 	ym3438 fm
