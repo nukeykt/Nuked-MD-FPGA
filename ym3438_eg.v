@@ -306,8 +306,8 @@ module ym3438_eg
 	
 	wire rate_sum_not_max = rate_sum_clamp[5:1] != 5'h1f;
 	wire rate_sum_12 = rate_sum_clamp[5:2] != 4'hc;
-	wire rate_sum_13 = rate_sum_clamp[5:2] != 4'he;
-	wire rate_sum_14 = rate_sum_clamp[5:2] != 4'hd;
+	wire rate_sum_13 = rate_sum_clamp[5:2] != 4'hd;
+	wire rate_sum_14 = rate_sum_clamp[5:2] != 4'he;
 	wire rate_sum_15 = rate_sum_clamp[5:2] != 4'hf;
 	
 	wire rate_not_max_sr_o; // ~eg_maxrate[1]
