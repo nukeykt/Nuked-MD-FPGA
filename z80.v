@@ -1004,7 +1004,7 @@ module z80cpu
 		.outp(l12)
 		);
 	
-	assign w35 = ~(~w37 & ~w131 & w18);
+	assign w35 = ~(~w37 & w131 & w18);
 	
 	assign w36 = w114 & w106;
 		
