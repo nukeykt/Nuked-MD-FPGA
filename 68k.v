@@ -3125,6 +3125,7 @@ module m68kcpu
 //			w522 <= ~w523;
 //		else if (c5)
 //		begin
+//			w522[0] <= 1'h0;
 //			w522[15] <= 1'h0;
 //			w522[16] <= 1'h0;
 //		end
@@ -3412,6 +3413,7 @@ module m68kcpu
 			w522 <= ucode_out_m2;
 		else if (c5)
 		begin
+			w522[0] <= 1'h0;
 			w522[15] <= 1'h0;
 			w522[16] <= 1'h0;
 		end
