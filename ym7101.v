@@ -7272,7 +7272,7 @@ module ym7101
 	
 	assign vdp_dma_oe_early = reg_8b_b6 ?
 		(io_m1_dff2_l2 | w15 | w28 | w30 | w102) :
-		(l6 | w25 | w1153);
+		(l6 | l8 | w25 | w1153);
 	
 endmodule
 
