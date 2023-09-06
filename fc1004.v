@@ -205,7 +205,8 @@ module fc1004
 	input [15:0] tmss_data,
 	output [9:0] tmss_address,
 	output vdp_hsync2,
-	input ym2612_status_enable
+	input ym2612_status_enable,
+	output vdp_dma_oe_early
 	);
 	
 	wire vdp_ys; // w1009
@@ -370,7 +371,8 @@ module fc1004
 		.vdp_lcb(vdp_lcb),
 		.vdp_psg_clk1(vdp_psg_clk1),
 		.vdp_hsync2(vdp_hsync2),
-		.vdp_cramdot_dis(vdp_cramdot_dis)
+		.vdp_cramdot_dis(vdp_cramdot_dis),
+		.vdp_dma_oe_early(vdp_dma_oe_early)
 		);
 	
 	ym3438 fm

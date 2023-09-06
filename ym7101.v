@@ -112,7 +112,8 @@ module ym7101
 	output vdp_lcb,
 	output vdp_psg_clk1,
 	output vdp_hsync2,
-	input  vdp_cramdot_dis
+	input  vdp_cramdot_dis,
+	output vdp_dma_oe_early
 	);
 
 	wire cpu_sel;
@@ -7268,6 +7269,10 @@ module ym7101
 	ym_sr_bit_array #(.DATA_WIDTH(6)) sr617_dp(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .data_in(w1076_dp), .data_out(l617_dp));
 	
 	always @(posedge MCLK) color_ram_out_dp <= color_ram[l617_dp];
+	
+	assign vdp_dma_oe_early = reg_8b_b6 ?
+		(io_m1_dff2_l2 | w15 | w28 | w30 | w102) :
+		(l6 | w25 | w1153);
 	
 endmodule
 
