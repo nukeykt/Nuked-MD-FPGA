@@ -3250,7 +3250,7 @@ module ym7101
 	
 	ym_sr_bit sr81(.MCLK(MCLK), .c1(hclk1), .c2(hclk2), .bit_in(w335), .sr_out(l81));
 	
-	assign w336 = ~cpu_sel | w337;
+	assign w336 = ~reg_m5 | w337;
 	
 	assign w337 = w334 | (hclk1 & l81);
 	
