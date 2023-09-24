@@ -113,7 +113,8 @@ module ym7101
 	output vdp_psg_clk1,
 	output vdp_hsync2,
 	input  vdp_cramdot_dis,
-	output vdp_dma_oe_early
+	output vdp_dma_oe_early,
+	output vdp_dma
 	);
 
 	wire cpu_sel;
@@ -7274,6 +7275,8 @@ module ym7101
 		(io_m1_dff2_l2 | w15 | w28 | w30 | w102) :
 		(l6 | l8 | w25 | w1153);
 	
+	assign vdp_dma = l6 | l8;
+
 endmodule
 
 module ym7101_rs_trig
