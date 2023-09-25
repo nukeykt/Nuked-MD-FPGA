@@ -130,7 +130,8 @@ module md_board
 	input dma_z80_req,
 	output dma_z80_ack,
 	output res_z80,
-	output vdp_dma_oe_early
+	output vdp_dma_oe_early,
+	output vdp_dma
 	
 	);
 	
@@ -485,7 +486,8 @@ module md_board
 		.tmss_address(tmss_address),
 		.vdp_hsync2(vdp_hsync2),
 		.ym2612_status_enable(ym2612_status_enable),
-		.vdp_dma_oe_early(vdp_dma_oe_early)
+		.vdp_dma_oe_early(vdp_dma_oe_early),
+		.vdp_dma(vdp_dma)
 		);
 	
 	assign fm_sel23 = TEST0_o;
