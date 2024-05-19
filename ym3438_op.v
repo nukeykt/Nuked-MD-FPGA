@@ -318,7 +318,7 @@ module ym3438_op
 	wire [12:0] pow_shift2 = ({13{sh_sel2[3]}} & pow_shift1 )
 		| ({13{sh_sel2[2]}} & pow_shift1[12:4] )
 		| ({13{sh_sel2[1]}} & pow_shift1[12:8] )
-		| ({13{sh_sel2[1]}} & pow_shift1[12:12] );
+		| ({13{sh_sel2[0]}} & pow_shift1[12:12] );
 	
 	wire [13:0] op_value1 = { reg_21[4], pow_shift2 };
 	
