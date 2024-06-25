@@ -6298,7 +6298,7 @@ module ym7101
 	
 	assign w1018 = reg_test0[5] ? vram_address[7:0] : w1015;
 	
-	assign w1019 = reg_test0[5] ? vram_address[15:9] : l597;
+	assign w1019 = reg_test0[5] ? vram_address[15:8] : l597;
 	
 	assign SE0 = l586;
 	assign SE1 = ~l586;
