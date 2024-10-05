@@ -1807,7 +1807,7 @@ module z80cpu
 	assign pla[12] = (w147 & 8'h38) == 8'h30 & ~w82; // or
 	assign pla[13] = (w147 & 8'h38) == 8'h20 & ~w82; // and
 	assign pla[14] = (w147 & 8'h38) == 8'h00 & ~w82; // add
-	assign pla[15] = (w147 & 8'hf7) == 8'h57 & w92 & ~w74; // ???
+	assign pla[15] = (w147 & 8'hf7) == 8'h57 & w92 & w74; // ???
 	assign pla[16] = (w147 & 8'hc7) == 8'h44 & w92; // neg
 	assign pla[17] = w147 == 8'h2f & w90; // cpl
 	assign pla[18] = (w147 & 8'h38) == 8'h08 & ~w82; // adc
