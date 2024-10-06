@@ -1466,7 +1466,7 @@ module z80cpu
 	always @(posedge MCLK)
 	begin
 		if (w55)
-			w100 <= 0;
+			w100 <= 1'h1;
 		else if (clk)
 			w100 <= w100;
 		else if (!w98 & w103)
