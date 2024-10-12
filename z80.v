@@ -1990,7 +1990,7 @@ module z80cpu
 	assign w189 = ~(pla[72] | pla[73] | pla[77]
 		| pla[78]);
 	assign w190 = ~(pla[89] | pla[93]);
-	assign w191 = ~(pla[79] | pla[80] | pla[81]
+	assign w191 = ~(pla[79] | pla[80]
 		| ~w169 | pla[83] | pla[92] | pla[93]);
 	
 	assign w192 = (w201 & w110) | (w41 & w3 & w46);
