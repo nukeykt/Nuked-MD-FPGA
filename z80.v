@@ -3242,7 +3242,7 @@ module z80cpu
 		else if (w440)
 		begin
 			if (w452)
-				w441 <= (w508 ^ w507) & ~w453;
+				w441 <= (w508 ^ w507) | w453;
 			else
 				w441 <= w506 ^ l62;
 		end
